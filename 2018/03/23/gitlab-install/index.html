@@ -79,7 +79,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="gitlab,佈署,中文化," />
 
 
 
@@ -95,13 +95,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Pcion&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="網路上已有蠻多類似的文章，我就不再過多的論述了就寫寫佈署的時一些問題就好 gitlab佈署直接上官網gitlab官網gitlab中文社群 我佈署的環境是virtualbox+ubuntu基本上照著官網的install指令去佈署就能成功佈署最新版本 如果是要另外進行中文化的佈署就必需去中文社群看看有沒有對應的版本中文化社群 例如我佈署的gitlab版本是8.8.9那我就需要找到中文化對應的版本p.s">
+<meta name="keywords" content="gitlab,佈署,中文化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitLab搭建與中文化">
+<meta property="og:url" content="http://yoursite.com/2018/03/23/gitlab-install/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="網路上已有蠻多類似的文章，我就不再過多的論述了就寫寫佈署的時一些問題就好 gitlab佈署直接上官網gitlab官網gitlab中文社群 我佈署的環境是virtualbox+ubuntu基本上照著官網的install指令去佈署就能成功佈署最新版本 如果是要另外進行中文化的佈署就必需去中文社群看看有沒有對應的版本中文化社群 例如我佈署的gitlab版本是8.8.9那我就需要找到中文化對應的版本p.s">
 <meta property="og:locale" content="zh-tw">
+<meta property="og:updated_time" content="2018-03-23T07:24:21.115Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Pcion&#39;s Blog">
+<meta name="twitter:title" content="GitLab搭建與中文化">
+<meta name="twitter:description" content="網路上已有蠻多類似的文章，我就不再過多的論述了就寫寫佈署的時一些問題就好 gitlab佈署直接上官網gitlab官網gitlab中文社群 我佈署的環境是virtualbox+ubuntu基本上照著官網的install指令去佈署就能成功佈署最新版本 如果是要另外進行中文化的佈署就必需去中文社群看看有沒有對應的版本中文化社群 例如我佈署的gitlab版本是8.8.9那我就需要找到中文化對應的版本p.s">
 
 
 
@@ -131,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/03/23/gitlab-install/"/>
 
 
 
 
 
-  <title>Pcion's Blog</title>
+  <title>GitLab搭建與中文化 | Pcion's Blog</title>
   
 
 
@@ -165,8 +170,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -250,9 +254,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -282,9 +286,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/23/gitlab-install/" itemprop="url">GitLab搭建與中文化</a></h1>
+          <h1 class="post-title" itemprop="name headline">GitLab搭建與中文化</h1>
         
 
         <div class="post-meta">
@@ -356,9 +358,7 @@
       
 
       
-        
-          
-            <p>網路上已有蠻多類似的文章，我就不再過多的論述了<br>就寫寫佈署的時一些問題就好</p>
+        <p>網路上已有蠻多類似的文章，我就不再過多的論述了<br>就寫寫佈署的時一些問題就好</p>
 <h2 id="gitlab佈署"><a href="#gitlab佈署" class="headerlink" title="gitlab佈署"></a>gitlab佈署</h2><p>直接上官網<br><a href="https://about.gitlab.com/" target="_blank" rel="noopener">gitlab官網</a><br><a href="https://www.gitlab.com.cn/" target="_blank" rel="noopener">gitlab中文社群</a></p>
 <p>我佈署的環境是virtualbox+ubuntu<br>基本上照著官網的install指令去佈署就能成功佈署最新版本</p>
 <p>如果是要另外進行中文化的佈署就必需去中文社群看看有沒有對應的版本<br><a href="https://gitlab.com/larryli/gitlab" target="_blank" rel="noopener">中文化社群</a></p>
@@ -380,8 +380,6 @@
 <p>接下來就一直不斷enter到補丁完成，重新啟動gitlab<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo gitlab-ctl start</span><br></pre></td></tr></table></figure></p>
 <p>重新登入之後就可看到熟悉的中文化介面</p>
 
-          
-        
       
     </div>
     
@@ -396,284 +394,40 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/02/test1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jason Lai">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pcion's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/02/test1/" itemprop="url">test1</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">發表於</span>
-              
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-03-02T03:01:56+08:00">
-                2018-03-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分類於</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/test/" itemprop="url" rel="index">
-                    <span itemprop="name">test</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/gitlab/" rel="tag"># gitlab</a>
           
-
+            <a href="/tags/佈署/" rel="tag"># 佈署</a>
           
-            
+            <a href="/tags/中文化/" rel="tag"># 中文化</a>
           
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>this is a test content.</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
       
 
       
       
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
       
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/01/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jason Lai">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pcion's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/01/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">發表於</span>
-              
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-03-01T16:21:08+08:00">
-                2018-03-01
-              </time>
+              <a href="/2018/03/02/test1/" rel="next" title="test1">
+                <i class="fa fa-chevron-left"></i> test1
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -683,10 +437,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -694,6 +449,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -714,8 +473,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <a href="/about/">
             <img class="site-author-image" itemprop="image"
@@ -805,6 +573,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#gitlab佈署"><span class="nav-number">1.</span> <span class="nav-text">gitlab佈署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gitlab中文化"><span class="nav-number">2.</span> <span class="nav-text">gitlab中文化</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -923,10 +707,10 @@
   
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
-  
+
 
   
 
