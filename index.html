@@ -349,6 +349,7 @@
       
         
           <p>要搭建jenkins需要安裝JDK，以下提供簡易安裝方式</p>
+<h2 id="安裝OpenJDK"><a href="#安裝OpenJDK" class="headerlink" title="安裝OpenJDK"></a>安裝OpenJDK</h2><p>安裝OpenJDK<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install default-jdk</span><br></pre></td></tr></table></figure></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/03/24/jenkins-install/#more" rel="contents">
@@ -495,6 +496,17 @@
       
         
           <p>網路上已有蠻多類似的文章，我就不再過多的論述了<br>就寫寫佈署的時一些問題就好</p>
+<h2 id="gitlab佈署"><a href="#gitlab佈署" class="headerlink" title="gitlab佈署"></a>gitlab佈署</h2><p>直接上官網<br><a href="https://about.gitlab.com/" target="_blank" rel="noopener">gitlab官網</a><br><a href="https://www.gitlab.com.cn/" target="_blank" rel="noopener">gitlab中文社群</a></p>
+<p>我佈署的環境是virtualbox+ubuntu<br>基本上照著官網的install指令去佈署就能成功佈署最新版本</p>
+<p>如果是要另外進行中文化的佈署就必需去中文社群看看有沒有對應的版本<br><a href="https://gitlab.com/larryli/gitlab" target="_blank" rel="noopener">中文化社群</a></p>
+<p>例如我佈署的gitlab版本是8.8.9那我就需要找到中文化對應的版本<br>p.s 版號只需要對應前兩個版號就可以了</p>
+<p>那該如何指定安裝指定的版號</p>
+<p>官網提供的安裝指令應該如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo EXTERNAL_URL=<span class="string">"http://gitlab.example.com"</span> apt-get install gitlab-ee</span><br></pre></td></tr></table></figure></p>
+<p>上面的指令其實是預先設定好gitlab指定的網址與安裝最新的版本<br>不過我通常都把連線的網址都在佈署完成之後再另外設定<br>所以我如果要安裝<a href="https://packages.gitlab.com/gitlab/gitlab-ee/packages/ubuntu/trusty/gitlab-ee_8.8.9-ee.0_amd64.deb" target="_blank" rel="noopener">8.8.9</a>的版本，那指令應該如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install gitlab-ee=8.8.9-ee.0</span><br></pre></td></tr></table></figure></p>
+<p>安裝完成後再去更改external_url就好，更改路徑如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/gitlab/gitlab.rb</span><br></pre></td></tr></table></figure></p>
+<p>設置連線配置<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">external_url <span class="string">'http://127.0.0.1'</span></span><br></pre></td></tr></table></figure></p>
+<p>最後再重新設定配置就完成了<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure></p>
+<p>通常第一次登入會讓你重新設置root的密碼<br>修改完再登入你就可以看到gitlab的歡迎畫面了</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/03/23/gitlab-install/#more" rel="contents">
@@ -618,14 +630,18 @@
 
       
         
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/03/01/hello-world/#more" rel="contents">
-              閱讀全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+
+          
         
       
     </div>

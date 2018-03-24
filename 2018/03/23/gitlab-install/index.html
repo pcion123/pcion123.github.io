@@ -95,19 +95,19 @@
 
 
 
-<meta name="description" content="網路上已有蠻多類似的文章，我就不再過多的論述了就寫寫佈署的時一些問題就好">
+<meta name="description" content="網路上已有蠻多類似的文章，我就不再過多的論述了就寫寫佈署的時一些問題就好 gitlab佈署直接上官網gitlab官網gitlab中文社群 我佈署的環境是virtualbox+ubuntu基本上照著官網的install指令去佈署就能成功佈署最新版本 如果是要另外進行中文化的佈署就必需去中文社群看看有沒有對應的版本中文化社群 例如我佈署的gitlab版本是8.8.9那我就需要找到中文化對應的版本p.s">
 <meta name="keywords" content="gitlab,佈署,中文化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GitLab搭建與中文化">
 <meta property="og:url" content="http://yoursite.com/2018/03/23/gitlab-install/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
-<meta property="og:description" content="網路上已有蠻多類似的文章，我就不再過多的論述了就寫寫佈署的時一些問題就好">
+<meta property="og:description" content="網路上已有蠻多類似的文章，我就不再過多的論述了就寫寫佈署的時一些問題就好 gitlab佈署直接上官網gitlab官網gitlab中文社群 我佈署的環境是virtualbox+ubuntu基本上照著官網的install指令去佈署就能成功佈署最新版本 如果是要另外進行中文化的佈署就必需去中文社群看看有沒有對應的版本中文化社群 例如我佈署的gitlab版本是8.8.9那我就需要找到中文化對應的版本p.s">
 <meta property="og:locale" content="zh-tw">
 <meta property="og:image" content="http://yoursite.com/2018/03/23/gitlab-install/gitlab.jpg">
-<meta property="og:updated_time" content="2018-03-24T12:01:56.392Z">
+<meta property="og:updated_time" content="2018-03-24T12:19:38.798Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GitLab搭建與中文化">
-<meta name="twitter:description" content="網路上已有蠻多類似的文章，我就不再過多的論述了就寫寫佈署的時一些問題就好">
+<meta name="twitter:description" content="網路上已有蠻多類似的文章，我就不再過多的論述了就寫寫佈署的時一些問題就好 gitlab佈署直接上官網gitlab官網gitlab中文社群 我佈署的環境是virtualbox+ubuntu基本上照著官網的install指令去佈署就能成功佈署最新版本 如果是要另外進行中文化的佈署就必需去中文社群看看有沒有對應的版本中文化社群 例如我佈署的gitlab版本是8.8.9那我就需要找到中文化對應的版本p.s">
 <meta name="twitter:image" content="http://yoursite.com/2018/03/23/gitlab-install/gitlab.jpg">
 
 
@@ -352,7 +352,6 @@
 
       
         <p>網路上已有蠻多類似的文章，我就不再過多的論述了<br>就寫寫佈署的時一些問題就好</p>
-<a id="more"></a>
 <h2 id="gitlab佈署"><a href="#gitlab佈署" class="headerlink" title="gitlab佈署"></a>gitlab佈署</h2><p>直接上官網<br><a href="https://about.gitlab.com/" target="_blank" rel="noopener">gitlab官網</a><br><a href="https://www.gitlab.com.cn/" target="_blank" rel="noopener">gitlab中文社群</a></p>
 <p>我佈署的環境是virtualbox+ubuntu<br>基本上照著官網的install指令去佈署就能成功佈署最新版本</p>
 <p>如果是要另外進行中文化的佈署就必需去中文社群看看有沒有對應的版本<br><a href="https://gitlab.com/larryli/gitlab" target="_blank" rel="noopener">中文化社群</a></p>
@@ -364,6 +363,7 @@
 <p>設置連線配置<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">external_url <span class="string">'http://127.0.0.1'</span></span><br></pre></td></tr></table></figure></p>
 <p>最後再重新設定配置就完成了<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure></p>
 <p>通常第一次登入會讓你重新設置root的密碼<br>修改完再登入你就可以看到gitlab的歡迎畫面了</p>
+<a id="more"></a>
 <p>如果只需要英文版本的那你看到這裡就行了<br>接下來講講如何佈署成中文</p>
 <h2 id="gitlab中文化"><a href="#gitlab中文化" class="headerlink" title="gitlab中文化"></a>gitlab中文化</h2><p>第一步先用git clone整個中文開發項目<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://gitlab.com/larryli/gitlab.git</span><br></pre></td></tr></table></figure></p>
 <p>clone下來之後就可以開始我們的中文化大業了</p>
