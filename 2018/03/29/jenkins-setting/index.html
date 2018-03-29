@@ -79,7 +79,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="gitlab,jenkins,jdk,maven," />
 
 
 
@@ -95,14 +95,25 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+<meta name="description" content="在jenkins安裝好後還需要一些進一步的設定，才能讓其他工具好好運作，下面我們就開始做完這些設定">
+<meta name="keywords" content="gitlab,jenkins,jdk,maven">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jenkins + Gitlab + Maven +JDK 設定">
+<meta property="og:url" content="http://yoursite.com/2018/03/29/jenkins-setting/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="在jenkins安裝好後還需要一些進一步的設定，才能讓其他工具好好運作，下面我們就開始做完這些設定">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2018-03-01T19:56:33.000Z">
+<meta property="og:image" content="http://yoursite.com/2018/03/29/jenkins-setting/jenkins1.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/03/29/jenkins-setting/jenkins2.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/03/29/jenkins-setting/jenkins3.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/03/29/jenkins-setting/jenkins4.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/03/29/jenkins-setting/jenkins5.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/03/29/jenkins-setting/jenkins6.jpg">
+<meta property="og:updated_time" content="2018-03-29T11:57:37.475Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="categories">
+<meta name="twitter:title" content="Jenkins + Gitlab + Maven +JDK 設定">
+<meta name="twitter:description" content="在jenkins安裝好後還需要一些進一步的設定，才能讓其他工具好好運作，下面我們就開始做完這些設定">
+<meta name="twitter:image" content="http://yoursite.com/2018/03/29/jenkins-setting/jenkins1.jpg">
 
 
 
@@ -132,13 +143,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/03/29/jenkins-setting/"/>
 
 
 
 
 
-  <title>categories | Pcion's Blog</title>
+  <title>Jenkins + Gitlab + Maven +JDK 設定 | Pcion's Blog</title>
   
 
 
@@ -244,40 +255,181 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/29/jenkins-setting/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jason Lai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">categories</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="category-all-page">
-            <div class="category-all-title">
-                目前共計 2 個分類
-            </div>
-            <div class="category-all">
-              <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/gitlab/">gitlab</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jenkins/">jenkins</a><span class="category-list-count">2</span></li></ul>
-            </div>
-          </div>
+          <h1 class="post-title" itemprop="name headline">Jenkins + Gitlab + Maven +JDK 設定</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-03-29T19:23:38+08:00">
+                2018-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/jenkins/" itemprop="url" rel="index">
+                    <span itemprop="name">jenkins</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p>在jenkins安裝好後還需要一些進一步的設定，<br>才能讓其他工具好好運作，<br>下面我們就開始做完這些設定</p>
+<a id="more"></a>
+<p>進入jenkins設定<br><img src="/2018/03/29/jenkins-setting/jenkins1.jpg" alt="image"> </p>
+<p>進入Global Tool Configuration<br><img src="/2018/03/29/jenkins-setting/jenkins2.jpg" alt="image"> </p>
+<p>設置你的JDK安裝路徑<br><img src="/2018/03/29/jenkins-setting/jenkins3.jpg" alt="image"> </p>
+<p>設置你的GIT安裝路徑<br><img src="/2018/03/29/jenkins-setting/jenkins4.jpg" alt="image"> </p>
+<p>設置你的MAVEN安裝路徑<br><img src="/2018/03/29/jenkins-setting/jenkins5.jpg" alt="image"> </p>
+<p>接下來生成SSL金鑰，如果已經有了可以跳過這一步<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C</span><br></pre></td></tr></table></figure></p>
+<p>接下來去Credentials設置SSL連線配置<br><img src="/2018/03/29/jenkins-setting/jenkins6.jpg" alt="image"> </p>
+<p>完成這些設定就大功告成啦!</p>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/gitlab/" rel="tag"># gitlab</a>
+          
+            <a href="/tags/jenkins/" rel="tag"># jenkins</a>
+          
+            <a href="/tags/jdk/" rel="tag"># jdk</a>
+          
+            <a href="/tags/maven/" rel="tag"># maven</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/24/jenkins-install/" rel="next" title="Jenkins搭建">
+                <i class="fa fa-chevron-left"></i> Jenkins搭建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -286,6 +438,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -515,10 +671,10 @@
   
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
-  
+
 
   
 
