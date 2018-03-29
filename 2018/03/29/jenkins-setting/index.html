@@ -109,7 +109,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/03/29/jenkins-setting/jenkins4.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/03/29/jenkins-setting/jenkins5.jpg">
 <meta property="og:image" content="http://yoursite.com/2018/03/29/jenkins-setting/jenkins6.jpg">
-<meta property="og:updated_time" content="2018-03-29T11:57:37.475Z">
+<meta property="og:updated_time" content="2018-03-29T12:08:05.541Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Jenkins + Gitlab + Maven +JDK 設定">
 <meta name="twitter:description" content="在jenkins安裝好後還需要一些進一步的設定，才能讓其他工具好好運作，下面我們就開始做完這些設定">
@@ -365,6 +365,10 @@
 <p>設置你的MAVEN安裝路徑<br><img src="/2018/03/29/jenkins-setting/jenkins5.jpg" alt="image"> </p>
 <p>接下來生成SSL金鑰，如果已經有了可以跳過這一步<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C</span><br></pre></td></tr></table></figure></p>
 <p>接下來去Credentials設置SSL連線配置<br><img src="/2018/03/29/jenkins-setting/jenkins6.jpg" alt="image"> </p>
+<p>最後我們要去把jenkins的系統權限加入到root裡面，<br>不然他在跑shell會有權限問題</p>
+<p>將jenkins帳號加入root群組中<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo gpasswd -a root jenkins</span><br></pre></td></tr></table></figure></p>
+<p>修改jenkins文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo nano /etc/default/jenkins</span><br></pre></td></tr></table></figure></p>
+<p>修改文件中這兩行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">JENKINS_USER=root</span><br><span class="line">JENKINS_GROUP=root</span><br></pre></td></tr></table></figure></p>
 <p>完成這些設定就大功告成啦!</p>
 
       
