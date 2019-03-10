@@ -79,7 +79,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="jenkins,error," />
 
 
 
@@ -95,14 +95,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+<meta name="description" content="我們在使用jenkins部屬任務的時候常常需要使用到腳本，如果在腳本中使用到了sudo這個令命時，有可能會產生以下錯誤:1sudo: no tty present and no askpass program specified 解决方式：在jenkins host server上執行以下命令:1$ sudo visudo 在末尾加入:1jenkins ALL=(ALL) NOPASSWD: AL">
+<meta name="keywords" content="jenkins,error">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解決Jenkins執行sudo命令出現錯誤">
+<meta property="og:url" content="http://yoursite.com/2019/03/10/jenkins-sudoerror/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="我們在使用jenkins部屬任務的時候常常需要使用到腳本，如果在腳本中使用到了sudo這個令命時，有可能會產生以下錯誤:1sudo: no tty present and no askpass program specified 解决方式：在jenkins host server上執行以下命令:1$ sudo visudo 在末尾加入:1jenkins ALL=(ALL) NOPASSWD: AL">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2018-03-01T19:56:33.000Z">
+<meta property="og:updated_time" content="2019-03-10T06:31:27.479Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="categories">
+<meta name="twitter:title" content="解決Jenkins執行sudo命令出現錯誤">
+<meta name="twitter:description" content="我們在使用jenkins部屬任務的時候常常需要使用到腳本，如果在腳本中使用到了sudo這個令命時，有可能會產生以下錯誤:1sudo: no tty present and no askpass program specified 解决方式：在jenkins host server上執行以下命令:1$ sudo visudo 在末尾加入:1jenkins ALL=(ALL) NOPASSWD: AL">
 
 
 
@@ -132,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/03/10/jenkins-sudoerror/"/>
 
 
 
 
 
-  <title>categories | Pcion's Blog</title>
+  <title>解決Jenkins執行sudo命令出現錯誤 | Pcion's Blog</title>
   
 
 
@@ -244,40 +248,173 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/10/jenkins-sudoerror/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jason Lai">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">categories</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="category-all-page">
-            <div class="category-all-title">
-                目前共計 3 個分類
-            </div>
-            <div class="category-all">
-              <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/gitlab/">gitlab</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jenkins/">jenkins</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li></ul>
-            </div>
-          </div>
+          <h1 class="post-title" itemprop="name headline">解決Jenkins執行sudo命令出現錯誤</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-03-10T14:11:41+08:00">
+                2019-03-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/jenkins/" itemprop="url" rel="index">
+                    <span itemprop="name">jenkins</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p>我們在使用jenkins部屬任務的時候常常需要使用到腳本，<br>如果在腳本中使用到了sudo這個令命時，有可能會產生以下錯誤:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo: no tty present and no askpass program specified</span><br></pre></td></tr></table></figure></p>
+<p>解决方式：<br>在jenkins host server上執行以下命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo visudo</span><br></pre></td></tr></table></figure></p>
+<p>在末尾加入:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jenkins ALL=(ALL) NOPASSWD: ALL</span><br></pre></td></tr></table></figure></p>
+<p>Ctrl+O 存檔(ps.存檔的時候副檔名不要加入.tmp，這樣即可覆蓋原來的檔案)<br>Ctrl+X 離開</p>
+<p>最後重啟jenkins<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo bash /etc/init.d/jenkins restart</span><br><span class="line"><span class="comment">#另外也可以這樣</span></span><br><span class="line">$ sudo service jenkins restart</span><br></pre></td></tr></table></figure></p>
+<p>最後再重新建構一次任務即可</p>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/jenkins/" rel="tag"># jenkins</a>
+          
+            <a href="/tags/error/" rel="tag"># error</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/10/linux-environmentvariables/" rel="next" title="設置Linux環境變數">
+                <i class="fa fa-chevron-left"></i> 設置Linux環境變數
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -286,6 +423,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -515,10 +656,10 @@
   
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
-  
+
 
   
 

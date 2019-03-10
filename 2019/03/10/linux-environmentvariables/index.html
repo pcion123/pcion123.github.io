@@ -95,18 +95,18 @@
 
 
 
-<meta name="description" content="我們在進行環境開發的時候常常需要用到一些系統路徑,那這些路徑我們可以用系統的環境變數來讓他大大縮減打字的長度,以下就介紹我們如何來建立這些環境變數 linux提供兩種設置環境變數的方式 -&amp;gt; 使用者環境變數 &amp;amp; 系統環境變數">
+<meta name="description" content="我們在進行環境開發的時候常常需要用到一些系統路徑，那這些路徑我們可以用系統的環境變數來讓他大大縮減打字的長度，以下就介紹我們如何來建立這些環境變數 linux提供兩種設置環境變數的方式 -&amp;gt; 使用者環境變數 &amp;amp; 系統環境變數">
 <meta name="keywords" content="環境變數,linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="設置Linux環境變數">
 <meta property="og:url" content="http://yoursite.com/2019/03/10/linux-environmentvariables/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
-<meta property="og:description" content="我們在進行環境開發的時候常常需要用到一些系統路徑,那這些路徑我們可以用系統的環境變數來讓他大大縮減打字的長度,以下就介紹我們如何來建立這些環境變數 linux提供兩種設置環境變數的方式 -&amp;gt; 使用者環境變數 &amp;amp; 系統環境變數">
+<meta property="og:description" content="我們在進行環境開發的時候常常需要用到一些系統路徑，那這些路徑我們可以用系統的環境變數來讓他大大縮減打字的長度，以下就介紹我們如何來建立這些環境變數 linux提供兩種設置環境變數的方式 -&amp;gt; 使用者環境變數 &amp;amp; 系統環境變數">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-03-10T06:04:02.650Z">
+<meta property="og:updated_time" content="2019-03-10T06:23:46.192Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="設置Linux環境變數">
-<meta name="twitter:description" content="我們在進行環境開發的時候常常需要用到一些系統路徑,那這些路徑我們可以用系統的環境變數來讓他大大縮減打字的長度,以下就介紹我們如何來建立這些環境變數 linux提供兩種設置環境變數的方式 -&amp;gt; 使用者環境變數 &amp;amp; 系統環境變數">
+<meta name="twitter:description" content="我們在進行環境開發的時候常常需要用到一些系統路徑，那這些路徑我們可以用系統的環境變數來讓他大大縮減打字的長度，以下就介紹我們如何來建立這些環境變數 linux提供兩種設置環境變數的方式 -&amp;gt; 使用者環境變數 &amp;amp; 系統環境變數">
 
 
 
@@ -349,7 +349,7 @@
       
 
       
-        <p>我們在進行環境開發的時候常常需要用到一些系統路徑,<br>那這些路徑我們可以用系統的環境變數來讓他大大縮減打字的長度,<br>以下就介紹我們如何來建立這些環境變數</p>
+        <p>我們在進行環境開發的時候常常需要用到一些系統路徑，<br>那這些路徑我們可以用系統的環境變數來讓他大大縮減打字的長度，<br>以下就介紹我們如何來建立這些環境變數</p>
 <p>linux提供兩種設置環境變數的方式 -&gt; 使用者環境變數 &amp; 系統環境變數</p>
 <a id="more"></a>
 <h2 id="使用者環境變數"><a href="#使用者環境變數" class="headerlink" title="使用者環境變數"></a>使用者環境變數</h2><p>使用者環境變數儲存在以下檔案中:<br>~/.profile<br>~/.bashrc, ~/.bash_profile, ~/.bash_login</p>
@@ -357,10 +357,10 @@
 <h2 id="加入系統環境變數"><a href="#加入系統環境變數" class="headerlink" title="加入系統環境變數"></a>加入系統環境變數</h2><p>打開/etc/profile這個檔案並且在末尾加入:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/usr/lib/jvm/jdk1.7.0</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$JAVA_HOME</span>/bin</span><br></pre></td></tr></table></figure>
 <p>環境變數更改後,將在使用者下次登陸時生效<br>如果想立刻生效,則執行下面的語句</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure>
 <p>生效後我們可以進行測試</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$JAVA_HOME</span></span><br></pre></td></tr></table></figure>
-<p>成功後應當看到剛剛我們我設置的路徑<br>另外如果想查看當前系統所設置的路徑有哪些可以輸入:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$PATH</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="variable">$JAVA_HOME</span></span><br></pre></td></tr></table></figure>
+<p>成功後應當看到剛剛我們我設置的路徑<br>另外如果想查看當前系統所設置的路徑有哪些可以輸入:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="variable">$PATH</span></span><br></pre></td></tr></table></figure></p>
 <p>他會顯示當前所有的環境路徑有哪些</p>
 
       
@@ -403,6 +403,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/10/jenkins-sudoerror/" rel="prev" title="解決Jenkins執行sudo命令出現錯誤">
+                解決Jenkins執行sudo命令出現錯誤 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -483,7 +487,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">文章</span>
               </a>
             </div>
@@ -505,7 +509,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">標籤</span>
               </a>
             </div>
