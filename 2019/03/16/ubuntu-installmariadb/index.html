@@ -79,7 +79,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="gitlab,jdk,jenkins,maven," />
+  <meta name="keywords" content="linux,ubuntu,mariadb," />
 
 
 
@@ -95,25 +95,18 @@
 
 
 
-<meta name="description" content="在jenkins安裝好後還需要一些進一步的設定，才能讓其他工具好好運作，下面我們就開始做完這些設定">
-<meta name="keywords" content="gitlab,jdk,jenkins,maven">
+<meta name="description" content="安裝mariadb在ubuntu底下安裝mariadb其實很方便，只要幾個指令就可以完成了: 先更新套件:12$ sudo apt update$ sudo apt upgrade 安装MariaDB:1$ sudo apt install mariadb-server 啟動服務:12$ sudo systemctl start mysql$ sudo systemctl enable mysql">
+<meta name="keywords" content="linux,ubuntu,mariadb">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Jenkins + Gitlab + Maven + JDK 設定">
-<meta property="og:url" content="http://yoursite.com/2018/03/29/jenkins-setting/index.html">
+<meta property="og:title" content="Ubuntu安裝MariaDB">
+<meta property="og:url" content="http://yoursite.com/2019/03/16/ubuntu-installmariadb/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
-<meta property="og:description" content="在jenkins安裝好後還需要一些進一步的設定，才能讓其他工具好好運作，下面我們就開始做完這些設定">
+<meta property="og:description" content="安裝mariadb在ubuntu底下安裝mariadb其實很方便，只要幾個指令就可以完成了: 先更新套件:12$ sudo apt update$ sudo apt upgrade 安装MariaDB:1$ sudo apt install mariadb-server 啟動服務:12$ sudo systemctl start mysql$ sudo systemctl enable mysql">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:image" content="http://yoursite.com/2018/03/29/jenkins-setting/jenkins1.jpg">
-<meta property="og:image" content="http://yoursite.com/2018/03/29/jenkins-setting/jenkins2.jpg">
-<meta property="og:image" content="http://yoursite.com/2018/03/29/jenkins-setting/jenkins3.jpg">
-<meta property="og:image" content="http://yoursite.com/2018/03/29/jenkins-setting/jenkins4.jpg">
-<meta property="og:image" content="http://yoursite.com/2018/03/29/jenkins-setting/jenkins5.jpg">
-<meta property="og:image" content="http://yoursite.com/2018/03/29/jenkins-setting/jenkins6.jpg">
-<meta property="og:updated_time" content="2019-03-10T06:14:46.491Z">
+<meta property="og:updated_time" content="2019-03-16T08:54:57.868Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jenkins + Gitlab + Maven + JDK 設定">
-<meta name="twitter:description" content="在jenkins安裝好後還需要一些進一步的設定，才能讓其他工具好好運作，下面我們就開始做完這些設定">
-<meta name="twitter:image" content="http://yoursite.com/2018/03/29/jenkins-setting/jenkins1.jpg">
+<meta name="twitter:title" content="Ubuntu安裝MariaDB">
+<meta name="twitter:description" content="安裝mariadb在ubuntu底下安裝mariadb其實很方便，只要幾個指令就可以完成了: 先更新套件:12$ sudo apt update$ sudo apt upgrade 安装MariaDB:1$ sudo apt install mariadb-server 啟動服務:12$ sudo systemctl start mysql$ sudo systemctl enable mysql">
 
 
 
@@ -143,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/03/29/jenkins-setting/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/03/16/ubuntu-installmariadb/"/>
 
 
 
 
 
-  <title>Jenkins + Gitlab + Maven + JDK 設定 | Pcion's Blog</title>
+  <title>Ubuntu安裝MariaDB | Pcion's Blog</title>
   
 
 
@@ -267,7 +260,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/29/jenkins-setting/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/16/ubuntu-installmariadb/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jason Lai">
@@ -284,7 +277,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Jenkins + Gitlab + Maven + JDK 設定</h1>
+          <h1 class="post-title" itemprop="name headline">Ubuntu安裝MariaDB</h1>
         
 
         <div class="post-meta">
@@ -296,8 +289,8 @@
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-03-29T19:23:38+08:00">
-                2018-03-29
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-03-16T15:38:31+08:00">
+                2019-03-16
               </time>
             
 
@@ -319,8 +312,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/jenkins/" itemprop="url" rel="index">
-                    <span itemprop="name">jenkins</span>
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
                   </a>
                 </span>
 
@@ -356,20 +349,21 @@
       
 
       
-        <p>在jenkins安裝好後還需要一些進一步的設定，<br>才能讓其他工具好好運作，<br>下面我們就開始做完這些設定</p>
+        <h2 id="安裝mariadb"><a href="#安裝mariadb" class="headerlink" title="安裝mariadb"></a>安裝mariadb</h2><p>在ubuntu底下安裝mariadb其實很方便，<br>只要幾個指令就可以完成了:</p>
+<p>先更新套件:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt update</span><br><span class="line">$ sudo apt upgrade</span><br></pre></td></tr></table></figure></p>
+<p>安装MariaDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install mariadb-server</span><br></pre></td></tr></table></figure></p>
+<p>啟動服務:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl start mysql</span><br><span class="line">$ sudo systemctl <span class="built_in">enable</span> mysql</span><br></pre></td></tr></table></figure></p>
+<p>查看服務:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl status mysql</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
-<p>進入jenkins設定<br><img src="/2018/03/29/jenkins-setting/jenkins1.jpg" alt="image"> </p>
-<p>進入Global Tool Configuration<br><img src="/2018/03/29/jenkins-setting/jenkins2.jpg" alt="image"> </p>
-<p>設置你的JDK安裝路徑<br><img src="/2018/03/29/jenkins-setting/jenkins3.jpg" alt="image"> </p>
-<p>設置你的GIT安裝路徑<br><img src="/2018/03/29/jenkins-setting/jenkins4.jpg" alt="image"> </p>
-<p>設置你的MAVEN安裝路徑<br><img src="/2018/03/29/jenkins-setting/jenkins5.jpg" alt="image"> </p>
-<p>接下來生成SSL金鑰，如果已經有了可以跳過這一步<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C</span><br></pre></td></tr></table></figure></p>
-<p>接下來去Credentials設置SSL連線配置<br><img src="/2018/03/29/jenkins-setting/jenkins6.jpg" alt="image"> </p>
-<p>最後我們要去把jenkins的系統權限加入到root裡面，<br>不然他在跑shell會有權限問題</p>
-<p>將jenkins帳號加入root群組中<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo gpasswd -a root jenkins</span><br></pre></td></tr></table></figure></p>
-<p>修改jenkins文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo nano /etc/default/jenkins</span><br></pre></td></tr></table></figure></p>
-<p>修改文件中這兩行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">JENKINS_USER=root</span><br><span class="line">JENKINS_GROUP=root</span><br></pre></td></tr></table></figure></p>
-<p>完成這些設定就大功告成啦!</p>
+<h2 id="初始化mariadb"><a href="#初始化mariadb" class="headerlink" title="初始化mariadb"></a>初始化mariadb</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mysql_secure_installation</span><br><span class="line"></span><br><span class="line"><span class="comment"># 是否要設置root權限密碼</span></span><br><span class="line">- Set root password? [Y/n] y</span><br><span class="line"><span class="comment"># 是否要移除匿名登入</span></span><br><span class="line">- Remove anonymous users? [Y/n] y</span><br><span class="line"><span class="comment"># 是否關閉遠端登入</span></span><br><span class="line">- Disallow root login remotely? [Y/n] y</span><br><span class="line"><span class="comment"># 是否移除test預設庫</span></span><br><span class="line">- Remove <span class="built_in">test</span> database and access to it? [Y/n] y</span><br><span class="line"><span class="comment"># 是否重新載入資料表權限</span></span><br><span class="line">- Reload privilege tables now? [Y/n] y</span><br></pre></td></tr></table></figure>
+<p>完成後我們可試著本機登入查看:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mysql -u root -p</span><br></pre></td></tr></table></figure></p>
+<h2 id="建立遠端使用者權限"><a href="#建立遠端使用者權限" class="headerlink" title="建立遠端使用者權限"></a>建立遠端使用者權限</h2><p>初始化db之後我們還需要建立一組帳號，提供使用者遠端登入使用</p>
+<p>建立使用者與權限:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 建立使用者</span></span><br><span class="line">$ CREATE USER <span class="string">'my_account'</span>@<span class="string">'%'</span> IDENTIFIED BY <span class="string">'my_password'</span>;</span><br><span class="line"><span class="comment"># 建立使用者權限</span></span><br><span class="line">$ GRANT ALL PRIVILEGES ON *.* TO <span class="string">'my_account'</span>@<span class="string">'%'</span> IDENTIFIED BY <span class="string">'my_password'</span> WITH GRANT OPTION;</span><br><span class="line"><span class="comment"># 刷新設置</span></span><br><span class="line">$ FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure></p>
+<p>查看結果:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看使用者</span></span><br><span class="line">$ SELECT host,user,password FROM mysql.user;</span><br><span class="line"><span class="comment"># 查看使用者權限</span></span><br><span class="line">$ SHOW GRANTS FOR <span class="string">'my_account'</span>;</span><br></pre></td></tr></table></figure></p>
+<p>完成後我們嘗試遠端登入查看:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -h 192.168.0.100 -u <span class="string">'my_account'</span> -p</span><br></pre></td></tr></table></figure></p>
+<h2 id="修改mariadb設置"><a href="#修改mariadb設置" class="headerlink" title="修改mariadb設置"></a>修改mariadb設置</h2><p>如果還是不行就需要去修改mariadb的設定檔<br>打開/etc/mysql/mariadb.conf.d/50-server.cnf，找到bind-address且將他註解掉</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Instead of skip-networking the default is now to listen only on</span></span><br><span class="line"><span class="comment"># localhost which is more compatible and is not less secure.</span></span><br><span class="line"><span class="comment"># bind-address  = 127.0.0.1</span></span><br></pre></td></tr></table></figure>
+<p>之後再重新啟動mariadb就可以了<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl restart mysql</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -387,13 +381,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/gitlab/" rel="tag"># gitlab</a>
+            <a href="/tags/linux/" rel="tag"># linux</a>
           
-            <a href="/tags/jdk/" rel="tag"># jdk</a>
+            <a href="/tags/ubuntu/" rel="tag"># ubuntu</a>
           
-            <a href="/tags/jenkins/" rel="tag"># jenkins</a>
-          
-            <a href="/tags/maven/" rel="tag"># maven</a>
+            <a href="/tags/mariadb/" rel="tag"># mariadb</a>
           
         </div>
       
@@ -406,8 +398,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/24/jenkins-install/" rel="next" title="Jenkins搭建">
-                <i class="fa fa-chevron-left"></i> Jenkins搭建
+              <a href="/2019/03/10/java-installopenjdk/" rel="next" title="安裝OpenJDK">
+                <i class="fa fa-chevron-left"></i> 安裝OpenJDK
               </a>
             
           </div>
@@ -416,8 +408,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/29/jenkins-work/" rel="prev" title="Jenkins + Gitlab + Tomcat 自動化部署">
-                Jenkins + Gitlab + Tomcat 自動化部署 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/03/16/ubuntu-installredis/" rel="prev" title="Ubuntu安裝Redis">
+                Ubuntu安裝Redis <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -470,8 +462,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <a href="/about/">
             <img class="site-author-image" itemprop="image"
@@ -561,6 +562,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝mariadb"><span class="nav-number">1.</span> <span class="nav-text">安裝mariadb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化mariadb"><span class="nav-number">2.</span> <span class="nav-text">初始化mariadb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建立遠端使用者權限"><span class="nav-number">3.</span> <span class="nav-text">建立遠端使用者權限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改mariadb設置"><span class="nav-number">4.</span> <span class="nav-text">修改mariadb設置</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
