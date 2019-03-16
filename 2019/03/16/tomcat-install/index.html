@@ -95,18 +95,18 @@
 
 
 
-<meta name="description" content="安裝Tomcat先下載maven:1$ wget https://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.16/bin/apache-tomcat-9.0.16.tar.gz 解開包:1$ tar xzvf apache-tomcat-9.0.16.tar.gz 移動到/opt/底下:1$ mv apache-tomcat-9.0.16.tar.gz">
+<meta name="description" content="安裝Tomcat先下載maven:1$ wget https://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.16/bin/apache-tomcat-9.0.16.tar.gz 解開包:1$ tar xzvf apache-tomcat-9.0.16.tar.gz 移動到/opt/底下:1$ mv apache-tomcat-9.0.16 /opt 設">
 <meta name="keywords" content="tomcat,linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="安裝Tomcat">
 <meta property="og:url" content="http://yoursite.com/2019/03/16/tomcat-install/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
-<meta property="og:description" content="安裝Tomcat先下載maven:1$ wget https://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.16/bin/apache-tomcat-9.0.16.tar.gz 解開包:1$ tar xzvf apache-tomcat-9.0.16.tar.gz 移動到/opt/底下:1$ mv apache-tomcat-9.0.16.tar.gz">
+<meta property="og:description" content="安裝Tomcat先下載maven:1$ wget https://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.16/bin/apache-tomcat-9.0.16.tar.gz 解開包:1$ tar xzvf apache-tomcat-9.0.16.tar.gz 移動到/opt/底下:1$ mv apache-tomcat-9.0.16 /opt 設">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-03-16T09:24:54.277Z">
+<meta property="og:updated_time" content="2019-03-16T09:26:10.277Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="安裝Tomcat">
-<meta name="twitter:description" content="安裝Tomcat先下載maven:1$ wget https://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.16/bin/apache-tomcat-9.0.16.tar.gz 解開包:1$ tar xzvf apache-tomcat-9.0.16.tar.gz 移動到/opt/底下:1$ mv apache-tomcat-9.0.16.tar.gz">
+<meta name="twitter:description" content="安裝Tomcat先下載maven:1$ wget https://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.16/bin/apache-tomcat-9.0.16.tar.gz 解開包:1$ tar xzvf apache-tomcat-9.0.16.tar.gz 移動到/opt/底下:1$ mv apache-tomcat-9.0.16 /opt 設">
 
 
 
@@ -351,7 +351,7 @@
       
         <h2 id="安裝Tomcat"><a href="#安裝Tomcat" class="headerlink" title="安裝Tomcat"></a>安裝Tomcat</h2><p>先下載maven:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.16/bin/apache-tomcat-9.0.16.tar.gz</span><br></pre></td></tr></table></figure></p>
 <p>解開包:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar xzvf apache-tomcat-9.0.16.tar.gz</span><br></pre></td></tr></table></figure></p>
-<p>移動到/opt/底下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mv apache-tomcat-9.0.16.tar.gz /opt</span><br></pre></td></tr></table></figure></p>
+<p>移動到/opt/底下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mv apache-tomcat-9.0.16 /opt</span><br></pre></td></tr></table></figure></p>
 <h2 id="設置Tomcat環境變數"><a href="#設置Tomcat環境變數" class="headerlink" title="設置Tomcat環境變數"></a>設置Tomcat環境變數</h2><p>打開/etc/profile這個檔案並且在末尾加入:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> TOMCAT_HOME=/opt/apache-tomcat-9.0.16</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$TOMCAT_HOME</span>/bin</span><br></pre></td></tr></table></figure>
       
