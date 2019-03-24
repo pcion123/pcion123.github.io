@@ -348,19 +348,14 @@
 
       
         
-          
-            <p>接下來我們要介紹如何簡單的監控我們應用</p>
-<h2 id="測試腳本"><a href="#測試腳本" class="headerlink" title="測試腳本"></a>測試腳本</h2><p>我們寫個簡單的腳本<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">nano test.sh</span><br><span class="line"></span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="built_in">test</span> is start</span><br><span class="line"><span class="keyword">for</span> v <span class="keyword">in</span> &#123;1..10&#125;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">	<span class="built_in">echo</span> this is a <span class="built_in">echo</span></span><br><span class="line">	sleep 1</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="built_in">echo</span> <span class="built_in">test</span> is end</span><br></pre></td></tr></table></figure></p>
-<h2 id="建立PM2配置"><a href="#建立PM2配置" class="headerlink" title="建立PM2配置"></a>建立PM2配置</h2><p>pm2允許我通過配置的方式來控制我們想要監控的方式，<br>所以我們先產生一個基本的範例：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pm2 init</span><br></pre></td></tr></table></figure></p>
-<p>pm2會幫我們產生一個名為ecosystem.config.js的檔案</p>
-<h2 id="編輯PM2配置"><a href="#編輯PM2配置" class="headerlink" title="編輯PM2配置"></a>編輯PM2配置</h2><p>接下來要編輯這個檔案配置<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  apps : [&#123;</span><br><span class="line">    name: <span class="string">'mytest'</span>, // 任務名稱</span><br><span class="line">    script: <span class="string">'test.sh'</span>, // 啟動腳本</span><br><span class="line"></span><br><span class="line">    // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/</span><br><span class="line">    //args: <span class="string">'one two'</span>,</span><br><span class="line">    instances: 1,</span><br><span class="line">    autorestart: <span class="literal">true</span>, // 自動重啟開關</span><br><span class="line">    max_restarts: 10, // 最大重啟次數</span><br><span class="line">    restart_delay: 30000, // 重啟時間間隔(毫秒)</span><br><span class="line">    watch: <span class="literal">false</span>,</span><br><span class="line">    max_memory_restart: <span class="string">'1G'</span>,</span><br><span class="line">    env: &#123;</span><br><span class="line">      NODE_ENV: <span class="string">'development'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    env_production: &#123;</span><br><span class="line">      NODE_ENV: <span class="string">'production'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;],</span><br><span class="line"></span><br><span class="line">  deploy : &#123;</span><br><span class="line">    production : &#123;</span><br><span class="line">      user : <span class="string">'node'</span>,</span><br><span class="line">      host : <span class="string">'212.83.163.1'</span>,</span><br><span class="line">      ref  : <span class="string">'origin/master'</span>,</span><br><span class="line">      repo : <span class="string">'git@github.com:repo.git'</span>,</span><br><span class="line">      path : <span class="string">'/var/www/production'</span>,</span><br><span class="line">      <span class="string">'post-deploy'</span> : <span class="string">'npm install &amp;&amp; pm2 reload ecosystem.config.js --env production'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<h2 id="操作PM2任務"><a href="#操作PM2任務" class="headerlink" title="操作PM2任務"></a>操作PM2任務</h2><p>啟動任務：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pm2 start ecosystem.config.js</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2019/03/24/pm2-watch/pm2start.png" alt="image"><br>停止任務：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pm2 stop ecosystem.config.js</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2019/03/24/pm2-watch/pm2stop.png" alt="image"><br>觀看監控：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pm2 monit</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2019/03/24/pm2-watch/pm2monit.png" alt="image"></p>
-<p>更多的介紹請上官網查詢：<a href="https://pm2.io/doc/zh/runtime/overview/" target="_blank" rel="noopener">PM2教程</a></p>
-
-          
+          <p>接下來我們要介紹如何簡單的監控我們應用</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/24/pm2-watch/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -499,23 +494,14 @@
 
       
         
-          
-            <p>PM2是一套Node應用的進程管理器，<br>當程式出現錯誤或者其他狀況死掉之後，<br>這時候PM2就可以幫你的應用自動重啟，<br>當然它不止這些功能，<br>詳細可以看看官網介紹：<a href="http://pm2.keymetrics.io/" target="_blank" rel="noopener">PM2</a></p>
-<p>接下來我們要來介紹如何在ububtu上安裝它</p>
-<p>先更新套件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt update</span><br><span class="line">$ sudo apt upgrade</span><br></pre></td></tr></table></figure></p>
-<h2 id="安裝NodeJS"><a href="#安裝NodeJS" class="headerlink" title="安裝NodeJS"></a>安裝NodeJS</h2><p>已經安裝過的朋友可以跳過這一步</p>
-<p>安装NodeJS：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install nodejs</span><br></pre></td></tr></table></figure></p>
-<p>然後我們要安裝<a href="https://github.com/tj/n/" target="_blank" rel="noopener">n</a>來幫我們管理nodejs版本：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g n</span><br></pre></td></tr></table></figure></p>
-<h2 id="安裝NPM"><a href="#安裝NPM" class="headerlink" title="安裝NPM"></a>安裝NPM</h2><p>已經安裝過的朋友可以跳過這一步</p>
-<p>安装NPM：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install npm</span><br></pre></td></tr></table></figure></p>
-<p>然後我們要安裝<a href="https://github.com/tj/n/" target="_blank" rel="noopener">n</a>來幫我們管理nodejs版本：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g n</span><br></pre></td></tr></table></figure></p>
-<h2 id="安裝PM2"><a href="#安裝PM2" class="headerlink" title="安裝PM2"></a>安裝PM2</h2><p>接下來要開始正式安裝PM2：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install pm2 -g</span><br></pre></td></tr></table></figure></p>
-<p>完成PM2安裝步驟：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pm2 completion install</span><br></pre></td></tr></table></figure></p>
-<p>查看監控項目列表：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pm2 ls</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2019/03/24/pm2-install/pm2list.png" alt="image"><br>查看監控詳細內容：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pm2 monit</span><br></pre></td></tr></table></figure></p>
-<p><img src="/2019/03/24/pm2-install/pm2monit.png" alt="image"> </p>
-
-          
+          <p>PM2是一套Node應用的進程管理器，<br>當程式出現錯誤或者其他狀況死掉之後，<br>這時候PM2就可以幫你的應用自動重啟，<br>當然它不止這些功能，<br>詳細可以看看官網介紹：<a href="http://pm2.keymetrics.io/" target="_blank" rel="noopener">PM2</a></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/24/pm2-install/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

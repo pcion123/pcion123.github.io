@@ -95,21 +95,21 @@
 
 
 
-<meta name="description" content="接下來我們要介紹如何簡單的監控我們應用 測試腳本我們寫個簡單的腳本12345678910nano test.sh#!/bin/bashecho test is startfor v in &amp;#123;1..10&amp;#125;do	echo this is a echo	sleep 1doneecho test is end 建立PM2配置pm2允許我通過配置的方式來控制我們想要監控的方式，所以我們先">
+<meta name="description" content="接下來我們要介紹如何簡單的監控我們應用">
 <meta name="keywords" content="linux,pm2">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PM2監控程序">
 <meta property="og:url" content="http://yoursite.com/2019/03/24/pm2-watch/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
-<meta property="og:description" content="接下來我們要介紹如何簡單的監控我們應用 測試腳本我們寫個簡單的腳本12345678910nano test.sh#!/bin/bashecho test is startfor v in &amp;#123;1..10&amp;#125;do	echo this is a echo	sleep 1doneecho test is end 建立PM2配置pm2允許我通過配置的方式來控制我們想要監控的方式，所以我們先">
+<meta property="og:description" content="接下來我們要介紹如何簡單的監控我們應用">
 <meta property="og:locale" content="zh-tw">
 <meta property="og:image" content="http://yoursite.com/2019/03/24/pm2-watch/pm2start.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/24/pm2-watch/pm2stop.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/24/pm2-watch/pm2monit.png">
-<meta property="og:updated_time" content="2019-03-24T08:27:18.890Z">
+<meta property="og:updated_time" content="2019-03-24T08:30:02.686Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PM2監控程序">
-<meta name="twitter:description" content="接下來我們要介紹如何簡單的監控我們應用 測試腳本我們寫個簡單的腳本12345678910nano test.sh#!/bin/bashecho test is startfor v in &amp;#123;1..10&amp;#125;do	echo this is a echo	sleep 1doneecho test is end 建立PM2配置pm2允許我通過配置的方式來控制我們想要監控的方式，所以我們先">
+<meta name="twitter:description" content="接下來我們要介紹如何簡單的監控我們應用">
 <meta name="twitter:image" content="http://yoursite.com/2019/03/24/pm2-watch/pm2start.png">
 
 
@@ -354,6 +354,7 @@
 
       
         <p>接下來我們要介紹如何簡單的監控我們應用</p>
+<a id="more"></a>
 <h2 id="測試腳本"><a href="#測試腳本" class="headerlink" title="測試腳本"></a>測試腳本</h2><p>我們寫個簡單的腳本<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">nano test.sh</span><br><span class="line"></span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="built_in">test</span> is start</span><br><span class="line"><span class="keyword">for</span> v <span class="keyword">in</span> &#123;1..10&#125;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">	<span class="built_in">echo</span> this is a <span class="built_in">echo</span></span><br><span class="line">	sleep 1</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="built_in">echo</span> <span class="built_in">test</span> is end</span><br></pre></td></tr></table></figure></p>
 <h2 id="建立PM2配置"><a href="#建立PM2配置" class="headerlink" title="建立PM2配置"></a>建立PM2配置</h2><p>pm2允許我通過配置的方式來控制我們想要監控的方式，<br>所以我們先產生一個基本的範例：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pm2 init</span><br></pre></td></tr></table></figure></p>
 <p>pm2會幫我們產生一個名為ecosystem.config.js的檔案</p>
