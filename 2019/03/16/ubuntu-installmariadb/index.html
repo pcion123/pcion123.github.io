@@ -95,18 +95,18 @@
 
 
 
-<meta name="description" content="安裝mariadb在ubuntu底下安裝mariadb其實很方便，只要幾個指令就可以完成了: 先更新套件:12$ sudo apt update$ sudo apt upgrade 安装MariaDB:1$ sudo apt install mariadb-server 啟動服務:12$ sudo systemctl start mysql$ sudo systemctl enable mysql">
+<meta name="description" content="安裝mariadb在ubuntu底下安裝mariadb其實很方便，只要幾個指令就可以完成了： 先更新套件：12$ sudo apt update$ sudo apt upgrade 安装MariaDB：1$ sudo apt install mariadb-server 啟動服務：12$ sudo systemctl start mysql$ sudo systemctl enable mysql">
 <meta name="keywords" content="linux,ubuntu,mariadb">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu安裝MariaDB">
 <meta property="og:url" content="http://yoursite.com/2019/03/16/ubuntu-installmariadb/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
-<meta property="og:description" content="安裝mariadb在ubuntu底下安裝mariadb其實很方便，只要幾個指令就可以完成了: 先更新套件:12$ sudo apt update$ sudo apt upgrade 安装MariaDB:1$ sudo apt install mariadb-server 啟動服務:12$ sudo systemctl start mysql$ sudo systemctl enable mysql">
+<meta property="og:description" content="安裝mariadb在ubuntu底下安裝mariadb其實很方便，只要幾個指令就可以完成了： 先更新套件：12$ sudo apt update$ sudo apt upgrade 安装MariaDB：1$ sudo apt install mariadb-server 啟動服務：12$ sudo systemctl start mysql$ sudo systemctl enable mysql">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-03-16T08:54:57.868Z">
+<meta property="og:updated_time" content="2019-03-24T07:39:19.464Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu安裝MariaDB">
-<meta name="twitter:description" content="安裝mariadb在ubuntu底下安裝mariadb其實很方便，只要幾個指令就可以完成了: 先更新套件:12$ sudo apt update$ sudo apt upgrade 安装MariaDB:1$ sudo apt install mariadb-server 啟動服務:12$ sudo systemctl start mysql$ sudo systemctl enable mysql">
+<meta name="twitter:description" content="安裝mariadb在ubuntu底下安裝mariadb其實很方便，只要幾個指令就可以完成了： 先更新套件：12$ sudo apt update$ sudo apt upgrade 安装MariaDB：1$ sudo apt install mariadb-server 啟動服務：12$ sudo systemctl start mysql$ sudo systemctl enable mysql">
 
 
 
@@ -349,18 +349,18 @@
       
 
       
-        <h2 id="安裝mariadb"><a href="#安裝mariadb" class="headerlink" title="安裝mariadb"></a>安裝mariadb</h2><p>在ubuntu底下安裝mariadb其實很方便，<br>只要幾個指令就可以完成了:</p>
-<p>先更新套件:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt update</span><br><span class="line">$ sudo apt upgrade</span><br></pre></td></tr></table></figure></p>
-<p>安装MariaDB:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install mariadb-server</span><br></pre></td></tr></table></figure></p>
-<p>啟動服務:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl start mysql</span><br><span class="line">$ sudo systemctl <span class="built_in">enable</span> mysql</span><br></pre></td></tr></table></figure></p>
-<p>查看服務:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl status mysql</span><br></pre></td></tr></table></figure></p>
+        <h2 id="安裝mariadb"><a href="#安裝mariadb" class="headerlink" title="安裝mariadb"></a>安裝mariadb</h2><p>在ubuntu底下安裝mariadb其實很方便，<br>只要幾個指令就可以完成了：</p>
+<p>先更新套件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt update</span><br><span class="line">$ sudo apt upgrade</span><br></pre></td></tr></table></figure></p>
+<p>安装MariaDB：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install mariadb-server</span><br></pre></td></tr></table></figure></p>
+<p>啟動服務：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl start mysql</span><br><span class="line">$ sudo systemctl <span class="built_in">enable</span> mysql</span><br></pre></td></tr></table></figure></p>
+<p>查看服務：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl status mysql</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <h2 id="初始化mariadb"><a href="#初始化mariadb" class="headerlink" title="初始化mariadb"></a>初始化mariadb</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mysql_secure_installation</span><br><span class="line"></span><br><span class="line"><span class="comment"># 是否要設置root權限密碼</span></span><br><span class="line">- Set root password? [Y/n] y</span><br><span class="line"><span class="comment"># 是否要移除匿名登入</span></span><br><span class="line">- Remove anonymous users? [Y/n] y</span><br><span class="line"><span class="comment"># 是否關閉遠端登入</span></span><br><span class="line">- Disallow root login remotely? [Y/n] y</span><br><span class="line"><span class="comment"># 是否移除test預設庫</span></span><br><span class="line">- Remove <span class="built_in">test</span> database and access to it? [Y/n] y</span><br><span class="line"><span class="comment"># 是否重新載入資料表權限</span></span><br><span class="line">- Reload privilege tables now? [Y/n] y</span><br></pre></td></tr></table></figure>
-<p>完成後我們可試著本機登入查看:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mysql -u root -p</span><br></pre></td></tr></table></figure></p>
+<p>完成後我們可試著本機登入查看：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mysql -u root -p</span><br></pre></td></tr></table></figure></p>
 <h2 id="建立遠端使用者權限"><a href="#建立遠端使用者權限" class="headerlink" title="建立遠端使用者權限"></a>建立遠端使用者權限</h2><p>初始化db之後我們還需要建立一組帳號，提供使用者遠端登入使用</p>
-<p>建立使用者與權限:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 建立使用者</span></span><br><span class="line">$ CREATE USER <span class="string">'my_account'</span>@<span class="string">'%'</span> IDENTIFIED BY <span class="string">'my_password'</span>;</span><br><span class="line"><span class="comment"># 建立使用者權限</span></span><br><span class="line">$ GRANT ALL PRIVILEGES ON *.* TO <span class="string">'my_account'</span>@<span class="string">'%'</span> IDENTIFIED BY <span class="string">'my_password'</span> WITH GRANT OPTION;</span><br><span class="line"><span class="comment"># 刷新設置</span></span><br><span class="line">$ FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure></p>
-<p>查看結果:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看使用者</span></span><br><span class="line">$ SELECT host,user,password FROM mysql.user;</span><br><span class="line"><span class="comment"># 查看使用者權限</span></span><br><span class="line">$ SHOW GRANTS FOR <span class="string">'my_account'</span>;</span><br></pre></td></tr></table></figure></p>
-<p>完成後我們嘗試遠端登入查看:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -h 192.168.0.100 -u <span class="string">'my_account'</span> -p</span><br></pre></td></tr></table></figure></p>
+<p>建立使用者與權限：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 建立使用者</span></span><br><span class="line">$ CREATE USER <span class="string">'my_account'</span>@<span class="string">'%'</span> IDENTIFIED BY <span class="string">'my_password'</span>;</span><br><span class="line"><span class="comment"># 建立使用者權限</span></span><br><span class="line">$ GRANT ALL PRIVILEGES ON *.* TO <span class="string">'my_account'</span>@<span class="string">'%'</span> IDENTIFIED BY <span class="string">'my_password'</span> WITH GRANT OPTION;</span><br><span class="line"><span class="comment"># 刷新設置</span></span><br><span class="line">$ FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure></p>
+<p>查看結果：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看使用者</span></span><br><span class="line">$ SELECT host,user,password FROM mysql.user;</span><br><span class="line"><span class="comment"># 查看使用者權限</span></span><br><span class="line">$ SHOW GRANTS FOR <span class="string">'my_account'</span>;</span><br></pre></td></tr></table></figure></p>
+<p>完成後我們嘗試遠端登入查看：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -h 192.168.0.100 -u <span class="string">'my_account'</span> -p</span><br></pre></td></tr></table></figure></p>
 <h2 id="修改mariadb設置"><a href="#修改mariadb設置" class="headerlink" title="修改mariadb設置"></a>修改mariadb設置</h2><p>如果還是不行就需要去修改mariadb的設定檔<br>打開/etc/mysql/mariadb.conf.d/50-server.cnf，找到bind-address且將他註解掉</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Instead of skip-networking the default is now to listen only on</span></span><br><span class="line"><span class="comment"># localhost which is more compatible and is not less secure.</span></span><br><span class="line"><span class="comment"># bind-address  = 127.0.0.1</span></span><br></pre></td></tr></table></figure>
 <p>之後再重新啟動mariadb就可以了<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl restart mysql</span><br></pre></td></tr></table></figure></p>
@@ -491,7 +491,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">文章</span>
               </a>
             </div>
@@ -502,7 +502,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分類</span>
               </a>
             </div>
@@ -513,7 +513,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">標籤</span>
               </a>
             </div>

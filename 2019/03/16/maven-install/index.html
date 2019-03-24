@@ -95,18 +95,18 @@
 
 
 
-<meta name="description" content="安裝Maven先下載maven:1$ wget https://www-us.apache.org/dist/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz 解開包:1$ tar xzvf apache-maven-3.6.0-bin.tar.gz 移動到/opt/底下:1$ mv apache-maven-3.6.0-bin">
+<meta name="description" content="安裝Maven先下載maven：1$ wget https://www-us.apache.org/dist/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz 解開包:1$ tar xzvf apache-maven-3.6.0-bin.tar.gz 移動到/opt/底下：1$ mv apache-maven-3.6.0-bin">
 <meta name="keywords" content="maven,linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="安裝Maven">
 <meta property="og:url" content="http://yoursite.com/2019/03/16/maven-install/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
-<meta property="og:description" content="安裝Maven先下載maven:1$ wget https://www-us.apache.org/dist/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz 解開包:1$ tar xzvf apache-maven-3.6.0-bin.tar.gz 移動到/opt/底下:1$ mv apache-maven-3.6.0-bin">
+<meta property="og:description" content="安裝Maven先下載maven：1$ wget https://www-us.apache.org/dist/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz 解開包:1$ tar xzvf apache-maven-3.6.0-bin.tar.gz 移動到/opt/底下：1$ mv apache-maven-3.6.0-bin">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-03-16T09:21:42.158Z">
+<meta property="og:updated_time" content="2019-03-24T07:40:36.221Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="安裝Maven">
-<meta name="twitter:description" content="安裝Maven先下載maven:1$ wget https://www-us.apache.org/dist/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz 解開包:1$ tar xzvf apache-maven-3.6.0-bin.tar.gz 移動到/opt/底下:1$ mv apache-maven-3.6.0-bin">
+<meta name="twitter:description" content="安裝Maven先下載maven：1$ wget https://www-us.apache.org/dist/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz 解開包:1$ tar xzvf apache-maven-3.6.0-bin.tar.gz 移動到/opt/底下：1$ mv apache-maven-3.6.0-bin">
 
 
 
@@ -349,11 +349,11 @@
       
 
       
-        <h2 id="安裝Maven"><a href="#安裝Maven" class="headerlink" title="安裝Maven"></a>安裝Maven</h2><p>先下載maven:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://www-us.apache.org/dist/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz</span><br></pre></td></tr></table></figure></p>
+        <h2 id="安裝Maven"><a href="#安裝Maven" class="headerlink" title="安裝Maven"></a>安裝Maven</h2><p>先下載maven：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://www-us.apache.org/dist/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz</span><br></pre></td></tr></table></figure></p>
 <p>解開包:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar xzvf apache-maven-3.6.0-bin.tar.gz</span><br></pre></td></tr></table></figure></p>
-<p>移動到/opt/底下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mv apache-maven-3.6.0-bin /opt</span><br></pre></td></tr></table></figure></p>
-<h2 id="設置Maven環境變數"><a href="#設置Maven環境變數" class="headerlink" title="設置Maven環境變數"></a>設置Maven環境變數</h2><p>打開/etc/profile這個檔案並且在末尾加入:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> MAVEN_HOME=/opt/apache-maven-3.6.0</span><br><span class="line"><span class="built_in">export</span> M2_HOME=/opt/apache-maven-3.6.0</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$MAVEN_HOME</span>/bin</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$M2_HOME</span>/bin</span><br></pre></td></tr></table></figure>
+<p>移動到/opt/底下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mv apache-maven-3.6.0-bin /opt</span><br></pre></td></tr></table></figure></p>
+<h2 id="設置Maven環境變數"><a href="#設置Maven環境變數" class="headerlink" title="設置Maven環境變數"></a>設置Maven環境變數</h2><p>打開/etc/profile這個檔案並且在末尾加入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> MAVEN_HOME=/opt/apache-maven-3.6.0</span><br><span class="line"><span class="built_in">export</span> M2_HOME=/opt/apache-maven-3.6.0</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$MAVEN_HOME</span>/bin</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$M2_HOME</span>/bin</span><br></pre></td></tr></table></figure></p>
+
       
     </div>
     
@@ -478,7 +478,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">文章</span>
               </a>
             </div>
@@ -489,7 +489,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分類</span>
               </a>
             </div>
@@ -500,7 +500,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">標籤</span>
               </a>
             </div>

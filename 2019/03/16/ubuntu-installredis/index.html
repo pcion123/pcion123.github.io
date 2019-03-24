@@ -95,18 +95,18 @@
 
 
 
-<meta name="description" content="安裝redis在ubuntu底下安裝redis跟安裝mariadb一樣，依靠apt指令就可以安裝完成: 先更新套件:12$ sudo apt update$ sudo apt upgrade 安装Redis:1$ sudo apt install redis-server 安裝完成後redis會自動加入到服務中，查看服務:1$ sudo systemctl status redis">
+<meta name="description" content="安裝redis在ubuntu底下安裝redis跟安裝mariadb一樣，依靠apt指令就可以安裝完成： 先更新套件：12$ sudo apt update$ sudo apt upgrade 安装Redis：1$ sudo apt install redis-server 安裝完成後redis會自動加入到服務中，查看服務：1$ sudo systemctl status redis">
 <meta name="keywords" content="linux,ubuntu,redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu安裝Redis">
 <meta property="og:url" content="http://yoursite.com/2019/03/16/ubuntu-installredis/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
-<meta property="og:description" content="安裝redis在ubuntu底下安裝redis跟安裝mariadb一樣，依靠apt指令就可以安裝完成: 先更新套件:12$ sudo apt update$ sudo apt upgrade 安装Redis:1$ sudo apt install redis-server 安裝完成後redis會自動加入到服務中，查看服務:1$ sudo systemctl status redis">
+<meta property="og:description" content="安裝redis在ubuntu底下安裝redis跟安裝mariadb一樣，依靠apt指令就可以安裝完成： 先更新套件：12$ sudo apt update$ sudo apt upgrade 安装Redis：1$ sudo apt install redis-server 安裝完成後redis會自動加入到服務中，查看服務：1$ sudo systemctl status redis">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-03-16T08:53:40.365Z">
+<meta property="og:updated_time" content="2019-03-24T07:39:58.683Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu安裝Redis">
-<meta name="twitter:description" content="安裝redis在ubuntu底下安裝redis跟安裝mariadb一樣，依靠apt指令就可以安裝完成: 先更新套件:12$ sudo apt update$ sudo apt upgrade 安装Redis:1$ sudo apt install redis-server 安裝完成後redis會自動加入到服務中，查看服務:1$ sudo systemctl status redis">
+<meta name="twitter:description" content="安裝redis在ubuntu底下安裝redis跟安裝mariadb一樣，依靠apt指令就可以安裝完成： 先更新套件：12$ sudo apt update$ sudo apt upgrade 安装Redis：1$ sudo apt install redis-server 安裝完成後redis會自動加入到服務中，查看服務：1$ sudo systemctl status redis">
 
 
 
@@ -349,10 +349,10 @@
       
 
       
-        <h2 id="安裝redis"><a href="#安裝redis" class="headerlink" title="安裝redis"></a>安裝redis</h2><p>在ubuntu底下安裝redis跟安裝mariadb一樣，<br>依靠apt指令就可以安裝完成:</p>
-<p>先更新套件:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt update</span><br><span class="line">$ sudo apt upgrade</span><br></pre></td></tr></table></figure></p>
-<p>安装Redis:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install redis-server</span><br></pre></td></tr></table></figure></p>
-<p>安裝完成後redis會自動加入到服務中，查看服務:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl status redis</span><br></pre></td></tr></table></figure></p>
+        <h2 id="安裝redis"><a href="#安裝redis" class="headerlink" title="安裝redis"></a>安裝redis</h2><p>在ubuntu底下安裝redis跟安裝mariadb一樣，<br>依靠apt指令就可以安裝完成：</p>
+<p>先更新套件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt update</span><br><span class="line">$ sudo apt upgrade</span><br></pre></td></tr></table></figure></p>
+<p>安装Redis：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install redis-server</span><br></pre></td></tr></table></figure></p>
+<p>安裝完成後redis會自動加入到服務中，查看服務：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl status redis</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <h2 id="修改redis設置"><a href="#修改redis設置" class="headerlink" title="修改redis設置"></a>修改redis設置</h2><p>後我們要提供給遠端使用者使用就需要去修改設定檔，<br>打開/etc/redis/redis.conf，找到bind且將他註解掉</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># IF YOU ARE SURE YOU WANT YOUR INSTANCE TO LISTEN TO ALL THE INTERFACES</span></span><br><span class="line"><span class="comment"># JUST COMMENT THE FOLLOWING LINE.</span></span><br><span class="line"><span class="comment"># ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span></span><br><span class="line"><span class="comment"># bind 127.0.0.1 ::1</span></span><br></pre></td></tr></table></figure>
@@ -484,7 +484,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">文章</span>
               </a>
             </div>
@@ -495,7 +495,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分類</span>
               </a>
             </div>
@@ -506,7 +506,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">標籤</span>
               </a>
             </div>

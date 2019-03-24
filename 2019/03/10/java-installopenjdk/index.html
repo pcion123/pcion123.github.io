@@ -103,7 +103,7 @@
 <meta property="og:site_name" content="Pcion&#39;s Blog">
 <meta property="og:description" content="安裝OpenJDK安裝預設版本OpenJDK12$ sudo apt-get update$ sudo apt-get install default-jdk 安裝指定版本OpenJDK12$ sudo apt-get update$ sudo apt-get install openjdk-8-jdk 安裝指定版本OpenJRE12$ sudo apt-get update$ sudo apt-">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-03-10T08:25:36.134Z">
+<meta property="og:updated_time" content="2019-03-24T07:42:01.027Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="安裝OpenJDK">
 <meta name="twitter:description" content="安裝OpenJDK安裝預設版本OpenJDK12$ sudo apt-get update$ sudo apt-get install default-jdk 安裝指定版本OpenJDK12$ sudo apt-get update$ sudo apt-get install openjdk-8-jdk 安裝指定版本OpenJRE12$ sudo apt-get update$ sudo apt-">
@@ -354,8 +354,8 @@
 <p>安裝指定版本OpenJRE<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install openjdk-8-jre</span><br></pre></td></tr></table></figure></p>
 <h2 id="設定系統-Java-版本"><a href="#設定系統-Java-版本" class="headerlink" title="設定系統 Java 版本"></a>設定系統 Java 版本</h2><p>先查看當前有哪些版本可供設定<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ update-alternatives --query java</span><br><span class="line"><span class="comment">#或者</span></span><br><span class="line">$ update-alternatives --display java</span><br></pre></td></tr></table></figure></p>
 <p>設定版本<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo update-alternatives --config java</span><br></pre></td></tr></table></figure></p>
-<h2 id="設置Java環境變數"><a href="#設置Java環境變數" class="headerlink" title="設置Java環境變數"></a>設置Java環境變數</h2><p>打開/etc/profile這個檔案並且在末尾加入:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$JAVA_HOME</span>/bin</span><br></pre></td></tr></table></figure>
+<h2 id="設置Java環境變數"><a href="#設置Java環境變數" class="headerlink" title="設置Java環境變數"></a>設置Java環境變數</h2><p>打開/etc/profile這個檔案並且在末尾加入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$JAVA_HOME</span>/bin</span><br></pre></td></tr></table></figure></p>
+
       
     </div>
     
@@ -480,7 +480,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">文章</span>
               </a>
             </div>
@@ -491,7 +491,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分類</span>
               </a>
             </div>
@@ -502,7 +502,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">標籤</span>
               </a>
             </div>

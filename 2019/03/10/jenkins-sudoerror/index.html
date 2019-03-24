@@ -95,18 +95,18 @@
 
 
 
-<meta name="description" content="我們在使用jenkins部屬任務的時候常常需要使用到腳本，如果在腳本中使用到了sudo這個令命時，有可能會產生以下錯誤:1sudo: no tty present and no askpass program specified 解决方式：在jenkins host server上執行以下命令:1$ sudo visudo 在末尾加入:1jenkins ALL=(ALL) NOPASSWD: AL">
+<meta name="description" content="我們在使用jenkins部屬任務的時候常常需要使用到腳本，如果在腳本中使用到了sudo這個令命時，有可能會產生以下錯誤：1sudo: no tty present and no askpass program specified 解决方式：在jenkins host server上執行以下命令：1$ sudo visudo 在末尾加入：1jenkins ALL=(ALL) NOPASSWD: AL">
 <meta name="keywords" content="jenkins,error">
 <meta property="og:type" content="article">
 <meta property="og:title" content="解決Jenkins執行sudo命令出現錯誤">
 <meta property="og:url" content="http://yoursite.com/2019/03/10/jenkins-sudoerror/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
-<meta property="og:description" content="我們在使用jenkins部屬任務的時候常常需要使用到腳本，如果在腳本中使用到了sudo這個令命時，有可能會產生以下錯誤:1sudo: no tty present and no askpass program specified 解决方式：在jenkins host server上執行以下命令:1$ sudo visudo 在末尾加入:1jenkins ALL=(ALL) NOPASSWD: AL">
+<meta property="og:description" content="我們在使用jenkins部屬任務的時候常常需要使用到腳本，如果在腳本中使用到了sudo這個令命時，有可能會產生以下錯誤：1sudo: no tty present and no askpass program specified 解决方式：在jenkins host server上執行以下命令：1$ sudo visudo 在末尾加入：1jenkins ALL=(ALL) NOPASSWD: AL">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-03-10T06:31:27.479Z">
+<meta property="og:updated_time" content="2019-03-24T07:41:20.912Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解決Jenkins執行sudo命令出現錯誤">
-<meta name="twitter:description" content="我們在使用jenkins部屬任務的時候常常需要使用到腳本，如果在腳本中使用到了sudo這個令命時，有可能會產生以下錯誤:1sudo: no tty present and no askpass program specified 解决方式：在jenkins host server上執行以下命令:1$ sudo visudo 在末尾加入:1jenkins ALL=(ALL) NOPASSWD: AL">
+<meta name="twitter:description" content="我們在使用jenkins部屬任務的時候常常需要使用到腳本，如果在腳本中使用到了sudo這個令命時，有可能會產生以下錯誤：1sudo: no tty present and no askpass program specified 解决方式：在jenkins host server上執行以下命令：1$ sudo visudo 在末尾加入：1jenkins ALL=(ALL) NOPASSWD: AL">
 
 
 
@@ -349,9 +349,9 @@
       
 
       
-        <p>我們在使用jenkins部屬任務的時候常常需要使用到腳本，<br>如果在腳本中使用到了sudo這個令命時，有可能會產生以下錯誤:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo: no tty present and no askpass program specified</span><br></pre></td></tr></table></figure></p>
-<p>解决方式：<br>在jenkins host server上執行以下命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo visudo</span><br></pre></td></tr></table></figure></p>
-<p>在末尾加入:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jenkins ALL=(ALL) NOPASSWD: ALL</span><br></pre></td></tr></table></figure></p>
+        <p>我們在使用jenkins部屬任務的時候常常需要使用到腳本，<br>如果在腳本中使用到了sudo這個令命時，有可能會產生以下錯誤：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo: no tty present and no askpass program specified</span><br></pre></td></tr></table></figure></p>
+<p>解决方式：<br>在jenkins host server上執行以下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo visudo</span><br></pre></td></tr></table></figure></p>
+<p>在末尾加入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jenkins ALL=(ALL) NOPASSWD: ALL</span><br></pre></td></tr></table></figure></p>
 <p>Ctrl+O 存檔(ps.存檔的時候副檔名不要加入.tmp，這樣即可覆蓋原來的檔案)<br>Ctrl+X 離開</p>
 <p>最後重啟jenkins<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo bash /etc/init.d/jenkins restart</span><br><span class="line"><span class="comment">#另外也可以這樣</span></span><br><span class="line">$ sudo service jenkins restart</span><br></pre></td></tr></table></figure></p>
 <p>最後再重新建構一次任務即可</p>
@@ -471,7 +471,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">文章</span>
               </a>
             </div>
@@ -482,7 +482,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分類</span>
               </a>
             </div>
@@ -493,7 +493,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">標籤</span>
               </a>
             </div>
