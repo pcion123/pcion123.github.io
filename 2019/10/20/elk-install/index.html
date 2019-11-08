@@ -93,6 +93,9 @@
 
 
 
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="729646397552204" />
+
 
 
 <meta name="description" content="在分散式系統底下我們需要查詢log紀錄總不可能需要一台一台機器上去查看紀錄這個時候我們就會需要有個服務幫我們達成這個目的 elasticsearch就很適合來幫我們完成這個任務 elasticsearch官網">
@@ -147,6 +150,24 @@
 
   <title>Elasticsearch+Kibana+Logstash環境安裝 | Pcion's Blog</title>
   
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '729646397552204',
+      xfbml      : true,
+      version    : 'v2.10'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_tw/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
 
 
 
@@ -413,6 +434,22 @@
 
       
       
+        <div class="post-widgets">
+        
+
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+        </div>
+      
       
 
       
@@ -456,6 +493,13 @@
 
           
   <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://yoursite.com/2019/10/20/elk-install/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
     
   </div>
 

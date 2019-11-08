@@ -93,6 +93,9 @@
 
 
 
+  <meta property="fb:admins" content="" />
+  <meta property="fb:app_id" content="729646397552204" />
+
 
 
 <meta name="description" content="前面做這麼多都是為了現在做準備，假設我們的workflow1程式更新代碼至gitlab -&amp;gt; 企劃或者anyone按個按鍵 -&amp;gt; jenkins自動幫你完成專案更新代碼並重新佈署 這樣我們可以減少人力去處理這些雜事更能專心再業務處理的需求上下面就來看看怎麼完成這些設定">
@@ -151,6 +154,24 @@
 
   <title>Jenkins + Gitlab + Tomcat 自動化部署 | Pcion's Blog</title>
   
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '729646397552204',
+      xfbml      : true,
+      version    : 'v2.10'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/zh_tw/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
 
 
 
@@ -404,6 +425,22 @@
 
       
       
+        <div class="post-widgets">
+        
+
+        
+          <div class="social-like">
+            
+
+            
+              <div class="fb_like">
+                <div class="fb-like" data-layout="button_count" data-share="true"></div>
+              </div>
+            
+          </div>
+        
+        </div>
+      
       
 
       
@@ -451,6 +488,13 @@
 
           
   <div class="comments" id="comments">
+    
+      <div class="fb-comments"
+           data-href="http://yoursite.com/2018/03/29/jenkins-work/"
+           data-numposts="10"
+           data-width="100%"
+           data-colorscheme="light">
+      </div>
     
   </div>
 
