@@ -107,7 +107,7 @@
 <meta property="og:description" content="網路上已有蠻多類似的文章，我就不再過多的論述了就寫寫佈署的時一些問題就好 gitlab佈署直接上官網gitlab官網gitlab中文社群 我佈署的環境是virtualbox+ubuntu基本上照著官網的install指令去佈署就能成功佈署最新版本 如果是要另外進行中文化的佈署就必需去中文社群看看有沒有對應的版本中文化社群 例如我佈署的gitlab版本是8.8.9那我就需要找到中文化對應的版本p.s">
 <meta property="og:locale" content="zh-tw">
 <meta property="og:image" content="https://pcion123.github.io/2018/03/23/gitlab-install/gitlab.jpg">
-<meta property="og:updated_time" content="2019-03-24T07:39:33.670Z">
+<meta property="og:updated_time" content="2019-11-09T09:25:52.152Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GitLab搭建與中文化">
 <meta name="twitter:description" content="網路上已有蠻多類似的文章，我就不再過多的論述了就寫寫佈署的時一些問題就好 gitlab佈署直接上官網gitlab官網gitlab中文社群 我佈署的環境是virtualbox+ubuntu基本上照著官網的install指令去佈署就能成功佈署最新版本 如果是要另外進行中文化的佈署就必需去中文社群看看有沒有對應的版本中文化社群 例如我佈署的gitlab版本是8.8.9那我就需要找到中文化對應的版本p.s">
@@ -404,8 +404,7 @@
 <p>應用中文化補丁<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo patch -d /opt/gitlab/embedded/service/gitlab-rails -p1 &lt; /tmp/8.8.diff</span><br></pre></td></tr></table></figure></p>
 <p>接下來就一直不斷enter到補丁完成，重新啟動gitlab<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo gitlab-ctl start</span><br></pre></td></tr></table></figure></p>
 <p>重新登入之後就可看到熟悉的中文化介面</p>
-<p><img src="/2018/03/23/gitlab-install/gitlab.jpg" alt="image"> </p>
-
+<img src="/2018/03/23/gitlab-install/gitlab.jpg">
       
     </div>
     

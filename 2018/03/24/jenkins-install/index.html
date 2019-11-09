@@ -110,7 +110,7 @@
 <meta property="og:image" content="https://pcion123.github.io/2018/03/24/jenkins-install/jenkins2.jpg">
 <meta property="og:image" content="https://pcion123.github.io/2018/03/24/jenkins-install/jenkins3.jpg">
 <meta property="og:image" content="https://pcion123.github.io/2018/03/24/jenkins-install/jenkins4.jpg">
-<meta property="og:updated_time" content="2019-03-10T06:14:21.830Z">
+<meta property="og:updated_time" content="2019-11-09T09:25:01.625Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Jenkins搭建">
 <meta name="twitter:description" content="要搭建jenkins需要安裝JDK，以下提供簡易安裝方式 安裝OpenJDK安裝OpenJDK12$ sudo apt-get update$ sudo apt-get install default-jdk">
@@ -396,7 +396,7 @@
 <p>啟動腳本路徑(/etc/init.d/jenkins)<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo bash /etc/init.d/jenkins  &#123;start|stop|status|restart|force-reload&#125;</span><br></pre></td></tr></table></figure></p>
 <p>另外也可以這樣<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo service jenkins  &#123;start|stop|status|restart|force-reload&#125;</span><br></pre></td></tr></table></figure></p>
 <p>啟動之後需要設置初始密碼<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cat /var/lib/jenkins/secrets/initialAdminPassword</span><br><span class="line"></span><br><span class="line">9b4e46e0c33e4e99b9bbc916a7adccac</span><br></pre></td></tr></table></figure></p>
-<p>輸入初始密碼<br><img src="/2018/03/24/jenkins-install/jenkins1.jpg" alt="image"><br>選擇預設插件集合<br><img src="/2018/03/24/jenkins-install/jenkins2.jpg" alt="image"><br>等待初始化完成<br><img src="/2018/03/24/jenkins-install/jenkins3.jpg" alt="image"><br>最後再建立管理者帳號就大功告成了<br><img src="/2018/03/24/jenkins-install/jenkins4.jpg" alt="image"> </p>
+<p>輸入初始密碼<br><img src="/2018/03/24/jenkins-install/jenkins1.jpg"><br>選擇預設插件集合<br><img src="/2018/03/24/jenkins-install/jenkins2.jpg"><br>等待初始化完成<br><img src="/2018/03/24/jenkins-install/jenkins3.jpg"><br>最後再建立管理者帳號就大功告成了<br><img src="/2018/03/24/jenkins-install/jenkins4.jpg"></p>
 
       
     </div>

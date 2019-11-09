@@ -112,7 +112,7 @@
 <meta property="og:image" content="https://pcion123.github.io/2018/03/29/jenkins-work/jenkins4.jpg">
 <meta property="og:image" content="https://pcion123.github.io/2018/03/29/jenkins-work/jenkins5.jpg">
 <meta property="og:image" content="https://pcion123.github.io/2018/03/29/jenkins-work/jenkins6.jpg">
-<meta property="og:updated_time" content="2019-03-10T06:15:01.897Z">
+<meta property="og:updated_time" content="2019-11-09T09:28:08.544Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Jenkins + Gitlab + Tomcat 自動化部署">
 <meta name="twitter:description" content="前面做這麼多都是為了現在做準備，假設我們的workflow1程式更新代碼至gitlab -&amp;gt; 企劃或者anyone按個按鍵 -&amp;gt; jenkins自動幫你完成專案更新代碼並重新佈署 這樣我們可以減少人力去處理這些雜事更能專心再業務處理的需求上下面就來看看怎麼完成這些設定">
@@ -390,12 +390,12 @@
         <p>前面做這麼多都是為了現在做準備，<br>假設我們的workflow<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">程式更新代碼至gitlab -&gt; 企劃或者anyone按個按鍵 -&gt; jenkins自動幫你完成專案更新代碼並重新佈署</span><br></pre></td></tr></table></figure></p>
 <p>這樣我們可以減少人力去處理這些雜事<br>更能專心再業務處理的需求上<br>下面就來看看怎麼完成這些設定</p>
 <a id="more"></a>
-<p>新增作業<br><img src="/2018/03/29/jenkins-work/jenkins1.jpg" alt="image"> </p>
-<p>填好項目名稱並選擇free-style<br><img src="/2018/03/29/jenkins-work/jenkins2.jpg" alt="image"> </p>
-<p>這步驟是讓你自訂workspace路徑，不設定就會是預設項目路徑<br><img src="/2018/03/29/jenkins-work/jenkins3.jpg" alt="image"> </p>
-<p>填入你的項目git來源，並使用之前設定好的ssl連線憑證<br><img src="/2018/03/29/jenkins-work/jenkins4.jpg" alt="image"> </p>
-<p>選擇maven作為項目打包工具並填入相關腳本指令<br>之後在執行shell script把maven打包好的檔案轉移至tomcat目錄底下在啟動tomcat<br><img src="/2018/03/29/jenkins-work/jenkins5.jpg" alt="image"> </p>
-<p>儲存好相關設置之後再執行建置<br><img src="/2018/03/29/jenkins-work/jenkins6.jpg" alt="image"> </p>
+<p>新增作業<br><img src="/2018/03/29/jenkins-work/jenkins1.jpg"></p>
+<p>填好項目名稱並選擇free-style<br><img src="/2018/03/29/jenkins-work/jenkins2.jpg"></p>
+<p>這步驟是讓你自訂workspace路徑，不設定就會是預設項目路徑<br><img src="/2018/03/29/jenkins-work/jenkins3.jpg"></p>
+<p>填入你的項目git來源，並使用之前設定好的ssl連線憑證<br><img src="/2018/03/29/jenkins-work/jenkins4.jpg"></p>
+<p>選擇maven作為項目打包工具並填入相關腳本指令<br>之後在執行shell script把maven打包好的檔案轉移至tomcat目錄底下在啟動tomcat<br><img src="/2018/03/29/jenkins-work/jenkins5.jpg"></p>
+<p>儲存好相關設置之後再執行建置<br><img src="/2018/03/29/jenkins-work/jenkins6.jpg"></p>
 <p>一切就自動化部署完成了!</p>
 
       
