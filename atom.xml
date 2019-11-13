@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="https://www.w3.org/2005/Atom">
+  <title>Pcion&#39;s Blog</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://pcion123.github.io/"/>
+  <updated>2019-11-09T09:21:41.041Z</updated>
+  <id>https://pcion123.github.io/</id>
+  
+  <author>
+    <name>Jason Lai</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>TelegramBot申請與開發</title>
+    <link href="https://pcion123.github.io/2019/11/09/telegrambot-install/"/>
+    <id>https://pcion123.github.io/2019/11/09/telegrambot-install/</id>
+    <published>2019-11-09T07:41:00.000Z</published>
+    <updated>2019-11-09T09:21:41.041Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;telegrambot的使用與開發相較於linebot來說是好上手很多&lt;br&gt;接下來就是介紹開發與使用方式&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="telegram" scheme="https://pcion123.github.io/categories/telegram/"/>
+    
+    
+      <category term="telegram" scheme="https://pcion123.github.io/tags/telegram/"/>
+    
+      <category term="bot" scheme="https://pcion123.github.io/tags/bot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Elasticsearch+Kibana+Logstash環境安裝</title>
+    <link href="https://pcion123.github.io/2019/10/20/elk-install/"/>
+    <id>https://pcion123.github.io/2019/10/20/elk-install/</id>
+    <published>2019-10-20T05:36:22.000Z</published>
+    <updated>2019-11-09T09:22:44.618Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在分散式系統底下我們需要查詢log紀錄&lt;br&gt;總不可能需要一台一台機器上去查看紀錄&lt;br&gt;這個時候我們就會需要有個服務幫我們達成這個目的&lt;/p&gt;
+&lt;p&gt;elasticsearch就很適合來幫我們完成這個任務&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.elastic.co/cn/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;elasticsearch官網&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="elasticsearch" scheme="https://pcion123.github.io/categories/elasticsearch/"/>
+    
+    
+      <category term="elasticsearch" scheme="https://pcion123.github.io/tags/elasticsearch/"/>
+    
+      <category term="kibana" scheme="https://pcion123.github.io/tags/kibana/"/>
+    
+      <category term="logstash" scheme="https://pcion123.github.io/tags/logstash/"/>
+    
+      <category term="佈署" scheme="https://pcion123.github.io/tags/%E4%BD%88%E7%BD%B2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PM2監控程序</title>
+    <link href="https://pcion123.github.io/2019/03/24/pm2-watch/"/>
+    <id>https://pcion123.github.io/2019/03/24/pm2-watch/</id>
+    <published>2019-03-24T08:06:46.000Z</published>
+    <updated>2019-11-09T09:30:16.776Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;接下來我們要介紹如何簡單的監控我們應用&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="pm2" scheme="https://pcion123.github.io/categories/pm2/"/>
+    
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="pm2" scheme="https://pcion123.github.io/tags/pm2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ubuntu安裝PM2</title>
+    <link href="https://pcion123.github.io/2019/03/24/pm2-install/"/>
+    <id>https://pcion123.github.io/2019/03/24/pm2-install/</id>
+    <published>2019-03-24T07:28:33.000Z</published>
+    <updated>2019-11-09T09:29:26.776Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;PM2是一套Node應用的進程管理器，&lt;br&gt;當程式出現錯誤或者其他狀況死掉之後，&lt;br&gt;這時候PM2就可以幫你的應用自動重啟，&lt;br&gt;當然它不止這些功能，&lt;br&gt;詳細可以看看官網介紹：&lt;a href=&quot;http://pm2.keymetrics.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;PM2&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="pm2" scheme="https://pcion123.github.io/categories/pm2/"/>
+    
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
+    
+      <category term="pm2" scheme="https://pcion123.github.io/tags/pm2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>安裝Tomcat</title>
+    <link href="https://pcion123.github.io/2019/03/16/tomcat-install/"/>
+    <id>https://pcion123.github.io/2019/03/16/tomcat-install/</id>
+    <published>2019-03-16T09:21:07.000Z</published>
+    <updated>2019-03-24T07:40:22.600Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;安裝Tomcat&quot;&gt;&lt;a href=&quot;#安裝Tomcat&quot; class=&quot;headerlink&quot; title=&quot;安裝Tomcat&quot;&gt;&lt;/a&gt;安裝Tomcat&lt;/h2&gt;&lt;p&gt;先下載maven：&lt;/p&gt;
+&lt;figure class=&quot;highlight
+        
+      
+    
+    </summary>
+    
+    
+      <category term="tomcat" scheme="https://pcion123.github.io/categories/tomcat/"/>
+    
+    
+      <category term="tomcat" scheme="https://pcion123.github.io/tags/tomcat/"/>
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>安裝Maven</title>
+    <link href="https://pcion123.github.io/2019/03/16/maven-install/"/>
+    <id>https://pcion123.github.io/2019/03/16/maven-install/</id>
+    <published>2019-03-16T08:59:55.000Z</published>
+    <updated>2019-03-24T07:40:36.221Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;安裝Maven&quot;&gt;&lt;a href=&quot;#安裝Maven&quot; class=&quot;headerlink&quot; title=&quot;安裝Maven&quot;&gt;&lt;/a&gt;安裝Maven&lt;/h2&gt;&lt;p&gt;先下載maven：&lt;/p&gt;
+&lt;figure class=&quot;highlight
+        
+      
+    
+    </summary>
+    
+    
+      <category term="maven" scheme="https://pcion123.github.io/categories/maven/"/>
+    
+    
+      <category term="maven" scheme="https://pcion123.github.io/tags/maven/"/>
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ubuntu安裝Redis</title>
+    <link href="https://pcion123.github.io/2019/03/16/ubuntu-installredis/"/>
+    <id>https://pcion123.github.io/2019/03/16/ubuntu-installredis/</id>
+    <published>2019-03-16T07:41:00.000Z</published>
+    <updated>2019-03-24T07:39:58.683Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;安裝redis&quot;&gt;&lt;a href=&quot;#安裝redis&quot; class=&quot;headerlink&quot; title=&quot;安裝redis&quot;&gt;&lt;/a&gt;安裝redis&lt;/h2&gt;&lt;p&gt;在ubuntu底下安裝redis跟安裝mariadb一樣，&lt;br&gt;依靠apt指令就可以安裝完成：&lt;/p&gt;
+&lt;p&gt;先更新套件：&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt update&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt upgrade&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;安装Redis：&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt install redis-server&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;安裝完成後redis會自動加入到服務中，查看服務：&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo systemctl status redis&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
+    
+      <category term="redis" scheme="https://pcion123.github.io/tags/redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ubuntu安裝MariaDB</title>
+    <link href="https://pcion123.github.io/2019/03/16/ubuntu-installmariadb/"/>
+    <id>https://pcion123.github.io/2019/03/16/ubuntu-installmariadb/</id>
+    <published>2019-03-16T07:38:31.000Z</published>
+    <updated>2019-03-24T07:39:19.464Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;安裝mariadb&quot;&gt;&lt;a href=&quot;#安裝mariadb&quot; class=&quot;headerlink&quot; title=&quot;安裝mariadb&quot;&gt;&lt;/a&gt;安裝mariadb&lt;/h2&gt;&lt;p&gt;在ubuntu底下安裝mariadb其實很方便，&lt;br&gt;只要幾個指令就可以完成了：&lt;/p&gt;
+&lt;p&gt;先更新套件：&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt update&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt upgrade&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;安装MariaDB：&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt install mariadb-server&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;啟動服務：&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo systemctl start mysql&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ sudo systemctl &lt;span class=&quot;built_in&quot;&gt;enable&lt;/span&gt; mysql&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;查看服務：&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo systemctl status mysql&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
+    
+      <category term="mariadb" scheme="https://pcion123.github.io/tags/mariadb/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>安裝OpenJDK</title>
+    <link href="https://pcion123.github.io/2019/03/10/java-installopenjdk/"/>
+    <id>https://pcion123.github.io/2019/03/10/java-installopenjdk/</id>
+    <published>2019-03-10T08:01:20.000Z</published>
+    <updated>2019-03-24T07:42:01.027Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;安裝OpenJDK&quot;&gt;&lt;a href=&quot;#安裝OpenJDK&quot; class=&quot;headerlink&quot; title=&quot;安裝OpenJDK&quot;&gt;&lt;/a&gt;安裝OpenJDK&lt;/h2&gt;&lt;p&gt;安裝預設版本OpenJDK&lt;/p&gt;
+&lt;figure
+        
+      
+    
+    </summary>
+    
+    
+      <category term="java" scheme="https://pcion123.github.io/categories/java/"/>
+    
+    
+      <category term="java" scheme="https://pcion123.github.io/tags/java/"/>
+    
+      <category term="jdk" scheme="https://pcion123.github.io/tags/jdk/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>解決Jenkins執行sudo命令出現錯誤</title>
+    <link href="https://pcion123.github.io/2019/03/10/jenkins-sudoerror/"/>
+    <id>https://pcion123.github.io/2019/03/10/jenkins-sudoerror/</id>
+    <published>2019-03-10T06:11:41.000Z</published>
+    <updated>2019-03-24T07:41:20.912Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;我們在使用jenkins部屬任務的時候常常需要使用到腳本，&lt;br&gt;如果在腳本中使用到了sudo這個令命時，有可能會產生以下錯誤：&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td
+        
+      
+    
+    </summary>
+    
+    
+      <category term="jenkins" scheme="https://pcion123.github.io/categories/jenkins/"/>
+    
+    
+      <category term="jenkins" scheme="https://pcion123.github.io/tags/jenkins/"/>
+    
+      <category term="error" scheme="https://pcion123.github.io/tags/error/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>設置Linux環境變數</title>
+    <link href="https://pcion123.github.io/2019/03/10/linux-environmentvariables/"/>
+    <id>https://pcion123.github.io/2019/03/10/linux-environmentvariables/</id>
+    <published>2019-03-10T05:38:10.000Z</published>
+    <updated>2019-03-24T07:40:52.924Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;我們在進行環境開發的時候常常需要用到一些系統路徑，&lt;br&gt;那這些路徑我們可以用系統的環境變數來讓他大大縮減打字的長度，&lt;br&gt;以下就介紹我們如何來建立這些環境變數&lt;/p&gt;
+&lt;p&gt;linux提供兩種設置環境變數的方式 -&amp;gt; 使用者環境變數 &amp;amp; 系統環境變數&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="環境變數" scheme="https://pcion123.github.io/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Jenkins + Gitlab + Tomcat 自動化部署</title>
+    <link href="https://pcion123.github.io/2018/03/29/jenkins-work/"/>
+    <id>https://pcion123.github.io/2018/03/29/jenkins-work/</id>
+    <published>2018-03-29T12:18:34.000Z</published>
+    <updated>2019-11-09T09:28:08.544Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;前面做這麼多都是為了現在做準備，&lt;br&gt;假設我們的workflow&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;程式更新代碼至gitlab -&amp;gt; 企劃或者anyone按個按鍵 -&amp;gt; jenkins自動幫你完成專案更新代碼並重新佈署&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;這樣我們可以減少人力去處理這些雜事&lt;br&gt;更能專心再業務處理的需求上&lt;br&gt;下面就來看看怎麼完成這些設定&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="jenkins" scheme="https://pcion123.github.io/categories/jenkins/"/>
+    
+    
+      <category term="gitlab" scheme="https://pcion123.github.io/tags/gitlab/"/>
+    
+      <category term="jenkins" scheme="https://pcion123.github.io/tags/jenkins/"/>
+    
+      <category term="tomcat" scheme="https://pcion123.github.io/tags/tomcat/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Jenkins + Gitlab + Maven + JDK 設定</title>
+    <link href="https://pcion123.github.io/2018/03/29/jenkins-setting/"/>
+    <id>https://pcion123.github.io/2018/03/29/jenkins-setting/</id>
+    <published>2018-03-29T11:23:38.000Z</published>
+    <updated>2019-11-09T09:27:04.104Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在jenkins安裝好後還需要一些進一步的設定，&lt;br&gt;才能讓其他工具好好運作，&lt;br&gt;下面我們就開始做完這些設定&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="jenkins" scheme="https://pcion123.github.io/categories/jenkins/"/>
+    
+    
+      <category term="gitlab" scheme="https://pcion123.github.io/tags/gitlab/"/>
+    
+      <category term="jdk" scheme="https://pcion123.github.io/tags/jdk/"/>
+    
+      <category term="jenkins" scheme="https://pcion123.github.io/tags/jenkins/"/>
+    
+      <category term="maven" scheme="https://pcion123.github.io/tags/maven/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Jenkins搭建</title>
+    <link href="https://pcion123.github.io/2018/03/24/jenkins-install/"/>
+    <id>https://pcion123.github.io/2018/03/24/jenkins-install/</id>
+    <published>2018-03-24T08:27:06.000Z</published>
+    <updated>2019-11-09T09:25:01.625Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;要搭建jenkins需要安裝JDK，以下提供簡易安裝方式&lt;/p&gt;
+&lt;h2 id=&quot;安裝OpenJDK&quot;&gt;&lt;a href=&quot;#安裝OpenJDK&quot; class=&quot;headerlink&quot; title=&quot;安裝OpenJDK&quot;&gt;&lt;/a&gt;安裝OpenJDK&lt;/h2&gt;&lt;p&gt;安裝OpenJDK&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt-get update&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt-get install default-jdk&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="jenkins" scheme="https://pcion123.github.io/categories/jenkins/"/>
+    
+    
+      <category term="佈署" scheme="https://pcion123.github.io/tags/%E4%BD%88%E7%BD%B2/"/>
+    
+      <category term="jenkins" scheme="https://pcion123.github.io/tags/jenkins/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>GitLab搭建與中文化</title>
+    <link href="https://pcion123.github.io/2018/03/23/gitlab-install/"/>
+    <id>https://pcion123.github.io/2018/03/23/gitlab-install/</id>
+    <published>2018-03-23T06:18:08.000Z</published>
+    <updated>2019-11-09T09:25:52.152Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;網路上已有蠻多類似的文章，我就不再過多的論述了&lt;br&gt;就寫寫佈署的時一些問題就好&lt;/p&gt;
+&lt;h2 id=&quot;gitlab佈署&quot;&gt;&lt;a href=&quot;#gitlab佈署&quot; class=&quot;headerlink&quot; title=&quot;gitlab佈署&quot;&gt;&lt;/a&gt;gitlab佈署&lt;/h2&gt;&lt;p&gt;直接上官網&lt;br&gt;&lt;a href=&quot;https://about.gitlab.com/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;gitlab官網&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://www.gitlab.com.cn/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;gitlab中文社群&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;我佈署的環境是virtualbox+ubuntu&lt;br&gt;基本上照著官網的install指令去佈署就能成功佈署最新版本&lt;/p&gt;
+&lt;p&gt;如果是要另外進行中文化的佈署就必需去中文社群看看有沒有對應的版本&lt;br&gt;&lt;a href=&quot;https://gitlab.com/larryli/gitlab&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;中文化社群&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;例如我佈署的gitlab版本是8.8.9那我就需要找到中文化對應的版本&lt;br&gt;p.s 版號只需要對應前兩個版號就可以了&lt;/p&gt;
+&lt;p&gt;那該如何指定安裝指定的版號&lt;/p&gt;
+&lt;p&gt;官網提供的安裝指令應該如下：&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo EXTERNAL_URL=&lt;span class=&quot;string&quot;&gt;&quot;http://gitlab.example.com&quot;&lt;/span&gt; apt-get install gitlab-ee&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;上面的指令其實是預先設定好gitlab指定的網址與安裝最新的版本&lt;br&gt;不過我通常都把連線的網址都在佈署完成之後再另外設定&lt;br&gt;所以我如果要安裝&lt;a href=&quot;https://packages.gitlab.com/gitlab/gitlab-ee/packages/ubuntu/trusty/gitlab-ee_8.8.9-ee.0_amd64.deb&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;8.8.9&lt;/a&gt;的版本，那指令應該如下：&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt-get install gitlab-ee=8.8.9-ee.0&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;安裝完成後再去更改external_url就好，更改路徑如下：&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;/etc/gitlab/gitlab.rb&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;設置連線配置&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;external_url &lt;span class=&quot;string&quot;&gt;&#39;http://127.0.0.1&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;最後再重新設定配置就完成了&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo gitlab-ctl reconfigure&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;通常第一次登入會讓你重新設置root的密碼&lt;br&gt;修改完再登入你就可以看到gitlab的歡迎畫面了&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="gitlab" scheme="https://pcion123.github.io/categories/gitlab/"/>
+    
+    
+      <category term="佈署" scheme="https://pcion123.github.io/tags/%E4%BD%88%E7%BD%B2/"/>
+    
+      <category term="gitlab" scheme="https://pcion123.github.io/tags/gitlab/"/>
+    
+      <category term="中文化" scheme="https://pcion123.github.io/tags/%E4%B8%AD%E6%96%87%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https://pcion123.github.io/2018/03/01/hello-world/"/>
+    <id>https://pcion123.github.io/2018/03/01/hello-world/</id>
+    <published>2018-03-01T08:21:08.000Z</published>
+    <updated>2018-03-24T12:18:10.497Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+</feed>
