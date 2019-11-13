@@ -414,6 +414,9 @@
       <span class="links-of-author-item">
         <a href="https://www.facebook.com/pcion" title="Facebook &amp;rarr; https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion" rel="noopener" target="_blank"><i class="fa fa-fw fa-facebook"></i>Facebook</a>
       </span>
+      <span class="links-of-author-item">
+        <a href="https://www.cakeresume.com/pcion123" title="Cakeresume &amp;rarr; https:&#x2F;&#x2F;www.cakeresume.com&#x2F;pcion123" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin"></i>Cakeresume</a>
+      </span>
   </div>
 
 
@@ -525,7 +528,27 @@
       (d.head || d.body).appendChild(s);
     }
   }
-    window.addEventListener('load', loadComments, false);
+    (function() {
+      var offsetTop = document.getElementById('comments').offsetTop - window.innerHeight;
+      if (offsetTop <= 0) {
+        // load directly when there's no a scrollbar
+        window.addEventListener('load', loadComments, false);
+      } else {
+        var disqus_scroll = () => {
+          // offsetTop may changes because of manually resizing browser window or lazy loading images.
+          var offsetTop = document.getElementById('comments').offsetTop - window.innerHeight;
+          var scrollTop = window.scrollY;
+
+          // pre-load comments a bit? (margin or anything else)
+          if (offsetTop - scrollTop < 60) {
+            window.removeEventListener('scroll', disqus_scroll);
+            loadComments();
+          }
+        };
+        window.addEventListener('scroll', disqus_scroll);
+      }
+    })();
+  
 </script>
 
 </body>
