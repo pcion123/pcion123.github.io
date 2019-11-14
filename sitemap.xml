@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://pcion123.github.io/about/index.html</loc>
+    
+    <lastmod>2019-11-14T15:24:54.397Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://pcion123.github.io/categories/index.html</loc>
+    
+    <lastmod>2019-11-14T15:24:45.880Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://pcion123.github.io/tags/index.html</loc>
+    
+    <lastmod>2019-11-14T15:24:36.338Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://pcion123.github.io/2019/03/24/pm2-watch/</loc>
     
     <lastmod>2019-11-09T09:30:16.776Z</lastmod>
@@ -117,27 +138,6 @@
     <loc>https://pcion123.github.io/2018/03/01/hello-world/</loc>
     
     <lastmod>2018-03-24T12:18:10.497Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://pcion123.github.io/about/index.html</loc>
-    
-    <lastmod>2018-03-01T19:59:19.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://pcion123.github.io/tags/index.html</loc>
-    
-    <lastmod>2018-03-01T19:56:59.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://pcion123.github.io/categories/index.html</loc>
-    
-    <lastmod>2018-03-01T19:56:33.000Z</lastmod>
     
   </url>
   
