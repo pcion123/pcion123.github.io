@@ -40,8 +40,8 @@
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: '',
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     translation: {
       copy_button: '複製',
@@ -53,7 +53,7 @@
 </script>
 
   <meta name="description" content="在分散式系統底下我們需要查詢log紀錄總不可能需要一台一台機器上去查看紀錄這個時候我們就會需要有個服務幫我們達成這個目的 elasticsearch就很適合來幫我們完成這個任務 elasticsearch官網">
-<meta name="keywords" content="elasticsearch,kibana,logstash,佈署">
+<meta name="keywords" content="佈署,elasticsearch,kibana,logstash">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Elasticsearch+Kibana+Logstash環境安裝">
 <meta property="og:url" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2019&#x2F;10&#x2F;20&#x2F;elk-install&#x2F;index.html">
@@ -163,14 +163,34 @@
     <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分類</a>
 
   </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>歸檔</a>
-
-  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
   </ul>
 
 </nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜尋..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
 </div>
     </header>
 
@@ -315,10 +335,10 @@
 
       <footer class="post-footer">
           <div class="post-tags">
+              <a href="/tags/%E4%BD%88%E7%BD%B2/" rel="tag"># 佈署</a>
               <a href="/tags/elasticsearch/" rel="tag"># elasticsearch</a>
               <a href="/tags/kibana/" rel="tag"># kibana</a>
               <a href="/tags/logstash/" rel="tag"># logstash</a>
-              <a href="/tags/%E4%BD%88%E7%BD%B2/" rel="tag"># 佈署</a>
           </div>
 
         
@@ -395,8 +415,7 @@
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
+          <a href="/archives">
           <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">文章</span>
         </a>
@@ -439,7 +458,7 @@
       <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
       <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
       <div class="widget-wrap">
-          <h3 class="widget-title">Tag Cloud</h3>
+          <h5 class="widget-title">雜七雜八</h5>
           <div id="myCanvasContainer" class="widget tagcloud">
               <canvas width="300" height="300" id="resCanvas" style="width=100%">
                   <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bot/" rel="tag">bot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/error/" rel="tag">error</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk/" rel="tag">jdk</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jenkins/" rel="tag">jenkins</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kibana/" rel="tag">kibana</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logstash/" rel="tag">logstash</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mariadb/" rel="tag">mariadb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pm2/" rel="tag">pm2</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/telegram/" rel="tag">telegram</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/" rel="tag">tomcat</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" rel="tag">中文化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BD%88%E7%BD%B2/" rel="tag">佈署</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" rel="tag">環境變數</a><span class="tag-list-count">1</span></li></ul>
@@ -507,6 +526,8 @@
 
 
 
+
+  <script src="/js/local-search.js"></script>
 
 
 
