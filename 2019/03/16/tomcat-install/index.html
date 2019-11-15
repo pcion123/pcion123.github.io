@@ -25,8 +25,8 @@
     scheme: 'Muse',
     version: '7.5.0',
     exturl: false,
-    sidebar: {"position":"left","display":"always","offset":12,"onmobile":true},
-    copycode: {"enable":false,"show_result":false,"style":null},
+    sidebar: {"position":"left","display":"always","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"default"},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
@@ -53,7 +53,7 @@
 </script>
 
   <meta name="description" content="安裝Tomcat先下載maven： 1$ wget https:&#x2F;&#x2F;www-eu.apache.org&#x2F;dist&#x2F;tomcat&#x2F;tomcat-9&#x2F;v9.0.16&#x2F;bin&#x2F;apache-tomcat-9.0.16.tar.gz 解開包： 1$ tar xzvf apache-tomcat-9.0.16.tar.gz 移動到&#x2F;opt&#x2F;底下： 1$ mv apache-tomcat-9.0.16 &#x2F;op">
-<meta name="keywords" content="linux,tomcat">
+<meta name="keywords" content="tomcat,linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="安裝Tomcat">
 <meta property="og:url" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2019&#x2F;03&#x2F;16&#x2F;tomcat-install&#x2F;index.html">
@@ -300,8 +300,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/linux/" rel="tag"># linux</a>
               <a href="/tags/tomcat/" rel="tag"># tomcat</a>
+              <a href="/tags/linux/" rel="tag"># linux</a>
           </div>
 
         
@@ -512,7 +512,7 @@ if (document.querySelectorAll('div.pdf').length) {
           view: 'FitH'
         },
         PDFJS_URL: '/lib/pdf/web/viewer.html',
-        height: element.getAttribute('height') || '1200px'
+        height: element.getAttribute('height') || '500px'
       });
     });
   }, window.PDFObject);

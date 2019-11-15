@@ -25,8 +25,8 @@
     scheme: 'Muse',
     version: '7.5.0',
     exturl: false,
-    sidebar: {"position":"left","display":"always","offset":12,"onmobile":true},
-    copycode: {"enable":false,"show_result":false,"style":null},
+    sidebar: {"position":"left","display":"always","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"default"},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
@@ -235,7 +235,7 @@
               目前共有 20 個標籤
             </div>
             <div class="tag-cloud-tags">
-              <a href="/tags/bot/" style="font-size: 40px; color: #ccc">bot</a> <a href="/tags/elasticsearch/" style="font-size: 40px; color: #ccc">elasticsearch</a> <a href="/tags/error/" style="font-size: 40px; color: #ccc">error</a> <a href="/tags/gitlab/" style="font-size: 50px; color: #6f6f6f">gitlab</a> <a href="/tags/java/" style="font-size: 40px; color: #ccc">java</a> <a href="/tags/jdk/" style="font-size: 45px; color: #9d9d9d">jdk</a> <a href="/tags/jenkins/" style="font-size: 55px; color: #404040">jenkins</a> <a href="/tags/kibana/" style="font-size: 40px; color: #ccc">kibana</a> <a href="/tags/linux/" style="font-size: 60px; color: #111">linux</a> <a href="/tags/logstash/" style="font-size: 40px; color: #ccc">logstash</a> <a href="/tags/mariadb/" style="font-size: 40px; color: #ccc">mariadb</a> <a href="/tags/maven/" style="font-size: 45px; color: #9d9d9d">maven</a> <a href="/tags/pm2/" style="font-size: 45px; color: #9d9d9d">pm2</a> <a href="/tags/redis/" style="font-size: 40px; color: #ccc">redis</a> <a href="/tags/telegram/" style="font-size: 40px; color: #ccc">telegram</a> <a href="/tags/tomcat/" style="font-size: 45px; color: #9d9d9d">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 50px; color: #6f6f6f">ubuntu</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 40px; color: #ccc">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 50px; color: #6f6f6f">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 40px; color: #ccc">環境變數</a>
+              <a href="/tags/bot/" style="font-size: 20px; color: #ccc">bot</a> <a href="/tags/elasticsearch/" style="font-size: 20px; color: #ccc">elasticsearch</a> <a href="/tags/error/" style="font-size: 20px; color: #ccc">error</a> <a href="/tags/gitlab/" style="font-size: 30px; color: #6f6f6f">gitlab</a> <a href="/tags/java/" style="font-size: 20px; color: #ccc">java</a> <a href="/tags/jdk/" style="font-size: 25px; color: #9d9d9d">jdk</a> <a href="/tags/jenkins/" style="font-size: 35px; color: #404040">jenkins</a> <a href="/tags/kibana/" style="font-size: 20px; color: #ccc">kibana</a> <a href="/tags/linux/" style="font-size: 40px; color: #111">linux</a> <a href="/tags/logstash/" style="font-size: 20px; color: #ccc">logstash</a> <a href="/tags/mariadb/" style="font-size: 20px; color: #ccc">mariadb</a> <a href="/tags/maven/" style="font-size: 25px; color: #9d9d9d">maven</a> <a href="/tags/pm2/" style="font-size: 25px; color: #9d9d9d">pm2</a> <a href="/tags/redis/" style="font-size: 20px; color: #ccc">redis</a> <a href="/tags/telegram/" style="font-size: 20px; color: #ccc">telegram</a> <a href="/tags/tomcat/" style="font-size: 25px; color: #9d9d9d">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 30px; color: #6f6f6f">ubuntu</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 20px; color: #ccc">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 30px; color: #6f6f6f">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 20px; color: #ccc">環境變數</a>
             </div>
           </div>
         
@@ -425,7 +425,7 @@ if (document.querySelectorAll('div.pdf').length) {
           view: 'FitH'
         },
         PDFJS_URL: '/lib/pdf/web/viewer.html',
-        height: element.getAttribute('height') || '1200px'
+        height: element.getAttribute('height') || '500px'
       });
     });
   }, window.PDFObject);
