@@ -81,10 +81,10 @@
         <category>elasticsearch</category>
       </categories>
       <tags>
-        <tag>佈署</tag>
         <tag>elasticsearch</tag>
         <tag>kibana</tag>
         <tag>logstash</tag>
+        <tag>佈署</tag>
       </tags>
   </entry>
   <entry>
@@ -521,8 +521,8 @@
         <category>gitlab</category>
       </categories>
       <tags>
-        <tag>gitlab</tag>
         <tag>佈署</tag>
+        <tag>gitlab</tag>
         <tag>中文化</tag>
       </tags>
   </entry>

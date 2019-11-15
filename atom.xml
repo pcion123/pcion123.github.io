@@ -58,13 +58,13 @@
       <category term="elasticsearch" scheme="https://pcion123.github.io/categories/elasticsearch/"/>
     
     
-      <category term="佈署" scheme="https://pcion123.github.io/tags/%E4%BD%88%E7%BD%B2/"/>
-    
       <category term="elasticsearch" scheme="https://pcion123.github.io/tags/elasticsearch/"/>
     
       <category term="kibana" scheme="https://pcion123.github.io/tags/kibana/"/>
     
       <category term="logstash" scheme="https://pcion123.github.io/tags/logstash/"/>
+    
+      <category term="佈署" scheme="https://pcion123.github.io/tags/%E4%BD%88%E7%BD%B2/"/>
     
   </entry>
   
@@ -441,9 +441,9 @@
       <category term="gitlab" scheme="https://pcion123.github.io/categories/gitlab/"/>
     
     
-      <category term="gitlab" scheme="https://pcion123.github.io/tags/gitlab/"/>
-    
       <category term="佈署" scheme="https://pcion123.github.io/tags/%E4%BD%88%E7%BD%B2/"/>
+    
+      <category term="gitlab" scheme="https://pcion123.github.io/tags/gitlab/"/>
     
       <category term="中文化" scheme="https://pcion123.github.io/tags/%E4%B8%AD%E6%96%87%E5%8C%96/"/>
     

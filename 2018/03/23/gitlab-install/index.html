@@ -53,7 +53,7 @@
 </script>
 
   <meta name="description" content="網路上已有蠻多類似的文章，我就不再過多的論述了就寫寫佈署的時一些問題就好 gitlab佈署直接上官網gitlab官網gitlab中文社群 我佈署的環境是virtualbox+ubuntu基本上照著官網的install指令去佈署就能成功佈署最新版本 如果是要另外進行中文化的佈署就必需去中文社群看看有沒有對應的版本中文化社群 例如我佈署的gitlab版本是8.8.9那我就需要找到中文化對應的版本p.s">
-<meta name="keywords" content="gitlab,佈署,中文化">
+<meta name="keywords" content="佈署,gitlab,中文化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GitLab搭建與中文化">
 <meta property="og:url" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2018&#x2F;03&#x2F;23&#x2F;gitlab-install&#x2F;index.html">
@@ -327,8 +327,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/gitlab/" rel="tag"># gitlab</a>
               <a href="/tags/%E4%BD%88%E7%BD%B2/" rel="tag"># 佈署</a>
+              <a href="/tags/gitlab/" rel="tag"># gitlab</a>
               <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" rel="tag"># 中文化</a>
           </div>
 
@@ -527,6 +527,25 @@
 
 
 
+<script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes: 0,
+          toolbar: 0,
+          statusbar: 0,
+          pagemode: 'thumbs',
+          view: 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '1200px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script>
 
 
 
