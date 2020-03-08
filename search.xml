@@ -1,6 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>美化PowerShell - oh-my-posh</title>
+    <url>/2020/03/08/powershell-improve/</url>
+    <content><![CDATA[<img src="/2020/03/08/powershell-improve/powershell1.png" class="">
+
+<p>厭倦windows預設的powershell主題了嗎?<br>現在開始來改造它吧!!!</p>
+<h2 id="安裝套件"><a href="#安裝套件" class="headerlink" title="安裝套件"></a>安裝套件</h2><p>首先打開powershell：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安裝posh-git套件</span></span><br><span class="line">Install-Module posh-git -Scope CurrentUser</span><br><span class="line"><span class="comment"># 安裝oh-my-posh套件</span></span><br><span class="line">Install-Module oh-my-posh -Scope CurrentUser</span><br></pre></td></tr></table></figure>
+<p>基本上都輸入Y到底就可以安裝完成了!</p>
+<h2 id="設置設定檔"><a href="#設置設定檔" class="headerlink" title="設置設定檔"></a>設置設定檔</h2><p>建立powershel啟動設定檔</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 取得設定檔位置</span></span><br><span class="line"><span class="variable">$profile</span></span><br><span class="line"><span class="comment"># 得到設定檔位置</span></span><br><span class="line">~\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1</span><br></pre></td></tr></table></figure>
+<p>打開Microsoft.PowerShell_profile.ps1設定檔，如果沒有請自行建立</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 使用UTF-8編碼</span></span><br><span class="line">chcp 65001</span><br><span class="line"><span class="comment"># 引用posh-git</span></span><br><span class="line">Import-Module posh-git</span><br><span class="line"><span class="comment"># 引用oh-my-posh</span></span><br><span class="line">Import-Module oh-my-posh</span><br><span class="line"><span class="comment"># 設置Agnoster主題</span></span><br><span class="line">Set-Theme Agnoster</span><br></pre></td></tr></table></figure>
+
+<h2 id="安裝powerline字型"><a href="#安裝powerline字型" class="headerlink" title="安裝powerline字型"></a>安裝powerline字型</h2><p>由於windows預設的字型無法支援oh-my-posh<br>所以我們需要另外安裝配合的字型檔</p>
+<p><a href="https://github.com/powerline/fonts" target="_blank" rel="noopener">powerline字型</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># clone項目</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/powerline/fonts.git</span><br><span class="line"><span class="comment"># 執行install.ps1進行安裝</span></span><br><span class="line">.\install.ps1</span><br></pre></td></tr></table></figure>
+
+<p>調整powershell內容</p>
+<img src="/2020/03/08/powershell-improve/powershell2.png" class="">
+
+<p>請選擇有powerline的字型</p>
+<img src="/2020/03/08/powershell-improve/powershell3.png" class="">
+
+<h2 id="配置顏色主題"><a href="#配置顏色主題" class="headerlink" title="配置顏色主題"></a>配置顏色主題</h2><p>最後我們要用scoop來安裝colortool主題工具</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 保證允許腳本執行</span></span><br><span class="line"><span class="built_in">set</span>-executionpolicy remotesigned -scope currentuser</span><br><span class="line"><span class="comment"># 安裝scoop</span></span><br><span class="line">iex (new-object net.webclient).downloadstring(<span class="string">'https://get.scoop.sh'</span>)</span><br><span class="line"><span class="comment"># 安裝colortool</span></span><br><span class="line">scoop install colortool</span><br></pre></td></tr></table></figure>
+<p>接著我們就要來配置顏色主題</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 取得預設主題列表</span></span><br><span class="line">colortool -s</span><br><span class="line"><span class="comment"># 預設主題</span></span><br><span class="line"><span class="comment"># campbell-legacy.ini</span></span><br><span class="line"><span class="comment"># campbell.ini</span></span><br><span class="line"><span class="comment"># cmd-legacy.ini</span></span><br><span class="line"><span class="comment"># OneHalfDark.itermcolors</span></span><br><span class="line"><span class="comment"># OneHalfLight.itermcolors</span></span><br><span class="line"><span class="comment"># solarized_dark.itermcolors</span></span><br><span class="line"><span class="comment"># solarized_light.itermcolors</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 臨時查看主題樣式</span></span><br><span class="line">colortool &lt;主題名稱&gt;</span><br><span class="line"><span class="comment"># 設置預設主題樣式</span></span><br><span class="line">colortool -d &lt;主題名稱&gt;</span><br></pre></td></tr></table></figure>
+
+<p>選定主題</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 設置OneHalfDark主題</span></span><br><span class="line">colortool OneHalfDark.itermcolors</span><br></pre></td></tr></table></figure>
+
+<img src="/2020/03/08/powershell-improve/powershell4.png" class="">
+
+<p>這樣我們就大功告成拉!!</p>
+]]></content>
+      <categories>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+        <tag>powershell</tag>
+        <tag>terminal</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>TelegramBot申請與開發</title>
     <url>/2019/11/09/telegrambot-install/</url>
     <content><![CDATA[<p>telegrambot的使用與開發相較於linebot來說是好上手很多<br>接下來就是介紹開發與使用方式</p>
@@ -179,8 +224,8 @@
         <category>tomcat</category>
       </categories>
       <tags>
-        <tag>tomcat</tag>
         <tag>linux</tag>
+        <tag>tomcat</tag>
       </tags>
   </entry>
   <entry>
@@ -300,8 +345,8 @@
         <category>java</category>
       </categories>
       <tags>
-        <tag>java</tag>
         <tag>jdk</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -435,9 +480,9 @@
       </categories>
       <tags>
         <tag>gitlab</tag>
-        <tag>jdk</tag>
         <tag>jenkins</tag>
         <tag>maven</tag>
+        <tag>jdk</tag>
       </tags>
   </entry>
   <entry>

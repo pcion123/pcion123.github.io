@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://pcion123.github.io/"/>
-  <updated>2019-11-09T09:21:41.041Z</updated>
+  <updated>2020-03-08T07:43:36.162Z</updated>
   <id>https://pcion123.github.io/</id>
   
   <author>
@@ -15,6 +15,40 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>美化PowerShell - oh-my-posh</title>
+    <link href="https://pcion123.github.io/2020/03/08/powershell-improve/"/>
+    <id>https://pcion123.github.io/2020/03/08/powershell-improve/</id>
+    <published>2020-03-08T05:50:17.000Z</published>
+    <updated>2020-03-08T07:43:36.162Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;img src=&quot;/2020/03/08/powershell-improve/powershell1.png&quot; class=&quot;&quot;&gt;
+
+&lt;p&gt;厭倦windows預設的powershell主題了嗎?&lt;br&gt;現在開始來改造它吧!!!&lt;/p&gt;
+&lt;h2 id=&quot;安裝套件&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="windows" scheme="https://pcion123.github.io/categories/windows/"/>
+    
+    
+      <category term="windows" scheme="https://pcion123.github.io/tags/windows/"/>
+    
+      <category term="powershell" scheme="https://pcion123.github.io/tags/powershell/"/>
+    
+      <category term="terminal" scheme="https://pcion123.github.io/tags/terminal/"/>
+    
+  </entry>
   
   <entry>
     <title>TelegramBot申請與開發</title>
@@ -140,9 +174,9 @@
       <category term="tomcat" scheme="https://pcion123.github.io/categories/tomcat/"/>
     
     
-      <category term="tomcat" scheme="https://pcion123.github.io/tags/tomcat/"/>
-    
       <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="tomcat" scheme="https://pcion123.github.io/tags/tomcat/"/>
     
   </entry>
   
@@ -269,9 +303,9 @@
       <category term="java" scheme="https://pcion123.github.io/categories/java/"/>
     
     
-      <category term="java" scheme="https://pcion123.github.io/tags/java/"/>
-    
       <category term="jdk" scheme="https://pcion123.github.io/tags/jdk/"/>
+    
+      <category term="java" scheme="https://pcion123.github.io/tags/java/"/>
     
   </entry>
   
@@ -375,11 +409,11 @@
     
       <category term="gitlab" scheme="https://pcion123.github.io/tags/gitlab/"/>
     
-      <category term="jdk" scheme="https://pcion123.github.io/tags/jdk/"/>
-    
       <category term="jenkins" scheme="https://pcion123.github.io/tags/jenkins/"/>
     
       <category term="maven" scheme="https://pcion123.github.io/tags/maven/"/>
+    
+      <category term="jdk" scheme="https://pcion123.github.io/tags/jdk/"/>
     
   </entry>
   
