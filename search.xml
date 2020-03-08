@@ -6,6 +6,8 @@
     <content><![CDATA[<img src="/2020/03/08/powershell-improve/powershell1.png" class="">
 
 <p>厭倦windows預設的powershell主題了嗎?<br>現在開始來改造它吧!!!</p>
+<a id="more"></a>
+
 <h2 id="安裝套件"><a href="#安裝套件" class="headerlink" title="安裝套件"></a>安裝套件</h2><p>首先打開powershell：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安裝posh-git套件</span></span><br><span class="line">Install-Module posh-git -Scope CurrentUser</span><br><span class="line"><span class="comment"># 安裝oh-my-posh套件</span></span><br><span class="line">Install-Module oh-my-posh -Scope CurrentUser</span><br></pre></td></tr></table></figure>
 <p>基本上都輸入Y到底就可以安裝完成了!</p>
