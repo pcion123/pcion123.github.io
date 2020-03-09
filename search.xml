@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Windows Terminal主題配置</title>
+    <url>/2020/03/09/windowsterminal-scheme/</url>
+    <content><![CDATA[<img src="/2020/03/09/windowsterminal-scheme/terminal1.png" class="">
+
+<a id="more"></a>
+
+<p>打開WindowsTerminal的Setting設置主題</p>
+<p><a href="https://draculatheme.com/windows-terminal/" target="_blank" rel="noopener">Dracula主題</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="string">"profiles"</span>:</span><br><span class="line">[</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="string">"name"</span>: <span class="string">"Windows PowerShell"</span>,</span><br><span class="line">		<span class="string">"commandline"</span>: <span class="string">"powershell.exe"</span>,</span><br><span class="line">		<span class="string">"cursorColor"</span> : <span class="string">"#657B83"</span>, // 光標顏色</span><br><span class="line">		<span class="string">"cursorShape"</span> : <span class="string">"vintage"</span>, // 光標類型</span><br><span class="line">		<span class="string">"colorScheme"</span> : <span class="string">"Dracula"</span>, // 配置主題</span><br><span class="line">		<span class="string">"fontFace"</span> : <span class="string">"DejaVu Sans Mono for Powerline"</span>, // 字型</span><br><span class="line">		<span class="string">"fontSize"</span> : 12, // 字型大小</span><br><span class="line">		<span class="string">"hidden"</span>: <span class="literal">false</span></span><br><span class="line">	&#125;,</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="string">"name"</span>: <span class="string">"cmd"</span>,</span><br><span class="line">		<span class="string">"commandline"</span>: <span class="string">"cmd.exe"</span>,</span><br><span class="line">		<span class="string">"cursorColor"</span> : <span class="string">"#657B83"</span>,</span><br><span class="line">		<span class="string">"cursorShape"</span> : <span class="string">"vintage"</span>,</span><br><span class="line">		<span class="string">"colorScheme"</span> : <span class="string">"Dracula"</span>,</span><br><span class="line">		<span class="string">"fontFace"</span> : <span class="string">"DejaVu Sans Mono for Powerline"</span>,</span><br><span class="line">		<span class="string">"fontSize"</span> : 12,</span><br><span class="line">		<span class="string">"hidden"</span>: <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line">],</span><br><span class="line"></span><br><span class="line"><span class="string">"schemes"</span>:</span><br><span class="line">[</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="string">"name"</span> : <span class="string">"Dracula"</span>,</span><br><span class="line">		<span class="string">"background"</span> : <span class="string">"#282A36"</span>,</span><br><span class="line">		<span class="string">"black"</span> : <span class="string">"#21222C"</span>,</span><br><span class="line">		<span class="string">"blue"</span> : <span class="string">"#BD93F9"</span>,</span><br><span class="line">		<span class="string">"brightBlack"</span> : <span class="string">"#6272A4"</span>,</span><br><span class="line">		<span class="string">"brightBlue"</span> : <span class="string">"#D6ACFF"</span>,</span><br><span class="line">		<span class="string">"brightCyan"</span> : <span class="string">"#A4FFFF"</span>,</span><br><span class="line">		<span class="string">"brightGreen"</span> : <span class="string">"#69FF94"</span>,</span><br><span class="line">		<span class="string">"brightPurple"</span> : <span class="string">"#FF92DF"</span>,</span><br><span class="line">		<span class="string">"brightRed"</span> : <span class="string">"#FF6E6E"</span>,</span><br><span class="line">		<span class="string">"brightWhite"</span> : <span class="string">"#FFFFFF"</span>,</span><br><span class="line">		<span class="string">"brightYellow"</span> : <span class="string">"#FFFFA5"</span>,</span><br><span class="line">		<span class="string">"cyan"</span> : <span class="string">"#8BE9FD"</span>,</span><br><span class="line">		<span class="string">"foreground"</span> : <span class="string">"#F8F8F2"</span>,</span><br><span class="line">		<span class="string">"green"</span> : <span class="string">"#50FA7B"</span>,</span><br><span class="line">		<span class="string">"purple"</span> : <span class="string">"#FF79C6"</span>,</span><br><span class="line">		<span class="string">"red"</span> : <span class="string">"#FF5555"</span>,</span><br><span class="line">		<span class="string">"white"</span> : <span class="string">"#F8F8F2"</span>,</span><br><span class="line">		<span class="string">"yellow"</span> : <span class="string">"#F1FA8C"</span></span><br><span class="line">	&#125;</span><br><span class="line">],</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>windows</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+        <tag>powershell</tag>
+        <tag>terminal</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>美化PowerShell - oh-my-posh</title>
     <url>/2020/03/08/powershell-improve/</url>
     <content><![CDATA[<img src="/2020/03/08/powershell-improve/powershell1.png" class="">
@@ -206,8 +225,8 @@
       </categories>
       <tags>
         <tag>linux</tag>
-        <tag>ubuntu</tag>
         <tag>pm2</tag>
+        <tag>ubuntu</tag>
       </tags>
   </entry>
   <entry>
@@ -226,8 +245,8 @@
         <category>tomcat</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>tomcat</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -347,8 +366,8 @@
         <category>java</category>
       </categories>
       <tags>
-        <tag>jdk</tag>
         <tag>java</tag>
+        <tag>jdk</tag>
       </tags>
   </entry>
   <entry>
@@ -482,9 +501,9 @@
       </categories>
       <tags>
         <tag>gitlab</tag>
+        <tag>jdk</tag>
         <tag>jenkins</tag>
         <tag>maven</tag>
-        <tag>jdk</tag>
       </tags>
   </entry>
   <entry>
