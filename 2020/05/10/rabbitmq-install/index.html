@@ -52,14 +52,21 @@
   };
 </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Pcion&#39;s Blog">
-<meta property="og:url" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;archives&#x2F;page&#x2F;2&#x2F;index.html">
+  <meta name="description" content="安裝erlangrabbitmq需要依靠erlang驅動，所以我們需要先安裝erlang 使用repository安裝: 123$ wget https:&#x2F;&#x2F;packages.erlang-solutions.com&#x2F;erlang-solutions_2.0_all.deb$ sudo dpkg -i erlang-solutions_2.0_all.deb$ sudo apt install e">
+<meta name="keywords" content="linux,ubuntu,rabbitmq">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu安裝RabbitMQ">
+<meta property="og:url" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2020&#x2F;05&#x2F;10&#x2F;rabbitmq-install&#x2F;index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="安裝erlangrabbitmq需要依靠erlang驅動，所以我們需要先安裝erlang 使用repository安裝: 123$ wget https:&#x2F;&#x2F;packages.erlang-solutions.com&#x2F;erlang-solutions_2.0_all.deb$ sudo dpkg -i erlang-solutions_2.0_all.deb$ sudo apt install e">
 <meta property="og:locale" content="zh-TW">
+<meta property="og:image" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2020&#x2F;05&#x2F;10&#x2F;rabbitmq-install&#x2F;rabbitmq1.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2020&#x2F;05&#x2F;10&#x2F;rabbitmq-install&#x2F;rabbitmq2.png">
+<meta property="og:updated_time" content="2020-05-10T11:06:30.389Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2020&#x2F;05&#x2F;10&#x2F;rabbitmq-install&#x2F;rabbitmq1.png">
 
-<link rel="canonical" href="https://pcion123.github.io/archives/page/2/">
+<link rel="canonical" href="https://pcion123.github.io/2020/05/10/rabbitmq-install/">
 
 
 <script id="page-configurations">
@@ -67,13 +74,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false,
+    isPost: true,
     isPage: false,
-    isArchive: true
+    isArchive: false
   };
 </script>
 
-  <title>歸檔 | Pcion's Blog</title>
+  <title>Ubuntu安裝RabbitMQ | Pcion's Blog</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152342668-1"></script>
     <script>
@@ -205,219 +212,144 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2020/05/10/rabbitmq-install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg#/images/avatar.gif">
+      <meta itemprop="name" content="Jason Lai">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Ubuntu安裝RabbitMQ
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+              
+
+              <time title="創建時間：2020-05-10 18:34:10 / 修改時間：19:06:30" itemprop="dateCreated datePublished" datetime="2020-05-10T18:34:10+08:00">2020-05-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+            </span>
+
+          
   
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共有 19 篇文章。 繼續努力。</span>
-      </div>
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2020/05/10/rabbitmq-install/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/05/10/rabbitmq-install/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h1 class="collection-header">2019</h1>
+        <h2 id="安裝erlang"><a href="#安裝erlang" class="headerlink" title="安裝erlang"></a>安裝erlang</h2><p>rabbitmq需要依靠erlang驅動，<br>所以我們需要先安裝erlang</p>
+<p>使用<a href="https://www.erlang-solutions.com/resources/download.html#tabs-debian" target="_blank" rel="noopener">repository</a>安裝:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb</span><br><span class="line">$ sudo dpkg -i erlang-solutions_2.0_all.deb</span><br><span class="line">$ sudo apt install esl-erlang</span><br></pre></td></tr></table></figure>
+
+<h2 id="安裝rabbitmq"><a href="#安裝rabbitmq" class="headerlink" title="安裝rabbitmq"></a>安裝rabbitmq</h2><p>github<a href="https://www.rabbitmq.com/install-debian.html#manual-installation" target="_blank" rel="noopener">手動</a>安裝:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.3/rabbitmq-server_3.8.3-1_all.deb</span><br><span class="line">$ sudo dpkg -i rabbitmq-server_3.8.3-1_all.deb</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<p>如果安裝過程有問題可以試著apt指令修復</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt --fix-broken install</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改rabbitmq管理插件"><a href="#修改rabbitmq管理插件" class="headerlink" title="修改rabbitmq管理插件"></a>修改rabbitmq管理插件</h2><p>安裝完rabbitmq之後,<br>我們會需要一個可以管理的工具,<br>rabbitmq很好的提供web的管理工具</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rabbitmq-plugins <span class="built_in">enable</span> rabbitmq_management</span><br></pre></td></tr></table></figure>
+
+<p>安裝完畢後重啟服務<br>接著在瀏覽器輸入<a href="http://localhost:15672/" target="_blank" rel="noopener">http://localhost:15672</a></p>
+<img src="/2020/05/10/rabbitmq-install/rabbitmq1.png" class="">
+
+<h2 id="修改rabbitmq設置"><a href="#修改rabbitmq設置" class="headerlink" title="修改rabbitmq設置"></a>修改rabbitmq設置</h2><p>因為rabbitmq預設guest帳號只給本機登入，<br>如果需要開放外部登入就要修改設置</p>
+<p>打開/etc/rabbitmq/rabbitmq.config，<br>加入以下設置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">	&#123;</span><br><span class="line">		rabbit,</span><br><span class="line">		[&#123;loopback_users, [<span class="string">"guest"</span>]&#125;]</span><br><span class="line">	&#125;</span><br><span class="line">].</span><br></pre></td></tr></table></figure>
+
+<p>重啟服務之後我們就可以用guset帳號登入了</p>
+<img src="/2020/05/10/rabbitmq-install/rabbitmq2.png" class="">
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-03-16T15:38:31+08:00"
-              content="2019-03-16">
-          03-16
-        </time>
-      </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/ubuntu/" rel="tag"># ubuntu</a>
+              <a href="/tags/rabbitmq/" rel="tag"># rabbitmq</a>
+          </div>
 
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/03/16/ubuntu-installmariadb/" itemprop="url">
-            <span itemprop="name">Ubuntu安裝MariaDB</span>
-          </a>
-      </h2>
+        
 
-    </header>
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/03/09/windowsterminal-scheme/" rel="next" title="Windows Terminal主題配置">
+                  <i class="fa fa-chevron-left"></i> Windows Terminal主題配置
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
   </article>
+  
+  
+  
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-03-10T16:01:20+08:00"
-              content="2019-03-10">
-          03-10
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/03/10/java-installopenjdk/" itemprop="url">
-            <span itemprop="name">安裝OpenJDK</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-03-10T14:11:41+08:00"
-              content="2019-03-10">
-          03-10
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/03/10/jenkins-sudoerror/" itemprop="url">
-            <span itemprop="name">解決Jenkins執行sudo命令出現錯誤</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-03-10T13:38:10+08:00"
-              content="2019-03-10">
-          03-10
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/03/10/linux-environmentvariables/" itemprop="url">
-            <span itemprop="name">設置Linux環境變數</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-    <div class="collection-year">
-      <h1 class="collection-header">2018</h1>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2018-03-29T20:18:34+08:00"
-              content="2018-03-29">
-          03-29
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2018/03/29/jenkins-work/" itemprop="url">
-            <span itemprop="name">Jenkins + Gitlab + Tomcat 自動化部署</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2018-03-29T19:23:38+08:00"
-              content="2018-03-29">
-          03-29
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2018/03/29/jenkins-setting/" itemprop="url">
-            <span itemprop="name">Jenkins + Gitlab + Maven + JDK 設定</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2018-03-24T16:27:06+08:00"
-              content="2018-03-24">
-          03-24
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2018/03/24/jenkins-install/" itemprop="url">
-            <span itemprop="name">Jenkins搭建</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2018-03-23T14:18:08+08:00"
-              content="2018-03-23">
-          03-23
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2018/03/23/gitlab-install/" itemprop="url">
-            <span itemprop="name">GitLab搭建與中文化</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2018-03-01T16:21:08+08:00"
-              content="2018-03-01">
-          03-01
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2018/03/01/hello-world/" itemprop="url">
-            <span itemprop="name">Hello World</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-
-    </div>
   </div>
-  
-  
-  
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/"><i class="fa fa-angle-left" aria-label="上一頁"></i></a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
-  </nav>
-
 
 
           </div>
           
+    
+  <div class="comments" id="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
 
         </div>
           
@@ -442,6 +374,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝erlang"><span class="nav-number">1.</span> <span class="nav-text">安裝erlang</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝rabbitmq"><span class="nav-number">2.</span> <span class="nav-text">安裝rabbitmq</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改rabbitmq管理插件"><span class="nav-number">3.</span> <span class="nav-text">修改rabbitmq管理插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改rabbitmq設置"><span class="nav-number">4.</span> <span class="nav-text">修改rabbitmq設置</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -613,6 +546,47 @@ if (document.querySelectorAll('div.pdf').length) {
   }
   // defer loading until the whole page loading is completed
   window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  function loadComments() {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: {page: {
+            url: "https://pcion123.github.io/2020/05/10/rabbitmq-install/",
+            identifier: "2020/05/10/rabbitmq-install/",
+            title: "Ubuntu安裝RabbitMQ"
+          }
+        }
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://pcions-blog.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  }
+    (function() {
+      var offsetTop = document.getElementById('comments').offsetTop - window.innerHeight;
+      if (offsetTop <= 0) {
+        // load directly when there's no a scrollbar
+        window.addEventListener('load', loadComments, false);
+      } else {
+        var disqus_scroll = () => {
+          // offsetTop may changes because of manually resizing browser window or lazy loading images.
+          var offsetTop = document.getElementById('comments').offsetTop - window.innerHeight;
+          var scrollTop = window.scrollY;
+
+          // pre-load comments a bit? (margin or anything else)
+          if (offsetTop - scrollTop < 60) {
+            window.removeEventListener('scroll', disqus_scroll);
+            loadComments();
+          }
+        };
+        window.addEventListener('scroll', disqus_scroll);
+      }
+    })();
+  
 </script>
 
 </body>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://pcion123.github.io/"/>
-  <updated>2020-03-09T13:13:22.079Z</updated>
+  <updated>2020-05-10T11:06:30.389Z</updated>
   <id>https://pcion123.github.io/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Ubuntu安裝RabbitMQ</title>
+    <link href="https://pcion123.github.io/2020/05/10/rabbitmq-install/"/>
+    <id>https://pcion123.github.io/2020/05/10/rabbitmq-install/</id>
+    <published>2020-05-10T10:34:10.000Z</published>
+    <updated>2020-05-10T11:06:30.389Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;安裝erlang&quot;&gt;&lt;a href=&quot;#安裝erlang&quot; class=&quot;headerlink&quot; title=&quot;安裝erlang&quot;&gt;&lt;/a&gt;安裝erlang&lt;/h2&gt;&lt;p&gt;rabbitmq需要依靠erlang驅動，&lt;br&gt;所以我們需要先安裝erlang&lt;/p&gt;
+&lt;p&gt;使用&lt;a href=&quot;https://www.erlang-solutions.com/resources/download.html#tabs-debian&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;repository&lt;/a&gt;安裝:&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ wget https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ sudo dpkg -i erlang-solutions_2.0_all.deb&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt install esl-erlang&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;安裝rabbitmq&quot;&gt;&lt;a href=&quot;#安裝rabbitmq&quot; class=&quot;headerlink&quot; title=&quot;安裝rabbitmq&quot;&gt;&lt;/a&gt;安裝rabbitmq&lt;/h2&gt;&lt;p&gt;github&lt;a href=&quot;https://www.rabbitmq.com/install-debian.html#manual-installation&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;手動&lt;/a&gt;安裝:&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.3/rabbitmq-server_3.8.3-1_all.deb&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ sudo dpkg -i rabbitmq-server_3.8.3-1_all.deb&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
+    
+      <category term="rabbitmq" scheme="https://pcion123.github.io/tags/rabbitmq/"/>
+    
+  </entry>
   
   <entry>
     <title>Windows Terminal主題配置</title>

@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Ubuntu安裝RabbitMQ</title>
+    <url>/2020/05/10/rabbitmq-install/</url>
+    <content><![CDATA[<h2 id="安裝erlang"><a href="#安裝erlang" class="headerlink" title="安裝erlang"></a>安裝erlang</h2><p>rabbitmq需要依靠erlang驅動，<br>所以我們需要先安裝erlang</p>
+<p>使用<a href="https://www.erlang-solutions.com/resources/download.html#tabs-debian" target="_blank" rel="noopener">repository</a>安裝:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ wget https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb</span><br><span class="line">$ sudo dpkg -i erlang-solutions_2.0_all.deb</span><br><span class="line">$ sudo apt install esl-erlang</span><br></pre></td></tr></table></figure>
+
+<h2 id="安裝rabbitmq"><a href="#安裝rabbitmq" class="headerlink" title="安裝rabbitmq"></a>安裝rabbitmq</h2><p>github<a href="https://www.rabbitmq.com/install-debian.html#manual-installation" target="_blank" rel="noopener">手動</a>安裝:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.3/rabbitmq-server_3.8.3-1_all.deb</span><br><span class="line">$ sudo dpkg -i rabbitmq-server_3.8.3-1_all.deb</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<p>如果安裝過程有問題可以試著apt指令修復</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo apt --fix-broken install</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改rabbitmq管理插件"><a href="#修改rabbitmq管理插件" class="headerlink" title="修改rabbitmq管理插件"></a>修改rabbitmq管理插件</h2><p>安裝完rabbitmq之後,<br>我們會需要一個可以管理的工具,<br>rabbitmq很好的提供web的管理工具</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ rabbitmq-plugins <span class="built_in">enable</span> rabbitmq_management</span><br></pre></td></tr></table></figure>
+
+<p>安裝完畢後重啟服務<br>接著在瀏覽器輸入<a href="http://localhost:15672/" target="_blank" rel="noopener">http://localhost:15672</a></p>
+<img src="/2020/05/10/rabbitmq-install/rabbitmq1.png" class="">
+
+<h2 id="修改rabbitmq設置"><a href="#修改rabbitmq設置" class="headerlink" title="修改rabbitmq設置"></a>修改rabbitmq設置</h2><p>因為rabbitmq預設guest帳號只給本機登入，<br>如果需要開放外部登入就要修改設置</p>
+<p>打開/etc/rabbitmq/rabbitmq.config，<br>加入以下設置</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">	&#123;</span><br><span class="line">		rabbit,</span><br><span class="line">		[&#123;loopback_users, [<span class="string">"guest"</span>]&#125;]</span><br><span class="line">	&#125;</span><br><span class="line">].</span><br></pre></td></tr></table></figure>
+
+<p>重啟服務之後我們就可以用guset帳號登入了</p>
+<img src="/2020/05/10/rabbitmq-install/rabbitmq2.png" class="">]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>ubuntu</tag>
+        <tag>rabbitmq</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Windows Terminal主題配置</title>
     <url>/2020/03/09/windowsterminal-scheme/</url>
     <content><![CDATA[<img src="/2020/03/09/windowsterminal-scheme/terminal1.png" class="">
