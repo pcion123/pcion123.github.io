@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://pcion123.github.io/"/>
-  <updated>2020-05-10T11:06:30.389Z</updated>
+  <updated>2020-07-05T09:12:13.736Z</updated>
   <id>https://pcion123.github.io/</id>
   
   <author>
@@ -15,6 +15,41 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Ubuntu安裝Codimd</title>
+    <link href="https://pcion123.github.io/2020/07/05/codimd-install/"/>
+    <id>https://pcion123.github.io/2020/07/05/codimd-install/</id>
+    <published>2020-07-05T08:21:25.000Z</published>
+    <updated>2020-07-05T09:12:13.736Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;相關介紹&quot;&gt;&lt;a href=&quot;#相關介紹&quot; class=&quot;headerlink&quot; title=&quot;相關介紹&quot;&gt;&lt;/a&gt;相關介紹&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/hackmdio/codimd&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;github&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-manual-deployment&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;manual-deployment&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;安裝nodejs&quot;&gt;&lt;a href=&quot;#安裝nodejs&quot; class=&quot;headerlink&quot; title=&quot;安裝nodejs&quot;&gt;&lt;/a&gt;安裝nodejs&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 安裝版本庫&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 安裝nodejs&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ apt install -y nodejs&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 查看nodejs版本&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ node -v&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 查看npm版本&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ npm -v&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;安裝相關依賴&quot;&gt;&lt;a href=&quot;#安裝相關依賴&quot; class=&quot;headerlink&quot; title=&quot;安裝相關依賴&quot;&gt;&lt;/a&gt;安裝相關依賴&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ npm install -g yarn&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ npm install -g node-gyp&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ npm install -g sqlite3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ npm install -g webpack&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;安裝codimd&quot;&gt;&lt;a href=&quot;#安裝codimd&quot; class=&quot;headerlink&quot; title=&quot;安裝codimd&quot;&gt;&lt;/a&gt;安裝codimd&lt;/h2&gt;&lt;h3 id=&quot;設置環境變數&quot;&gt;&lt;a href=&quot;#設置環境變數&quot; class=&quot;headerlink&quot; title=&quot;設置環境變數&quot;&gt;&lt;/a&gt;設置環境變數&lt;/h3&gt;&lt;p&gt;打開/etc/profile這個檔案並且在末尾加入：&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;export&lt;/span&gt; PATH=&lt;span class=&quot;variable&quot;&gt;$PATH&lt;/span&gt;:NODE_ENV=production&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;抓取項目-opt&quot;&gt;&lt;a href=&quot;#抓取項目-opt&quot; class=&quot;headerlink&quot; title=&quot;抓取項目(/opt)&quot;&gt;&lt;/a&gt;抓取項目(/opt)&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ git &lt;span class=&quot;built_in&quot;&gt;clone&lt;/span&gt; https://github.com/hackmdio/codimd.git&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
+    
+      <category term="codimd" scheme="https://pcion123.github.io/tags/codimd/"/>
+    
+      <category term="hackmd" scheme="https://pcion123.github.io/tags/hackmd/"/>
+    
+  </entry>
   
   <entry>
     <title>Ubuntu安裝RabbitMQ</title>
@@ -222,9 +257,9 @@
       <category term="tomcat" scheme="https://pcion123.github.io/categories/tomcat/"/>
     
     
-      <category term="tomcat" scheme="https://pcion123.github.io/tags/tomcat/"/>
-    
       <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="tomcat" scheme="https://pcion123.github.io/tags/tomcat/"/>
     
   </entry>
   
@@ -252,9 +287,9 @@
       <category term="maven" scheme="https://pcion123.github.io/categories/maven/"/>
     
     
-      <category term="maven" scheme="https://pcion123.github.io/tags/maven/"/>
-    
       <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="maven" scheme="https://pcion123.github.io/tags/maven/"/>
     
   </entry>
   

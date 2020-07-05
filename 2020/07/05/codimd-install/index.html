@@ -52,18 +52,22 @@
   };
 </script>
 
-  <meta name="description" content="安裝Tomcat先下載maven： 1$ wget https:&#x2F;&#x2F;www-eu.apache.org&#x2F;dist&#x2F;tomcat&#x2F;tomcat-9&#x2F;v9.0.16&#x2F;bin&#x2F;apache-tomcat-9.0.16.tar.gz 解開包： 1$ tar xzvf apache-tomcat-9.0.16.tar.gz 移動到&#x2F;opt&#x2F;底下： 1$ mv apache-tomcat-9.0.16 &#x2F;op">
-<meta name="keywords" content="linux,tomcat">
+  <meta name="description" content="相關介紹githubmanual-deployment 安裝nodejs12345678# 安裝版本庫$ curl -sL https:&#x2F;&#x2F;deb.nodesource.com&#x2F;setup_10.x | sudo -E bash -# 安裝nodejs$ apt install -y nodejs# 查看nodejs版本$ node -v# 查看npm版本$ npm -v  安裝相關依賴1234$">
+<meta name="keywords" content="linux,ubuntu,codimd,hackmd">
 <meta property="og:type" content="article">
-<meta property="og:title" content="安裝Tomcat">
-<meta property="og:url" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2019&#x2F;03&#x2F;16&#x2F;tomcat-install&#x2F;index.html">
+<meta property="og:title" content="Ubuntu安裝Codimd">
+<meta property="og:url" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2020&#x2F;07&#x2F;05&#x2F;codimd-install&#x2F;index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
-<meta property="og:description" content="安裝Tomcat先下載maven： 1$ wget https:&#x2F;&#x2F;www-eu.apache.org&#x2F;dist&#x2F;tomcat&#x2F;tomcat-9&#x2F;v9.0.16&#x2F;bin&#x2F;apache-tomcat-9.0.16.tar.gz 解開包： 1$ tar xzvf apache-tomcat-9.0.16.tar.gz 移動到&#x2F;opt&#x2F;底下： 1$ mv apache-tomcat-9.0.16 &#x2F;op">
+<meta property="og:description" content="相關介紹githubmanual-deployment 安裝nodejs12345678# 安裝版本庫$ curl -sL https:&#x2F;&#x2F;deb.nodesource.com&#x2F;setup_10.x | sudo -E bash -# 安裝nodejs$ apt install -y nodejs# 查看nodejs版本$ node -v# 查看npm版本$ npm -v  安裝相關依賴1234$">
 <meta property="og:locale" content="zh-TW">
-<meta property="og:updated_time" content="2019-03-24T07:40:22.600Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2020&#x2F;07&#x2F;05&#x2F;codimd-install&#x2F;codimd1.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2020&#x2F;07&#x2F;05&#x2F;codimd-install&#x2F;codimd2.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2020&#x2F;07&#x2F;05&#x2F;codimd-install&#x2F;codimd2.png">
+<meta property="og:updated_time" content="2020-07-05T09:12:13.736Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2020&#x2F;07&#x2F;05&#x2F;codimd-install&#x2F;codimd1.png">
 
-<link rel="canonical" href="https://pcion123.github.io/2019/03/16/tomcat-install/">
+<link rel="canonical" href="https://pcion123.github.io/2020/07/05/codimd-install/">
 
 
 <script id="page-configurations">
@@ -77,7 +81,7 @@
   };
 </script>
 
-  <title>安裝Tomcat | Pcion's Blog</title>
+  <title>Ubuntu安裝Codimd | Pcion's Blog</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152342668-1"></script>
     <script>
@@ -212,7 +216,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2019/03/16/tomcat-install/">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2020/07/05/codimd-install/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg#/images/avatar.gif">
@@ -225,7 +229,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          安裝Tomcat
+          Ubuntu安裝Codimd
         </h1>
 
         <div class="post-meta">
@@ -234,24 +238,18 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">發表於</span>
+              
 
-              <time title="創建時間：2019-03-16 17:21:07" itemprop="dateCreated datePublished" datetime="2019-03-16T17:21:07+08:00">2019-03-16</time>
+              <time title="創建時間：2020-07-05 16:21:25 / 修改時間：17:12:13" itemprop="dateCreated datePublished" datetime="2020-07-05T16:21:25+08:00">2020-07-05</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2019-03-24 15:40:22" itemprop="dateModified" datetime="2019-03-24T15:40:22+08:00">2019-03-24</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分類於</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tomcat/" itemprop="url" rel="index">
-                    <span itemprop="name">tomcat</span>
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
                   </a>
                 </span>
             </span>
@@ -265,8 +263,8 @@
       </span>
       <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="disqus" href="/2019/03/16/tomcat-install/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/03/16/tomcat-install/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2020/07/05/codimd-install/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/05/codimd-install/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -281,15 +279,35 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="安裝Tomcat"><a href="#安裝Tomcat" class="headerlink" title="安裝Tomcat"></a>安裝Tomcat</h2><p>先下載maven：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.16/bin/apache-tomcat-9.0.16.tar.gz</span><br></pre></td></tr></table></figure>
-<p>解開包：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar xzvf apache-tomcat-9.0.16.tar.gz</span><br></pre></td></tr></table></figure>
-<p>移動到/opt/底下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mv apache-tomcat-9.0.16 /opt</span><br></pre></td></tr></table></figure>
+        <h2 id="相關介紹"><a href="#相關介紹" class="headerlink" title="相關介紹"></a>相關介紹</h2><p><a href="https://github.com/hackmdio/codimd" target="_blank" rel="noopener">github</a><br><a href="https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-manual-deployment" target="_blank" rel="noopener">manual-deployment</a></p>
+<h2 id="安裝nodejs"><a href="#安裝nodejs" class="headerlink" title="安裝nodejs"></a>安裝nodejs</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安裝版本庫</span></span><br><span class="line">$ curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -</span><br><span class="line"><span class="comment"># 安裝nodejs</span></span><br><span class="line">$ apt install -y nodejs</span><br><span class="line"><span class="comment"># 查看nodejs版本</span></span><br><span class="line">$ node -v</span><br><span class="line"><span class="comment"># 查看npm版本</span></span><br><span class="line">$ npm -v</span><br></pre></td></tr></table></figure>
 
-<h2 id="設置Tomcat環境變數"><a href="#設置Tomcat環境變數" class="headerlink" title="設置Tomcat環境變數"></a>設置Tomcat環境變數</h2><p>打開/etc/profile這個檔案並且在末尾加入：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> TOMCAT_HOME=/opt/apache-tomcat-9.0.16</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$TOMCAT_HOME</span>/bin</span><br></pre></td></tr></table></figure>
+<h2 id="安裝相關依賴"><a href="#安裝相關依賴" class="headerlink" title="安裝相關依賴"></a>安裝相關依賴</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g yarn</span><br><span class="line">$ npm install -g node-gyp</span><br><span class="line">$ npm install -g sqlite3</span><br><span class="line">$ npm install -g webpack</span><br></pre></td></tr></table></figure>
+
+<h2 id="安裝codimd"><a href="#安裝codimd" class="headerlink" title="安裝codimd"></a>安裝codimd</h2><h3 id="設置環境變數"><a href="#設置環境變數" class="headerlink" title="設置環境變數"></a>設置環境變數</h3><p>打開/etc/profile這個檔案並且在末尾加入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:NODE_ENV=production</span><br></pre></td></tr></table></figure>
+
+<h3 id="抓取項目-opt"><a href="#抓取項目-opt" class="headerlink" title="抓取項目(/opt)"></a>抓取項目(/opt)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/hackmdio/codimd.git</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h3 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h3><h4 id="先修改安裝配置bin-setup"><a href="#先修改安裝配置bin-setup" class="headerlink" title="先修改安裝配置bin/setup"></a>先修改安裝配置bin/setup</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">	.</span><br><span class="line">	.</span><br><span class="line">	.</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"install packages"</span></span><br><span class="line">npm install --production --unsafe-perm=<span class="literal">true</span> --allow-root</span><br><span class="line"></span><br><span class="line">	.</span><br><span class="line">	.</span><br><span class="line">	.</span><br></pre></td></tr></table></figure>
+<h4 id="執行安裝配置"><a href="#執行安裝配置" class="headerlink" title="執行安裝配置"></a>執行安裝配置</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo bash bin/setup</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改環境配置"><a href="#修改環境配置" class="headerlink" title="修改環境配置"></a>修改環境配置</h3><p>編輯config.json</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	.</span><br><span class="line">	.</span><br><span class="line">	.</span><br><span class="line"></span><br><span class="line">    &quot;production&quot;: &#123;</span><br><span class="line">        &quot;host&quot;: &quot;0.0.0.0&quot;, // 設置來源</span><br><span class="line">        &quot;port&quot;: 3000, // 設置port</span><br><span class="line">        &quot;loglevel&quot;: &quot;info&quot;,</span><br><span class="line">        &quot;hsts&quot;: &#123;</span><br><span class="line">            &quot;enable&quot;: true,</span><br><span class="line">            &quot;maxAgeSeconds&quot;: 31536000,</span><br><span class="line">            &quot;includeSubdomains&quot;: true,</span><br><span class="line">            &quot;preload&quot;: true</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;csp&quot;: &#123;</span><br><span class="line">            &quot;enable&quot;: true,</span><br><span class="line">            &quot;directives&quot;: &#123;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;upgradeInsecureRequests&quot;: &quot;auto&quot;,</span><br><span class="line">            &quot;addDefaults&quot;: true,</span><br><span class="line">            &quot;addDisqus&quot;: true,</span><br><span class="line">            &quot;addGoogleAnalytics&quot;: true</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;db&quot;: &#123;</span><br><span class="line">            &quot;username&quot;: &quot;帳號&quot;, // 設置db帳號</span><br><span class="line">            &quot;password&quot;: &quot;密碼&quot;, // 設置db密碼</span><br><span class="line">            &quot;database&quot;: &quot;資料庫&quot;, // 設置資料庫名稱</span><br><span class="line">            &quot;host&quot;: &quot;localhost&quot;,</span><br><span class="line">            &quot;port&quot;: &quot;3306&quot;,</span><br><span class="line">            &quot;dialect&quot;: &quot;mysql&quot;</span><br><span class="line">        &#125;</span><br><span class="line">        &quot;linkifyHeaderStyle&quot;: &quot;gfm&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>編輯.sequelizerc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var path = require(&apos;path&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    &apos;config&apos;:          path.resolve(&apos;config.json&apos;),</span><br><span class="line">    &apos;migrations-path&apos;: path.resolve(&apos;lib&apos;, &apos;migrations&apos;),</span><br><span class="line">    &apos;models-path&apos;:     path.resolve(&apos;lib&apos;, &apos;models&apos;),</span><br><span class="line">    &apos;url&apos;:             &apos;mysql://&#123;db帳號&#125;:&#123;db密碼&#125;@localhost:3306/codimd&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>編輯lib/config/default.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line"></span><br><span class="line"> allowAnonymous: false, // 關閉匿名登入</span><br><span class="line"> allowAnonymousEdits: false, // 關閉匿名編輯</span><br><span class="line"></span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line"></span><br><span class="line"> email: true, // 開啟email使用</span><br><span class="line"> allowEmailRegister: true, // 允許email註冊</span><br><span class="line"></span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br></pre></td></tr></table></figure>
+
+<h2 id="啟動"><a href="#啟動" class="headerlink" title="啟動"></a>啟動</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm run build // 重新編輯前端頁面</span><br><span class="line">$ node app.js // 啟動服務</span><br></pre></td></tr></table></figure>
+
+<img src="/2020/07/05/codimd-install/codimd1.png" class="">
+<img src="/2020/07/05/codimd-install/codimd2.png" class="">
+<img src="/2020/07/05/codimd-install/codimd2.png" class="">
     </div>
 
     
@@ -299,24 +317,23 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/linux/" rel="tag"># linux</a>
-              <a href="/tags/tomcat/" rel="tag"># tomcat</a>
+              <a href="/tags/ubuntu/" rel="tag"># ubuntu</a>
+              <a href="/tags/codimd/" rel="tag"># codimd</a>
+              <a href="/tags/hackmd/" rel="tag"># hackmd</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2019/03/16/maven-install/" rel="next" title="安裝Maven">
-                  <i class="fa fa-chevron-left"></i> 安裝Maven
+                <a href="/2020/05/10/rabbitmq-install/" rel="next" title="Ubuntu安裝RabbitMQ">
+                  <i class="fa fa-chevron-left"></i> Ubuntu安裝RabbitMQ
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2019/03/24/pm2-install/" rel="prev" title="Ubuntu安裝PM2">
-                  Ubuntu安裝PM2 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
       </footer>
@@ -362,7 +379,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝Tomcat"><span class="nav-number">1.</span> <span class="nav-text">安裝Tomcat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設置Tomcat環境變數"><span class="nav-number">2.</span> <span class="nav-text">設置Tomcat環境變數</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#相關介紹"><span class="nav-number">1.</span> <span class="nav-text">相關介紹</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝nodejs"><span class="nav-number">2.</span> <span class="nav-text">安裝nodejs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝相關依賴"><span class="nav-number">3.</span> <span class="nav-text">安裝相關依賴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝codimd"><span class="nav-number">4.</span> <span class="nav-text">安裝codimd</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#設置環境變數"><span class="nav-number">4.1.</span> <span class="nav-text">設置環境變數</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#抓取項目-opt"><span class="nav-number">4.2.</span> <span class="nav-text">抓取項目(/opt)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化配置"><span class="nav-number">4.3.</span> <span class="nav-text">初始化配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#先修改安裝配置bin-setup"><span class="nav-number">4.3.1.</span> <span class="nav-text">先修改安裝配置bin/setup</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#執行安裝配置"><span class="nav-number">4.3.2.</span> <span class="nav-text">執行安裝配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改環境配置"><span class="nav-number">4.4.</span> <span class="nav-text">修改環境配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#啟動"><span class="nav-number">5.</span> <span class="nav-text">啟動</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -541,9 +558,9 @@ if (document.querySelectorAll('div.pdf').length) {
       DISQUS.reset({
         reload: true,
         config: {page: {
-            url: "https://pcion123.github.io/2019/03/16/tomcat-install/",
-            identifier: "2019/03/16/tomcat-install/",
-            title: "安裝Tomcat"
+            url: "https://pcion123.github.io/2020/07/05/codimd-install/",
+            identifier: "2020/07/05/codimd-install/",
+            title: "Ubuntu安裝Codimd"
           }
         }
       });

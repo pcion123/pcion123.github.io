@@ -1,6 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Ubuntu安裝Codimd</title>
+    <url>/2020/07/05/codimd-install/</url>
+    <content><![CDATA[<h2 id="相關介紹"><a href="#相關介紹" class="headerlink" title="相關介紹"></a>相關介紹</h2><p><a href="https://github.com/hackmdio/codimd" target="_blank" rel="noopener">github</a><br><a href="https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-manual-deployment" target="_blank" rel="noopener">manual-deployment</a></p>
+<h2 id="安裝nodejs"><a href="#安裝nodejs" class="headerlink" title="安裝nodejs"></a>安裝nodejs</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安裝版本庫</span></span><br><span class="line">$ curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -</span><br><span class="line"><span class="comment"># 安裝nodejs</span></span><br><span class="line">$ apt install -y nodejs</span><br><span class="line"><span class="comment"># 查看nodejs版本</span></span><br><span class="line">$ node -v</span><br><span class="line"><span class="comment"># 查看npm版本</span></span><br><span class="line">$ npm -v</span><br></pre></td></tr></table></figure>
+
+<h2 id="安裝相關依賴"><a href="#安裝相關依賴" class="headerlink" title="安裝相關依賴"></a>安裝相關依賴</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm install -g yarn</span><br><span class="line">$ npm install -g node-gyp</span><br><span class="line">$ npm install -g sqlite3</span><br><span class="line">$ npm install -g webpack</span><br></pre></td></tr></table></figure>
+
+<h2 id="安裝codimd"><a href="#安裝codimd" class="headerlink" title="安裝codimd"></a>安裝codimd</h2><h3 id="設置環境變數"><a href="#設置環境變數" class="headerlink" title="設置環境變數"></a>設置環境變數</h3><p>打開/etc/profile這個檔案並且在末尾加入：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:NODE_ENV=production</span><br></pre></td></tr></table></figure>
+
+<h3 id="抓取項目-opt"><a href="#抓取項目-opt" class="headerlink" title="抓取項目(/opt)"></a>抓取項目(/opt)</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/hackmdio/codimd.git</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h3 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h3><h4 id="先修改安裝配置bin-setup"><a href="#先修改安裝配置bin-setup" class="headerlink" title="先修改安裝配置bin/setup"></a>先修改安裝配置bin/setup</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">	.</span><br><span class="line">	.</span><br><span class="line">	.</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"install packages"</span></span><br><span class="line">npm install --production --unsafe-perm=<span class="literal">true</span> --allow-root</span><br><span class="line"></span><br><span class="line">	.</span><br><span class="line">	.</span><br><span class="line">	.</span><br></pre></td></tr></table></figure>
+<h4 id="執行安裝配置"><a href="#執行安裝配置" class="headerlink" title="執行安裝配置"></a>執行安裝配置</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo bash bin/setup</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改環境配置"><a href="#修改環境配置" class="headerlink" title="修改環境配置"></a>修改環境配置</h3><p>編輯config.json</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	.</span><br><span class="line">	.</span><br><span class="line">	.</span><br><span class="line"></span><br><span class="line">    &quot;production&quot;: &#123;</span><br><span class="line">        &quot;host&quot;: &quot;0.0.0.0&quot;, // 設置來源</span><br><span class="line">        &quot;port&quot;: 3000, // 設置port</span><br><span class="line">        &quot;loglevel&quot;: &quot;info&quot;,</span><br><span class="line">        &quot;hsts&quot;: &#123;</span><br><span class="line">            &quot;enable&quot;: true,</span><br><span class="line">            &quot;maxAgeSeconds&quot;: 31536000,</span><br><span class="line">            &quot;includeSubdomains&quot;: true,</span><br><span class="line">            &quot;preload&quot;: true</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;csp&quot;: &#123;</span><br><span class="line">            &quot;enable&quot;: true,</span><br><span class="line">            &quot;directives&quot;: &#123;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;upgradeInsecureRequests&quot;: &quot;auto&quot;,</span><br><span class="line">            &quot;addDefaults&quot;: true,</span><br><span class="line">            &quot;addDisqus&quot;: true,</span><br><span class="line">            &quot;addGoogleAnalytics&quot;: true</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;db&quot;: &#123;</span><br><span class="line">            &quot;username&quot;: &quot;帳號&quot;, // 設置db帳號</span><br><span class="line">            &quot;password&quot;: &quot;密碼&quot;, // 設置db密碼</span><br><span class="line">            &quot;database&quot;: &quot;資料庫&quot;, // 設置資料庫名稱</span><br><span class="line">            &quot;host&quot;: &quot;localhost&quot;,</span><br><span class="line">            &quot;port&quot;: &quot;3306&quot;,</span><br><span class="line">            &quot;dialect&quot;: &quot;mysql&quot;</span><br><span class="line">        &#125;</span><br><span class="line">        &quot;linkifyHeaderStyle&quot;: &quot;gfm&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>編輯.sequelizerc</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var path = require(&apos;path&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    &apos;config&apos;:          path.resolve(&apos;config.json&apos;),</span><br><span class="line">    &apos;migrations-path&apos;: path.resolve(&apos;lib&apos;, &apos;migrations&apos;),</span><br><span class="line">    &apos;models-path&apos;:     path.resolve(&apos;lib&apos;, &apos;models&apos;),</span><br><span class="line">    &apos;url&apos;:             &apos;mysql://&#123;db帳號&#125;:&#123;db密碼&#125;@localhost:3306/codimd&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>編輯lib/config/default.js</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line"></span><br><span class="line"> allowAnonymous: false, // 關閉匿名登入</span><br><span class="line"> allowAnonymousEdits: false, // 關閉匿名編輯</span><br><span class="line"></span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line"></span><br><span class="line"> email: true, // 開啟email使用</span><br><span class="line"> allowEmailRegister: true, // 允許email註冊</span><br><span class="line"></span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br></pre></td></tr></table></figure>
+
+<h2 id="啟動"><a href="#啟動" class="headerlink" title="啟動"></a>啟動</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm run build // 重新編輯前端頁面</span><br><span class="line">$ node app.js // 啟動服務</span><br></pre></td></tr></table></figure>
+
+<img src="/2020/07/05/codimd-install/codimd1.png" class="">
+<img src="/2020/07/05/codimd-install/codimd2.png" class="">
+<img src="/2020/07/05/codimd-install/codimd2.png" class="">]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>ubuntu</tag>
+        <tag>codimd</tag>
+        <tag>hackmd</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Ubuntu安裝RabbitMQ</title>
     <url>/2020/05/10/rabbitmq-install/</url>
     <content><![CDATA[<h2 id="安裝erlang"><a href="#安裝erlang" class="headerlink" title="安裝erlang"></a>安裝erlang</h2><p>rabbitmq需要依靠erlang驅動，<br>所以我們需要先安裝erlang</p>
@@ -281,8 +323,8 @@
         <category>tomcat</category>
       </categories>
       <tags>
-        <tag>tomcat</tag>
         <tag>linux</tag>
+        <tag>tomcat</tag>
       </tags>
   </entry>
   <entry>
@@ -301,8 +343,8 @@
         <category>maven</category>
       </categories>
       <tags>
-        <tag>maven</tag>
         <tag>linux</tag>
+        <tag>maven</tag>
       </tags>
   </entry>
   <entry>
