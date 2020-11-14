@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://pcion123.github.io/"/>
-  <updated>2020-07-05T09:14:19.607Z</updated>
+  <updated>2020-11-14T10:30:22.277Z</updated>
   <id>https://pcion123.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>安裝Nginx</title>
+    <link href="https://pcion123.github.io/2020/11/14/nginx-install/"/>
+    <id>https://pcion123.github.io/2020/11/14/nginx-install/</id>
+    <published>2020-11-14T09:47:09.000Z</published>
+    <updated>2020-11-14T10:30:22.277Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;安裝Nginx&quot;&gt;&lt;a href=&quot;#安裝Nginx&quot; class=&quot;headerlink&quot; title=&quot;安裝Nginx&quot;&gt;&lt;/a&gt;安裝Nginx&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ apt install nginx&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;config路徑&quot;&gt;&lt;a href=&quot;#config路徑&quot; class=&quot;headerlink&quot; title=&quot;config路徑&quot;&gt;&lt;/a&gt;config路徑&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 查詢config路徑&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ nginx -t&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# ubuntu預設會在/etc/nginx底下&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;基本指令&quot;&gt;&lt;a href=&quot;#基本指令&quot; class=&quot;headerlink&quot; title=&quot;基本指令&quot;&gt;&lt;/a&gt;基本指令&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 啟動nginx&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ systemctl start nginx&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 停止ngnix&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ systemctl stop nginx&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 重載ngnix&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ systemctl reload nginx&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="nginx" scheme="https://pcion123.github.io/categories/nginx/"/>
+    
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="nginx" scheme="https://pcion123.github.io/tags/nginx/"/>
+    
+  </entry>
   
   <entry>
     <title>Ubuntu安裝Codimd</title>
@@ -492,9 +519,9 @@
     
       <category term="gitlab" scheme="https://pcion123.github.io/tags/gitlab/"/>
     
-      <category term="jdk" scheme="https://pcion123.github.io/tags/jdk/"/>
-    
       <category term="jenkins" scheme="https://pcion123.github.io/tags/jenkins/"/>
+    
+      <category term="jdk" scheme="https://pcion123.github.io/tags/jdk/"/>
     
       <category term="maven" scheme="https://pcion123.github.io/tags/maven/"/>
     
@@ -563,29 +590,6 @@
       <category term="gitlab" scheme="https://pcion123.github.io/tags/gitlab/"/>
     
       <category term="中文化" scheme="https://pcion123.github.io/tags/%E4%B8%AD%E6%96%87%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="https://pcion123.github.io/2018/03/01/hello-world/"/>
-    <id>https://pcion123.github.io/2018/03/01/hello-world/</id>
-    <published>2018-03-01T08:21:08.000Z</published>
-    <updated>2018-03-24T12:18:10.497Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a
-        
-      
-    
-    </summary>
-    
-    
     
   </entry>
   

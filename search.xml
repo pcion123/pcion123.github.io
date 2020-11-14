@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>安裝Nginx</title>
+    <url>/2020/11/14/nginx-install/</url>
+    <content><![CDATA[<h2 id="安裝Nginx"><a href="#安裝Nginx" class="headerlink" title="安裝Nginx"></a>安裝Nginx</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ apt install nginx</span><br></pre></td></tr></table></figure>
+
+<h2 id="config路徑"><a href="#config路徑" class="headerlink" title="config路徑"></a>config路徑</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查詢config路徑</span></span><br><span class="line">$ nginx -t</span><br><span class="line"><span class="comment"># ubuntu預設會在/etc/nginx底下</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="基本指令"><a href="#基本指令" class="headerlink" title="基本指令"></a>基本指令</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 啟動nginx</span></span><br><span class="line">$ systemctl start nginx</span><br><span class="line"><span class="comment"># 停止ngnix</span></span><br><span class="line">$ systemctl stop nginx</span><br><span class="line"><span class="comment"># 重載ngnix</span></span><br><span class="line">$ systemctl reload nginx</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h2 id="頁面測試-http-127-0-0-1"><a href="#頁面測試-http-127-0-0-1" class="headerlink" title="頁面測試 http://127.0.0.1"></a>頁面測試 <a href="http://127.0.0.1" target="_blank" rel="noopener">http://127.0.0.1</a></h2><img src="/2020/11/14/nginx-install/nginx1.png" class="" title="安裝完成">
+
+<p>以下內容偏向心得筆記</p>
+<h2 id="設定proxy"><a href="#設定proxy" class="headerlink" title="設定proxy"></a>設定proxy</h2><figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">	<span class="comment"># 監聽 80 port</span></span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">listen</span> [::]:<span class="number">80</span>;</span><br><span class="line">    <span class="comment"># 設置進來的domainname或ip</span></span><br><span class="line">    <span class="attribute">server_name</span> localhost;</span><br><span class="line">    <span class="comment"># 設置routing</span></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">    	<span class="comment"># 轉發</span></span><br><span class="line">        <span class="attribute">proxy_pass</span> http://localhost:9001;</span><br><span class="line">        <span class="comment"># 轉發request的header內容</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-Proto <span class="variable">$http_x_forwarded_proto</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="設定loadbalance"><a href="#設定loadbalance" class="headerlink" title="設定loadbalance"></a>設定loadbalance</h2><figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 設置輪巡節點</span></span><br><span class="line"><span class="attribute">upstream</span> servicemapping &#123;</span><br><span class="line">    <span class="attribute">server</span> <span class="number">127.0.0.1:9001</span> weight=<span class="number">3</span>;</span><br><span class="line">    <span class="attribute">server</span> <span class="number">127.0.0.1:9002</span> weight=<span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">	<span class="comment"># 監聽 80 port</span></span><br><span class="line">    <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">    <span class="attribute">listen</span> [::]:<span class="number">80</span>;</span><br><span class="line">    <span class="comment"># 設置進來的domainname或ip</span></span><br><span class="line">    <span class="attribute">server_name</span> my.app.test;</span><br><span class="line">	<span class="comment"># 設置routing</span></span><br><span class="line">    <span class="attribute">location</span> / &#123;</span><br><span class="line">    	<span class="comment"># 轉發</span></span><br><span class="line">        <span class="attribute">proxy_pass</span> http://servicemapping;</span><br><span class="line">        <span class="comment"># 轉發request的header內容</span></span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-Proto <span class="variable">$http_x_forwarded_proto</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="兩次請求結果"><a href="#兩次請求結果" class="headerlink" title="兩次請求結果"></a>兩次請求結果</h2><img src="/2020/11/14/nginx-install/nginx2.png" class="">
+<img src="/2020/11/14/nginx-install/nginx3.png" class="">]]></content>
+      <categories>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Ubuntu安裝Codimd</title>
     <url>/2020/07/05/codimd-install/</url>
     <content><![CDATA[<h2 id="相關介紹"><a href="#相關介紹" class="headerlink" title="相關介紹"></a>相關介紹</h2><p><a href="https://github.com/hackmdio/codimd" target="_blank" rel="noopener">github</a><br><a href="https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-manual-deployment" target="_blank" rel="noopener">manual-deployment</a></p>
@@ -579,8 +607,8 @@
       </categories>
       <tags>
         <tag>gitlab</tag>
-        <tag>jdk</tag>
         <tag>jenkins</tag>
+        <tag>jdk</tag>
         <tag>maven</tag>
       </tags>
   </entry>
