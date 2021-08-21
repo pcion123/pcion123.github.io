@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://pcion123.github.io/"/>
-  <updated>2020-11-14T10:30:22.277Z</updated>
+  <updated>2021-08-21T05:52:13.205Z</updated>
   <id>https://pcion123.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Ubuntu安裝Docker</title>
+    <link href="https://pcion123.github.io/2021/08/21/docker-install/"/>
+    <id>https://pcion123.github.io/2021/08/21/docker-install/</id>
+    <published>2021-08-21T05:36:17.000Z</published>
+    <updated>2021-08-21T05:52:13.205Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;docker是目前容器化部屬最火紅的方案&lt;br&gt;廢話不多說現在趕快來看看怎麼安裝吧!&lt;/p&gt;
+&lt;h2 id=&quot;安裝&quot;&gt;&lt;a href=&quot;#安裝&quot; class=&quot;headerlink&quot; title=&quot;安裝&quot;&gt;&lt;/a&gt;安裝&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt update&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ sudo install docker.io&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="docker" scheme="https://pcion123.github.io/categories/docker/"/>
+    
+    
+      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+  </entry>
   
   <entry>
     <title>安裝Nginx</title>
@@ -68,9 +94,9 @@
       <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
     
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
-    
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="codimd" scheme="https://pcion123.github.io/tags/codimd/"/>
     
@@ -100,9 +126,9 @@
       <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
     
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
-    
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="rabbitmq" scheme="https://pcion123.github.io/tags/rabbitmq/"/>
     
@@ -252,9 +278,9 @@
       <category term="pm2" scheme="https://pcion123.github.io/categories/pm2/"/>
     
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
-    
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="pm2" scheme="https://pcion123.github.io/tags/pm2/"/>
     
@@ -345,9 +371,9 @@
       <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
     
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
-    
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="redis" scheme="https://pcion123.github.io/tags/redis/"/>
     
@@ -381,9 +407,9 @@
       <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
     
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
-    
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="mariadb" scheme="https://pcion123.github.io/tags/mariadb/"/>
     
@@ -549,47 +575,6 @@
       <category term="佈署" scheme="https://pcion123.github.io/tags/%E4%BD%88%E7%BD%B2/"/>
     
       <category term="jenkins" scheme="https://pcion123.github.io/tags/jenkins/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>GitLab搭建與中文化</title>
-    <link href="https://pcion123.github.io/2018/03/23/gitlab-install/"/>
-    <id>https://pcion123.github.io/2018/03/23/gitlab-install/</id>
-    <published>2018-03-23T06:18:08.000Z</published>
-    <updated>2019-11-09T09:25:52.152Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;網路上已有蠻多類似的文章，我就不再過多的論述了&lt;br&gt;就寫寫佈署的時一些問題就好&lt;/p&gt;
-&lt;h2 id=&quot;gitlab佈署&quot;&gt;&lt;a href=&quot;#gitlab佈署&quot; class=&quot;headerlink&quot; title=&quot;gitlab佈署&quot;&gt;&lt;/a&gt;gitlab佈署&lt;/h2&gt;&lt;p&gt;直接上官網&lt;br&gt;&lt;a href=&quot;https://about.gitlab.com/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;gitlab官網&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://www.gitlab.com.cn/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;gitlab中文社群&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;我佈署的環境是virtualbox+ubuntu&lt;br&gt;基本上照著官網的install指令去佈署就能成功佈署最新版本&lt;/p&gt;
-&lt;p&gt;如果是要另外進行中文化的佈署就必需去中文社群看看有沒有對應的版本&lt;br&gt;&lt;a href=&quot;https://gitlab.com/larryli/gitlab&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;中文化社群&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;例如我佈署的gitlab版本是8.8.9那我就需要找到中文化對應的版本&lt;br&gt;p.s 版號只需要對應前兩個版號就可以了&lt;/p&gt;
-&lt;p&gt;那該如何指定安裝指定的版號&lt;/p&gt;
-&lt;p&gt;官網提供的安裝指令應該如下：&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo EXTERNAL_URL=&lt;span class=&quot;string&quot;&gt;&quot;http://gitlab.example.com&quot;&lt;/span&gt; apt-get install gitlab-ee&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;上面的指令其實是預先設定好gitlab指定的網址與安裝最新的版本&lt;br&gt;不過我通常都把連線的網址都在佈署完成之後再另外設定&lt;br&gt;所以我如果要安裝&lt;a href=&quot;https://packages.gitlab.com/gitlab/gitlab-ee/packages/ubuntu/trusty/gitlab-ee_8.8.9-ee.0_amd64.deb&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;8.8.9&lt;/a&gt;的版本，那指令應該如下：&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt-get install gitlab-ee=8.8.9-ee.0&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;安裝完成後再去更改external_url就好，更改路徑如下：&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;/etc/gitlab/gitlab.rb&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;設置連線配置&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;external_url &lt;span class=&quot;string&quot;&gt;&#39;http://127.0.0.1&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;最後再重新設定配置就完成了&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo gitlab-ctl reconfigure&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;通常第一次登入會讓你重新設置root的密碼&lt;br&gt;修改完再登入你就可以看到gitlab的歡迎畫面了&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="gitlab" scheme="https://pcion123.github.io/categories/gitlab/"/>
-    
-    
-      <category term="佈署" scheme="https://pcion123.github.io/tags/%E4%BD%88%E7%BD%B2/"/>
-    
-      <category term="gitlab" scheme="https://pcion123.github.io/tags/gitlab/"/>
-    
-      <category term="中文化" scheme="https://pcion123.github.io/tags/%E4%B8%AD%E6%96%87%E5%8C%96/"/>
     
   </entry>
   

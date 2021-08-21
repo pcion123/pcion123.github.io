@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Ubuntu安裝Docker</title>
+    <url>/2021/08/21/docker-install/</url>
+    <content><![CDATA[<p>docker是目前容器化部屬最火紅的方案<br>廢話不多說現在趕快來看看怎麼安裝吧!</p>
+<h2 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo apt update</span><br><span class="line">$ sudo install docker.io</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h2 id="查看版本"><a href="#查看版本" class="headerlink" title="查看版本"></a>查看版本</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查看版本</span></span><br><span class="line">$ docker version</span><br><span class="line">Client:</span><br><span class="line"> Version:           20.10.7</span><br><span class="line"> API version:       1.41</span><br><span class="line"> Go version:        go1.13.8</span><br><span class="line"> Git commit:        20.10.7-0ubuntu1~20.04.1</span><br><span class="line"> Built:             Wed Aug  4 22:52:25 2021</span><br><span class="line"> OS/Arch:           linux/amd64</span><br><span class="line"> Context:           default</span><br><span class="line"> Experimental:      <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">Server:</span><br><span class="line"> Engine:</span><br><span class="line">  Version:          20.10.7</span><br><span class="line">  API version:      1.41 (minimum version 1.12)</span><br><span class="line">  Go version:       go1.13.8</span><br><span class="line">  Git commit:       20.10.7-0ubuntu1~20.04.1</span><br><span class="line">  Built:            Wed Aug  4 19:07:47 2021</span><br><span class="line">  OS/Arch:          linux/amd64</span><br><span class="line">  Experimental:     <span class="literal">false</span></span><br><span class="line"> containerd:</span><br><span class="line">  Version:          1.5.2-0ubuntu1~20.04.2</span><br><span class="line">  GitCommit:</span><br><span class="line"> runc:</span><br><span class="line">  Version:          1.0.0~rc95-0ubuntu1~20.04.2</span><br><span class="line">  GitCommit:</span><br><span class="line"> docker-init:</span><br><span class="line">  Version:          0.19.0</span><br><span class="line">  GitCommit:</span><br></pre></td></tr></table></figure>
+
+<h2 id="測試"><a href="#測試" class="headerlink" title="測試"></a>測試</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker run hello-world</span><br><span class="line"></span><br><span class="line">Hello from Docker!</span><br><span class="line">This message shows that your installation appears to be working correctly.</span><br><span class="line"></span><br><span class="line">To generate this message, Docker took the following steps:</span><br><span class="line"> 1. The Docker client contacted the Docker daemon.</span><br><span class="line"> 2. The Docker daemon pulled the <span class="string">"hello-world"</span> image from the Docker Hub.</span><br><span class="line">    (amd64)</span><br><span class="line"> 3. The Docker daemon created a new container from that image <span class="built_in">which</span> runs the</span><br><span class="line">    executable that produces the output you are currently reading.</span><br><span class="line"> 4. The Docker daemon streamed that output to the Docker client, <span class="built_in">which</span> sent it</span><br><span class="line">    to your terminal.</span><br><span class="line"></span><br><span class="line">To try something more ambitious, you can run an Ubuntu container with:</span><br><span class="line"> $ docker run -it ubuntu bash</span><br><span class="line"></span><br><span class="line">Share images, automate workflows, and more with a free Docker ID:</span><br><span class="line"> https://hub.docker.com/</span><br><span class="line"></span><br><span class="line">For more examples and ideas, visit:</span><br><span class="line"> https://docs.docker.com/get-started/</span><br></pre></td></tr></table></figure>
+
+<h2 id="補充"><a href="#補充" class="headerlink" title="補充"></a>補充</h2><p>如果我們希望docker可以用特定的user執行的話可以參照以下</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#將用戶加入docker群組中</span></span><br><span class="line">$ sudo usermod -aG docker <span class="variable">$USER</span></span><br><span class="line"><span class="comment">#套用新的群組設定</span></span><br><span class="line">$ sudo newgrp docker</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>ubuntu</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>安裝Nginx</title>
     <url>/2020/11/14/nginx-install/</url>
     <content><![CDATA[<h2 id="安裝Nginx"><a href="#安裝Nginx" class="headerlink" title="安裝Nginx"></a>安裝Nginx</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ apt install nginx</span><br></pre></td></tr></table></figure>
@@ -64,8 +87,8 @@
         <category>linux</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>ubuntu</tag>
+        <tag>linux</tag>
         <tag>codimd</tag>
         <tag>hackmd</tag>
       </tags>
@@ -101,8 +124,8 @@
         <category>linux</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>ubuntu</tag>
+        <tag>linux</tag>
         <tag>rabbitmq</tag>
       </tags>
   </entry>
@@ -330,8 +353,8 @@
         <category>pm2</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>ubuntu</tag>
+        <tag>linux</tag>
         <tag>pm2</tag>
       </tags>
   </entry>
@@ -399,8 +422,8 @@
         <category>linux</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>ubuntu</tag>
+        <tag>linux</tag>
         <tag>redis</tag>
       </tags>
   </entry>
@@ -446,8 +469,8 @@
         <category>linux</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>ubuntu</tag>
+        <tag>linux</tag>
         <tag>mariadb</tag>
       </tags>
   </entry>
