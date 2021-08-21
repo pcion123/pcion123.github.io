@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Ubuntu安裝Minikube</title>
+    <url>/2021/08/21/minikube-install/</url>
+    <content><![CDATA[<p>繼上次的docker安裝今天要繼續部屬kubernetes的內容</p>
+<h2 id="簡介"><a href="#簡介" class="headerlink" title="簡介"></a>簡介</h2><p>minikube是由google開發的精簡版kubernetes工具<br>可以簡單的模擬k8s底下的環境運作</p>
+<a id="more"></a>
+
+<h2 id="安裝容器"><a href="#安裝容器" class="headerlink" title="安裝容器"></a>安裝容器</h2><p>kubernetese提供多樣的容器部屬環境<br>這邊我們選用dokcer當作容器的底層</p>
+<a href="/2021/08/21/docker-install/" title="請參考之前的文章">請參考之前的文章</a>
+
+<h2 id="安裝kubectl"><a href="#安裝kubectl" class="headerlink" title="安裝kubectl"></a>安裝kubectl</h2><p>kubectl是一套管理kubernetes的命令工具</p>
+<h3 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 更新套件管理</span></span><br><span class="line">$ sudo apt update</span><br><span class="line"><span class="comment"># 安裝套件倉庫</span></span><br><span class="line">$ sudo apt install -y apt-transport-https ca-certificates curl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下載倉庫憑證</span></span><br><span class="line">$ sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg</span><br><span class="line"><span class="comment"># 加入憑證信任列表</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">"deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main"</span> | sudo tee /etc/apt/sources.list.d/kubernetes.list</span><br><span class="line"></span><br><span class="line">deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新套件管理</span></span><br><span class="line">$ sudo apt update</span><br><span class="line"><span class="comment"># 安裝kubectl</span></span><br><span class="line">$ sudo apt install kubectl -y</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看版本"><a href="#查看版本" class="headerlink" title="查看版本"></a>查看版本</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ kubectl version --short --client</span><br><span class="line"></span><br><span class="line">Client Version: v1.22.1</span><br></pre></td></tr></table></figure>
+
+<h2 id="安裝minikube"><a href="#安裝minikube" class="headerlink" title="安裝minikube"></a>安裝minikube</h2><p>現在開始安裝主角</p>
+<h3 id="安裝-1"><a href="#安裝-1" class="headerlink" title="安裝"></a>安裝</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 下載安裝包</span></span><br><span class="line">$ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb</span><br><span class="line"><span class="comment"># 安裝套件</span></span><br><span class="line">$ sudo dpkg -i minikube_latest_amd64.deb</span><br><span class="line"></span><br><span class="line">Selecting previously unselected package minikube.</span><br><span class="line">(Reading database ... 71806 files and directories currently installed.)</span><br><span class="line">Preparing to unpack minikube_latest_amd64.deb ...</span><br><span class="line">Unpacking minikube (1.22.0-0) ...</span><br><span class="line">Setting up minikube (1.22.0-0) ...</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看版本-1"><a href="#查看版本-1" class="headerlink" title="查看版本"></a>查看版本</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ minikube version</span><br><span class="line"></span><br><span class="line">minikube version: v1.22.0</span><br><span class="line">commit: a03fbcf166e6f74ef224d4a63be4277d017bb62e</span><br></pre></td></tr></table></figure>
+
+<h3 id="啟動"><a href="#啟動" class="headerlink" title="啟動"></a>啟動</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ minikube start</span><br><span class="line"></span><br><span class="line">😄  minikube v1.22.0 on Ubuntu 20.04 (vbox/amd64)</span><br><span class="line">✨  Automatically selected the docker driver. Other choices: ssh, none</span><br><span class="line">👍  Starting control plane node minikube <span class="keyword">in</span> cluster minikube</span><br><span class="line">🚜  Pulling base image ...</span><br><span class="line">💾  Downloading Kubernetes v1.21.2 preload ...</span><br><span class="line">    &gt; preloaded-images-k8s-v11-v1...: 502.14 MiB / 502.14 MiB  100.00% 7.08 MiB</span><br><span class="line">    &gt; gcr.io/k8s-minikube/kicbase...: 361.08 MiB / 361.09 MiB  100.00% 3.95 MiB</span><br><span class="line">🔥  Creating docker container (CPUs=2, Memory=2200MB) ...</span><br><span class="line">🐳  Preparing Kubernetes v1.21.2 on Docker 20.10.7 ...</span><br><span class="line">    ▪ Generating certificates and keys ...</span><br><span class="line">    ▪ Booting up control plane ...</span><br><span class="line">    ▪ Configuring RBAC rules ...</span><br><span class="line">🔎  Verifying Kubernetes components...</span><br><span class="line">    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5</span><br><span class="line">🌟  Enabled addons: storage-provisioner, default-storageclass</span><br><span class="line">🏄  Done! kubectl is now configured to use <span class="string">"minikube"</span> cluster and <span class="string">"default"</span> namespace by default</span><br></pre></td></tr></table></figure>
+
+<h3 id="啟動dashboard"><a href="#啟動dashboard" class="headerlink" title="啟動dashboard"></a>啟動dashboard</h3><p>正常的kubernetes的dashboard需要另外安裝的<br>但是minikube已經自帶dashboard套件只需啟動就行了</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ minikube dashboard</span><br><span class="line"></span><br><span class="line">🔌  Enabling dashboard ...</span><br><span class="line">    ▪ Using image kubernetesui/dashboard:v2.1.0</span><br><span class="line">    ▪ Using image kubernetesui/metrics-scraper:v1.0.4</span><br><span class="line">🤔  Verifying dashboard health ...</span><br><span class="line">🚀  Launching proxy ...</span><br><span class="line">🤔  Verifying proxy health ...</span><br><span class="line">🎉  Opening http://127.0.0.1:33657/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/ <span class="keyword">in</span> your default browser...</span><br><span class="line">👉  http://127.0.0.1:33657/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/</span><br></pre></td></tr></table></figure>
+
+<h3 id="開啟proxy"><a href="#開啟proxy" class="headerlink" title="開啟proxy"></a>開啟proxy</h3><p>一般來說啟動dashboard就會自動幫你開啟瀏覽器到dashboard的頁面中了<br>但是筆者的環境是裝在virtualbox的ubuntu-server底下<br>所以就需要另外提供外連的方式了</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ kubectl proxy --address=<span class="string">'0.0.0.0'</span> --port=8001 --accept-hosts=<span class="string">'^*$'</span></span><br><span class="line"></span><br><span class="line">Starting to serve on [::]:8001</span><br></pre></td></tr></table></figure>
+
+<p>這樣就大功告成啦!</p>
+<img src="/2021/08/21/minikube-install/minikube.png" class="">
+
+<h2 id="補充"><a href="#補充" class="headerlink" title="補充"></a>補充</h2><p>安裝過程設定如果出了什麼問題想要重置<br>我們可刪掉整個minikube設置重來</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 刪除minikube環境</span></span><br><span class="line">$ minikube delete &amp;&amp; rm -rf ~/.minikube</span><br><span class="line"><span class="comment"># 重啟minikube</span></span><br><span class="line">$ minikube start</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>kubernetes</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>ubuntu</tag>
+        <tag>docker</tag>
+        <tag>minikube</tag>
+        <tag>kubernetes</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Ubuntu安裝Docker</title>
     <url>/2021/08/21/docker-install/</url>
     <content><![CDATA[<p>docker是目前容器化部屬最火紅的方案<br>廢話不多說現在趕快來看看怎麼安裝吧!</p>
@@ -8,19 +52,19 @@
 
 <a id="more"></a>
 
-<h2 id="查看版本"><a href="#查看版本" class="headerlink" title="查看版本"></a>查看版本</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查看版本</span></span><br><span class="line">$ docker version</span><br><span class="line">Client:</span><br><span class="line"> Version:           20.10.7</span><br><span class="line"> API version:       1.41</span><br><span class="line"> Go version:        go1.13.8</span><br><span class="line"> Git commit:        20.10.7-0ubuntu1~20.04.1</span><br><span class="line"> Built:             Wed Aug  4 22:52:25 2021</span><br><span class="line"> OS/Arch:           linux/amd64</span><br><span class="line"> Context:           default</span><br><span class="line"> Experimental:      <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">Server:</span><br><span class="line"> Engine:</span><br><span class="line">  Version:          20.10.7</span><br><span class="line">  API version:      1.41 (minimum version 1.12)</span><br><span class="line">  Go version:       go1.13.8</span><br><span class="line">  Git commit:       20.10.7-0ubuntu1~20.04.1</span><br><span class="line">  Built:            Wed Aug  4 19:07:47 2021</span><br><span class="line">  OS/Arch:          linux/amd64</span><br><span class="line">  Experimental:     <span class="literal">false</span></span><br><span class="line"> containerd:</span><br><span class="line">  Version:          1.5.2-0ubuntu1~20.04.2</span><br><span class="line">  GitCommit:</span><br><span class="line"> runc:</span><br><span class="line">  Version:          1.0.0~rc95-0ubuntu1~20.04.2</span><br><span class="line">  GitCommit:</span><br><span class="line"> docker-init:</span><br><span class="line">  Version:          0.19.0</span><br><span class="line">  GitCommit:</span><br></pre></td></tr></table></figure>
+<h2 id="查看版本"><a href="#查看版本" class="headerlink" title="查看版本"></a>查看版本</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看版本</span></span><br><span class="line">$ docker version</span><br><span class="line">Client:</span><br><span class="line"> Version:           20.10.7</span><br><span class="line"> API version:       1.41</span><br><span class="line"> Go version:        go1.13.8</span><br><span class="line"> Git commit:        20.10.7-0ubuntu1~20.04.1</span><br><span class="line"> Built:             Wed Aug  4 22:52:25 2021</span><br><span class="line"> OS/Arch:           linux/amd64</span><br><span class="line"> Context:           default</span><br><span class="line"> Experimental:      <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">Server:</span><br><span class="line"> Engine:</span><br><span class="line">  Version:          20.10.7</span><br><span class="line">  API version:      1.41 (minimum version 1.12)</span><br><span class="line">  Go version:       go1.13.8</span><br><span class="line">  Git commit:       20.10.7-0ubuntu1~20.04.1</span><br><span class="line">  Built:            Wed Aug  4 19:07:47 2021</span><br><span class="line">  OS/Arch:          linux/amd64</span><br><span class="line">  Experimental:     <span class="literal">false</span></span><br><span class="line"> containerd:</span><br><span class="line">  Version:          1.5.2-0ubuntu1~20.04.2</span><br><span class="line">  GitCommit:</span><br><span class="line"> runc:</span><br><span class="line">  Version:          1.0.0~rc95-0ubuntu1~20.04.2</span><br><span class="line">  GitCommit:</span><br><span class="line"> docker-init:</span><br><span class="line">  Version:          0.19.0</span><br><span class="line">  GitCommit:</span><br></pre></td></tr></table></figure>
 
 <h2 id="測試"><a href="#測試" class="headerlink" title="測試"></a>測試</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ docker run hello-world</span><br><span class="line"></span><br><span class="line">Hello from Docker!</span><br><span class="line">This message shows that your installation appears to be working correctly.</span><br><span class="line"></span><br><span class="line">To generate this message, Docker took the following steps:</span><br><span class="line"> 1. The Docker client contacted the Docker daemon.</span><br><span class="line"> 2. The Docker daemon pulled the <span class="string">"hello-world"</span> image from the Docker Hub.</span><br><span class="line">    (amd64)</span><br><span class="line"> 3. The Docker daemon created a new container from that image <span class="built_in">which</span> runs the</span><br><span class="line">    executable that produces the output you are currently reading.</span><br><span class="line"> 4. The Docker daemon streamed that output to the Docker client, <span class="built_in">which</span> sent it</span><br><span class="line">    to your terminal.</span><br><span class="line"></span><br><span class="line">To try something more ambitious, you can run an Ubuntu container with:</span><br><span class="line"> $ docker run -it ubuntu bash</span><br><span class="line"></span><br><span class="line">Share images, automate workflows, and more with a free Docker ID:</span><br><span class="line"> https://hub.docker.com/</span><br><span class="line"></span><br><span class="line">For more examples and ideas, visit:</span><br><span class="line"> https://docs.docker.com/get-started/</span><br></pre></td></tr></table></figure>
 
 <h2 id="補充"><a href="#補充" class="headerlink" title="補充"></a>補充</h2><p>如果我們希望docker可以用特定的user執行的話可以參照以下</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#將用戶加入docker群組中</span></span><br><span class="line">$ sudo usermod -aG docker <span class="variable">$USER</span></span><br><span class="line"><span class="comment">#套用新的群組設定</span></span><br><span class="line">$ sudo newgrp docker</span><br></pre></td></tr></table></figure>]]></content>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 將用戶加入docker群組中</span></span><br><span class="line">$ sudo usermod -aG docker <span class="variable">$USER</span></span><br><span class="line"><span class="comment"># 套用新的群組設定</span></span><br><span class="line">$ sudo newgrp docker</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>docker</category>
       </categories>
       <tags>
-        <tag>docker</tag>
-        <tag>ubuntu</tag>
         <tag>linux</tag>
+        <tag>ubuntu</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -87,8 +131,8 @@
         <category>linux</category>
       </categories>
       <tags>
-        <tag>ubuntu</tag>
         <tag>linux</tag>
+        <tag>ubuntu</tag>
         <tag>codimd</tag>
         <tag>hackmd</tag>
       </tags>
@@ -124,8 +168,8 @@
         <category>linux</category>
       </categories>
       <tags>
-        <tag>ubuntu</tag>
         <tag>linux</tag>
+        <tag>ubuntu</tag>
         <tag>rabbitmq</tag>
       </tags>
   </entry>
@@ -353,8 +397,8 @@
         <category>pm2</category>
       </categories>
       <tags>
-        <tag>ubuntu</tag>
         <tag>linux</tag>
+        <tag>ubuntu</tag>
         <tag>pm2</tag>
       </tags>
   </entry>
@@ -422,8 +466,8 @@
         <category>linux</category>
       </categories>
       <tags>
-        <tag>ubuntu</tag>
         <tag>linux</tag>
+        <tag>ubuntu</tag>
         <tag>redis</tag>
       </tags>
   </entry>
@@ -469,8 +513,8 @@
         <category>linux</category>
       </categories>
       <tags>
-        <tag>ubuntu</tag>
         <tag>linux</tag>
+        <tag>ubuntu</tag>
         <tag>mariadb</tag>
       </tags>
   </entry>
@@ -630,8 +674,8 @@
       </categories>
       <tags>
         <tag>gitlab</tag>
-        <tag>jenkins</tag>
         <tag>jdk</tag>
+        <tag>jenkins</tag>
         <tag>maven</tag>
       </tags>
   </entry>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://pcion123.github.io/"/>
-  <updated>2021-08-21T05:52:13.205Z</updated>
+  <updated>2021-08-21T08:17:26.278Z</updated>
   <id>https://pcion123.github.io/</id>
   
   <author>
@@ -17,11 +17,41 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Ubuntu安裝Minikube</title>
+    <link href="https://pcion123.github.io/2021/08/21/minikube-install/"/>
+    <id>https://pcion123.github.io/2021/08/21/minikube-install/</id>
+    <published>2021-08-21T06:02:15.000Z</published>
+    <updated>2021-08-21T08:17:26.278Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;繼上次的docker安裝今天要繼續部屬kubernetes的內容&lt;/p&gt;
+&lt;h2 id=&quot;簡介&quot;&gt;&lt;a href=&quot;#簡介&quot; class=&quot;headerlink&quot; title=&quot;簡介&quot;&gt;&lt;/a&gt;簡介&lt;/h2&gt;&lt;p&gt;minikube是由google開發的精簡版kubernetes工具&lt;br&gt;可以簡單的模擬k8s底下的環境運作&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="kubernetes" scheme="https://pcion123.github.io/categories/kubernetes/"/>
+    
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
+    
+      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
+    
+      <category term="minikube" scheme="https://pcion123.github.io/tags/minikube/"/>
+    
+      <category term="kubernetes" scheme="https://pcion123.github.io/tags/kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Ubuntu安裝Docker</title>
     <link href="https://pcion123.github.io/2021/08/21/docker-install/"/>
     <id>https://pcion123.github.io/2021/08/21/docker-install/</id>
     <published>2021-08-21T05:36:17.000Z</published>
-    <updated>2021-08-21T05:52:13.205Z</updated>
+    <updated>2021-08-21T07:50:57.518Z</updated>
     
     <summary type="html">
     
@@ -34,11 +64,11 @@
       <category term="docker" scheme="https://pcion123.github.io/categories/docker/"/>
     
     
-      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
     
   </entry>
   
@@ -94,9 +124,9 @@
       <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
     
     
-      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
-    
       <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
       <category term="codimd" scheme="https://pcion123.github.io/tags/codimd/"/>
     
@@ -126,9 +156,9 @@
       <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
     
     
-      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
-    
       <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
       <category term="rabbitmq" scheme="https://pcion123.github.io/tags/rabbitmq/"/>
     
@@ -278,9 +308,9 @@
       <category term="pm2" scheme="https://pcion123.github.io/categories/pm2/"/>
     
     
-      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
-    
       <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
       <category term="pm2" scheme="https://pcion123.github.io/tags/pm2/"/>
     
@@ -371,9 +401,9 @@
       <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
     
     
-      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
-    
       <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
       <category term="redis" scheme="https://pcion123.github.io/tags/redis/"/>
     
@@ -407,9 +437,9 @@
       <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
     
     
-      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
-    
       <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
       <category term="mariadb" scheme="https://pcion123.github.io/tags/mariadb/"/>
     
@@ -545,36 +575,11 @@
     
       <category term="gitlab" scheme="https://pcion123.github.io/tags/gitlab/"/>
     
-      <category term="jenkins" scheme="https://pcion123.github.io/tags/jenkins/"/>
-    
       <category term="jdk" scheme="https://pcion123.github.io/tags/jdk/"/>
     
-      <category term="maven" scheme="https://pcion123.github.io/tags/maven/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Jenkins搭建</title>
-    <link href="https://pcion123.github.io/2018/03/24/jenkins-install/"/>
-    <id>https://pcion123.github.io/2018/03/24/jenkins-install/</id>
-    <published>2018-03-24T08:27:06.000Z</published>
-    <updated>2019-11-09T09:25:01.625Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;要搭建jenkins需要安裝JDK，以下提供簡易安裝方式&lt;/p&gt;
-&lt;h2 id=&quot;安裝OpenJDK&quot;&gt;&lt;a href=&quot;#安裝OpenJDK&quot; class=&quot;headerlink&quot; title=&quot;安裝OpenJDK&quot;&gt;&lt;/a&gt;安裝OpenJDK&lt;/h2&gt;&lt;p&gt;安裝OpenJDK&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt-get update&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt-get install default-jdk&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-    
-      <category term="jenkins" scheme="https://pcion123.github.io/categories/jenkins/"/>
-    
-    
-      <category term="佈署" scheme="https://pcion123.github.io/tags/%E4%BD%88%E7%BD%B2/"/>
-    
       <category term="jenkins" scheme="https://pcion123.github.io/tags/jenkins/"/>
+    
+      <category term="maven" scheme="https://pcion123.github.io/tags/maven/"/>
     
   </entry>
   
