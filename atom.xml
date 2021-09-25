@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://pcion123.github.io/"/>
-  <updated>2021-08-21T08:22:52.027Z</updated>
+  <updated>2021-09-25T08:01:31.762Z</updated>
   <id>https://pcion123.github.io/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Ubuntu安裝Nexus</title>
+    <link href="https://pcion123.github.io/2021/08/25/nexus-install/"/>
+    <id>https://pcion123.github.io/2021/08/25/nexus-install/</id>
+    <published>2021-08-25T05:36:17.000Z</published>
+    <updated>2021-09-25T08:01:31.762Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;安裝JDK&quot;&gt;&lt;a href=&quot;#安裝JDK&quot; class=&quot;headerlink&quot; title=&quot;安裝JDK&quot;&gt;&lt;/a&gt;安裝JDK&lt;/h2&gt;&lt;a href=&quot;/2019/03/10/java-installopenjdk/&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="maven" scheme="https://pcion123.github.io/categories/maven/"/>
+    
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="maven" scheme="https://pcion123.github.io/tags/maven/"/>
+    
+      <category term="nexus" scheme="https://pcion123.github.io/tags/nexus/"/>
+    
+  </entry>
   
   <entry>
     <title>Ubuntu安裝Minikube</title>
@@ -553,33 +584,6 @@
       <category term="jenkins" scheme="https://pcion123.github.io/tags/jenkins/"/>
     
       <category term="tomcat" scheme="https://pcion123.github.io/tags/tomcat/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Jenkins + Gitlab + Maven + JDK 設定</title>
-    <link href="https://pcion123.github.io/2018/03/29/jenkins-setting/"/>
-    <id>https://pcion123.github.io/2018/03/29/jenkins-setting/</id>
-    <published>2018-03-29T11:23:38.000Z</published>
-    <updated>2019-11-09T09:27:04.104Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在jenkins安裝好後還需要一些進一步的設定，&lt;br&gt;才能讓其他工具好好運作，&lt;br&gt;下面我們就開始做完這些設定&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="jenkins" scheme="https://pcion123.github.io/categories/jenkins/"/>
-    
-    
-      <category term="gitlab" scheme="https://pcion123.github.io/tags/gitlab/"/>
-    
-      <category term="jenkins" scheme="https://pcion123.github.io/tags/jenkins/"/>
-    
-      <category term="jdk" scheme="https://pcion123.github.io/tags/jdk/"/>
-    
-      <category term="maven" scheme="https://pcion123.github.io/tags/maven/"/>
     
   </entry>
   
