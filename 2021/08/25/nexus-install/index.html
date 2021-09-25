@@ -52,17 +52,17 @@
   };
 </script>
 
-  <meta name="description" content="安裝JDK請參考之前的文章  下載nexus官方下載或者nexus-3.33.1-01-unix 建立nexus使用者建立nexus專用的系統帳號 1$ useradd -M -d &#x2F;opt&#x2F;nexus -s &#x2F;bin&#x2F;bash -r nexus 允許nexus用戶可以使用無密碼的sudo運行命令 1$ echo &quot;nexus   ALL=(ALL)       NOPASSWD: ALL&quot; &amp;g">
+  <meta name="description" content="安裝JDK請參考之前的文章  下載nexus官方下載或者nexus-3.33.1-01-unix">
 <meta name="keywords" content="linux,maven,nexus">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu安裝Nexus">
 <meta property="og:url" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2021&#x2F;08&#x2F;25&#x2F;nexus-install&#x2F;index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
-<meta property="og:description" content="安裝JDK請參考之前的文章  下載nexus官方下載或者nexus-3.33.1-01-unix 建立nexus使用者建立nexus專用的系統帳號 1$ useradd -M -d &#x2F;opt&#x2F;nexus -s &#x2F;bin&#x2F;bash -r nexus 允許nexus用戶可以使用無密碼的sudo運行命令 1$ echo &quot;nexus   ALL=(ALL)       NOPASSWD: ALL&quot; &amp;g">
+<meta property="og:description" content="安裝JDK請參考之前的文章  下載nexus官方下載或者nexus-3.33.1-01-unix">
 <meta property="og:locale" content="zh-TW">
 <meta property="og:image" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2021&#x2F;08&#x2F;25&#x2F;nexus-install&#x2F;nexus1.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2021&#x2F;08&#x2F;25&#x2F;nexus-install&#x2F;nexus2.png">
-<meta property="og:updated_time" content="2021-09-25T08:01:31.762Z">
+<meta property="og:updated_time" content="2021-09-25T08:05:29.850Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2021&#x2F;08&#x2F;25&#x2F;nexus-install&#x2F;nexus1.png">
 
@@ -245,7 +245,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-09-25 16:01:31" itemprop="dateModified" datetime="2021-09-25T16:01:31+08:00">2021-09-25</time>
+                <time title="修改時間：2021-09-25 16:05:29" itemprop="dateModified" datetime="2021-09-25T16:05:29+08:00">2021-09-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -287,6 +287,8 @@
         <h2 id="安裝JDK"><a href="#安裝JDK" class="headerlink" title="安裝JDK"></a>安裝JDK</h2><a href="/2019/03/10/java-installopenjdk/" title="請參考之前的文章">請參考之前的文章</a>
 
 <h2 id="下載nexus"><a href="#下載nexus" class="headerlink" title="下載nexus"></a>下載nexus</h2><p><a href="https://www.sonatype.com/products/repository-oss-download" target="_blank" rel="noopener">官方下載</a><br>或者<br><a href="https://sonatype-download.global.ssl.fastly.net/repository/downloads-prod-group/3/nexus-3.33.1-01-unix.tar.gz" target="_blank" rel="noopener">nexus-3.33.1-01-unix</a></p>
+<a id="more"></a>
+
 <h2 id="建立nexus使用者"><a href="#建立nexus使用者" class="headerlink" title="建立nexus使用者"></a>建立nexus使用者</h2><p>建立nexus專用的系統帳號</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ useradd -M -d /opt/nexus -s /bin/bash -r nexus</span><br></pre></td></tr></table></figure>
 <p>允許nexus用戶可以使用無密碼的sudo運行命令</p>

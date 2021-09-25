@@ -6,6 +6,8 @@
     <content><![CDATA[<h2 id="安裝JDK"><a href="#安裝JDK" class="headerlink" title="安裝JDK"></a>安裝JDK</h2><a href="/2019/03/10/java-installopenjdk/" title="請參考之前的文章">請參考之前的文章</a>
 
 <h2 id="下載nexus"><a href="#下載nexus" class="headerlink" title="下載nexus"></a>下載nexus</h2><p><a href="https://www.sonatype.com/products/repository-oss-download" target="_blank" rel="noopener">官方下載</a><br>或者<br><a href="https://sonatype-download.global.ssl.fastly.net/repository/downloads-prod-group/3/nexus-3.33.1-01-unix.tar.gz" target="_blank" rel="noopener">nexus-3.33.1-01-unix</a></p>
+<a id="more"></a>
+
 <h2 id="建立nexus使用者"><a href="#建立nexus使用者" class="headerlink" title="建立nexus使用者"></a>建立nexus使用者</h2><p>建立nexus專用的系統帳號</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ useradd -M -d /opt/nexus -s /bin/bash -r nexus</span><br></pre></td></tr></table></figure>
 <p>允許nexus用戶可以使用無密碼的sudo運行命令</p>
@@ -743,8 +745,8 @@
         <category>jenkins</category>
       </categories>
       <tags>
-        <tag>jdk</tag>
         <tag>gitlab</tag>
+        <tag>jdk</tag>
         <tag>jenkins</tag>
         <tag>maven</tag>
       </tags>

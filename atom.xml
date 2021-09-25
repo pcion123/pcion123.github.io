@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://pcion123.github.io/"/>
-  <updated>2021-09-25T08:01:31.762Z</updated>
+  <updated>2021-09-25T08:05:29.850Z</updated>
   <id>https://pcion123.github.io/</id>
   
   <author>
@@ -21,17 +21,13 @@
     <link href="https://pcion123.github.io/2021/08/25/nexus-install/"/>
     <id>https://pcion123.github.io/2021/08/25/nexus-install/</id>
     <published>2021-08-25T05:36:17.000Z</published>
-    <updated>2021-09-25T08:01:31.762Z</updated>
+    <updated>2021-09-25T08:05:29.850Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;h2 id=&quot;安裝JDK&quot;&gt;&lt;a href=&quot;#安裝JDK&quot; class=&quot;headerlink&quot; title=&quot;安裝JDK&quot;&gt;&lt;/a&gt;安裝JDK&lt;/h2&gt;&lt;a href=&quot;/2019/03/10/java-installopenjdk/&quot;
-        
-      
+      &lt;h2 id=&quot;安裝JDK&quot;&gt;&lt;a href=&quot;#安裝JDK&quot; class=&quot;headerlink&quot; title=&quot;安裝JDK&quot;&gt;&lt;/a&gt;安裝JDK&lt;/h2&gt;&lt;a href=&quot;/2019/03/10/java-installopenjdk/&quot; title=&quot;請參考之前的文章&quot;&gt;請參考之前的文章&lt;/a&gt;
+
+&lt;h2 id=&quot;下載nexus&quot;&gt;&lt;a href=&quot;#下載nexus&quot; class=&quot;headerlink&quot; title=&quot;下載nexus&quot;&gt;&lt;/a&gt;下載nexus&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://www.sonatype.com/products/repository-oss-download&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;官方下載&lt;/a&gt;&lt;br&gt;或者&lt;br&gt;&lt;a href=&quot;https://sonatype-download.global.ssl.fastly.net/repository/downloads-prod-group/3/nexus-3.33.1-01-unix.tar.gz&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;nexus-3.33.1-01-unix&lt;/a&gt;&lt;/p&gt;
     
     </summary>
     
