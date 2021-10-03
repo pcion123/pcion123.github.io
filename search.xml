@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>Ubuntu安裝Nexus</title>
-    <url>/2021/08/25/nexus-install/</url>
+    <url>/2021/09/25/nexus-install/</url>
     <content><![CDATA[<h2 id="安裝JDK"><a href="#安裝JDK" class="headerlink" title="安裝JDK"></a>安裝JDK</h2><a href="/2019/03/10/java-installopenjdk/" title="請參考之前的文章">請參考之前的文章</a>
 
 <h2 id="下載nexus"><a href="#下載nexus" class="headerlink" title="下載nexus"></a>下載nexus</h2><p><a href="https://www.sonatype.com/products/repository-oss-download" target="_blank" rel="noopener">官方下載</a><br>或者<br><a href="https://sonatype-download.global.ssl.fastly.net/repository/downloads-prod-group/3/nexus-3.33.1-01-unix.tar.gz" target="_blank" rel="noopener">nexus-3.33.1-01-unix</a></p>
@@ -42,7 +42,7 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ tail -f /opt/nexus/sonatype-work/nexus3/<span class="built_in">log</span>/nexus.log</span><br></pre></td></tr></table></figure>
 
 <p>第一次登入會看到以下畫面,預設帳號為admin</p>
-<img src="/2021/08/25/nexus-install/nexus1.png" class="">
+<img src="/2021/09/25/nexus-install/nexus1.png" class="">
 
 <h3 id="獲取密碼"><a href="#獲取密碼" class="headerlink" title="獲取密碼"></a>獲取密碼</h3><p>獲取第一次登入密碼</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ cat /opt/nexus/sonatype-work/nexus3/admin.password</span><br></pre></td></tr></table></figure>
@@ -50,7 +50,7 @@
 <h3 id="初始設定"><a href="#初始設定" class="headerlink" title="初始設定"></a>初始設定</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">1.修改管理者密碼</span><br><span class="line">2.根據需求調整,這邊我選擇關閉匿名用戶登入</span><br><span class="line">3.關閉問題回饋</span><br></pre></td></tr></table></figure>
 
 <p>登入後做完第一次設定後服務就正式裝好啦!</p>
-<img src="/2021/08/25/nexus-install/nexus2.png" class="">
+<img src="/2021/09/25/nexus-install/nexus2.png" class="">
 
 <h2 id="系統服務"><a href="#系統服務" class="headerlink" title="系統服務"></a>系統服務</h2><h3 id="建立腳本"><a href="#建立腳本" class="headerlink" title="建立腳本"></a>建立腳本</h3><p>建立/etc/systemd/system/nexus.service</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=nexus service</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">LimitNOFILE=65536</span><br><span class="line">ExecStart=/opt/nexus/bin/nexus start</span><br><span class="line">ExecStop=/opt/nexus/bin/nexus stop</span><br><span class="line">User=nexus</span><br><span class="line">Restart=on-abort</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
@@ -109,9 +109,9 @@
         <category>kubernetes</category>
       </categories>
       <tags>
-        <tag>linux</tag>
-        <tag>ubuntu</tag>
         <tag>docker</tag>
+        <tag>ubuntu</tag>
+        <tag>linux</tag>
         <tag>minikube</tag>
         <tag>kubernetes</tag>
       </tags>
@@ -134,9 +134,9 @@
         <category>docker</category>
       </categories>
       <tags>
-        <tag>linux</tag>
-        <tag>ubuntu</tag>
         <tag>docker</tag>
+        <tag>ubuntu</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -203,8 +203,8 @@
         <category>linux</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>ubuntu</tag>
+        <tag>linux</tag>
         <tag>codimd</tag>
         <tag>hackmd</tag>
       </tags>
@@ -240,8 +240,8 @@
         <category>linux</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>ubuntu</tag>
+        <tag>linux</tag>
         <tag>rabbitmq</tag>
       </tags>
   </entry>
@@ -469,8 +469,8 @@
         <category>pm2</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>ubuntu</tag>
+        <tag>linux</tag>
         <tag>pm2</tag>
       </tags>
   </entry>
@@ -538,8 +538,8 @@
         <category>linux</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>ubuntu</tag>
+        <tag>linux</tag>
         <tag>redis</tag>
       </tags>
   </entry>
@@ -585,8 +585,8 @@
         <category>linux</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>ubuntu</tag>
+        <tag>linux</tag>
         <tag>mariadb</tag>
       </tags>
   </entry>

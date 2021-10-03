@@ -56,17 +56,17 @@
 <meta name="keywords" content="linux,maven,nexus">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu安裝Nexus">
-<meta property="og:url" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2021&#x2F;08&#x2F;25&#x2F;nexus-install&#x2F;index.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2021&#x2F;09&#x2F;25&#x2F;nexus-install&#x2F;index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
 <meta property="og:description" content="安裝JDK請參考之前的文章  下載nexus官方下載或者nexus-3.33.1-01-unix">
 <meta property="og:locale" content="zh-TW">
-<meta property="og:image" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2021&#x2F;08&#x2F;25&#x2F;nexus-install&#x2F;nexus1.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2021&#x2F;08&#x2F;25&#x2F;nexus-install&#x2F;nexus2.png">
-<meta property="og:updated_time" content="2021-09-25T08:05:29.850Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2021&#x2F;09&#x2F;25&#x2F;nexus-install&#x2F;nexus1.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2021&#x2F;09&#x2F;25&#x2F;nexus-install&#x2F;nexus2.png">
+<meta property="og:updated_time" content="2021-10-03T06:21:08.163Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2021&#x2F;08&#x2F;25&#x2F;nexus-install&#x2F;nexus1.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2021&#x2F;09&#x2F;25&#x2F;nexus-install&#x2F;nexus1.png">
 
-<link rel="canonical" href="https://pcion123.github.io/2021/08/25/nexus-install/">
+<link rel="canonical" href="https://pcion123.github.io/2021/09/25/nexus-install/">
 
 
 <script id="page-configurations">
@@ -215,7 +215,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2021/08/25/nexus-install/">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2021/09/25/nexus-install/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg#/images/avatar.gif">
@@ -238,14 +238,14 @@
               </span>
               <span class="post-meta-item-text">發表於</span>
 
-              <time title="創建時間：2021-08-25 13:36:17" itemprop="dateCreated datePublished" datetime="2021-08-25T13:36:17+08:00">2021-08-25</time>
+              <time title="創建時間：2021-09-25 13:36:17" itemprop="dateCreated datePublished" datetime="2021-09-25T13:36:17+08:00">2021-09-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-09-25 16:05:29" itemprop="dateModified" datetime="2021-09-25T16:05:29+08:00">2021-09-25</time>
+                <time title="修改時間：2021-10-03 14:21:08" itemprop="dateModified" datetime="2021-10-03T14:21:08+08:00">2021-10-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -268,8 +268,8 @@
       </span>
       <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="disqus" href="/2021/08/25/nexus-install/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/08/25/nexus-install/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/09/25/nexus-install/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/09/25/nexus-install/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -323,7 +323,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tail -f /opt/nexus/sonatype-work/nexus3/<span class="built_in">log</span>/nexus.log</span><br></pre></td></tr></table></figure>
 
 <p>第一次登入會看到以下畫面,預設帳號為admin</p>
-<img src="/2021/08/25/nexus-install/nexus1.png" class="">
+<img src="/2021/09/25/nexus-install/nexus1.png" class="">
 
 <h3 id="獲取密碼"><a href="#獲取密碼" class="headerlink" title="獲取密碼"></a>獲取密碼</h3><p>獲取第一次登入密碼</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cat /opt/nexus/sonatype-work/nexus3/admin.password</span><br></pre></td></tr></table></figure>
@@ -331,7 +331,7 @@
 <h3 id="初始設定"><a href="#初始設定" class="headerlink" title="初始設定"></a>初始設定</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.修改管理者密碼</span><br><span class="line">2.根據需求調整,這邊我選擇關閉匿名用戶登入</span><br><span class="line">3.關閉問題回饋</span><br></pre></td></tr></table></figure>
 
 <p>登入後做完第一次設定後服務就正式裝好啦!</p>
-<img src="/2021/08/25/nexus-install/nexus2.png" class="">
+<img src="/2021/09/25/nexus-install/nexus2.png" class="">
 
 <h2 id="系統服務"><a href="#系統服務" class="headerlink" title="系統服務"></a>系統服務</h2><h3 id="建立腳本"><a href="#建立腳本" class="headerlink" title="建立腳本"></a>建立腳本</h3><p>建立/etc/systemd/system/nexus.service</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=nexus service</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">LimitNOFILE=65536</span><br><span class="line">ExecStart=/opt/nexus/bin/nexus start</span><br><span class="line">ExecStop=/opt/nexus/bin/nexus stop</span><br><span class="line">User=nexus</span><br><span class="line">Restart=on-abort</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
@@ -593,8 +593,8 @@ if (document.querySelectorAll('div.pdf').length) {
       DISQUS.reset({
         reload: true,
         config: {page: {
-            url: "https://pcion123.github.io/2021/08/25/nexus-install/",
-            identifier: "2021/08/25/nexus-install/",
+            url: "https://pcion123.github.io/2021/09/25/nexus-install/",
+            identifier: "2021/09/25/nexus-install/",
             title: "Ubuntu安裝Nexus"
           }
         }
