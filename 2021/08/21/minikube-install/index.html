@@ -2,376 +2,128 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.0.0">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
-  <link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
-  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
 
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script id="hexo-configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Muse',
-    version: '7.5.0',
-    exturl: false,
-    sidebar: {"position":"left","display":"always","offset":12,"onmobile":false},
-    copycode: {"enable":true,"show_result":true,"style":"default"},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
-    bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: false,
-    mediumzoom: false,
-    lazyload: false,
-    pangu: false,
-    algolia: {
-      appID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    },
-    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: 'search.xml',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    translation: {
-      copy_button: '複製',
-      copy_success: '複製成功',
-      copy_failure: '複製失敗'
-    },
-    sidebarPadding: 40
-  };
-</script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"default"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
 
-  <meta name="description" content="繼上次的docker安裝今天要繼續部屬kubernetes的內容 簡介minikube是由google開發的精簡版kubernetes工具可以簡單的模擬k8s底下的環境運作">
-<meta name="keywords" content="docker,ubuntu,linux,minikube,kubernetes">
+    <meta name="description" content="繼上次的docker安裝今天要繼續部屬kubernetes的內容 簡介minikube是由google開發的精簡版kubernetes工具可以簡單的模擬k8s底下的環境運作">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu安裝Minikube">
-<meta property="og:url" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2021&#x2F;08&#x2F;21&#x2F;minikube-install&#x2F;index.html">
+<meta property="og:url" content="https://pcion123.github.io/2021/08/21/minikube-install/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
 <meta property="og:description" content="繼上次的docker安裝今天要繼續部屬kubernetes的內容 簡介minikube是由google開發的精簡版kubernetes工具可以簡單的模擬k8s底下的環境運作">
-<meta property="og:locale" content="zh-TW">
-<meta property="og:image" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2021&#x2F;08&#x2F;21&#x2F;minikube-install&#x2F;minikube.png">
-<meta property="og:updated_time" content="2021-08-21T08:22:52.027Z">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2021/08/21/minikube-install/minikube.png">
+<meta property="article:published_time" content="2021-08-21T06:02:15.000Z">
+<meta property="article:modified_time" content="2021-08-21T08:22:52.027Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="ubuntu">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="minikube">
+<meta property="article:tag" content="kubernetes">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;pcion123.github.io&#x2F;2021&#x2F;08&#x2F;21&#x2F;minikube-install&#x2F;minikube.png">
+<meta name="twitter:image" content="https://pcion123.github.io/2021/08/21/minikube-install/minikube.png">
+
 
 <link rel="canonical" href="https://pcion123.github.io/2021/08/21/minikube-install/">
 
 
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome: false,
-    isPost: true,
-    isPage: false,
-    isArchive: false
-  };
-</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2021/08/21/minikube-install/","path":"2021/08/21/minikube-install/","title":"Ubuntu安裝Minikube"}</script>
 
-  <title>Ubuntu安裝Minikube | Pcion's Blog</title>
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Ubuntu安裝Minikube | Pcion's Blog</title>
   
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152342668-1"></script>
-    <script>
-      var host = window.location.hostname;
-      if (host !== "localhost" || !true) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-152342668-1');
-      }
-    </script>
 
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
 
 
 
 
 
   <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
 
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-meta">
-
-    <div>
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Pcion's Blog</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切換導航欄">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
     </div>
   </div>
 </div>
+
 
 
 <nav class="site-nav">
-  
-  <ul id="menu" class="menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首頁</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分類</a>
-
-  </li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
-        </a>
-      </li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分類</a></li>
   </ul>
-
 </nav>
-  <div class="site-search">
-    <div class="popup search-popup">
-    <div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocorrect="off" autocapitalize="none"
-           placeholder="搜尋..." spellcheck="false"
-           type="text" id="search-input">
-  </div>
-  <span class="popup-btn-close">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div id="search-result"></div>
-
-</div>
-<div class="search-pop-overlay"></div>
-
-  </div>
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-  <div class="reading-progress-bar"></div>
 
 
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
 
-          <div class="content">
-            
 
-  <div class="posts-expand">
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2021/08/21/minikube-install/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg#/images/avatar.gif">
-      <meta itemprop="name" content="Jason Lai">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pcion's Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Ubuntu安裝Minikube
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">發表於</span>
-              
-
-              <time title="創建時間：2021-08-21 14:02:15 / 修改時間：16:22:52" itemprop="dateCreated datePublished" datetime="2021-08-21T14:02:15+08:00">2021-08-21</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分類於</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/kubernetes/" itemprop="url" rel="index">
-                    <span itemprop="name">kubernetes</span>
-                  </a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2021/08/21/minikube-install/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/08/21/minikube-install/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <p>繼上次的docker安裝今天要繼續部屬kubernetes的內容</p>
-<h2 id="簡介"><a href="#簡介" class="headerlink" title="簡介"></a>簡介</h2><p>minikube是由google開發的精簡版kubernetes工具<br>可以簡單的模擬k8s底下的環境運作</p>
-<a id="more"></a>
-
-<h2 id="安裝容器"><a href="#安裝容器" class="headerlink" title="安裝容器"></a>安裝容器</h2><p>kubernetese提供多樣的容器部屬環境<br>這邊我們選用docker當作容器的底層</p>
-<a href="/2021/08/21/docker-install/" title="請參考之前的文章">請參考之前的文章</a>
-
-<h2 id="安裝kubectl"><a href="#安裝kubectl" class="headerlink" title="安裝kubectl"></a>安裝kubectl</h2><p>kubectl是一套管理kubernetes的命令工具</p>
-<h3 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更新套件管理</span></span><br><span class="line">$ sudo apt update</span><br><span class="line"><span class="comment"># 安裝套件倉庫</span></span><br><span class="line">$ sudo apt install -y apt-transport-https ca-certificates curl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下載倉庫憑證</span></span><br><span class="line">$ sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg</span><br><span class="line"><span class="comment"># 加入憑證信任列表</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">"deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main"</span> | sudo tee /etc/apt/sources.list.d/kubernetes.list</span><br><span class="line"></span><br><span class="line">deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新套件管理</span></span><br><span class="line">$ sudo apt update</span><br><span class="line"><span class="comment"># 安裝kubectl</span></span><br><span class="line">$ sudo apt install kubectl -y</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看版本"><a href="#查看版本" class="headerlink" title="查看版本"></a>查看版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl version --short --client</span><br><span class="line"></span><br><span class="line">Client Version: v1.22.1</span><br></pre></td></tr></table></figure>
-
-<h2 id="安裝minikube"><a href="#安裝minikube" class="headerlink" title="安裝minikube"></a>安裝minikube</h2><p>現在開始安裝主角</p>
-<h3 id="安裝-1"><a href="#安裝-1" class="headerlink" title="安裝"></a>安裝</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下載安裝包</span></span><br><span class="line">$ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb</span><br><span class="line"><span class="comment"># 安裝套件</span></span><br><span class="line">$ sudo dpkg -i minikube_latest_amd64.deb</span><br><span class="line"></span><br><span class="line">Selecting previously unselected package minikube.</span><br><span class="line">(Reading database ... 71806 files and directories currently installed.)</span><br><span class="line">Preparing to unpack minikube_latest_amd64.deb ...</span><br><span class="line">Unpacking minikube (1.22.0-0) ...</span><br><span class="line">Setting up minikube (1.22.0-0) ...</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看版本-1"><a href="#查看版本-1" class="headerlink" title="查看版本"></a>查看版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ minikube version</span><br><span class="line"></span><br><span class="line">minikube version: v1.22.0</span><br><span class="line">commit: a03fbcf166e6f74ef224d4a63be4277d017bb62e</span><br></pre></td></tr></table></figure>
-
-<h3 id="啟動"><a href="#啟動" class="headerlink" title="啟動"></a>啟動</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ minikube start</span><br><span class="line"></span><br><span class="line">😄  minikube v1.22.0 on Ubuntu 20.04 (vbox/amd64)</span><br><span class="line">✨  Automatically selected the docker driver. Other choices: ssh, none</span><br><span class="line">👍  Starting control plane node minikube <span class="keyword">in</span> cluster minikube</span><br><span class="line">🚜  Pulling base image ...</span><br><span class="line">💾  Downloading Kubernetes v1.21.2 preload ...</span><br><span class="line">    &gt; preloaded-images-k8s-v11-v1...: 502.14 MiB / 502.14 MiB  100.00% 7.08 MiB</span><br><span class="line">    &gt; gcr.io/k8s-minikube/kicbase...: 361.08 MiB / 361.09 MiB  100.00% 3.95 MiB</span><br><span class="line">🔥  Creating docker container (CPUs=2, Memory=2200MB) ...</span><br><span class="line">🐳  Preparing Kubernetes v1.21.2 on Docker 20.10.7 ...</span><br><span class="line">    ▪ Generating certificates and keys ...</span><br><span class="line">    ▪ Booting up control plane ...</span><br><span class="line">    ▪ Configuring RBAC rules ...</span><br><span class="line">🔎  Verifying Kubernetes components...</span><br><span class="line">    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5</span><br><span class="line">🌟  Enabled addons: storage-provisioner, default-storageclass</span><br><span class="line">🏄  Done! kubectl is now configured to use <span class="string">"minikube"</span> cluster and <span class="string">"default"</span> namespace by default</span><br></pre></td></tr></table></figure>
-
-<h3 id="啟動dashboard"><a href="#啟動dashboard" class="headerlink" title="啟動dashboard"></a>啟動dashboard</h3><p>正常的kubernetes的dashboard需要另外安裝的<br>但是minikube已經自帶dashboard套件只需啟動就行了</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ minikube dashboard</span><br><span class="line"></span><br><span class="line">🔌  Enabling dashboard ...</span><br><span class="line">    ▪ Using image kubernetesui/dashboard:v2.1.0</span><br><span class="line">    ▪ Using image kubernetesui/metrics-scraper:v1.0.4</span><br><span class="line">🤔  Verifying dashboard health ...</span><br><span class="line">🚀  Launching proxy ...</span><br><span class="line">🤔  Verifying proxy health ...</span><br><span class="line">🎉  Opening http://127.0.0.1:33657/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/ <span class="keyword">in</span> your default browser...</span><br><span class="line">👉  http://127.0.0.1:33657/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/</span><br></pre></td></tr></table></figure>
-
-<h3 id="開啟proxy"><a href="#開啟proxy" class="headerlink" title="開啟proxy"></a>開啟proxy</h3><p>一般來說啟動dashboard就會自動幫你開啟瀏覽器到dashboard的頁面中了<br>但是筆者的環境是裝在virtualbox的ubuntu-server底下<br>所以就需要另外提供外連的方式了</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl proxy --address=<span class="string">'0.0.0.0'</span> --port=8001 --accept-hosts=<span class="string">'^*$'</span></span><br><span class="line"></span><br><span class="line">Starting to serve on [::]:8001</span><br></pre></td></tr></table></figure>
-
-<p>這樣就大功告成啦!</p>
-<img src="/2021/08/21/minikube-install/minikube.png" class="">
-
-<h2 id="補充"><a href="#補充" class="headerlink" title="補充"></a>補充</h2><p>安裝過程設定如果出了什麼問題想要重置<br>我們可刪掉整個minikube設置重來</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 刪除minikube環境</span></span><br><span class="line">$ minikube delete &amp;&amp; rm -rf ~/.minikube</span><br><span class="line"><span class="comment"># 重啟minikube</span></span><br><span class="line">$ minikube start</span><br></pre></td></tr></table></figure>
-    </div>
-
-    
-    
-    
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/docker/" rel="tag"># docker</a>
-              <a href="/tags/ubuntu/" rel="tag"># ubuntu</a>
-              <a href="/tags/linux/" rel="tag"># linux</a>
-              <a href="/tags/minikube/" rel="tag"># minikube</a>
-              <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
-          </div>
-
+</header>
         
-
-          <div class="post-nav">
-            <div class="post-nav-next post-nav-item">
-                <a href="/2021/08/21/docker-install/" rel="next" title="Ubuntu安裝Docker">
-                  <i class="fa fa-chevron-left"></i> Ubuntu安裝Docker
-                </a>
-            </div>
-
-            <span class="post-nav-divider"></span>
-
-            <div class="post-nav-prev post-nav-item">
-                <a href="/2021/09/25/nexus-install/" rel="prev" title="Ubuntu安裝Nexus">
-                  Ubuntu安裝Nexus <i class="fa fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
-      </footer>
-    
-  </article>
   
-  
-  
-
-  </div>
-
-
-          </div>
-          
-    
-  <div class="comments" id="comments">
-    <div id="disqus_thread">
-      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-    </div>
-  </div>
-  
-
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
   <aside class="sidebar">
-    <div class="sidebar-inner">
 
-      <ul class="sidebar-nav motion-element">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目錄
         </li>
@@ -380,222 +132,278 @@
         </li>
       </ul>
 
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#簡介"><span class="nav-number">1.</span> <span class="nav-text">簡介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝容器"><span class="nav-number">2.</span> <span class="nav-text">安裝容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝kubectl"><span class="nav-number">3.</span> <span class="nav-text">安裝kubectl</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝"><span class="nav-number">3.1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看版本"><span class="nav-number">3.2.</span> <span class="nav-text">查看版本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝minikube"><span class="nav-number">4.</span> <span class="nav-text">安裝minikube</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-1"><span class="nav-number">4.1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看版本-1"><span class="nav-number">4.2.</span> <span class="nav-text">查看版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#啟動"><span class="nav-number">4.3.</span> <span class="nav-text">啟動</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#啟動dashboard"><span class="nav-number">4.4.</span> <span class="nav-text">啟動dashboard</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#開啟proxy"><span class="nav-number">4.5.</span> <span class="nav-text">開啟proxy</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#補充"><span class="nav-number">5.</span> <span class="nav-text">補充</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B0%A1%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">簡介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E5%AE%B9%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">安裝容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9Dkubectl"><span class="nav-number">3.</span> <span class="nav-text">安裝kubectl</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D"><span class="nav-number">3.1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E7%89%88%E6%9C%AC"><span class="nav-number">3.2.</span> <span class="nav-text">查看版本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9Dminikube"><span class="nav-number">4.</span> <span class="nav-text">安裝minikube</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-1"><span class="nav-number">4.1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E7%89%88%E6%9C%AC-1"><span class="nav-number">4.2.</span> <span class="nav-text">查看版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%95%9F%E5%8B%95"><span class="nav-number">4.3.</span> <span class="nav-text">啟動</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%95%9F%E5%8B%95dashboard"><span class="nav-number">4.4.</span> <span class="nav-text">啟動dashboard</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%96%8B%E5%95%9Fproxy"><span class="nav-number">4.5.</span> <span class="nav-text">開啟proxy</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A3%9C%E5%85%85"><span class="nav-number">5.</span> <span class="nav-text">補充</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
 
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="Jason Lai"
-      src="/images/avatar.jpg#/images/avatar.gif">
+      src="/images/avatar.jpg">
   <p class="site-author-name" itemprop="name">Jason Lai</p>
   <div class="site-description" itemprop="description"></div>
 </div>
-<div class="site-state-wrap motion-element">
+<div class="site-state-wrap animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives">
+        <a href="/archives/">
           <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
+          <a href="/categories/">
         <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">分類</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-            <a href="/tags/">
+          <a href="/tags/">
         <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
 </div>
-  <div class="feed-link motion-element">
-    <a href="/atom.xml" rel="alternate">
-      <i class="fa fa-rss"></i>RSS
-    </a>
-  </div>
-  <div class="links-of-author motion-element">
+  <div class="links-of-author animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/pcion123" title="Github &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>Github</a>
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="https://www.facebook.com/pcion" title="Facebook &amp;rarr; https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion" rel="noopener" target="_blank"><i class="fa fa-fw fa-facebook"></i>Facebook</a>
+        <a href="https://www.facebook.com/pcion" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
       </span>
       <span class="links-of-author-item">
-        <a href="https://www.cakeresume.com/pcion123" title="Cakeresume &amp;rarr; https:&#x2F;&#x2F;www.cakeresume.com&#x2F;pcion123" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin"></i>Cakeresume</a>
+        <a href="https://www.cakeresume.com/pcion123" title="Cakeresume → https:&#x2F;&#x2F;www.cakeresume.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="linkedin fa-fw"></i>Cakeresume</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
       </span>
   </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/docker/" style="font-size: 15.6px;" class="tag-cloud-2">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gitlab/" style="font-size: 19.2px;" class="tag-cloud-4">gitlab</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 12px;" class="tag-cloud-0">java</a> <a href="/tags/jdk/" style="font-size: 15.6px;" class="tag-cloud-2">jdk</a> <a href="/tags/jenkins/" style="font-size: 22.8px;" class="tag-cloud-6">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 12px;" class="tag-cloud-0">kubernetes</a> <a href="/tags/linux/" style="font-size: 30px;" class="tag-cloud-10">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 19.2px;" class="tag-cloud-4">maven</a> <a href="/tags/minikube/" style="font-size: 12px;" class="tag-cloud-0">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/pm2/" style="font-size: 15.6px;" class="tag-cloud-2">pm2</a> <a href="/tags/powershell/" style="font-size: 15.6px;" class="tag-cloud-2">powershell</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 15.6px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 15.6px;" class="tag-cloud-2">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 26.4px;" class="tag-cloud-8">ubuntu</a> <a href="/tags/windows/" style="font-size: 15.6px;" class="tag-cloud-2">windows</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 19.2px;" class="tag-cloud-4">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
 
-
-
+        </div>
       </div>
+    </div>
 
-      
-      <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
-      <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
-      <div class="widget-wrap">
-          <h5 class="widget-title">雜七雜八</h5>
-          <div id="myCanvasContainer" class="widget tagcloud">
-              <canvas width="300" height="300" id="resCanvas" style="width=100%">
-                  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/bot/" rel="tag">bot</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/codimd/" rel="tag">codimd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/elasticsearch/" rel="tag">elasticsearch</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/error/" rel="tag">error</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitlab/" rel="tag">gitlab</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hackmd/" rel="tag">hackmd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk/" rel="tag">jdk</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jenkins/" rel="tag">jenkins</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kibana/" rel="tag">kibana</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kubernetes/" rel="tag">kubernetes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a><span class="tag-list-count">13</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logstash/" rel="tag">logstash</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mariadb/" rel="tag">mariadb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/maven/" rel="tag">maven</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/minikube/" rel="tag">minikube</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nexus/" rel="tag">nexus</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pm2/" rel="tag">pm2</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/powershell/" rel="tag">powershell</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rabbitmq/" rel="tag">rabbitmq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/telegram/" rel="tag">telegram</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/terminal/" rel="tag">terminal</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tomcat/" rel="tag">tomcat</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu/" rel="tag">ubuntu</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/windows/" rel="tag">windows</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" rel="tag">中文化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BD%88%E7%BD%B2/" rel="tag">佈署</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" rel="tag">環境變數</a><span class="tag-list-count">1</span></li></ul>
-              </canvas>
-          </div>
-      </div>
-      
+    
+  </aside>
+
 
     </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
+
+    <div class="main-inner post posts-expand">
 
 
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-<div class="copyright">
   
-  &copy; 
-  <span itemprop="copyrightYear">2021</span>
-  <span class="with-love">
-    <i class="fa fa-user"></i>
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2021/08/21/minikube-install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Ubuntu安裝Minikube | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Ubuntu安裝Minikube
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2021-08-21 14:02:15 / 修改時間：16:22:52" itemprop="dateCreated datePublished" datetime="2021-08-21T14:02:15+08:00">2021-08-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kubernetes/" itemprop="url" rel="index"><span itemprop="name">kubernetes</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/08/21/minikube-install/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/08/21/minikube-install/" itemprop="commentCount"></span>
+    </a>
   </span>
-  <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  
+  
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 強力驅動 v4.0.0
-  </div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">主題 – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.5.0
-  </div>
 
-        
+        </div>
+      </header>
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>繼上次的docker安裝今天要繼續部屬kubernetes的內容</p>
+<h2 id="簡介"><a href="#簡介" class="headerlink" title="簡介"></a>簡介</h2><p>minikube是由google開發的精簡版kubernetes工具<br>可以簡單的模擬k8s底下的環境運作</p>
+<span id="more"></span>
 
+<h2 id="安裝容器"><a href="#安裝容器" class="headerlink" title="安裝容器"></a>安裝容器</h2><p>kubernetese提供多樣的容器部屬環境<br>這邊我們選用docker當作容器的底層</p>
+<a href="/2021/08/21/docker-install/" title="Ubuntu安裝Docker">請參考之前的文章</a>
 
+<h2 id="安裝kubectl"><a href="#安裝kubectl" class="headerlink" title="安裝kubectl"></a>安裝kubectl</h2><p>kubectl是一套管理kubernetes的命令工具</p>
+<h3 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更新套件管理</span></span><br><span class="line">$ <span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="comment"># 安裝套件倉庫</span></span><br><span class="line">$ <span class="built_in">sudo</span> apt install -y apt-transport-https ca-certificates curl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下載倉庫憑證</span></span><br><span class="line">$ <span class="built_in">sudo</span> curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg</span><br><span class="line"><span class="comment"># 加入憑證信任列表</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main&quot;</span> | <span class="built_in">sudo</span> <span class="built_in">tee</span> /etc/apt/sources.list.d/kubernetes.list</span><br><span class="line"></span><br><span class="line">deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新套件管理</span></span><br><span class="line">$ <span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="comment"># 安裝kubectl</span></span><br><span class="line">$ <span class="built_in">sudo</span> apt install kubectl -y</span><br></pre></td></tr></table></figure>
 
+<h3 id="查看版本"><a href="#查看版本" class="headerlink" title="查看版本"></a>查看版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl version --short --client</span><br><span class="line"></span><br><span class="line">Client Version: v1.22.1</span><br></pre></td></tr></table></figure>
 
+<h2 id="安裝minikube"><a href="#安裝minikube" class="headerlink" title="安裝minikube"></a>安裝minikube</h2><p>現在開始安裝主角</p>
+<h3 id="安裝-1"><a href="#安裝-1" class="headerlink" title="安裝"></a>安裝</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下載安裝包</span></span><br><span class="line">$ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb</span><br><span class="line"><span class="comment"># 安裝套件</span></span><br><span class="line">$ <span class="built_in">sudo</span> dpkg -i minikube_latest_amd64.deb</span><br><span class="line"></span><br><span class="line">Selecting previously unselected package minikube.</span><br><span class="line">(Reading database ... 71806 files and directories currently installed.)</span><br><span class="line">Preparing to unpack minikube_latest_amd64.deb ...</span><br><span class="line">Unpacking minikube (1.22.0-0) ...</span><br><span class="line">Setting up minikube (1.22.0-0) ...</span><br></pre></td></tr></table></figure>
 
+<h3 id="查看版本-1"><a href="#查看版本-1" class="headerlink" title="查看版本"></a>查看版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ minikube version</span><br><span class="line"></span><br><span class="line">minikube version: v1.22.0</span><br><span class="line">commit: a03fbcf166e6f74ef224d4a63be4277d017bb62e</span><br></pre></td></tr></table></figure>
 
+<h3 id="啟動"><a href="#啟動" class="headerlink" title="啟動"></a>啟動</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ minikube start</span><br><span class="line"></span><br><span class="line">😄  minikube v1.22.0 on Ubuntu 20.04 (vbox/amd64)</span><br><span class="line">✨  Automatically selected the docker driver. Other choices: ssh, none</span><br><span class="line">👍  Starting control plane node minikube <span class="keyword">in</span> cluster minikube</span><br><span class="line">🚜  Pulling base image ...</span><br><span class="line">💾  Downloading Kubernetes v1.21.2 preload ...</span><br><span class="line">    &gt; preloaded-images-k8s-v11-v1...: 502.14 MiB / 502.14 MiB  100.00% 7.08 MiB</span><br><span class="line">    &gt; gcr.io/k8s-minikube/kicbase...: 361.08 MiB / 361.09 MiB  100.00% 3.95 MiB</span><br><span class="line">🔥  Creating docker container (CPUs=2, Memory=2200MB) ...</span><br><span class="line">🐳  Preparing Kubernetes v1.21.2 on Docker 20.10.7 ...</span><br><span class="line">    ▪ Generating certificates and keys ...</span><br><span class="line">    ▪ Booting up control plane ...</span><br><span class="line">    ▪ Configuring RBAC rules ...</span><br><span class="line">🔎  Verifying Kubernetes components...</span><br><span class="line">    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5</span><br><span class="line">🌟  Enabled addons: storage-provisioner, default-storageclass</span><br><span class="line">🏄  Done! kubectl is now configured to use <span class="string">&quot;minikube&quot;</span> cluster and <span class="string">&quot;default&quot;</span> namespace by default</span><br></pre></td></tr></table></figure>
 
+<h3 id="啟動dashboard"><a href="#啟動dashboard" class="headerlink" title="啟動dashboard"></a>啟動dashboard</h3><p>正常的kubernetes的dashboard需要另外安裝的<br>但是minikube已經自帶dashboard套件只需啟動就行了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ minikube dashboard</span><br><span class="line"></span><br><span class="line">🔌  Enabling dashboard ...</span><br><span class="line">    ▪ Using image kubernetesui/dashboard:v2.1.0</span><br><span class="line">    ▪ Using image kubernetesui/metrics-scraper:v1.0.4</span><br><span class="line">🤔  Verifying dashboard health ...</span><br><span class="line">🚀  Launching proxy ...</span><br><span class="line">🤔  Verifying proxy health ...</span><br><span class="line">🎉  Opening http://127.0.0.1:33657/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/ <span class="keyword">in</span> your default browser...</span><br><span class="line">👉  http://127.0.0.1:33657/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/</span><br></pre></td></tr></table></figure>
 
+<h3 id="開啟proxy"><a href="#開啟proxy" class="headerlink" title="開啟proxy"></a>開啟proxy</h3><p>一般來說啟動dashboard就會自動幫你開啟瀏覽器到dashboard的頁面中了<br>但是筆者的環境是裝在virtualbox的ubuntu-server底下<br>所以就需要另外提供外連的方式了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl proxy --address=<span class="string">&#x27;0.0.0.0&#x27;</span> --port=8001 --accept-hosts=<span class="string">&#x27;^*$&#x27;</span></span><br><span class="line"></span><br><span class="line">Starting to serve on [::]:8001</span><br></pre></td></tr></table></figure>
 
+<p>這樣就大功告成啦!</p>
+<img src="/2021/08/21/minikube-install/minikube.png" class="">
 
+<h2 id="補充"><a href="#補充" class="headerlink" title="補充"></a>補充</h2><p>安裝過程設定如果出了什麼問題想要重置<br>我們可刪掉整個minikube設置重來</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 刪除minikube環境</span></span><br><span class="line">$ minikube delete &amp;&amp; <span class="built_in">rm</span> -rf ~/.minikube</span><br><span class="line"><span class="comment"># 重啟minikube</span></span><br><span class="line">$ minikube start</span><br></pre></td></tr></table></figure>
+    </div>
 
-        
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>歡迎關注我的其它發布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
       </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/ubuntu/" rel="tag"># ubuntu</a>
+              <a href="/tags/docker/" rel="tag"># docker</a>
+              <a href="/tags/minikube/" rel="tag"># minikube</a>
+              <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/08/21/docker-install/" rel="prev" title="Ubuntu安裝Docker">
+                  <i class="fa fa-angle-left"></i> Ubuntu安裝Docker
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/09/25/nexus-install/" rel="next" title="Ubuntu安裝Nexus">
+                  Ubuntu安裝Nexus <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
     </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
   </div>
 
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
-<script src="/js/schemes/muse.js"></script>
-<script src="/js/next-boot.js"></script>
-
-
+    </div>
+  </footer>
 
   
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
 
-
-
-
-  <script src="/js/local-search.js"></script>
-
-
-
-
-
-
-
-
-<script>
-if (document.querySelectorAll('div.pdf').length) {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
-    document.querySelectorAll('div.pdf').forEach(element => {
-      PDFObject.embed(element.getAttribute('target'), element, {
-        pdfOpenParams: {
-          navpanes: 0,
-          toolbar: 0,
-          statusbar: 0,
-          pagemode: 'thumbs',
-          view: 'FitH'
-        },
-        PDFJS_URL: '/lib/pdf/web/viewer.html',
-        height: element.getAttribute('height') || '500px'
-      });
-    });
-  }, window.PDFObject);
-}
-</script>
-
-
-
-
-
-  
-
-  
-
-<script>
-  function loadCount() {
-    var d = document, s = d.createElement('script');
-    s.src = 'https://pcions-blog.disqus.com/count.js';
-    s.id = 'dsq-count-scr';
-    (d.head || d.body).appendChild(s);
-  }
-  // defer loading until the whole page loading is completed
-  window.addEventListener('load', loadCount, false);
-</script>
-<script>
-  function loadComments() {
-    if (window.DISQUS) {
-      DISQUS.reset({
-        reload: true,
-        config: {page: {
-            url: "https://pcion123.github.io/2021/08/21/minikube-install/",
-            identifier: "2021/08/21/minikube-install/",
-            title: "Ubuntu安裝Minikube"
-          }
-        }
-      });
-    } else {
-      var d = document, s = d.createElement('script');
-      s.src = 'https://pcions-blog.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', '' + +new Date());
-      (d.head || d.body).appendChild(s);
-    }
-  }
-    (function() {
-      var offsetTop = document.getElementById('comments').offsetTop - window.innerHeight;
-      if (offsetTop <= 0) {
-        // load directly when there's no a scrollbar
-        window.addEventListener('load', loadComments, false);
-      } else {
-        var disqus_scroll = () => {
-          // offsetTop may changes because of manually resizing browser window or lazy loading images.
-          var offsetTop = document.getElementById('comments').offsetTop - window.innerHeight;
-          var scrollTop = window.scrollY;
-
-          // pre-load comments a bit? (margin or anything else)
-          if (offsetTop - scrollTop < 60) {
-            window.removeEventListener('scroll', disqus_scroll);
-            loadComments();
-          }
-        };
-        window.addEventListener('scroll', disqus_scroll);
-      }
-    })();
-  
-</script>
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"pcions-blog","count":true,"lazyload":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js" defer></script>
 
 </body>
 </html>

@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="https://www.w3.org/2005/Atom">
+<feed xmlns="http://www.w3.org/2005/Atom">
   <title>Pcion&#39;s Blog</title>
   
   
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://pcion123.github.io/"/>
-  <updated>2021-10-03T06:21:08.163Z</updated>
+  <updated>2025-07-13T13:29:47.269Z</updated>
   <id>https://pcion123.github.io/</id>
   
   <author>
     <name>Jason Lai</name>
-    
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
@@ -21,13 +20,13 @@
     <link href="https://pcion123.github.io/2021/09/25/nexus-install/"/>
     <id>https://pcion123.github.io/2021/09/25/nexus-install/</id>
     <published>2021-09-25T05:36:17.000Z</published>
-    <updated>2021-10-03T06:21:08.163Z</updated>
+    <updated>2025-07-13T13:29:47.269Z</updated>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;安裝JDK&quot;&gt;&lt;a href=&quot;#安裝JDK&quot; class=&quot;headerlink&quot; title=&quot;安裝JDK&quot;&gt;&lt;/a&gt;安裝JDK&lt;/h2&gt;&lt;a href=&quot;/2019/03/10/java-installopenjdk/&quot; title=&quot;請參考之前的文章&quot;&gt;請參考之前的文章&lt;/a&gt;
+      &lt;h2 id=&quot;安裝JDK&quot;&gt;&lt;a href=&quot;#安裝JDK&quot; class=&quot;headerlink&quot; title=&quot;安裝JDK&quot;&gt;&lt;/a&gt;安裝JDK&lt;/h2&gt;&lt;a href=&quot;/2019/03/10/java-installopenjdk/&quot; title=&quot;安裝OpenJDK&quot;&gt;請參考之前的文章&lt;/a&gt;
 
-&lt;h2 id=&quot;下載nexus&quot;&gt;&lt;a href=&quot;#下載nexus&quot; class=&quot;headerlink&quot; title=&quot;下載nexus&quot;&gt;&lt;/a&gt;下載nexus&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://www.sonatype.com/products/repository-oss-download&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;官方下載&lt;/a&gt;&lt;br&gt;或者&lt;br&gt;&lt;a href=&quot;https://sonatype-download.global.ssl.fastly.net/repository/downloads-prod-group/3/nexus-3.33.1-01-unix.tar.gz&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;nexus-3.33.1-01-unix&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;下載nexus&quot;&gt;&lt;a href=&quot;#下載nexus&quot; class=&quot;headerlink&quot; title=&quot;下載nexus&quot;&gt;&lt;/a&gt;下載nexus&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://www.sonatype.com/products/repository-oss-download&quot;&gt;官方下載&lt;/a&gt;&lt;br&gt;或者&lt;br&gt;&lt;a href=&quot;https://sonatype-download.global.ssl.fastly.net/repository/downloads-prod-group/3/nexus-3.33.1-01-unix.tar.gz&quot;&gt;nexus-3.33.1-01-unix&lt;/a&gt;&lt;/p&gt;
     
     </summary>
     
@@ -61,11 +60,11 @@
       <category term="kubernetes" scheme="https://pcion123.github.io/categories/kubernetes/"/>
     
     
-      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
     
       <category term="minikube" scheme="https://pcion123.github.io/tags/minikube/"/>
     
@@ -83,7 +82,7 @@
     <summary type="html">
     
       &lt;p&gt;docker是目前容器化部屬最火紅的方案&lt;br&gt;廢話不多說現在趕快來看看怎麼安裝吧!&lt;/p&gt;
-&lt;h2 id=&quot;安裝&quot;&gt;&lt;a href=&quot;#安裝&quot; class=&quot;headerlink&quot; title=&quot;安裝&quot;&gt;&lt;/a&gt;安裝&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt update&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ sudo install docker.io&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;安裝&quot;&gt;&lt;a href=&quot;#安裝&quot; class=&quot;headerlink&quot; title=&quot;安裝&quot;&gt;&lt;/a&gt;安裝&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; apt update&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; install docker.io&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
@@ -91,11 +90,11 @@
       <category term="docker" scheme="https://pcion123.github.io/categories/docker/"/>
     
     
-      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
     
   </entry>
   
@@ -135,15 +134,15 @@
     
     <summary type="html">
     
-      &lt;h2 id=&quot;相關介紹&quot;&gt;&lt;a href=&quot;#相關介紹&quot; class=&quot;headerlink&quot; title=&quot;相關介紹&quot;&gt;&lt;/a&gt;相關介紹&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/hackmdio/codimd&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;github&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-manual-deployment&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;manual-deployment&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&quot;安裝nodejs&quot;&gt;&lt;a href=&quot;#安裝nodejs&quot; class=&quot;headerlink&quot; title=&quot;安裝nodejs&quot;&gt;&lt;/a&gt;安裝nodejs&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 安裝版本庫&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 安裝nodejs&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ apt install -y nodejs&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 查看nodejs版本&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ node -v&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 查看npm版本&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ npm -v&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+      &lt;h2 id=&quot;相關介紹&quot;&gt;&lt;a href=&quot;#相關介紹&quot; class=&quot;headerlink&quot; title=&quot;相關介紹&quot;&gt;&lt;/a&gt;相關介紹&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/hackmdio/codimd&quot;&gt;github&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-manual-deployment&quot;&gt;manual-deployment&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;安裝nodejs&quot;&gt;&lt;a href=&quot;#安裝nodejs&quot; class=&quot;headerlink&quot; title=&quot;安裝nodejs&quot;&gt;&lt;/a&gt;安裝nodejs&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 安裝版本庫&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ curl -sL https://deb.nodesource.com/setup_10.x | &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; -E bash -&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 安裝nodejs&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ apt install -y nodejs&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 查看nodejs版本&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ node -v&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 查看npm版本&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ npm -v&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 
 &lt;h2 id=&quot;安裝相關依賴&quot;&gt;&lt;a href=&quot;#安裝相關依賴&quot; class=&quot;headerlink&quot; title=&quot;安裝相關依賴&quot;&gt;&lt;/a&gt;安裝相關依賴&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ npm install -g yarn&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ npm install -g node-gyp&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ npm install -g sqlite3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ npm install -g webpack&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 
-&lt;h2 id=&quot;安裝codimd&quot;&gt;&lt;a href=&quot;#安裝codimd&quot; class=&quot;headerlink&quot; title=&quot;安裝codimd&quot;&gt;&lt;/a&gt;安裝codimd&lt;/h2&gt;&lt;h3 id=&quot;設置環境變數&quot;&gt;&lt;a href=&quot;#設置環境變數&quot; class=&quot;headerlink&quot; title=&quot;設置環境變數&quot;&gt;&lt;/a&gt;設置環境變數&lt;/h3&gt;&lt;p&gt;打開/etc/profile這個檔案並且在末尾加入：&lt;/p&gt;
+&lt;h2 id=&quot;安裝codimd&quot;&gt;&lt;a href=&quot;#安裝codimd&quot; class=&quot;headerlink&quot; title=&quot;安裝codimd&quot;&gt;&lt;/a&gt;安裝codimd&lt;/h2&gt;&lt;h3 id=&quot;設置環境變數&quot;&gt;&lt;a href=&quot;#設置環境變數&quot; class=&quot;headerlink&quot; title=&quot;設置環境變數&quot;&gt;&lt;/a&gt;設置環境變數&lt;/h3&gt;&lt;p&gt;打開&amp;#x2F;etc&amp;#x2F;profile這個檔案並且在末尾加入：&lt;/p&gt;
 &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;export&lt;/span&gt; PATH=&lt;span class=&quot;variable&quot;&gt;$PATH&lt;/span&gt;:NODE_ENV=production&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 
-&lt;h3 id=&quot;抓取項目-opt&quot;&gt;&lt;a href=&quot;#抓取項目-opt&quot; class=&quot;headerlink&quot; title=&quot;抓取項目(/opt)&quot;&gt;&lt;/a&gt;抓取項目(/opt)&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ git &lt;span class=&quot;built_in&quot;&gt;clone&lt;/span&gt; https://github.com/hackmdio/codimd.git&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;抓取項目-opt&quot;&gt;&lt;a href=&quot;#抓取項目-opt&quot; class=&quot;headerlink&quot; title=&quot;抓取項目(&amp;#x2F;opt)&quot;&gt;&lt;/a&gt;抓取項目(&amp;#x2F;opt)&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ git &lt;span class=&quot;built_in&quot;&gt;clone&lt;/span&gt; https://github.com/hackmdio/codimd.git&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
@@ -151,9 +150,9 @@
       <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
     
     
-      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
-    
       <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
       <category term="codimd" scheme="https://pcion123.github.io/tags/codimd/"/>
     
@@ -171,11 +170,11 @@
     <summary type="html">
     
       &lt;h2 id=&quot;安裝erlang&quot;&gt;&lt;a href=&quot;#安裝erlang&quot; class=&quot;headerlink&quot; title=&quot;安裝erlang&quot;&gt;&lt;/a&gt;安裝erlang&lt;/h2&gt;&lt;p&gt;rabbitmq需要依靠erlang驅動，&lt;br&gt;所以我們需要先安裝erlang&lt;/p&gt;
-&lt;p&gt;使用&lt;a href=&quot;https://www.erlang-solutions.com/resources/download.html#tabs-debian&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;repository&lt;/a&gt;安裝:&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ wget https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ sudo dpkg -i erlang-solutions_2.0_all.deb&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt install esl-erlang&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;使用&lt;a href=&quot;https://www.erlang-solutions.com/resources/download.html#tabs-debian&quot;&gt;repository&lt;/a&gt;安裝:&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ wget https://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; dpkg -i erlang-solutions_2.0_all.deb&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; apt install esl-erlang&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 
-&lt;h2 id=&quot;安裝rabbitmq&quot;&gt;&lt;a href=&quot;#安裝rabbitmq&quot; class=&quot;headerlink&quot; title=&quot;安裝rabbitmq&quot;&gt;&lt;/a&gt;安裝rabbitmq&lt;/h2&gt;&lt;p&gt;github&lt;a href=&quot;https://www.rabbitmq.com/install-debian.html#manual-installation&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;手動&lt;/a&gt;安裝:&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.3/rabbitmq-server_3.8.3-1_all.deb&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ sudo dpkg -i rabbitmq-server_3.8.3-1_all.deb&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;安裝rabbitmq&quot;&gt;&lt;a href=&quot;#安裝rabbitmq&quot; class=&quot;headerlink&quot; title=&quot;安裝rabbitmq&quot;&gt;&lt;/a&gt;安裝rabbitmq&lt;/h2&gt;&lt;p&gt;github&lt;a href=&quot;https://www.rabbitmq.com/install-debian.html#manual-installation&quot;&gt;手動&lt;/a&gt;安裝:&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.3/rabbitmq-server_3.8.3-1_all.deb&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; dpkg -i rabbitmq-server_3.8.3-1_all.deb&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
@@ -183,9 +182,9 @@
       <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
     
     
-      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
-    
       <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
       <category term="rabbitmq" scheme="https://pcion123.github.io/tags/rabbitmq/"/>
     
@@ -277,7 +276,7 @@
     
       &lt;p&gt;在分散式系統底下我們需要查詢log紀錄&lt;br&gt;總不可能需要一台一台機器上去查看紀錄&lt;br&gt;這個時候我們就會需要有個服務幫我們達成這個目的&lt;/p&gt;
 &lt;p&gt;elasticsearch就很適合來幫我們完成這個任務&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.elastic.co/cn/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;elasticsearch官網&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.elastic.co/cn/&quot;&gt;elasticsearch官網&lt;/a&gt;&lt;/p&gt;
     
     </summary>
     
@@ -327,7 +326,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;PM2是一套Node應用的進程管理器，&lt;br&gt;當程式出現錯誤或者其他狀況死掉之後，&lt;br&gt;這時候PM2就可以幫你的應用自動重啟，&lt;br&gt;當然它不止這些功能，&lt;br&gt;詳細可以看看官網介紹：&lt;a href=&quot;http://pm2.keymetrics.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;PM2&lt;/a&gt;&lt;/p&gt;
+      &lt;p&gt;PM2是一套Node應用的進程管理器，&lt;br&gt;當程式出現錯誤或者其他狀況死掉之後，&lt;br&gt;這時候PM2就可以幫你的應用自動重啟，&lt;br&gt;當然它不止這些功能，&lt;br&gt;詳細可以看看官網介紹：&lt;a href=&quot;http://pm2.keymetrics.io/&quot;&gt;PM2&lt;/a&gt;&lt;/p&gt;
     
     </summary>
     
@@ -335,9 +334,9 @@
       <category term="pm2" scheme="https://pcion123.github.io/categories/pm2/"/>
     
     
-      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
-    
       <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
       <category term="pm2" scheme="https://pcion123.github.io/tags/pm2/"/>
     
@@ -414,13 +413,13 @@
     
       &lt;h2 id=&quot;安裝redis&quot;&gt;&lt;a href=&quot;#安裝redis&quot; class=&quot;headerlink&quot; title=&quot;安裝redis&quot;&gt;&lt;/a&gt;安裝redis&lt;/h2&gt;&lt;p&gt;在ubuntu底下安裝redis跟安裝mariadb一樣，&lt;br&gt;依靠apt指令就可以安裝完成：&lt;/p&gt;
 &lt;p&gt;先更新套件：&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt update&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt upgrade&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; apt update&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; apt upgrade&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 
 &lt;p&gt;安装Redis：&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt install redis-server&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; apt install redis-server&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 
 &lt;p&gt;安裝完成後redis會自動加入到服務中，查看服務：&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo systemctl status redis&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; systemctl status redis&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
@@ -428,9 +427,9 @@
       <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
     
     
-      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
-    
       <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
       <category term="redis" scheme="https://pcion123.github.io/tags/redis/"/>
     
@@ -447,16 +446,16 @@
     
       &lt;h2 id=&quot;安裝mariadb&quot;&gt;&lt;a href=&quot;#安裝mariadb&quot; class=&quot;headerlink&quot; title=&quot;安裝mariadb&quot;&gt;&lt;/a&gt;安裝mariadb&lt;/h2&gt;&lt;p&gt;在ubuntu底下安裝mariadb其實很方便，&lt;br&gt;只要幾個指令就可以完成了：&lt;/p&gt;
 &lt;p&gt;先更新套件：&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt update&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt upgrade&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; apt update&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; apt upgrade&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 
 &lt;p&gt;安装MariaDB：&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt install mariadb-server&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; apt install mariadb-server&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 
 &lt;p&gt;啟動服務：&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo systemctl start mysql&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ sudo systemctl &lt;span class=&quot;built_in&quot;&gt;enable&lt;/span&gt; mysql&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; systemctl start mysql&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; systemctl &lt;span class=&quot;built_in&quot;&gt;enable&lt;/span&gt; mysql&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 
 &lt;p&gt;查看服務：&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo systemctl status mysql&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; systemctl status mysql&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
@@ -464,9 +463,9 @@
       <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
     
     
-      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
-    
       <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
       <category term="mariadb" scheme="https://pcion123.github.io/tags/mariadb/"/>
     
