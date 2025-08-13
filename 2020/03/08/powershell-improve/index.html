@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"default"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="厭倦windows預設的powershell主題了嗎?現在開始來改造它吧!!!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="美化PowerShell - oh-my-posh">
+<meta property="og:url" content="https://pcion123.github.io/2020/03/08/powershell-improve/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="厭倦windows預設的powershell主題了嗎?現在開始來改造它吧!!!">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2020/03/08/powershell-improve/powershell1.png">
+<meta property="og:image" content="https://pcion123.github.io/2020/03/08/powershell-improve/powershell2.png">
+<meta property="og:image" content="https://pcion123.github.io/2020/03/08/powershell-improve/powershell3.png">
+<meta property="og:image" content="https://pcion123.github.io/2020/03/08/powershell-improve/powershell4.png">
+<meta property="article:published_time" content="2020-03-08T05:50:17.000Z">
+<meta property="article:modified_time" content="2025-08-13T14:31:49.422Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="windows">
+<meta property="article:tag" content="powershell">
+<meta property="article:tag" content="terminal">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2020/03/08/powershell-improve/powershell1.png">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2020/03/08/powershell-improve/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2020/03/08/powershell-improve/","path":"2020/03/08/powershell-improve/","title":"美化PowerShell - oh-my-posh"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>美化PowerShell - oh-my-posh | Pcion's Blog</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分類</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E5%A5%97%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">安裝套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E7%BD%AE%E8%A8%AD%E5%AE%9A%E6%AA%94"><span class="nav-number">2.</span> <span class="nav-text">設置設定檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9Dpowerline%E5%AD%97%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">安裝powerline字型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E9%A1%8F%E8%89%B2%E4%B8%BB%E9%A1%8C"><span class="nav-number">4.</span> <span class="nav-text">配置顏色主題</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.cakeresume.com/pcion123" title="Cakeresume → https:&#x2F;&#x2F;www.cakeresume.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="linkedin fa-fw"></i>Cakeresume</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/docker/" style="font-size: 15.6px;" class="tag-cloud-2">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/github-copilot/" style="font-size: 12px;" class="tag-cloud-0">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 19.2px;" class="tag-cloud-4">gitlab</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 15.6px;" class="tag-cloud-2">java</a> <a href="/tags/jdk/" style="font-size: 15.6px;" class="tag-cloud-2">jdk</a> <a href="/tags/jenkins/" style="font-size: 22.8px;" class="tag-cloud-6">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 12px;" class="tag-cloud-0">kubernetes</a> <a href="/tags/linux/" style="font-size: 30px;" class="tag-cloud-10">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 19.2px;" class="tag-cloud-4">maven</a> <a href="/tags/minikube/" style="font-size: 12px;" class="tag-cloud-0">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/pm2/" style="font-size: 15.6px;" class="tag-cloud-2">pm2</a> <a href="/tags/powershell/" style="font-size: 15.6px;" class="tag-cloud-2">powershell</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 15.6px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 15.6px;" class="tag-cloud-2">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 26.4px;" class="tag-cloud-8">ubuntu</a> <a href="/tags/vscode/" style="font-size: 12px;" class="tag-cloud-0">vscode</a> <a href="/tags/windows/" style="font-size: 15.6px;" class="tag-cloud-2">windows</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 19.2px;" class="tag-cloud-4">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2020/03/08/powershell-improve/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="美化PowerShell - oh-my-posh | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          美化PowerShell - oh-my-posh
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2020-03-08 13:50:17" itemprop="dateCreated datePublished" datetime="2020-03-08T13:50:17+08:00">2020-03-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-08-13 22:31:49" itemprop="dateModified" datetime="2025-08-13T22:31:49+08:00">2025-08-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/windows/" itemprop="url" rel="index"><span itemprop="name">windows</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2020/03/08/powershell-improve/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/08/powershell-improve/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><img src="/2020/03/08/powershell-improve/powershell1.png" class="">
+
+<p>厭倦windows預設的powershell主題了嗎?<br>現在開始來改造它吧!!!</p>
+<span id="more"></span>
+
+<h2 id="安裝套件"><a href="#安裝套件" class="headerlink" title="安裝套件"></a>安裝套件</h2><p>首先打開powershell：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安裝posh-git套件</span></span><br><span class="line">Install-Module posh-git -Scope CurrentUser</span><br><span class="line"><span class="comment"># 安裝oh-my-posh套件</span></span><br><span class="line">Install-Module oh-my-posh -Scope CurrentUser</span><br></pre></td></tr></table></figure>
+<p>基本上都輸入Y到底就可以安裝完成了!</p>
+<h2 id="設置設定檔"><a href="#設置設定檔" class="headerlink" title="設置設定檔"></a>設置設定檔</h2><p>建立powershel啟動設定檔</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 取得設定檔位置</span></span><br><span class="line"><span class="variable">$profile</span></span><br><span class="line"><span class="comment"># 得到設定檔位置</span></span><br><span class="line">~\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1</span><br></pre></td></tr></table></figure>
+<p>打開Microsoft.PowerShell_profile.ps1設定檔，如果沒有請自行建立</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用UTF-8編碼</span></span><br><span class="line">chcp 65001</span><br><span class="line"><span class="comment"># 引用posh-git</span></span><br><span class="line">Import-Module posh-git</span><br><span class="line"><span class="comment"># 引用oh-my-posh</span></span><br><span class="line">Import-Module oh-my-posh</span><br><span class="line"><span class="comment"># 設置Agnoster主題</span></span><br><span class="line">Set-Theme Agnoster</span><br></pre></td></tr></table></figure>
+
+<h2 id="安裝powerline字型"><a href="#安裝powerline字型" class="headerlink" title="安裝powerline字型"></a>安裝powerline字型</h2><p>由於windows預設的字型無法支援oh-my-posh<br>所以我們需要另外安裝配合的字型檔</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/powerline/fonts">powerline字型</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># clone項目</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/powerline/fonts.git</span><br><span class="line"><span class="comment"># 執行install.ps1進行安裝</span></span><br><span class="line">.\install.ps1</span><br></pre></td></tr></table></figure>
+
+<p>調整powershell內容</p>
+<img src="/2020/03/08/powershell-improve/powershell2.png" class="">
+
+<p>請選擇有powerline的字型</p>
+<img src="/2020/03/08/powershell-improve/powershell3.png" class="">
+
+<h2 id="配置顏色主題"><a href="#配置顏色主題" class="headerlink" title="配置顏色主題"></a>配置顏色主題</h2><p>最後我們要用scoop來安裝colortool主題工具</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 保證允許腳本執行</span></span><br><span class="line">set-executionpolicy remotesigned -scope currentuser</span><br><span class="line"><span class="comment"># 安裝scoop</span></span><br><span class="line">iex (new-object net.webclient).downloadstring(<span class="string">&#x27;https://get.scoop.sh&#x27;</span>)</span><br><span class="line"><span class="comment"># 安裝colortool</span></span><br><span class="line">scoop install colortool</span><br></pre></td></tr></table></figure>
+<p>接著我們就要來配置顏色主題</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 取得預設主題列表</span></span><br><span class="line">colortool -s</span><br><span class="line"><span class="comment"># 預設主題</span></span><br><span class="line"><span class="comment"># campbell-legacy.ini</span></span><br><span class="line"><span class="comment"># campbell.ini</span></span><br><span class="line"><span class="comment"># cmd-legacy.ini</span></span><br><span class="line"><span class="comment"># OneHalfDark.itermcolors</span></span><br><span class="line"><span class="comment"># OneHalfLight.itermcolors</span></span><br><span class="line"><span class="comment"># solarized_dark.itermcolors</span></span><br><span class="line"><span class="comment"># solarized_light.itermcolors</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 臨時查看主題樣式</span></span><br><span class="line">colortool &lt;主題名稱&gt;</span><br><span class="line"><span class="comment"># 設置預設主題樣式</span></span><br><span class="line">colortool -d &lt;主題名稱&gt;</span><br></pre></td></tr></table></figure>
+
+<p>選定主題</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 設置OneHalfDark主題</span></span><br><span class="line">colortool OneHalfDark.itermcolors</span><br></pre></td></tr></table></figure>
+
+<img src="/2020/03/08/powershell-improve/powershell4.png" class="">
+
+<p>這樣我們就大功告成拉!!</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/windows/" rel="tag"># windows</a>
+              <a href="/tags/powershell/" rel="tag"># powershell</a>
+              <a href="/tags/terminal/" rel="tag"># terminal</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/11/09/telegrambot-install/" rel="prev" title="TelegramBot申請與開發">
+                  <i class="fa fa-angle-left"></i> TelegramBot申請與開發
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/03/09/windowsterminal-scheme/" rel="next" title="Windows Terminal主題配置">
+                  Windows Terminal主題配置 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"pcions-blog","count":true,"lazyload":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js" defer></script>
+
+</body>
+</html>
