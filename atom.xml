@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://pcion123.github.io/"/>
-  <updated>2025-08-13T14:31:49.422Z</updated>
+  <updated>2025-09-13T19:13:19.785Z</updated>
   <id>https://pcion123.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>vscode+copilot開發心得</title>
+    <link href="https://pcion123.github.io/2025/09/14/vscode-copilot-thoughts/"/>
+    <id>https://pcion123.github.io/2025/09/14/vscode-copilot-thoughts/</id>
+    <published>2025-09-13T17:31:42.000Z</published>
+    <updated>2025-09-13T19:13:19.785Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>距離上一篇 <a href="https://pcion123.github.io/2025/07/30/vscode-copilot-quick/"><strong>使用 vscode+copilot 快速建立專案</strong></a> 已經快兩個月。這段時間我把以前的專案拿來當練手題，持續用 vscode 搭配 Copilot 做重構，最近算是到了一個階段性的里程碑，也比較有資格整理一下心得與體感。</p><h2 id="成果速覽"><a href="#成果速覽" class="headerlink" title="成果速覽"></a>成果速覽</h2><p>先放結果：<a href="https://github.com/pcion123/tinysocket"><strong>tinysocket</strong></a>。下面這張是目前 <code>README.md</code> 的截圖：</p><img src="/2025/09/14/vscode-copilot-thoughts/tinysocket_intro.png" class=""><span id="more"></span><h2 id="文件撰寫體驗"><a href="#文件撰寫體驗" class="headerlink" title="文件撰寫體驗"></a>文件撰寫體驗</h2><p>老實說，過去我非常不擅長寫說明文件——常常卡在措辭或結構。換上 vscode + Copilot 之後，整體心理阻力明顯下降。我只需要丟一句：<code>替專案進行完整的分析並生成適合的文檔</code>，它就會開始產出內容。雖然：</p><ul><li>產出的語氣常常有一種「過度熱情」或統一的 AI 風格。</li><li>偶爾會 <code>幻覺</code>（虛構不存在的模組 &#x2F; 參數 &#x2F; 流程）。</li></ul><p>但在「快速產出草稿」這件事上，效率提升非常明顯。現在的流程變成：AI 出草稿 → 我做實際校驗與語氣調整 → 完成最終版本。整體投入的心力與時間成本都下降。</p><h2 id="重構與技術升級"><a href="#重構與技術升級" class="headerlink" title="重構與技術升級"></a>重構與技術升級</h2><p>這次 tinysocket 從過去的 <code>JDK 11 + Spring Boot 2</code>，一次跳到 <code>JDK 21 + Spring Boot 3</code>。在重構過程中我順手調整了幾個長期想改的點：</p><ul><li>buffer 的實作策略（記憶體使用與複用模型）</li><li>protocol 的註冊與擴充方式（模組化與可插拔）</li><li>server-side &#x2F; client-side 邏輯的職責切分</li></ul><p>整體代碼結構乾淨很多，開發迭代的節奏也更順。雖然還不到「vibe coding」那種一氣呵成的沉浸流暢，但 AI 輔助開發是實實在在幫助我產出想要的結果。這一次我沒有花太多時間鑽研 <code>copilot-instructions.md</code> 或 <code>spec.md</code> 的進階玩法——純粹以「自然互動」的使用模式，就已經有不錯的感受。更直接的感想：vscode + Copilot 的體驗完全碾壓 eclipse + Copilot。如果未來 Copilot 還是無法在 eclipse 深度整合，那我會建議乾脆直接轉陣 vscode。</p><h2 id="前端-Demo（AI-協作）"><a href="#前端-Demo（AI-協作）" class="headerlink" title="前端 Demo（AI 協作）"></a>前端 Demo（AI 協作）</h2><p>我不擅長開發前端，也只略懂一點 JS。之前為了展示 tinysocket 的 websocket 使用情境，勉強刻過一個很陽春的 demo。這次升級時我把那個頁面也一起翻新。過程很簡單：我描述現有專案結構、想要的互動與狀態，Copilot 在幾分鐘內就給了一個「能跑、有基本結構與樣式」的版本。我後面再針對細節（排版 &#x2F; 邏輯微調 &#x2F; 錯誤處理）做修正。雖然不至於到震撼，但在第一次產出結果的瞬間，實際的衝擊感還是有的。</p><p>以下是最後的 demo 截圖：</p><img src="https://github.com/pcion123/tinysocket/blob/master/demo/assets/chatdemo.webp?raw=true" alt="web demo" width="70%" /><h2 id="單元測試與未來工作模式"><a href="#單元測試與未來工作模式" class="headerlink" title="單元測試與未來工作模式"></a>單元測試與未來工作模式</h2><p>這次我沒有非常認真地補齊所有單元測試，但試著讓 Copilot 幫忙規劃測試場景與生產測試骨架。體感結論是：「單元測試 80% 可以交給 AI 先起頭」。透過自然語言描述：需求 → 邊界條件 → 例外情境，AI 就能快速鋪好一組測試檔。後續人類再專注在：</p><ul><li>釐清語意是否與實際需求一致</li><li>補強 edge cases</li><li>整合 CI &#x2F; coverage 門檻</li></ul><p>未來真的可能變成：測試從『手寫產出』轉為『審稿驗收』模式。</p><h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>簡單總結：工具與工作方式的生態正在快速轉變。AI 不是「取代」，而是把重構 &#x2F; 起稿 &#x2F; 模板化工作成本往下壓，讓我們把腦力留給系統設計、關鍵抽象與品質判斷。接下來我會再花些時間探索更進階的上下文餵養（如專案規格、角色化指令），之後如果有新的體驗，再寫一篇續集。 </p><p>我們下次見。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;距離上一篇 &lt;a href=&quot;https://pcion123.github.io/2025/07/30/vscode-copilot-quick/&quot;&gt;&lt;strong&gt;使用 vscode+copilot 快速建立專案&lt;/strong&gt;&lt;/a&gt; 已經快兩個月。這段時間我把以前的專案拿來當練手題，持續用 vscode 搭配 Copilot 做重構，最近算是到了一個階段性的里程碑，也比較有資格整理一下心得與體感。&lt;/p&gt;
+&lt;h2 id=&quot;成果速覽&quot;&gt;&lt;a href=&quot;#成果速覽&quot; class=&quot;headerlink&quot; title=&quot;成果速覽&quot;&gt;&lt;/a&gt;成果速覽&lt;/h2&gt;&lt;p&gt;先放結果：&lt;a href=&quot;https://github.com/pcion123/tinysocket&quot;&gt;&lt;strong&gt;tinysocket&lt;/strong&gt;&lt;/a&gt;。下面這張是目前 &lt;code&gt;README.md&lt;/code&gt; 的截圖：&lt;/p&gt;
+&lt;img src=&quot;/2025/09/14/vscode-copilot-thoughts/tinysocket_intro.png&quot; class=&quot;&quot;&gt;
+    
+    </summary>
+    
+    
+      <category term="vscodelife" scheme="https://pcion123.github.io/categories/vscodelife/"/>
+    
+    
+      <category term="java" scheme="https://pcion123.github.io/tags/java/"/>
+    
+      <category term="vscode" scheme="https://pcion123.github.io/tags/vscode/"/>
+    
+      <category term="github-copilot" scheme="https://pcion123.github.io/tags/github-copilot/"/>
+    
+  </entry>
   
   <entry>
     <title>使用vscode+copilot快速建立專案</title>
@@ -95,11 +124,11 @@
       <category term="kubernetes" scheme="https://pcion123.github.io/categories/kubernetes/"/>
     
     
-      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
     
       <category term="minikube" scheme="https://pcion123.github.io/tags/minikube/"/>
     
@@ -127,11 +156,11 @@
       <category term="docker" scheme="https://pcion123.github.io/categories/docker/"/>
     
     
-      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
     
   </entry>
   
@@ -191,9 +220,9 @@
       <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
     
     
-      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
-    
       <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
       <category term="codimd" scheme="https://pcion123.github.io/tags/codimd/"/>
     
@@ -225,9 +254,9 @@
       <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
     
     
-      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
-    
       <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
       <category term="rabbitmq" scheme="https://pcion123.github.io/tags/rabbitmq/"/>
     
@@ -389,9 +418,9 @@
       <category term="pm2" scheme="https://pcion123.github.io/categories/pm2/"/>
     
     
-      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
-    
       <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
       <category term="pm2" scheme="https://pcion123.github.io/tags/pm2/"/>
     
@@ -492,9 +521,9 @@
       <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
     
     
-      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
-    
       <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
       <category term="redis" scheme="https://pcion123.github.io/tags/redis/"/>
     
@@ -530,9 +559,9 @@
       <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
     
     
-      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
-    
       <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+    
+      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
       <category term="mariadb" scheme="https://pcion123.github.io/tags/mariadb/"/>
     
@@ -602,32 +631,6 @@
       <category term="jenkins" scheme="https://pcion123.github.io/tags/jenkins/"/>
     
       <category term="error" scheme="https://pcion123.github.io/tags/error/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>設置Linux環境變數</title>
-    <link href="https://pcion123.github.io/2019/03/10/linux-environmentvariables/"/>
-    <id>https://pcion123.github.io/2019/03/10/linux-environmentvariables/</id>
-    <published>2019-03-10T05:38:10.000Z</published>
-    <updated>2025-08-13T14:31:49.406Z</updated>
-    
-    <content type="html"><![CDATA[<p>我們在進行環境開發的時候常常需要用到一些系統路徑，<br>那這些路徑我們可以用系統的環境變數來讓他大大縮減打字的長度，<br>以下就介紹我們如何來建立這些環境變數</p><p>linux提供兩種設置環境變數的方式 -&gt; 使用者環境變數 &amp; 系統環境變數</p><span id="more"></span><h2 id="使用者環境變數"><a href="#使用者環境變數" class="headerlink" title="使用者環境變數"></a>使用者環境變數</h2><p>使用者環境變數儲存在以下檔案中：<br>~&#x2F;.profile<br>~&#x2F;.bashrc<br>~&#x2F;.bash_profile<br>~&#x2F;.bash_login</p><h2 id="系統環境變數"><a href="#系統環境變數" class="headerlink" title="系統環境變數"></a>系統環境變數</h2><p>系統環境變數儲存在以下檔案中：<br>&#x2F;etc&#x2F;profile<br>&#x2F;etc&#x2F;profile.d<br>&#x2F;etc&#x2F;bash.bashrc</p><h2 id="加入系統環境變數"><a href="#加入系統環境變數" class="headerlink" title="加入系統環境變數"></a>加入系統環境變數</h2><p>打開&#x2F;etc&#x2F;profile這個檔案並且在末尾加入：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/usr/lib/jvm/jdk1.7.0</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$JAVA_HOME</span>/bin</span><br></pre></td></tr></table></figure><p>環境變數更改後,將在使用者下次登陸時生效<br>如果想立刻生效,則執行下面的語句</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure><p>生效後我們可以進行測試</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="variable">$JAVA_HOME</span></span><br></pre></td></tr></table></figure><p>成功後應當看到剛剛我們我設置的路徑<br>另外如果想查看當前系統所設置的路徑有哪些可以輸入：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="variable">$PATH</span></span><br></pre></td></tr></table></figure><p>他會顯示當前所有的環境路徑有哪些</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;我們在進行環境開發的時候常常需要用到一些系統路徑，&lt;br&gt;那這些路徑我們可以用系統的環境變數來讓他大大縮減打字的長度，&lt;br&gt;以下就介紹我們如何來建立這些環境變數&lt;/p&gt;
-&lt;p&gt;linux提供兩種設置環境變數的方式 -&amp;gt; 使用者環境變數 &amp;amp; 系統環境變數&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
-    
-    
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
-    
-      <category term="環境變數" scheme="https://pcion123.github.io/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/"/>
     
   </entry>
   

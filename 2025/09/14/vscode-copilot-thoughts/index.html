@@ -21,29 +21,32 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"default"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="安裝mariadb在ubuntu底下安裝mariadb其實很方便，只要幾個指令就可以完成了： 先更新套件： 12$ sudo apt update$ sudo apt upgrade  安装MariaDB： 1$ sudo apt install mariadb-server  啟動服務： 12$ sudo systemctl start mysql$ sudo systemctl enable">
+    <meta name="description" content="前言距離上一篇 使用 vscode+copilot 快速建立專案 已經快兩個月。這段時間我把以前的專案拿來當練手題，持續用 vscode 搭配 Copilot 做重構，最近算是到了一個階段性的里程碑，也比較有資格整理一下心得與體感。 成果速覽先放結果：tinysocket。下面這張是目前 README.md 的截圖：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ubuntu安裝MariaDB">
-<meta property="og:url" content="https://pcion123.github.io/2019/03/16/ubuntu-installmariadb/index.html">
+<meta property="og:title" content="vscode+copilot開發心得">
+<meta property="og:url" content="https://pcion123.github.io/2025/09/14/vscode-copilot-thoughts/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
-<meta property="og:description" content="安裝mariadb在ubuntu底下安裝mariadb其實很方便，只要幾個指令就可以完成了： 先更新套件： 12$ sudo apt update$ sudo apt upgrade  安装MariaDB： 1$ sudo apt install mariadb-server  啟動服務： 12$ sudo systemctl start mysql$ sudo systemctl enable">
+<meta property="og:description" content="前言距離上一篇 使用 vscode+copilot 快速建立專案 已經快兩個月。這段時間我把以前的專案拿來當練手題，持續用 vscode 搭配 Copilot 做重構，最近算是到了一個階段性的里程碑，也比較有資格整理一下心得與體感。 成果速覽先放結果：tinysocket。下面這張是目前 README.md 的截圖：">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2019-03-16T07:38:31.000Z">
-<meta property="article:modified_time" content="2025-08-13T14:31:49.422Z">
+<meta property="og:image" content="https://pcion123.github.io/2025/09/14/vscode-copilot-thoughts/tinysocket_intro.png">
+<meta property="og:image" content="https://github.com/pcion123/tinysocket/blob/master/demo/assets/chatdemo.webp?raw=true">
+<meta property="article:published_time" content="2025-09-13T17:31:42.000Z">
+<meta property="article:modified_time" content="2025-09-13T19:13:19.785Z">
 <meta property="article:author" content="Jason Lai">
-<meta property="article:tag" content="linux">
-<meta property="article:tag" content="ubuntu">
-<meta property="article:tag" content="mariadb">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="vscode">
+<meta property="article:tag" content="github-copilot">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2025/09/14/vscode-copilot-thoughts/tinysocket_intro.png">
 
 
-<link rel="canonical" href="https://pcion123.github.io/2019/03/16/ubuntu-installmariadb/">
+<link rel="canonical" href="https://pcion123.github.io/2025/09/14/vscode-copilot-thoughts/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2019/03/16/ubuntu-installmariadb/","path":"2019/03/16/ubuntu-installmariadb/","title":"Ubuntu安裝MariaDB"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2025/09/14/vscode-copilot-thoughts/","path":"2025/09/14/vscode-copilot-thoughts/","title":"vscode+copilot開發心得"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Ubuntu安裝MariaDB | Pcion's Blog</title>
+<title>vscode+copilot開發心得 | Pcion's Blog</title>
   
 
 
@@ -133,7 +136,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9Dmariadb"><span class="nav-number">1.</span> <span class="nav-text">安裝mariadb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96mariadb"><span class="nav-number">2.</span> <span class="nav-text">初始化mariadb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E9%81%A0%E7%AB%AF%E4%BD%BF%E7%94%A8%E8%80%85%E6%AC%8A%E9%99%90"><span class="nav-number">3.</span> <span class="nav-text">建立遠端使用者權限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9mariadb%E8%A8%AD%E7%BD%AE"><span class="nav-number">4.</span> <span class="nav-text">修改mariadb設置</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%90%E6%9E%9C%E9%80%9F%E8%A6%BD"><span class="nav-number">2.</span> <span class="nav-text">成果速覽</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E6%92%B0%E5%AF%AB%E9%AB%94%E9%A9%97"><span class="nav-number">3.</span> <span class="nav-text">文件撰寫體驗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E6%A7%8B%E8%88%87%E6%8A%80%E8%A1%93%E5%8D%87%E7%B4%9A"><span class="nav-number">4.</span> <span class="nav-text">重構與技術升級</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF-Demo%EF%BC%88AI-%E5%8D%94%E4%BD%9C%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">前端 Demo（AI 協作）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%96%AE%E5%85%83%E6%B8%AC%E8%A9%A6%E8%88%87%E6%9C%AA%E4%BE%86%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="nav-number">6.</span> <span class="nav-text">單元測試與未來工作模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AA%9E"><span class="nav-number">7.</span> <span class="nav-text">結語</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -210,7 +213,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2019/03/16/ubuntu-installmariadb/">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2025/09/14/vscode-copilot-thoughts/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -223,12 +226,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Ubuntu安裝MariaDB | Pcion's Blog">
+      <meta itemprop="name" content="vscode+copilot開發心得 | Pcion's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Ubuntu安裝MariaDB
+          vscode+copilot開發心得
         </h1>
 
         <div class="post-meta-container">
@@ -238,15 +241,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
+      
 
-      <time title="創建時間：2019-03-16 15:38:31" itemprop="dateCreated datePublished" datetime="2019-03-16T15:38:31+08:00">2019-03-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-08-13 22:31:49" itemprop="dateModified" datetime="2025-08-13T22:31:49+08:00">2025-08-13</time>
+      <time title="創建時間：2025-09-14 01:31:42 / 修改時間：03:13:19" itemprop="dateCreated datePublished" datetime="2025-09-14T01:31:42+08:00">2025-09-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -254,7 +251,7 @@
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+          <a href="/categories/vscodelife/" itemprop="url" rel="index"><span itemprop="name">vscodelife</span></a>
         </span>
     </span>
 
@@ -267,8 +264,8 @@
       </span>
       <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="disqus" href="/2019/03/16/ubuntu-installmariadb/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/03/16/ubuntu-installmariadb/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2025/09/14/vscode-copilot-thoughts/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2025/09/14/vscode-copilot-thoughts/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -281,41 +278,39 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="安裝mariadb"><a href="#安裝mariadb" class="headerlink" title="安裝mariadb"></a>安裝mariadb</h2><p>在ubuntu底下安裝mariadb其實很方便，<br>只要幾個指令就可以完成了：</p>
-<p>先更新套件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt update</span><br><span class="line">$ <span class="built_in">sudo</span> apt upgrade</span><br></pre></td></tr></table></figure>
-
-<p>安装MariaDB：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt install mariadb-server</span><br></pre></td></tr></table></figure>
-
-<p>啟動服務：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> systemctl start mysql</span><br><span class="line">$ <span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> mysql</span><br></pre></td></tr></table></figure>
-
-<p>查看服務：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> systemctl status mysql</span><br></pre></td></tr></table></figure>
+    <div class="post-body" itemprop="articleBody"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>距離上一篇 <a href="https://pcion123.github.io/2025/07/30/vscode-copilot-quick/"><strong>使用 vscode+copilot 快速建立專案</strong></a> 已經快兩個月。這段時間我把以前的專案拿來當練手題，持續用 vscode 搭配 Copilot 做重構，最近算是到了一個階段性的里程碑，也比較有資格整理一下心得與體感。</p>
+<h2 id="成果速覽"><a href="#成果速覽" class="headerlink" title="成果速覽"></a>成果速覽</h2><p>先放結果：<a target="_blank" rel="noopener" href="https://github.com/pcion123/tinysocket"><strong>tinysocket</strong></a>。下面這張是目前 <code>README.md</code> 的截圖：</p>
+<img src="/2025/09/14/vscode-copilot-thoughts/tinysocket_intro.png" class="">
 
 <span id="more"></span>
 
-<h2 id="初始化mariadb"><a href="#初始化mariadb" class="headerlink" title="初始化mariadb"></a>初始化mariadb</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> mysql_secure_installation</span><br><span class="line"></span><br><span class="line"><span class="comment"># 是否要設置root權限密碼</span></span><br><span class="line">- Set root password? [Y/n] y</span><br><span class="line"><span class="comment"># 是否要移除匿名登入</span></span><br><span class="line">- Remove anonymous <span class="built_in">users</span>? [Y/n] y</span><br><span class="line"><span class="comment"># 是否關閉遠端登入</span></span><br><span class="line">- Disallow root login remotely? [Y/n] y</span><br><span class="line"><span class="comment"># 是否移除test預設庫</span></span><br><span class="line">- Remove <span class="built_in">test</span> database and access to it? [Y/n] y</span><br><span class="line"><span class="comment"># 是否重新載入資料表權限</span></span><br><span class="line">- Reload privilege tables now? [Y/n] y</span><br></pre></td></tr></table></figure>
+<h2 id="文件撰寫體驗"><a href="#文件撰寫體驗" class="headerlink" title="文件撰寫體驗"></a>文件撰寫體驗</h2><p>老實說，過去我非常不擅長寫說明文件——常常卡在措辭或結構。換上 vscode + Copilot 之後，整體心理阻力明顯下降。我只需要丟一句：<code>替專案進行完整的分析並生成適合的文檔</code>，它就會開始產出內容。雖然：</p>
+<ul>
+<li>產出的語氣常常有一種「過度熱情」或統一的 AI 風格。</li>
+<li>偶爾會 <code>幻覺</code>（虛構不存在的模組 &#x2F; 參數 &#x2F; 流程）。</li>
+</ul>
+<p>但在「快速產出草稿」這件事上，效率提升非常明顯。現在的流程變成：AI 出草稿 → 我做實際校驗與語氣調整 → 完成最終版本。整體投入的心力與時間成本都下降。</p>
+<h2 id="重構與技術升級"><a href="#重構與技術升級" class="headerlink" title="重構與技術升級"></a>重構與技術升級</h2><p>這次 tinysocket 從過去的 <code>JDK 11 + Spring Boot 2</code>，一次跳到 <code>JDK 21 + Spring Boot 3</code>。在重構過程中我順手調整了幾個長期想改的點：</p>
+<ul>
+<li>buffer 的實作策略（記憶體使用與複用模型）</li>
+<li>protocol 的註冊與擴充方式（模組化與可插拔）</li>
+<li>server-side &#x2F; client-side 邏輯的職責切分</li>
+</ul>
+<p>整體代碼結構乾淨很多，開發迭代的節奏也更順。雖然還不到「vibe coding」那種一氣呵成的沉浸流暢，但 AI 輔助開發是實實在在幫助我產出想要的結果。這一次我沒有花太多時間鑽研 <code>copilot-instructions.md</code> 或 <code>spec.md</code> 的進階玩法——純粹以「自然互動」的使用模式，就已經有不錯的感受。更直接的感想：vscode + Copilot 的體驗完全碾壓 eclipse + Copilot。如果未來 Copilot 還是無法在 eclipse 深度整合，那我會建議乾脆直接轉陣 vscode。</p>
+<h2 id="前端-Demo（AI-協作）"><a href="#前端-Demo（AI-協作）" class="headerlink" title="前端 Demo（AI 協作）"></a>前端 Demo（AI 協作）</h2><p>我不擅長開發前端，也只略懂一點 JS。之前為了展示 tinysocket 的 websocket 使用情境，勉強刻過一個很陽春的 demo。這次升級時我把那個頁面也一起翻新。過程很簡單：我描述現有專案結構、想要的互動與狀態，Copilot 在幾分鐘內就給了一個「能跑、有基本結構與樣式」的版本。我後面再針對細節（排版 &#x2F; 邏輯微調 &#x2F; 錯誤處理）做修正。雖然不至於到震撼，但在第一次產出結果的瞬間，實際的衝擊感還是有的。</p>
+<p>以下是最後的 demo 截圖：</p>
+<img src="https://github.com/pcion123/tinysocket/blob/master/demo/assets/chatdemo.webp?raw=true" alt="web demo" width="70%" />
 
-<p>完成後我們可試著本機登入查看：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> mysql -u root -p</span><br></pre></td></tr></table></figure>
+<h2 id="單元測試與未來工作模式"><a href="#單元測試與未來工作模式" class="headerlink" title="單元測試與未來工作模式"></a>單元測試與未來工作模式</h2><p>這次我沒有非常認真地補齊所有單元測試，但試著讓 Copilot 幫忙規劃測試場景與生產測試骨架。體感結論是：「單元測試 80% 可以交給 AI 先起頭」。透過自然語言描述：需求 → 邊界條件 → 例外情境，AI 就能快速鋪好一組測試檔。後續人類再專注在：</p>
+<ul>
+<li>釐清語意是否與實際需求一致</li>
+<li>補強 edge cases</li>
+<li>整合 CI &#x2F; coverage 門檻</li>
+</ul>
+<p>未來真的可能變成：測試從『手寫產出』轉為『審稿驗收』模式。</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>簡單總結：工具與工作方式的生態正在快速轉變。AI 不是「取代」，而是把重構 &#x2F; 起稿 &#x2F; 模板化工作成本往下壓，讓我們把腦力留給系統設計、關鍵抽象與品質判斷。接下來我會再花些時間探索更進階的上下文餵養（如專案規格、角色化指令），之後如果有新的體驗，再寫一篇續集。 </p>
+<p>我們下次見。</p>
 
-<h2 id="建立遠端使用者權限"><a href="#建立遠端使用者權限" class="headerlink" title="建立遠端使用者權限"></a>建立遠端使用者權限</h2><p>初始化db之後我們還需要建立一組帳號，提供使用者遠端登入使用</p>
-<p>建立使用者與權限：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 建立使用者</span></span><br><span class="line">$ CREATE USER <span class="string">&#x27;my_account&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED BY <span class="string">&#x27;my_password&#x27;</span>;</span><br><span class="line"><span class="comment"># 建立使用者權限</span></span><br><span class="line">$ GRANT ALL PRIVILEGES ON *.* TO <span class="string">&#x27;my_account&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED BY <span class="string">&#x27;my_password&#x27;</span> WITH GRANT OPTION;</span><br><span class="line"><span class="comment"># 刷新設置</span></span><br><span class="line">$ FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
-
-<p>查看結果：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看使用者</span></span><br><span class="line">$ SELECT host,user,password FROM mysql.user;</span><br><span class="line"><span class="comment"># 查看使用者權限</span></span><br><span class="line">$ SHOW GRANTS FOR <span class="string">&#x27;my_account&#x27;</span>;</span><br></pre></td></tr></table></figure>
-
-<p>完成後我們嘗試遠端登入查看：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -h 192.168.0.100 -u <span class="string">&#x27;my_account&#x27;</span> -p</span><br></pre></td></tr></table></figure>
-
-<h2 id="修改mariadb設置"><a href="#修改mariadb設置" class="headerlink" title="修改mariadb設置"></a>修改mariadb設置</h2><p>如果還是不行就需要去修改mariadb的設定檔<br>打開&#x2F;etc&#x2F;mysql&#x2F;mariadb.conf.d&#x2F;50-server.cnf，找到bind-address且將他註解掉</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Instead of skip-networking the default is now to listen only on</span></span><br><span class="line"><span class="comment"># localhost which is more compatible and is not less secure.</span></span><br><span class="line"><span class="comment"># bind-address  = 127.0.0.1</span></span><br></pre></td></tr></table></figure>
-
-<p>之後再重新啟動mariadb就可以了</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> systemctl restart mysql</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -324,23 +319,20 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/linux/" rel="tag"># linux</a>
-              <a href="/tags/ubuntu/" rel="tag"># ubuntu</a>
-              <a href="/tags/mariadb/" rel="tag"># mariadb</a>
+              <a href="/tags/java/" rel="tag"># java</a>
+              <a href="/tags/vscode/" rel="tag"># vscode</a>
+              <a href="/tags/github-copilot/" rel="tag"># github-copilot</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2019/03/10/java-installopenjdk/" rel="prev" title="安裝OpenJDK">
-                  <i class="fa fa-angle-left"></i> 安裝OpenJDK
+                <a href="/2025/07/30/vscode-copilot-quick/" rel="prev" title="使用vscode+copilot快速建立專案">
+                  <i class="fa fa-angle-left"></i> 使用vscode+copilot快速建立專案
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2019/03/16/ubuntu-installredis/" rel="next" title="Ubuntu安裝Redis">
-                  Ubuntu安裝Redis <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
