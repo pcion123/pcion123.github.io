@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"default"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="最近把內建的 Windows PowerShell 5.1 直接升級到跨平台的 PowerShell 7，啟動速度、互動補全與外觀自訂一次大進化。於是把這次從「升級 → 權限工具 (gsudo) → Prompt 美化 (Oh My Posh) → 文字&#x2F;字型 → 終端顏色主題」的完整流程整理成筆記，之後重裝或換機也能快速複製。  這篇你將會獲得：  乾淨可重現的 Profile 初始化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="美化 PowerShell：Oh My Posh 全攻略 (2025)">
+<meta property="og:url" content="https://pcion123.github.io/2025/09/18/powershell-improve-2025/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="最近把內建的 Windows PowerShell 5.1 直接升級到跨平台的 PowerShell 7，啟動速度、互動補全與外觀自訂一次大進化。於是把這次從「升級 → 權限工具 (gsudo) → Prompt 美化 (Oh My Posh) → 文字&#x2F;字型 → 終端顏色主題」的完整流程整理成筆記，之後重裝或換機也能快速複製。  這篇你將會獲得：  乾淨可重現的 Profile 初始化">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2025/09/18/powershell-improve-2025/powershell_old.png">
+<meta property="og:image" content="https://pcion123.github.io/2025/09/18/powershell-improve-2025/gsudo_command_setting.png">
+<meta property="og:image" content="https://pcion123.github.io/2025/09/18/powershell-improve-2025/windows_terminal_themes.png">
+<meta property="og:image" content="https://pcion123.github.io/2025/09/18/powershell-improve-2025/windows_terminal_json.png">
+<meta property="article:published_time" content="2025-09-18T14:43:20.000Z">
+<meta property="article:modified_time" content="2025-09-18T16:18:54.401Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="windows">
+<meta property="article:tag" content="powershell">
+<meta property="article:tag" content="terminal">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2025/09/18/powershell-improve-2025/powershell_old.png">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2025/09/18/powershell-improve-2025/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2025/09/18/powershell-improve-2025/","path":"2025/09/18/powershell-improve-2025/","title":"美化 PowerShell：Oh My Posh 全攻略 (2025)"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>美化 PowerShell：Oh My Posh 全攻略 (2025) | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分類</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#PowerShell-Profile-%E6%BA%96%E5%82%99"><span class="nav-number">1.</span> <span class="nav-text">PowerShell Profile 準備</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-PowerShell-5-1-%E7%9B%AE%E9%8C%84"><span class="nav-number">1.1.</span> <span class="nav-text">Windows PowerShell 5.1 目錄</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PowerShell-7-%E7%9B%AE%E9%8C%84"><span class="nav-number">1.2.</span> <span class="nav-text">PowerShell 7 目錄</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-PowerShell-7"><span class="nav-number">2.</span> <span class="nav-text">安裝 PowerShell 7</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%95%9F%E7%94%A8%E6%8C%87%E4%BB%A4%E6%AD%B7%E5%8F%B2-AI-%E9%A0%90%E6%B8%AC%E8%A3%9C%E5%85%A8"><span class="nav-number">2.1.</span> <span class="nav-text">啟用指令歷史 + AI 預測補全</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gsudo%EF%BC%9A%E5%BF%AB%E9%80%9F%E5%8F%96%E5%BE%97%E7%B3%BB%E7%B5%B1%E6%AC%8A%E9%99%90"><span class="nav-number">3.</span> <span class="nav-text">gsudo：快速取得系統權限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Oh-My-Posh%EF%BC%9APrompt-%E4%B8%BB%E9%A1%8C%E7%BE%8E%E5%8C%96"><span class="nav-number">4.</span> <span class="nav-text">Oh My Posh：Prompt 主題美化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Nerd-Font-%E5%AD%97%E5%9E%8B"><span class="nav-number">4.1.</span> <span class="nav-text">安裝 Nerd Font 字型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Oh-My-Posh"><span class="nav-number">4.2.</span> <span class="nav-text">安裝 Oh My Posh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%95%9F%E7%94%A8%E4%B8%A6%E6%8C%87%E5%AE%9A%E4%B8%BB%E9%A1%8C"><span class="nav-number">4.3.</span> <span class="nav-text">啟用並指定主題</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Git%EF%BC%88%E8%8B%A5%E5%B0%9A%E6%9C%AA%E5%AE%89%E8%A3%9D%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">安裝 Git（若尚未安裝）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Windows-Terminal-%E4%B8%BB%E9%A1%8C%E9%85%8D%E8%89%B2%EF%BC%88Schemes%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">Windows Terminal 主題配色（Schemes）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%B6%E5%B0%BE%E6%AA%A2%E6%9F%A5%E6%B8%85%E5%96%AE"><span class="nav-number">7.</span> <span class="nav-text">收尾檢查清單</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.cakeresume.com/pcion123" title="Cakeresume → https:&#x2F;&#x2F;www.cakeresume.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="linkedin fa-fw"></i>Cakeresume</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/docker/" style="font-size: 15.6px;" class="tag-cloud-2">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/github-copilot/" style="font-size: 15.6px;" class="tag-cloud-2">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 19.2px;" class="tag-cloud-4">gitlab</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 19.2px;" class="tag-cloud-4">java</a> <a href="/tags/jdk/" style="font-size: 15.6px;" class="tag-cloud-2">jdk</a> <a href="/tags/jenkins/" style="font-size: 22.8px;" class="tag-cloud-6">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 12px;" class="tag-cloud-0">kubernetes</a> <a href="/tags/linux/" style="font-size: 30px;" class="tag-cloud-10">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 19.2px;" class="tag-cloud-4">maven</a> <a href="/tags/minikube/" style="font-size: 12px;" class="tag-cloud-0">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/pm2/" style="font-size: 15.6px;" class="tag-cloud-2">pm2</a> <a href="/tags/powershell/" style="font-size: 19.2px;" class="tag-cloud-4">powershell</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 19.2px;" class="tag-cloud-4">terminal</a> <a href="/tags/tomcat/" style="font-size: 15.6px;" class="tag-cloud-2">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 26.4px;" class="tag-cloud-8">ubuntu</a> <a href="/tags/vscode/" style="font-size: 15.6px;" class="tag-cloud-2">vscode</a> <a href="/tags/windows/" style="font-size: 19.2px;" class="tag-cloud-4">windows</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 19.2px;" class="tag-cloud-4">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2025/09/18/powershell-improve-2025/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="美化 PowerShell：Oh My Posh 全攻略 (2025) | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          美化 PowerShell：Oh My Posh 全攻略 (2025)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-09-18 22:43:20" itemprop="dateCreated datePublished" datetime="2025-09-18T22:43:20+08:00">2025-09-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-09-19 00:18:54" itemprop="dateModified" datetime="2025-09-19T00:18:54+08:00">2025-09-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/windows/" itemprop="url" rel="index"><span itemprop="name">windows</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2025/09/18/powershell-improve-2025/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2025/09/18/powershell-improve-2025/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>最近把內建的 Windows PowerShell 5.1 直接升級到跨平台的 PowerShell 7，啟動速度、互動補全與外觀自訂一次大進化。於是把這次從「升級 → 權限工具 (gsudo) → Prompt 美化 (Oh My Posh) → 文字&#x2F;字型 → 終端顏色主題」的完整流程整理成筆記，之後重裝或換機也能快速複製。 </p>
+<p>這篇你將會獲得：</p>
+<ol>
+<li>乾淨可重現的 Profile 初始化步驟</li>
+<li>提升效率的補全與權限操作設定</li>
+<li>一套漂亮又資訊量足夠的 Prompt 主題</li>
+<li>Windows Terminal 配色與字型建議</li>
+</ol>
+<p>先來看看升級前「尚未美化」的樣子，然後開始改造：</p>
+<img src="/2025/09/18/powershell-improve-2025/powershell_old.png" class="">
+
+<span id="more"></span>
+
+<h2 id="PowerShell-Profile-準備"><a href="#PowerShell-Profile-準備" class="headerlink" title="PowerShell Profile 準備"></a>PowerShell Profile 準備</h2><p>之後的功能（自動補全、別名、提示主題等）都會寫進個人 Profile。先確認目前的 <code>$PROFILE</code> 是否存在，沒有就建立。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看目前使用的 Profile 路徑</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$PROFILE</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢查檔案是否存在（True = 已存在）</span></span><br><span class="line">Test-Path <span class="variable">$PROFILE</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 直接用記事本編輯</span></span><br><span class="line">notepad <span class="variable">$PROFILE</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Windows-PowerShell-5-1-目錄"><a href="#Windows-PowerShell-5-1-目錄" class="headerlink" title="Windows PowerShell 5.1 目錄"></a>Windows PowerShell 5.1 目錄</h3><p>舊版（內建）使用的目錄名稱是 <code>WindowsPowerShell</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 檢查舊版目錄是否存在</span></span><br><span class="line">Test-Path <span class="string">&quot;C:\Users\&#123;你的帳戶&#125;\Documents\WindowsPowerShell&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立目錄（若不存在）</span></span><br><span class="line">New-Item -ItemType Directory -Path <span class="string">&quot;C:\Users\&#123;你的帳戶&#125;\Documents\WindowsPowerShell&quot;</span> -Force</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立 Profile（空檔案）</span></span><br><span class="line">New-Item -ItemType File -Path <span class="variable">$PROFILE</span> -Force</span><br></pre></td></tr></table></figure>
+
+<h3 id="PowerShell-7-目錄"><a href="#PowerShell-7-目錄" class="headerlink" title="PowerShell 7 目錄"></a>PowerShell 7 目錄</h3><p>PowerShell 7 之後改用新目錄 <code>PowerShell</code>，不要混用。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 檢查新版目錄是否存在</span></span><br><span class="line">Test-Path <span class="string">&quot;C:\Users\&#123;你的帳戶&#125;\Documents\PowerShell&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立目錄</span></span><br><span class="line">New-Item -ItemType Directory -Path <span class="string">&quot;C:\Users\&#123;你的帳戶&#125;\Documents\PowerShell&quot;</span> -Force</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立 Profile</span></span><br><span class="line">New-Item -ItemType File -Path <span class="variable">$PROFILE</span> -Force</span><br></pre></td></tr></table></figure>
+
+<h2 id="安裝-PowerShell-7"><a href="#安裝-PowerShell-7" class="headerlink" title="安裝 PowerShell 7"></a>安裝 PowerShell 7</h2><p>使用 winget 最方便：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安裝</span></span><br><span class="line">winget install --<span class="built_in">id</span> Microsoft.Powershell --<span class="built_in">source</span> winget</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新</span></span><br><span class="line">winget upgrade --<span class="built_in">id</span> Microsoft.Powershell</span><br></pre></td></tr></table></figure>
+
+<h3 id="啟用指令歷史-AI-預測補全"><a href="#啟用指令歷史-AI-預測補全" class="headerlink" title="啟用指令歷史 + AI 預測補全"></a>啟用指令歷史 + AI 預測補全</h3><p>建議在 Profile 中加入 PSReadLine 設定：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用歷史紀錄 (History) + 外掛/擴充來源 (Plugin) 同時提供預測建議。</span></span><br><span class="line"><span class="comment"># 其他可選值：None / History / Plugin / HistoryAndPlugin</span></span><br><span class="line"><span class="built_in">Set-PSReadLineOption</span> <span class="literal">-PredictionSource</span> HistoryAndPlugin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 將多筆建議以清單面板顯示於游標下方（ListView）。</span></span><br><span class="line"><span class="comment"># 若偏好行內灰色字體，可改用：InlineView</span></span><br><span class="line"><span class="built_in">Set-PSReadLineOption</span> <span class="literal">-PredictionViewStyle</span> ListView</span><br></pre></td></tr></table></figure>
+
+<p>若想立即測試：把以上貼進 <code>notepad $PROFILE</code> 開啟的檔案末端後存檔，再開新視窗生效。</p>
+<h2 id="gsudo：快速取得系統權限"><a href="#gsudo：快速取得系統權限" class="headerlink" title="gsudo：快速取得系統權限"></a>gsudo：快速取得系統權限</h2><p><code>gsudo</code> 可視為 Windows 版 <code>sudo</code>，不用每次再手動啟動「以系統管理員身分執行」。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安裝</span></span><br><span class="line">winget install gerardog.gsudo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新</span></span><br><span class="line">winget upgrade gerardog.gsudo</span><br></pre></td></tr></table></figure>
+
+<p>在 Profile 中加入別名：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set-Alias</span> sudo gsudo</span><br></pre></td></tr></table></figure>
+
+<p>如果在 Windows Terminal 中想建立一個自動提權啟動 PowerShell 7 的命令，可在設定中指定：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gsudo.exe &quot;C:\Program Files\PowerShell\7\pwsh.exe&quot;</span><br></pre></td></tr></table></figure>
+
+<img src="/2025/09/18/powershell-improve-2025/gsudo_command_setting.png" class="">
+
+<h2 id="Oh-My-Posh：Prompt-主題美化"><a href="#Oh-My-Posh：Prompt-主題美化" class="headerlink" title="Oh My Posh：Prompt 主題美化"></a>Oh My Posh：Prompt 主題美化</h2><h3 id="安裝-Nerd-Font-字型"><a href="#安裝-Nerd-Font-字型" class="headerlink" title="安裝 Nerd Font 字型"></a>安裝 Nerd Font 字型</h3><p>先到 <a target="_blank" rel="noopener" href="https://www.nerdfonts.com/font-downloads">Nerd Fonts 官網</a> 下載一款字型（建議 FiraCode &#x2F; Meslo &#x2F; JetBrainsMono），安裝後到 Windows Terminal 的該 Profile 內套用，避免符號亂碼。</p>
+<h3 id="安裝-Oh-My-Posh"><a href="#安裝-Oh-My-Posh" class="headerlink" title="安裝 Oh My Posh"></a>安裝 Oh My Posh</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">winget install JanDeDobbeleer.OhMyPosh -s winget</span><br><span class="line">winget upgrade JanDeDobbeleer.OhMyPosh</span><br></pre></td></tr></table></figure>
+
+<h3 id="啟用並指定主題"><a href="#啟用並指定主題" class="headerlink" title="啟用並指定主題"></a>啟用並指定主題</h3><p>在 Profile 內加入（可先用 <code>notepad $PROFILE</code> 開啟）：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 初始化（預設主題）</span></span><br><span class="line"><span class="built_in">oh</span><span class="literal">-my-posh</span> init pwsh | <span class="built_in">Invoke-Expression</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定 paradox 主題（可改成任意 .omp.json）</span></span><br><span class="line"><span class="built_in">oh</span><span class="literal">-my-posh</span> init pwsh <span class="literal">--config</span> <span class="string">&quot;<span class="variable">$env:POSH_THEMES_PATH</span>\paradox.omp.json&quot;</span> | <span class="built_in">Invoke-Expression</span></span><br></pre></td></tr></table></figure>
+
+<p>查看有哪些內建主題：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-ChildItem</span> <span class="variable">$env:POSH_THEMES_PATH</span> | <span class="built_in">Select-String</span> <span class="string">&quot;.omp.json&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>修改後重新開一個新的 PowerShell 視窗即可看到效果。</p>
+<h2 id="安裝-Git（若尚未安裝）"><a href="#安裝-Git（若尚未安裝）" class="headerlink" title="安裝 Git（若尚未安裝）"></a>安裝 Git（若尚未安裝）</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">winget install --<span class="built_in">id</span> Git.Git -e --<span class="built_in">source</span> winget</span><br><span class="line">winget upgrade Git.Git</span><br></pre></td></tr></table></figure>
+
+<h2 id="Windows-Terminal-主題配色（Schemes）"><a href="#Windows-Terminal-主題配色（Schemes）" class="headerlink" title="Windows Terminal 主題配色（Schemes）"></a>Windows Terminal 主題配色（Schemes）</h2><p>可到 <a target="_blank" rel="noopener" href="https://windowsterminalthemes.dev/">Windows Terminal Themes</a> 挑選喜歡的色票，將 JSON 片段貼進設定檔的 <code>schemes</code> 陣列，再於對應 Profile 設 <code>&quot;colorScheme&quot;</code> 為該名稱。</p>
+<img src="/2025/09/18/powershell-improve-2025/windows_terminal_themes.png" class="">
+
+<p>例如 <code>Espresso</code>：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;background&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#323232&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;black&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#353535&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;blue&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#6C99BB&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;brightBlack&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#535353&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;brightBlue&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#8AB7D9&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;brightCyan&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#DCF4FF&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;brightGreen&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#C2E075&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;brightPurple&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#EFB5F7&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;brightRed&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#F00C0C&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;brightWhite&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#FFFFFF&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;brightYellow&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#E1E48B&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;cursorColor&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#D6D6D6&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;cyan&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#BED6FF&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;foreground&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#FFFFFF&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;green&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#A5C261&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Espresso&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;purple&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#D197D9&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;red&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#D25252&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;selectionBackground&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#5B5B5B&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;white&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#EEEEEC&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;yellow&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#FFC66D&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>開啟 JSON 設定：</p>
+<img src="/2025/09/18/powershell-improve-2025/windows_terminal_json.png" class="">
+
+<ol>
+<li>將上述片段加入 <code>schemes</code>。</li>
+<li>在對應的 Profile 中設定：<code>&quot;colorScheme&quot;: &quot;Espresso&quot;</code>。</li>
+</ol>
+<h2 id="收尾檢查清單"><a href="#收尾檢查清單" class="headerlink" title="收尾檢查清單"></a>收尾檢查清單</h2><ul>
+<li>Profile 是否已包含：PSReadLine、oh-my-posh、sudo 別名</li>
+<li>Windows Terminal Profile 是否套用 Nerd Font</li>
+<li>是否能看到彩色 Git 分支與圖示</li>
+<li>是否能正常用 <code>sudo</code> 執行管理員指令</li>
+</ul>
+<p>到這裡，一個舒適又美觀的 PowerShell 開發終端就完成了。後續可以再接：fzf、z、PSFzf、Terminal Icons 等加強效率的模組，視需求加即可。</p>
+<p>有需要再補充其他模組的，也歡迎留言提醒。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/windows/" rel="tag"># windows</a>
+              <a href="/tags/powershell/" rel="tag"># powershell</a>
+              <a href="/tags/terminal/" rel="tag"># terminal</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/09/14/vscode-copilot-thoughts/" rel="prev" title="vscode+copilot開發心得">
+                  <i class="fa fa-angle-left"></i> vscode+copilot開發心得
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"pcions-blog","count":true,"lazyload":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js" defer></script>
+
+</body>
+</html>
