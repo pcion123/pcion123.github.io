@@ -32,8 +32,9 @@
 <meta property="og:image" content="https://pcion123.github.io/2025/09/18/powershell-improve-2025/gsudo_command_setting.png">
 <meta property="og:image" content="https://pcion123.github.io/2025/09/18/powershell-improve-2025/windows_terminal_themes.png">
 <meta property="og:image" content="https://pcion123.github.io/2025/09/18/powershell-improve-2025/windows_terminal_json.png">
+<meta property="og:image" content="https://github.com/pcion123/pcion123.github.io/blob/master/2025/09/18/powershell-improve-2025/pwshdemo.webp?raw=true">
 <meta property="article:published_time" content="2025-09-18T14:43:20.000Z">
-<meta property="article:modified_time" content="2025-09-18T16:18:54.401Z">
+<meta property="article:modified_time" content="2025-09-18T16:26:30.703Z">
 <meta property="article:author" content="Jason Lai">
 <meta property="article:tag" content="windows">
 <meta property="article:tag" content="powershell">
@@ -141,7 +142,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#PowerShell-Profile-%E6%BA%96%E5%82%99"><span class="nav-number">1.</span> <span class="nav-text">PowerShell Profile 準備</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-PowerShell-5-1-%E7%9B%AE%E9%8C%84"><span class="nav-number">1.1.</span> <span class="nav-text">Windows PowerShell 5.1 目錄</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PowerShell-7-%E7%9B%AE%E9%8C%84"><span class="nav-number">1.2.</span> <span class="nav-text">PowerShell 7 目錄</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-PowerShell-7"><span class="nav-number">2.</span> <span class="nav-text">安裝 PowerShell 7</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%95%9F%E7%94%A8%E6%8C%87%E4%BB%A4%E6%AD%B7%E5%8F%B2-AI-%E9%A0%90%E6%B8%AC%E8%A3%9C%E5%85%A8"><span class="nav-number">2.1.</span> <span class="nav-text">啟用指令歷史 + AI 預測補全</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gsudo%EF%BC%9A%E5%BF%AB%E9%80%9F%E5%8F%96%E5%BE%97%E7%B3%BB%E7%B5%B1%E6%AC%8A%E9%99%90"><span class="nav-number">3.</span> <span class="nav-text">gsudo：快速取得系統權限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Oh-My-Posh%EF%BC%9APrompt-%E4%B8%BB%E9%A1%8C%E7%BE%8E%E5%8C%96"><span class="nav-number">4.</span> <span class="nav-text">Oh My Posh：Prompt 主題美化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Nerd-Font-%E5%AD%97%E5%9E%8B"><span class="nav-number">4.1.</span> <span class="nav-text">安裝 Nerd Font 字型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Oh-My-Posh"><span class="nav-number">4.2.</span> <span class="nav-text">安裝 Oh My Posh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%95%9F%E7%94%A8%E4%B8%A6%E6%8C%87%E5%AE%9A%E4%B8%BB%E9%A1%8C"><span class="nav-number">4.3.</span> <span class="nav-text">啟用並指定主題</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Git%EF%BC%88%E8%8B%A5%E5%B0%9A%E6%9C%AA%E5%AE%89%E8%A3%9D%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">安裝 Git（若尚未安裝）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Windows-Terminal-%E4%B8%BB%E9%A1%8C%E9%85%8D%E8%89%B2%EF%BC%88Schemes%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">Windows Terminal 主題配色（Schemes）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%B6%E5%B0%BE%E6%AA%A2%E6%9F%A5%E6%B8%85%E5%96%AE"><span class="nav-number">7.</span> <span class="nav-text">收尾檢查清單</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#PowerShell-Profile-%E6%BA%96%E5%82%99"><span class="nav-number">1.</span> <span class="nav-text">PowerShell Profile 準備</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-PowerShell-5-1-%E7%9B%AE%E9%8C%84"><span class="nav-number">1.1.</span> <span class="nav-text">Windows PowerShell 5.1 目錄</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PowerShell-7-%E7%9B%AE%E9%8C%84"><span class="nav-number">1.2.</span> <span class="nav-text">PowerShell 7 目錄</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-PowerShell-7"><span class="nav-number">2.</span> <span class="nav-text">安裝 PowerShell 7</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%95%9F%E7%94%A8%E6%8C%87%E4%BB%A4%E6%AD%B7%E5%8F%B2-AI-%E9%A0%90%E6%B8%AC%E8%A3%9C%E5%85%A8"><span class="nav-number">2.1.</span> <span class="nav-text">啟用指令歷史 + AI 預測補全</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gsudo%EF%BC%9A%E5%BF%AB%E9%80%9F%E5%8F%96%E5%BE%97%E7%B3%BB%E7%B5%B1%E6%AC%8A%E9%99%90"><span class="nav-number">3.</span> <span class="nav-text">gsudo：快速取得系統權限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Oh-My-Posh%EF%BC%9APrompt-%E4%B8%BB%E9%A1%8C%E7%BE%8E%E5%8C%96"><span class="nav-number">4.</span> <span class="nav-text">Oh My Posh：Prompt 主題美化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Nerd-Font-%E5%AD%97%E5%9E%8B"><span class="nav-number">4.1.</span> <span class="nav-text">安裝 Nerd Font 字型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Oh-My-Posh"><span class="nav-number">4.2.</span> <span class="nav-text">安裝 Oh My Posh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%95%9F%E7%94%A8%E4%B8%A6%E6%8C%87%E5%AE%9A%E4%B8%BB%E9%A1%8C"><span class="nav-number">4.3.</span> <span class="nav-text">啟用並指定主題</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Git%EF%BC%88%E8%8B%A5%E5%B0%9A%E6%9C%AA%E5%AE%89%E8%A3%9D%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">安裝 Git（若尚未安裝）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Windows-Terminal-%E4%B8%BB%E9%A1%8C%E9%85%8D%E8%89%B2%EF%BC%88Schemes%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">Windows Terminal 主題配色（Schemes）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%90%E6%9E%9C%E5%B1%95%E7%A4%BA"><span class="nav-number">7.</span> <span class="nav-text">成果展示</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -254,7 +255,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-09-19 00:18:54" itemprop="dateModified" datetime="2025-09-19T00:18:54+08:00">2025-09-19</time>
+      <time title="修改時間：2025-09-19 00:26:30" itemprop="dateModified" datetime="2025-09-19T00:26:30+08:00">2025-09-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -354,14 +355,9 @@
 <li>將上述片段加入 <code>schemes</code>。</li>
 <li>在對應的 Profile 中設定：<code>&quot;colorScheme&quot;: &quot;Espresso&quot;</code>。</li>
 </ol>
-<h2 id="收尾檢查清單"><a href="#收尾檢查清單" class="headerlink" title="收尾檢查清單"></a>收尾檢查清單</h2><ul>
-<li>Profile 是否已包含：PSReadLine、oh-my-posh、sudo 別名</li>
-<li>Windows Terminal Profile 是否套用 Nerd Font</li>
-<li>是否能看到彩色 Git 分支與圖示</li>
-<li>是否能正常用 <code>sudo</code> 執行管理員指令</li>
-</ul>
-<p>到這裡，一個舒適又美觀的 PowerShell 開發終端就完成了。後續可以再接：fzf、z、PSFzf、Terminal Icons 等加強效率的模組，視需求加即可。</p>
-<p>有需要再補充其他模組的，也歡迎留言提醒。</p>
+<h2 id="成果展示"><a href="#成果展示" class="headerlink" title="成果展示"></a>成果展示</h2><img src="https://github.com/pcion123/pcion123.github.io/blob/master/2025/09/18/powershell-improve-2025/pwshdemo.webp?raw=true" alt="PowerShell 7 + Oh My Posh 終端成品示意" width="100%" />
+
+<p>希望這篇能幫助你快速打造一個好看、好讀、好用的終端環境。如果你有更喜歡的主題或額外技巧，也歡迎分享交流 🙌</p>
 
     </div>
 
