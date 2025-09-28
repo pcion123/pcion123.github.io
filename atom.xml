@@ -67,11 +67,11 @@
       <category term="kubernetes" scheme="https://pcion123.github.io/categories/kubernetes/"/>
     
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
     
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
-      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="kubernetes" scheme="https://pcion123.github.io/tags/kubernetes/"/>
     
@@ -225,11 +225,11 @@
       <category term="kubernetes" scheme="https://pcion123.github.io/categories/kubernetes/"/>
     
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
     
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
-      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="kubernetes" scheme="https://pcion123.github.io/tags/kubernetes/"/>
     
@@ -257,11 +257,11 @@
       <category term="docker" scheme="https://pcion123.github.io/categories/docker/"/>
     
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
     
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
-      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
   </entry>
   
@@ -321,9 +321,9 @@
       <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
     
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
-    
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="codimd" scheme="https://pcion123.github.io/tags/codimd/"/>
     
@@ -355,9 +355,9 @@
       <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
     
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
-    
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="rabbitmq" scheme="https://pcion123.github.io/tags/rabbitmq/"/>
     
@@ -519,9 +519,9 @@
       <category term="pm2" scheme="https://pcion123.github.io/categories/pm2/"/>
     
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
-    
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="pm2" scheme="https://pcion123.github.io/tags/pm2/"/>
     
@@ -622,9 +622,9 @@
       <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
     
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
-    
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="redis" scheme="https://pcion123.github.io/tags/redis/"/>
     

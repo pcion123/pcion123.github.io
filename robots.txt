@@ -7,3 +7,10 @@ Allow: /
 # Allow all search engines to crawl all content
 # Sitemap location
 Sitemap: https://pcion123.github.io/sitemap-v2.xml
+
+# Additional common crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
