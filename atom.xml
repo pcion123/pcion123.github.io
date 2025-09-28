@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://pcion123.github.io/"/>
-  <updated>2025-09-24T16:38:16.885Z</updated>
+  <updated>2025-09-28T15:19:22.619Z</updated>
   <id>https://pcion123.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Kubernetes 核心元件介紹</title>
+    <link href="https://pcion123.github.io/2025/09/28/kubernetes-core-intro/"/>
+    <id>https://pcion123.github.io/2025/09/28/kubernetes-core-intro/</id>
+    <published>2025-09-28T14:58:35.000Z</published>
+    <updated>2025-09-28T15:19:22.619Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Kubernetes-核心元件介紹"><a href="#Kubernetes-核心元件介紹" class="headerlink" title="Kubernetes 核心元件介紹"></a>Kubernetes 核心元件介紹</h1><h2 id="架構總覽"><a href="#架構總覽" class="headerlink" title="架構總覽"></a>架構總覽</h2><img src="/2025/09/28/kubernetes-core-intro/kubernetes-components-overview.svg" class="" title="Kubernetes 架構圖"><p><em>上圖展示了 Kubernetes 完整架構，包含控制平面、工作節點、服務層和配置管理等核心元件及其互動關係</em></p><span id="more"></span><hr><h2 id="Pod"><a href="#Pod" class="headerlink" title="Pod"></a>Pod</h2><p><strong>Kubernetes 中的最小運行單位</strong></p><ul><li>每個 Pod 都會被分配一個唯一的虛擬 IP 位址</li><li><strong>Container</strong>: Pod 內運行的應用程式容器，雖然每個 Pod 可以運行多個容器，但通常建議只運行一個主要容器</li></ul><h2 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h2><p><strong>Kubernetes 叢集的工作節點</strong></p><ul><li>可以是實體機器或虛擬機器</li><li>多個 Node 組成 Kubernetes 叢集，提供運算資源</li></ul><h2 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h2><p><strong>提供穩定的網路端點</strong></p><ul><li>解決 Pod 重啟時 IP 位址變動的問題</li><li>提供固定的 IP 位址和 DNS 名稱，作為 Pod 群組的存取入口</li><li>分為兩種類型：<ul><li><strong>內部 Service</strong>: 僅供叢集內部通訊使用</li><li><strong>外部 Service</strong>: 允許外部流量存取</li></ul></li></ul><h2 id="Ingress"><a href="#Ingress" class="headerlink" title="Ingress"></a>Ingress</h2><p><strong>HTTP&#x2F;HTTPS 路由管理</strong></p><ul><li>提供域名對應服務，讓外部用戶能透過網域名稱存取 Service</li><li>支援 SSL&#x2F;TLS 憑證管理和負載平衡</li></ul><h2 id="ConfigMap"><a href="#ConfigMap" class="headerlink" title="ConfigMap"></a>ConfigMap</h2><p><strong>應用程式配置管理</strong></p><ul><li>儲存非敏感的配置資料（如設定檔、環境變數）</li><li>避免因配置變更而重新建置映像檔，減少部署停機時間</li><li>支援熱更新配置</li></ul><blockquote><p><strong>警告</strong><br>ConfigMap 以明文方式儲存內容，<strong>請勿存放敏感資料</strong></p></blockquote><h2 id="Secret"><a href="#Secret" class="headerlink" title="Secret"></a>Secret</h2><p><strong>敏感資料安全儲存</strong></p><ul><li>專門用於儲存機敏資料（如密碼、API 金鑰、憑證）</li><li>資料以 Base64 編碼格式儲存</li><li>提供比 ConfigMap 更高的安全性</li></ul><blockquote><p><strong>註解</strong><br>Secret 使用 Base64 編碼儲存資料，並可與 Pod 安全地共享</p></blockquote><h2 id="Volumes"><a href="#Volumes" class="headerlink" title="Volumes"></a>Volumes</h2><p><strong>持久化資料儲存</strong></p><ul><li>解決容器重啟時資料遺失的問題</li><li>提供多種儲存類型（本機儲存、網路儲存、雲端儲存）</li><li>確保重要資料在 Pod 生命週期外持續保存</li></ul><h2 id="Deployment"><a href="#Deployment" class="headerlink" title="Deployment"></a>Deployment</h2><p><strong>無狀態應用程式的部署管理</strong></p><ul><li>管理 Pod 的部署、更新和擴縮容</li><li>提供聲明式更新，確保應用程式的期望狀態</li><li>支援滾動更新（Rolling Update）和回滾功能</li><li>適用於無狀態的應用程式，如網頁伺服器、API 服務</li><li>主要功能：<ul><li><strong>副本管理</strong>: 確保指定數量的 Pod 副本正常運行</li><li><strong>自動修復</strong>: 當 Pod 異常時自動重新建立</li><li><strong>版本控制</strong>: 追蹤部署歷史，支援快速回滾</li><li><strong>零停機部署</strong>: 透過滾動更新實現無中斷服務更新</li></ul></li></ul><blockquote><p><strong>提示</strong><br>Deployment 是部署無狀態應用程式的首選方式，提供了強大的生命週期管理功能</p></blockquote><h2 id="StatefulSet"><a href="#StatefulSet" class="headerlink" title="StatefulSet"></a>StatefulSet</h2><p><strong>有狀態應用程式的部署管理</strong></p><ul><li>專門用於管理有狀態的應用程式，如資料庫、訊息佇列</li><li>為每個 Pod 提供穩定且唯一的網路識別符</li><li>保證 Pod 的有序部署、擴縮容和終止</li><li>提供持久化儲存與 Pod 的穩定綁定關係</li><li>主要特色：<ul><li><strong>穩定的網路識別</strong>: 每個 Pod 都有固定的主機名稱（如 pod-0, pod-1）</li><li><strong>有序部署</strong>: Pod 按照順序建立，確保前一個 Pod 就緒後才建立下一個</li><li><strong>持久儲存</strong>: 每個 Pod 都有專屬的持久化儲存卷</li><li><strong>有序終止</strong>: 刪除時按照相反順序進行，確保資料完整性</li></ul></li></ul><blockquote><p><strong>重要提示</strong><br>StatefulSet 適用於需要穩定儲存和網路識別的應用程式，如 MySQL、MongoDB、Kafka 等</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Kubernetes-核心元件介紹&quot;&gt;&lt;a href=&quot;#Kubernetes-核心元件介紹&quot; class=&quot;headerlink&quot; title=&quot;Kubernetes 核心元件介紹&quot;&gt;&lt;/a&gt;Kubernetes 核心元件介紹&lt;/h1&gt;&lt;h2 id=&quot;架構總覽&quot;&gt;&lt;a href=&quot;#架構總覽&quot; class=&quot;headerlink&quot; title=&quot;架構總覽&quot;&gt;&lt;/a&gt;架構總覽&lt;/h2&gt;&lt;img src=&quot;/2025/09/28/kubernetes-core-intro/kubernetes-components-overview.svg&quot; class=&quot;&quot; title=&quot;Kubernetes 架構圖&quot;&gt;
+
+&lt;p&gt;&lt;em&gt;上圖展示了 Kubernetes 完整架構，包含控制平面、工作節點、服務層和配置管理等核心元件及其互動關係&lt;/em&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="kubernetes" scheme="https://pcion123.github.io/categories/kubernetes/"/>
+    
+    
+      <category term="kubernetes" scheme="https://pcion123.github.io/tags/kubernetes/"/>
+    
+  </entry>
   
   <entry>
     <title>Ubuntu安裝Minikube (2025)</title>
@@ -48,9 +73,9 @@
     
       <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
     
-      <category term="minikube" scheme="https://pcion123.github.io/tags/minikube/"/>
-    
       <category term="kubernetes" scheme="https://pcion123.github.io/tags/kubernetes/"/>
+    
+      <category term="minikube" scheme="https://pcion123.github.io/tags/minikube/"/>
     
   </entry>
   
@@ -206,9 +231,9 @@
     
       <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
     
-      <category term="minikube" scheme="https://pcion123.github.io/tags/minikube/"/>
-    
       <category term="kubernetes" scheme="https://pcion123.github.io/tags/kubernetes/"/>
+    
+      <category term="minikube" scheme="https://pcion123.github.io/tags/minikube/"/>
     
   </entry>
   
@@ -602,44 +627,6 @@
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
       <category term="redis" scheme="https://pcion123.github.io/tags/redis/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Ubuntu安裝MariaDB</title>
-    <link href="https://pcion123.github.io/2019/03/16/ubuntu-installmariadb/"/>
-    <id>https://pcion123.github.io/2019/03/16/ubuntu-installmariadb/</id>
-    <published>2019-03-16T07:38:31.000Z</published>
-    <updated>2025-08-13T14:31:49.422Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="安裝mariadb"><a href="#安裝mariadb" class="headerlink" title="安裝mariadb"></a>安裝mariadb</h2><p>在ubuntu底下安裝mariadb其實很方便，<br>只要幾個指令就可以完成了：</p><p>先更新套件：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt update</span><br><span class="line">$ <span class="built_in">sudo</span> apt upgrade</span><br></pre></td></tr></table></figure><p>安装MariaDB：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> apt install mariadb-server</span><br></pre></td></tr></table></figure><p>啟動服務：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> systemctl start mysql</span><br><span class="line">$ <span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> mysql</span><br></pre></td></tr></table></figure><p>查看服務：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> systemctl status mysql</span><br></pre></td></tr></table></figure><span id="more"></span><h2 id="初始化mariadb"><a href="#初始化mariadb" class="headerlink" title="初始化mariadb"></a>初始化mariadb</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> mysql_secure_installation</span><br><span class="line"></span><br><span class="line"><span class="comment"># 是否要設置root權限密碼</span></span><br><span class="line">- Set root password? [Y/n] y</span><br><span class="line"><span class="comment"># 是否要移除匿名登入</span></span><br><span class="line">- Remove anonymous <span class="built_in">users</span>? [Y/n] y</span><br><span class="line"><span class="comment"># 是否關閉遠端登入</span></span><br><span class="line">- Disallow root login remotely? [Y/n] y</span><br><span class="line"><span class="comment"># 是否移除test預設庫</span></span><br><span class="line">- Remove <span class="built_in">test</span> database and access to it? [Y/n] y</span><br><span class="line"><span class="comment"># 是否重新載入資料表權限</span></span><br><span class="line">- Reload privilege tables now? [Y/n] y</span><br></pre></td></tr></table></figure><p>完成後我們可試著本機登入查看：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> mysql -u root -p</span><br></pre></td></tr></table></figure><h2 id="建立遠端使用者權限"><a href="#建立遠端使用者權限" class="headerlink" title="建立遠端使用者權限"></a>建立遠端使用者權限</h2><p>初始化db之後我們還需要建立一組帳號，提供使用者遠端登入使用</p><p>建立使用者與權限：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 建立使用者</span></span><br><span class="line">$ CREATE USER <span class="string">&#x27;my_account&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED BY <span class="string">&#x27;my_password&#x27;</span>;</span><br><span class="line"><span class="comment"># 建立使用者權限</span></span><br><span class="line">$ GRANT ALL PRIVILEGES ON *.* TO <span class="string">&#x27;my_account&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED BY <span class="string">&#x27;my_password&#x27;</span> WITH GRANT OPTION;</span><br><span class="line"><span class="comment"># 刷新設置</span></span><br><span class="line">$ FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure><p>查看結果：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看使用者</span></span><br><span class="line">$ SELECT host,user,password FROM mysql.user;</span><br><span class="line"><span class="comment"># 查看使用者權限</span></span><br><span class="line">$ SHOW GRANTS FOR <span class="string">&#x27;my_account&#x27;</span>;</span><br></pre></td></tr></table></figure><p>完成後我們嘗試遠端登入查看：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -h 192.168.0.100 -u <span class="string">&#x27;my_account&#x27;</span> -p</span><br></pre></td></tr></table></figure><h2 id="修改mariadb設置"><a href="#修改mariadb設置" class="headerlink" title="修改mariadb設置"></a>修改mariadb設置</h2><p>如果還是不行就需要去修改mariadb的設定檔<br>打開&#x2F;etc&#x2F;mysql&#x2F;mariadb.conf.d&#x2F;50-server.cnf，找到bind-address且將他註解掉</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Instead of skip-networking the default is now to listen only on</span></span><br><span class="line"><span class="comment"># localhost which is more compatible and is not less secure.</span></span><br><span class="line"><span class="comment"># bind-address  = 127.0.0.1</span></span><br></pre></td></tr></table></figure><p>之後再重新啟動mariadb就可以了</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> systemctl restart mysql</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;安裝mariadb&quot;&gt;&lt;a href=&quot;#安裝mariadb&quot; class=&quot;headerlink&quot; title=&quot;安裝mariadb&quot;&gt;&lt;/a&gt;安裝mariadb&lt;/h2&gt;&lt;p&gt;在ubuntu底下安裝mariadb其實很方便，&lt;br&gt;只要幾個指令就可以完成了：&lt;/p&gt;
-&lt;p&gt;先更新套件：&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; apt update&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; apt upgrade&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-
-&lt;p&gt;安装MariaDB：&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; apt install mariadb-server&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-
-&lt;p&gt;啟動服務：&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; systemctl start mysql&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; systemctl &lt;span class=&quot;built_in&quot;&gt;enable&lt;/span&gt; mysql&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-
-&lt;p&gt;查看服務：&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; systemctl status mysql&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-    
-      <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
-    
-    
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
-    
-      <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
-    
-      <category term="mariadb" scheme="https://pcion123.github.io/tags/mariadb/"/>
     
   </entry>
   
