@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 深色背景漸層 (來自V7) -->
+    <linearGradient id="backgroundGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4a4a4a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2a2a2a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 正六邊形背景 (V3造型 + V7配色 + 像素材質) -->
+  <polygon points="50,2 93.3,25.5 93.3,74.5 50,98 6.7,74.5 6.7,25.5" 
+           fill="url(#backgroundGradient)" 
+           stroke="#1a1a1a" 
+           stroke-width="2"/>
+  
+  <!-- 像素化材質裝飾 - 外層 -->
+  <g opacity="0.3">
+    <!-- 上邊區域像素點 -->
+    <rect x="42" y="4" width="6" height="6" fill="#666"/>
+    <rect x="52" y="6" width="6" height="6" fill="#555"/>
+    <rect x="36" y="8" width="5" height="5" fill="#666"/>
+    <rect x="59" y="10" width="5" height="5" fill="#555"/>
+    
+    <!-- 左上區域像素點 -->
+    <rect x="15" y="30" width="6" height="6" fill="#666"/>
+    <rect x="12" y="40" width="5" height="5" fill="#555"/>
+    <rect x="18" y="50" width="6" height="6" fill="#666"/>
+    <rect x="8" y="58" width="5" height="5" fill="#555"/>
+    
+    <!-- 右上區域像素點 -->
+    <rect x="79" y="30" width="6" height="6" fill="#666"/>
+    <rect x="83" y="40" width="5" height="5" fill="#555"/>
+    <rect x="77" y="50" width="6" height="6" fill="#666"/>
+    <rect x="87" y="58" width="5" height="5" fill="#555"/>
+    
+    <!-- 左下區域像素點 -->
+    <rect x="15" y="60" width="6" height="6" fill="#666"/>
+    <rect x="12" y="70" width="5" height="5" fill="#555"/>
+    <rect x="18" y="78" width="6" height="6" fill="#666"/>
+    
+    <!-- 右下區域像素點 -->
+    <rect x="79" y="60" width="6" height="6" fill="#666"/>
+    <rect x="83" y="70" width="5" height="5" fill="#555"/>
+    <rect x="77" y="78" width="6" height="6" fill="#666"/>
+    
+    <!-- 下邊區域像素點 -->
+    <rect x="42" y="84" width="6" height="6" fill="#666"/>
+    <rect x="52" y="86" width="6" height="6" fill="#555"/>
+    <rect x="36" y="82" width="5" height="5" fill="#555"/>
+    <rect x="59" y="80" width="5" height="5" fill="#666"/>
+  </g>
+  
+  <!-- 內正六邊形背景 -->
+  <polygon points="50,10 85.9,28 85.9,72 50,90 14.1,72 14.1,28" 
+           fill="#3a3a3a" 
+           opacity="0.8"/>
+  
+  <!-- 像素化材質裝飾 - 內層 -->
+  <g opacity="0.4">
+    <!-- 中央區域像素點 -->
+    <rect x="30" y="33" width="5" height="5" fill="#555"/>
+    <rect x="65" y="35" width="5" height="5" fill="#555"/>
+    <rect x="25" y="48" width="6" height="6" fill="#666"/>
+    <rect x="69" y="50" width="6" height="6" fill="#666"/>
+    <rect x="33" y="63" width="5" height="5" fill="#555"/>
+    <rect x="62" y="61" width="5" height="5" fill="#555"/>
+    
+    <!-- 邊緣像素點 -->
+    <rect x="22" y="36" width="4" height="4" fill="#777"/>
+    <rect x="74" y="38" width="4" height="4" fill="#777"/>
+    <rect x="24" y="64" width="4" height="4" fill="#777"/>
+    <rect x="72" y="62" width="4" height="4" fill="#777"/>
+    <rect x="43" y="22" width="4" height="4" fill="#777"/>
+    <rect x="53" y="74" width="4" height="4" fill="#777"/>
+  </g>
+  
+  <!-- V7風格的粗線條字母 P (使用白色) -->
+  <g transform="translate(50, 50)">
+    <!-- 主豎線 -->
+    <line x1="-8" y1="-15" x2="-8" y2="15" stroke="white" stroke-width="6" stroke-linecap="round"/>
+    <!-- 上橫線 -->
+    <line x1="-8" y1="-15" x2="8" y2="-15" stroke="white" stroke-width="6" stroke-linecap="round"/>
+    <!-- 中橫線 -->
+    <line x1="-8" y1="0" x2="8" y2="0" stroke="white" stroke-width="6" stroke-linecap="round"/>
+    <!-- 右豎線 -->
+    <line x1="8" y1="-15" x2="8" y2="0" stroke="white" stroke-width="6" stroke-linecap="round"/>
+  </g>
+  
+  <!-- 品牌名稱 (V7風格) -->
+  <text x="50" y="85" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle" font-weight="bold" opacity="0.8">PCION</text>
+</svg>
