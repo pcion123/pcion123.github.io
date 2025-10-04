@@ -22,22 +22,29 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"default"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Pcion&#39;s Blog">
-<meta property="og:url" content="https://pcion123.github.io/tags/redis/index.html">
+    <meta name="description" content="Kubernetes 控制元件介紹在 Kubernetes 中，我們需要控制平面 (Control Plane) 來管理 Node 的運行狀態。接下來我們將介紹 Node 是如何被管理的，以及各個控制元件的功能。 整體架構概述Kubernetes 採用 Master-Worker 架構模式：  Control Plane (Master): 負責管理整個叢集的決策和控制 Worker Nodes:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes 控制元件介紹">
+<meta property="og:url" content="https://pcion123.github.io/2025/10/04/kubernetes-controller-intro/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="Kubernetes 控制元件介紹在 Kubernetes 中，我們需要控制平面 (Control Plane) 來管理 Node 的運行狀態。接下來我們將介紹 Node 是如何被管理的，以及各個控制元件的功能。 整體架構概述Kubernetes 採用 Master-Worker 架構模式：  Control Plane (Master): 負責管理整個叢集的決策和控制 Worker Nodes:">
 <meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2025/10/04/kubernetes-controller-intro/kubernetes-control-components.svg">
+<meta property="article:published_time" content="2025-10-04T06:16:07.000Z">
+<meta property="article:modified_time" content="2025-10-04T06:29:12.402Z">
 <meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="kubernetes">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2025/10/04/kubernetes-controller-intro/kubernetes-control-components.svg">
 
 
-<link rel="canonical" href="https://pcion123.github.io/tags/redis/">
+<link rel="canonical" href="https://pcion123.github.io/2025/10/04/kubernetes-controller-intro/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-TW","comments":"","permalink":"","path":"tags/redis/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2025/10/04/kubernetes-controller-intro/","path":"2025/10/04/kubernetes-controller-intro/","title":"Kubernetes 控制元件介紹"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>標籤: redis | Pcion's Blog</title>
+<title>Kubernetes 控制元件介紹 | Pcion's Blog</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
@@ -119,7 +126,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目錄
@@ -132,6 +139,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes-%E6%8E%A7%E5%88%B6%E5%85%83%E4%BB%B6%E4%BB%8B%E7%B4%B9"><span class="nav-number">1.</span> <span class="nav-text">Kubernetes 控制元件介紹</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E9%AB%94%E6%9E%B6%E6%A7%8B%E6%A6%82%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">整體架構概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-Components"><span class="nav-number">1.2.</span> <span class="nav-text">Node Components</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Control-Plane-Components"><span class="nav-number">1.3.</span> <span class="nav-text">Control Plane Components</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%83%E4%BB%B6%E9%96%93%E7%9A%84%E9%80%9A%E8%A8%8A%E6%A9%9F%E5%88%B6"><span class="nav-number">1.4.</span> <span class="nav-text">元件間的通訊機制</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -197,51 +205,158 @@
 
     </div>
 
-    <div class="main-inner tag posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
+
+
+<div class="post-block">
   
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h1 class="collection-header">redis
-          <small>標籤</small>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2025/10/04/kubernetes-controller-intro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Kubernetes 控制元件介紹 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Kubernetes 控制元件介紹
         </h1>
-      </div>
 
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
       
-    <div class="collection-year">
-      <span class="collection-header">2019</span>
+
+      <time title="創建時間：2025-10-04 14:16:07 / 修改時間：14:29:12" itemprop="dateCreated datePublished" datetime="2025-10-04T14:16:07+08:00">2025-10-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kubernetes/" itemprop="url" rel="index"><span itemprop="name">kubernetes</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2025/10/04/kubernetes-controller-intro/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2025/10/04/kubernetes-controller-intro/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Kubernetes-控制元件介紹"><a href="#Kubernetes-控制元件介紹" class="headerlink" title="Kubernetes 控制元件介紹"></a>Kubernetes 控制元件介紹</h1><p>在 Kubernetes 中，我們需要控制平面 (Control Plane) 來管理 Node 的運行狀態。接下來我們將介紹 Node 是如何被管理的，以及各個控制元件的功能。</p>
+<h2 id="整體架構概述"><a href="#整體架構概述" class="headerlink" title="整體架構概述"></a>整體架構概述</h2><p>Kubernetes 採用 Master-Worker 架構模式：</p>
+<ul>
+<li><strong>Control Plane (Master)</strong>: 負責管理整個叢集的決策和控制</li>
+<li><strong>Worker Nodes</strong>: 負責執行實際的應用程式工作負載</li>
+</ul>
+<img src="/2025/10/04/kubernetes-controller-intro/kubernetes-control-components.svg" class="" title="Kubernetes 控制元件架構圖">
+
+<span id="more"></span>
+
+<hr>
+<h2 id="Node-Components"><a href="#Node-Components" class="headerlink" title="Node Components"></a>Node Components</h2><p>Node Components 是每個 Worker Node 必須具備的核心元件：</p>
+<ul>
+<li><strong>Container Runtime</strong>: 負責管理容器的生命週期，包括容器的建立、執行和銷毀</li>
+<li><strong>kubelet</strong>: 作為 Node 的代理程式，負責建立 Pod 並維護容器的健康狀態</li>
+<li><strong>kube-proxy</strong>: 負責處理 Node 的網路代理功能，實現服務發現和負載平衡</li>
+</ul>
+<h2 id="Control-Plane-Components"><a href="#Control-Plane-Components" class="headerlink" title="Control Plane Components"></a>Control Plane Components</h2><p>控制平面負責管理整個 Kubernetes 叢集中所有的 <strong>Node Components</strong>。以下是控制平面的核心元件：</p>
+<ul>
+<li><strong>kube-api-server</strong>: 作為 Kubernetes API 的前端，負責處理來自客戶端的請求，經過驗證和授權後，將請求轉發給對應的元件</li>
+<li><strong>kube-scheduler</strong>: 負責將 Pod 調度到適合的 Node 上執行，會根據資源可用性、硬體需求等條件來選擇最佳的 Node</li>
+<li><strong>kube-controller-manager</strong>: 執行各種控制器，負責監控 Kubernetes 叢集的狀態變化並確保達到期望狀態</li>
+<li><strong>etcd</strong>: 分散式的 key-value 儲存系統，用來儲存 Kubernetes 叢集的所有配置資料和狀態資訊</li>
+<li><strong>cloud-controller-manager</strong>: 負責與雲端服務提供商進行整合的元件，它可以幫助 Kubernetes 連接公有雲平台，使用雲端服務的 API 來管理雲端資源</li>
+</ul>
+<blockquote>
+<p><strong>提示</strong><br>etcd 採用分散式架構設計，因此在一個 Kubernetes 叢集中可以同時部署多個 Control Plane 元件來實現高可用性</p>
+</blockquote>
+<blockquote>
+<p><strong>提示</strong><br>cloud-controller-manager 僅在雲端環境中才會部署，如果 Kubernetes 叢集運行在本地環境則不會包含此元件（例如：minikube）</p>
+</blockquote>
+<p>為了確保服務的高可用性，生產環境的 Kubernetes 通常會部署兩個以上的 <strong>Control Plane</strong> 節點。</p>
+<h2 id="元件間的通訊機制"><a href="#元件間的通訊機制" class="headerlink" title="元件間的通訊機制"></a>元件間的通訊機制</h2><p>所有元件之間的通訊都必須透過 <strong>kube-api-server</strong> 進行，它是整個 Kubernetes 架構的核心通訊樞紐：</p>
+<ul>
+<li>kubelet 透過 API Server 回報 Node 和 Pod 的狀態</li>
+<li>Controller Manager 透過 API Server 監控叢集狀態</li>
+<li>Scheduler 透過 API Server 獲取調度資訊並做出調度決策</li>
+<li>所有配置和狀態資料都儲存在 etcd 中，只有 API Server 能直接存取</li>
+</ul>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2019-03-16T15:41:00+08:00"
-              content="2019-03-16">
-          03-16
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2019/03/16/ubuntu-installredis/" itemprop="url">
-            <span itemprop="name">Ubuntu安裝Redis</span>
-          </a>
-      </div>
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
+          </div>
 
-      
-    </header>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/09/28/kubernetes-core-intro/" rel="prev" title="Kubernetes 核心元件介紹">
+                  <i class="fa fa-angle-left"></i> Kubernetes 核心元件介紹
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
   </article>
+</div>
 
-    </div>
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
   </div>
   
-  
-  
-
 </div>
   </main>
 
