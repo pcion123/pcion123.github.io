@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://pcion123.github.io/"/>
-  <updated>2025-10-04T06:29:12.402Z</updated>
+  <updated>2025-10-10T15:55:53.379Z</updated>
   <id>https://pcion123.github.io/</id>
   
   <author>
@@ -15,6 +15,42 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Kubernetes Namespace 使用指南</title>
+    <link href="https://pcion123.github.io/2025/10/10/kubernetes-namespace/"/>
+    <id>https://pcion123.github.io/2025/10/10/kubernetes-namespace/</id>
+    <published>2025-10-10T15:48:31.000Z</published>
+    <updated>2025-10-10T15:55:53.379Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Kubernetes-Namespace-使用指南"><a href="#Kubernetes-Namespace-使用指南" class="headerlink" title="Kubernetes Namespace 使用指南"></a>Kubernetes Namespace 使用指南</h1><h2 id="什麼是-Namespace？"><a href="#什麼是-Namespace？" class="headerlink" title="什麼是 Namespace？"></a>什麼是 Namespace？</h2><p>Kubernetes Namespace 是一個 API 物件，用於在 Kubernetes 叢集中創建虛擬的資源隔離環境。Namespace 提供了一種將叢集資源劃分為多個獨立區域的方式，讓不同的團隊、專案或環境可以在同一個叢集中安全地共存。</p><h3 id="Namespace-的主要功能："><a href="#Namespace-的主要功能：" class="headerlink" title="Namespace 的主要功能："></a>Namespace 的主要功能：</h3><ul><li><strong>資源隔離</strong>：將不同的應用程式或環境分隔在不同的命名空間中</li><li><strong>存取控制</strong>：透過 RBAC 實現細粒度的權限管理</li><li><strong>資源配額管理</strong>：限制每個命名空間可使用的叢集資源量</li><li><strong>名稱空間管理</strong>：避免資源名稱衝突，支援相同名稱的資源存在於不同命名空間</li></ul><h3 id="為什麼使用-Namespace？"><a href="#為什麼使用-Namespace？" class="headerlink" title="為什麼使用 Namespace？"></a>為什麼使用 Namespace？</h3><p>相較於將所有資源都放在預設命名空間中，Namespace 提供了更好的資源管理方式：</p><ol><li><strong>多租戶支援</strong>：讓多個團隊或專案安全地共享同一個 Kubernetes 叢集</li><li><strong>環境分離</strong>：清楚區分開發、測試、生產等不同環境的資源</li><li><strong>資源管理</strong>：透過資源配額控制每個環境的資源使用量</li><li><strong>權限控制</strong>：實現精細的存取權限管理，提升安全性</li></ol><span id="more"></span><hr><h2 id="預設-Namespace"><a href="#預設-Namespace" class="headerlink" title="預設 Namespace"></a>預設 Namespace</h2><p>Kubernetes 叢集預設會創建四個系統命名空間：</p><ul><li><strong>kube-system</strong>: 存放 Kubernetes 系統元件，如 kube-dns、kube-proxy、etcd 等核心服務</li><li><strong>kube-public</strong>: 公開可讀的命名空間，通常用於存放叢集資訊，所有使用者（包括未認證使用者）都可以讀取</li><li><strong>kube-node-lease</strong>: 用於 Node 租約物件，幫助確定 Node 的可用性和健康狀態</li><li><strong>default</strong>: 預設命名空間，當沒有指定命名空間時，資源會被創建在這裡</li></ul><h2 id="建立自定義-Namespace"><a href="#建立自定義-Namespace" class="headerlink" title="建立自定義 Namespace"></a>建立自定義 Namespace</h2><h3 id="方法一：使用-YAML-檔案建立"><a href="#方法一：使用-YAML-檔案建立" class="headerlink" title="方法一：使用 YAML 檔案建立"></a>方法一：使用 YAML 檔案建立</h3><p>建立 <code>dockertest-namespace.yaml</code> 檔案：</p><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Namespace</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">dockertest-namespace</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">dockertest-namespace</span></span><br><span class="line">    <span class="attr">environment:</span> <span class="string">dev</span></span><br></pre></td></tr></table></figure><p>套用設定檔：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create -f dockertest-namespace.yaml</span><br></pre></td></tr></table></figure><img src="/2025/10/10/kubernetes-namespace/kubernetes_namespace_create.png" class="" title="namespace建立"><h3 id="方法二：使用指令直接建立"><a href="#方法二：使用指令直接建立" class="headerlink" title="方法二：使用指令直接建立"></a>方法二：使用指令直接建立</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create namespace dockertest-namespace</span><br></pre></td></tr></table></figure><h3 id="檢視所有-Namespace"><a href="#檢視所有-Namespace" class="headerlink" title="檢視所有 Namespace"></a>檢視所有 Namespace</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kubectl get namespaces</span><br><span class="line"><span class="comment"># 或使用簡寫</span></span><br><span class="line">kubectl get ns</span><br></pre></td></tr></table></figure><h2 id="在指定-Namespace-中操作資源"><a href="#在指定-Namespace-中操作資源" class="headerlink" title="在指定 Namespace 中操作資源"></a>在指定 Namespace 中操作資源</h2><h3 id="在特定-Namespace-建立資源"><a href="#在特定-Namespace-建立資源" class="headerlink" title="在特定 Namespace 建立資源"></a>在特定 Namespace 建立資源</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在指定的 namespace 中建立 pod</span></span><br><span class="line">kubectl run nginx --image=nginx -n dockertest-namespace</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 YAML 檔案建立資源到指定 namespace</span></span><br><span class="line">kubectl apply -f dockertest-deployment.yaml -n dockertest-namespace</span><br></pre></td></tr></table></figure><img src="/2025/10/10/kubernetes-namespace/kubernetes_namespace_run.png" class="" title="namespace建立pod"><h3 id="設定預設-Namespace"><a href="#設定預設-Namespace" class="headerlink" title="設定預設 Namespace"></a>設定預設 Namespace</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 設定當前 context 的預設 namespace</span></span><br><span class="line">kubectl config set-context --current --namespace=dockertest-namespace</span><br><span class="line"></span><br><span class="line"><span class="comment"># 確認目前的 context 設定</span></span><br><span class="line">kubectl config view --minify | grep namespace</span><br></pre></td></tr></table></figure><img src="/2025/10/10/kubernetes-namespace/kubernetes_namespace_default.png" class="" title="設置預設namespace"><h3 id="檢視-Namespace-中的資源"><a href="#檢視-Namespace-中的資源" class="headerlink" title="檢視 Namespace 中的資源"></a>檢視 Namespace 中的資源</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 檢視指定 namespace 中的所有 pod</span></span><br><span class="line">kubectl get pods -n dockertest-namespace</span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢視所有 namespace 中的 pod</span></span><br><span class="line">kubectl get pods --all-namespaces</span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢視 namespace 的詳細資訊</span></span><br><span class="line">kubectl describe namespace dockertest-namespace</span><br></pre></td></tr></table></figure><img src="/2025/10/10/kubernetes-namespace/kubernetes_namespace_describe.png" class="" title="namespace詳細資訊"><h2 id="刪除-Namespace"><a href="#刪除-Namespace" class="headerlink" title="刪除 Namespace"></a>刪除 Namespace</h2><p><strong>注意：刪除 Namespace 會同時刪除該命名空間內的所有資源！</strong></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete namespace dockertest-namespace</span><br></pre></td></tr></table></figure><img src="/2025/10/10/kubernetes-namespace/kubernetes_namespace_delete.png" class="" title="namespace刪除"><h2 id="資源配額管理"><a href="#資源配額管理" class="headerlink" title="資源配額管理"></a>資源配額管理</h2><p>為 Namespace 設定資源限制，避免某個環境消耗過多叢集資源：</p><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ResourceQuota</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">compute-quota</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">dockertest-namespace</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">hard:</span></span><br><span class="line">    <span class="attr">requests.cpu:</span> <span class="string">&quot;4&quot;</span></span><br><span class="line">    <span class="attr">requests.memory:</span> <span class="string">8Gi</span></span><br><span class="line">    <span class="attr">limits.cpu:</span> <span class="string">&quot;8&quot;</span></span><br><span class="line">    <span class="attr">limits.memory:</span> <span class="string">16Gi</span></span><br><span class="line">    <span class="attr">persistentvolumeclaims:</span> <span class="string">&quot;10&quot;</span></span><br><span class="line">    <span class="attr">pods:</span> <span class="string">&quot;10&quot;</span></span><br></pre></td></tr></table></figure><h2 id="最佳實踐建議"><a href="#最佳實踐建議" class="headerlink" title="最佳實踐建議"></a>最佳實踐建議</h2><ol><li><strong>環境分離</strong>：為不同環境（開發、測試、生產）建立獨立的命名空間</li><li><strong>團隊隔離</strong>：為不同團隊或專案建立專用的命名空間</li><li><strong>命名規範</strong>：採用一致的命名規範，如 <code>team-environment</code> 格式</li><li><strong>資源配額</strong>：為每個命名空間設定合適的資源配額</li><li><strong>權限控制</strong>：結合 RBAC 實現細粒度的權限管理</li><li><strong>監控標籤</strong>：為命名空間加上有意義的標籤，便於監控和管理</li></ol><p>範例命名建議：</p><ul><li><code>frontend-dev</code>、<code>frontend-prod</code></li><li><code>backend-staging</code>、<code>backend-prod</code></li><li><code>team-alpha-dev</code>、<code>team-beta-prod</code></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Kubernetes-Namespace-使用指南&quot;&gt;&lt;a href=&quot;#Kubernetes-Namespace-使用指南&quot; class=&quot;headerlink&quot; title=&quot;Kubernetes Namespace 使用指南&quot;&gt;&lt;/a&gt;Kubernetes Namespace 使用指南&lt;/h1&gt;&lt;h2 id=&quot;什麼是-Namespace？&quot;&gt;&lt;a href=&quot;#什麼是-Namespace？&quot; class=&quot;headerlink&quot; title=&quot;什麼是 Namespace？&quot;&gt;&lt;/a&gt;什麼是 Namespace？&lt;/h2&gt;&lt;p&gt;Kubernetes Namespace 是一個 API 物件，用於在 Kubernetes 叢集中創建虛擬的資源隔離環境。Namespace 提供了一種將叢集資源劃分為多個獨立區域的方式，讓不同的團隊、專案或環境可以在同一個叢集中安全地共存。&lt;/p&gt;
+&lt;h3 id=&quot;Namespace-的主要功能：&quot;&gt;&lt;a href=&quot;#Namespace-的主要功能：&quot; class=&quot;headerlink&quot; title=&quot;Namespace 的主要功能：&quot;&gt;&lt;/a&gt;Namespace 的主要功能：&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;資源隔離&lt;/strong&gt;：將不同的應用程式或環境分隔在不同的命名空間中&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;存取控制&lt;/strong&gt;：透過 RBAC 實現細粒度的權限管理&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;資源配額管理&lt;/strong&gt;：限制每個命名空間可使用的叢集資源量&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;名稱空間管理&lt;/strong&gt;：避免資源名稱衝突，支援相同名稱的資源存在於不同命名空間&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;為什麼使用-Namespace？&quot;&gt;&lt;a href=&quot;#為什麼使用-Namespace？&quot; class=&quot;headerlink&quot; title=&quot;為什麼使用 Namespace？&quot;&gt;&lt;/a&gt;為什麼使用 Namespace？&lt;/h3&gt;&lt;p&gt;相較於將所有資源都放在預設命名空間中，Namespace 提供了更好的資源管理方式：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;多租戶支援&lt;/strong&gt;：讓多個團隊或專案安全地共享同一個 Kubernetes 叢集&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;環境分離&lt;/strong&gt;：清楚區分開發、測試、生產等不同環境的資源&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;資源管理&lt;/strong&gt;：透過資源配額控制每個環境的資源使用量&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;權限控制&lt;/strong&gt;：實現精細的存取權限管理，提升安全性&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+    
+      <category term="kubernetes" scheme="https://pcion123.github.io/categories/kubernetes/"/>
+    
+    
+      <category term="kubernetes" scheme="https://pcion123.github.io/tags/kubernetes/"/>
+    
+  </entry>
   
   <entry>
     <title>Kubernetes 控制元件介紹</title>
@@ -96,11 +132,11 @@
       <category term="kubernetes" scheme="https://pcion123.github.io/categories/kubernetes/"/>
     
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
     
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
-      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="kubernetes" scheme="https://pcion123.github.io/tags/kubernetes/"/>
     
@@ -254,11 +290,11 @@
       <category term="kubernetes" scheme="https://pcion123.github.io/categories/kubernetes/"/>
     
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
     
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
-      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="kubernetes" scheme="https://pcion123.github.io/tags/kubernetes/"/>
     
@@ -286,11 +322,11 @@
       <category term="docker" scheme="https://pcion123.github.io/categories/docker/"/>
     
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
+      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
     
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
     
-      <category term="docker" scheme="https://pcion123.github.io/tags/docker/"/>
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
   </entry>
   
@@ -350,9 +386,9 @@
       <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
     
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
-    
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="codimd" scheme="https://pcion123.github.io/tags/codimd/"/>
     
@@ -384,9 +420,9 @@
       <category term="linux" scheme="https://pcion123.github.io/categories/linux/"/>
     
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
-    
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="rabbitmq" scheme="https://pcion123.github.io/tags/rabbitmq/"/>
     
@@ -548,9 +584,9 @@
       <category term="pm2" scheme="https://pcion123.github.io/categories/pm2/"/>
     
     
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
-    
       <category term="ubuntu" scheme="https://pcion123.github.io/tags/ubuntu/"/>
+    
+      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="pm2" scheme="https://pcion123.github.io/tags/pm2/"/>
     
@@ -587,40 +623,6 @@
       <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
     
       <category term="tomcat" scheme="https://pcion123.github.io/tags/tomcat/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>安裝Maven</title>
-    <link href="https://pcion123.github.io/2019/03/16/maven-install/"/>
-    <id>https://pcion123.github.io/2019/03/16/maven-install/</id>
-    <published>2019-03-16T08:59:55.000Z</published>
-    <updated>2025-08-13T14:31:49.406Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="安裝Maven"><a href="#安裝Maven" class="headerlink" title="安裝Maven"></a>安裝Maven</h2><p>先下載maven：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://www-us.apache.org/dist/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz</span><br></pre></td></tr></table></figure><p>解開包:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar xzvf apache-maven-3.6.0-bin.tar.gz</span><br></pre></td></tr></table></figure><p>移動到&#x2F;opt&#x2F;底下：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">mv</span> apache-maven-3.6.0-bin /opt</span><br></pre></td></tr></table></figure><h2 id="設置Maven環境變數"><a href="#設置Maven環境變數" class="headerlink" title="設置Maven環境變數"></a>設置Maven環境變數</h2><p>打開&#x2F;etc&#x2F;profile這個檔案並且在末尾加入：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> MAVEN_HOME=/opt/apache-maven-3.6.0</span><br><span class="line"><span class="built_in">export</span> M2_HOME=/opt/apache-maven-3.6.0</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$MAVEN_HOME</span>/bin</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$M2_HOME</span>/bin</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;安裝Maven&quot;&gt;&lt;a href=&quot;#安裝Maven&quot; class=&quot;headerlink&quot; title=&quot;安裝Maven&quot;&gt;&lt;/a&gt;安裝Maven&lt;/h2&gt;&lt;p&gt;先下載maven：&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ wget https://www-us.apache.org/dist/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;解開包:&lt;/p&gt;
-&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span
-        
-      
-    
-    </summary>
-    
-    
-      <category term="maven" scheme="https://pcion123.github.io/categories/maven/"/>
-    
-    
-      <category term="linux" scheme="https://pcion123.github.io/tags/linux/"/>
-    
-      <category term="maven" scheme="https://pcion123.github.io/tags/maven/"/>
     
   </entry>
   

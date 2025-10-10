@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Kubernetes Namespace 使用指南什麼是 Namespace？Kubernetes Namespace 是一個 API 物件，用於在 Kubernetes 叢集中創建虛擬的資源隔離環境。Namespace 提供了一種將叢集資源劃分為多個獨立區域的方式，讓不同的團隊、專案或環境可以在同一個叢集中安全地共存。 Namespace 的主要功能： 資源隔離：將不同的應用程式或環境分隔在不同">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes Namespace 使用指南">
+<meta property="og:url" content="https://pcion123.github.io/2025/10/10/kubernetes-namespace/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="Kubernetes Namespace 使用指南什麼是 Namespace？Kubernetes Namespace 是一個 API 物件，用於在 Kubernetes 叢集中創建虛擬的資源隔離環境。Namespace 提供了一種將叢集資源劃分為多個獨立區域的方式，讓不同的團隊、專案或環境可以在同一個叢集中安全地共存。 Namespace 的主要功能： 資源隔離：將不同的應用程式或環境分隔在不同">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2025/10/10/kubernetes-namespace/kubernetes_namespace_create.png">
+<meta property="og:image" content="https://pcion123.github.io/2025/10/10/kubernetes-namespace/kubernetes_namespace_run.png">
+<meta property="og:image" content="https://pcion123.github.io/2025/10/10/kubernetes-namespace/kubernetes_namespace_default.png">
+<meta property="og:image" content="https://pcion123.github.io/2025/10/10/kubernetes-namespace/kubernetes_namespace_describe.png">
+<meta property="og:image" content="https://pcion123.github.io/2025/10/10/kubernetes-namespace/kubernetes_namespace_delete.png">
+<meta property="article:published_time" content="2025-10-10T15:48:31.000Z">
+<meta property="article:modified_time" content="2025-10-10T15:55:53.379Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="kubernetes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2025/10/10/kubernetes-namespace/kubernetes_namespace_create.png">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2025/10/10/kubernetes-namespace/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2025/10/10/kubernetes-namespace/","path":"2025/10/10/kubernetes-namespace/","title":"Kubernetes Namespace 使用指南"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Kubernetes Namespace 使用指南 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes-Namespace-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97"><span class="nav-number">1.</span> <span class="nav-text">Kubernetes Namespace 使用指南</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-Namespace%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">什麼是 Namespace？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Namespace-%E7%9A%84%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD%EF%BC%9A"><span class="nav-number">1.1.1.</span> <span class="nav-text">Namespace 的主要功能：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E4%BD%BF%E7%94%A8-Namespace%EF%BC%9F"><span class="nav-number">1.1.2.</span> <span class="nav-text">為什麼使用 Namespace？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A0%90%E8%A8%AD-Namespace"><span class="nav-number">1.2.</span> <span class="nav-text">預設 Namespace</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%AE%9A%E7%BE%A9-Namespace"><span class="nav-number">1.3.</span> <span class="nav-text">建立自定義 Namespace</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A%E4%BD%BF%E7%94%A8-YAML-%E6%AA%94%E6%A1%88%E5%BB%BA%E7%AB%8B"><span class="nav-number">1.3.1.</span> <span class="nav-text">方法一：使用 YAML 檔案建立</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A%E4%BD%BF%E7%94%A8%E6%8C%87%E4%BB%A4%E7%9B%B4%E6%8E%A5%E5%BB%BA%E7%AB%8B"><span class="nav-number">1.3.2.</span> <span class="nav-text">方法二：使用指令直接建立</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AA%A2%E8%A6%96%E6%89%80%E6%9C%89-Namespace"><span class="nav-number">1.3.3.</span> <span class="nav-text">檢視所有 Namespace</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E6%8C%87%E5%AE%9A-Namespace-%E4%B8%AD%E6%93%8D%E4%BD%9C%E8%B3%87%E6%BA%90"><span class="nav-number">1.4.</span> <span class="nav-text">在指定 Namespace 中操作資源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E7%89%B9%E5%AE%9A-Namespace-%E5%BB%BA%E7%AB%8B%E8%B3%87%E6%BA%90"><span class="nav-number">1.4.1.</span> <span class="nav-text">在特定 Namespace 建立資源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A%E9%A0%90%E8%A8%AD-Namespace"><span class="nav-number">1.4.2.</span> <span class="nav-text">設定預設 Namespace</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AA%A2%E8%A6%96-Namespace-%E4%B8%AD%E7%9A%84%E8%B3%87%E6%BA%90"><span class="nav-number">1.4.3.</span> <span class="nav-text">檢視 Namespace 中的資源</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%AA%E9%99%A4-Namespace"><span class="nav-number">1.5.</span> <span class="nav-text">刪除 Namespace</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B3%87%E6%BA%90%E9%85%8D%E9%A1%8D%E7%AE%A1%E7%90%86"><span class="nav-number">1.6.</span> <span class="nav-text">資源配額管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E5%AF%A6%E8%B8%90%E5%BB%BA%E8%AD%B0"><span class="nav-number">1.7.</span> <span class="nav-text">最佳實踐建議</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/docker/" style="font-size: 18px;" class="tag-cloud-3">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/github-copilot/" style="font-size: 15px;" class="tag-cloud-2">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 18px;" class="tag-cloud-3">gitlab</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 18px;" class="tag-cloud-3">java</a> <a href="/tags/jdk/" style="font-size: 15px;" class="tag-cloud-2">jdk</a> <a href="/tags/jenkins/" style="font-size: 21px;" class="tag-cloud-5">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 24px;" class="tag-cloud-7">kubernetes</a> <a href="/tags/linux/" style="font-size: 30px;" class="tag-cloud-10">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 18px;" class="tag-cloud-3">maven</a> <a href="/tags/minikube/" style="font-size: 15px;" class="tag-cloud-2">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/pm2/" style="font-size: 15px;" class="tag-cloud-2">pm2</a> <a href="/tags/powershell/" style="font-size: 18px;" class="tag-cloud-3">powershell</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 18px;" class="tag-cloud-3">terminal</a> <a href="/tags/tomcat/" style="font-size: 15px;" class="tag-cloud-2">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 27px;" class="tag-cloud-8">ubuntu</a> <a href="/tags/vscode/" style="font-size: 18px;" class="tag-cloud-3">vscode</a> <a href="/tags/windows/" style="font-size: 18px;" class="tag-cloud-3">windows</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 18px;" class="tag-cloud-3">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2025/10/10/kubernetes-namespace/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Kubernetes Namespace 使用指南 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Kubernetes Namespace 使用指南
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-10-10 23:48:31 / 修改時間：23:55:53" itemprop="dateCreated datePublished" datetime="2025-10-10T23:48:31+08:00">2025-10-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kubernetes/" itemprop="url" rel="index"><span itemprop="name">kubernetes</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Kubernetes-Namespace-使用指南"><a href="#Kubernetes-Namespace-使用指南" class="headerlink" title="Kubernetes Namespace 使用指南"></a>Kubernetes Namespace 使用指南</h1><h2 id="什麼是-Namespace？"><a href="#什麼是-Namespace？" class="headerlink" title="什麼是 Namespace？"></a>什麼是 Namespace？</h2><p>Kubernetes Namespace 是一個 API 物件，用於在 Kubernetes 叢集中創建虛擬的資源隔離環境。Namespace 提供了一種將叢集資源劃分為多個獨立區域的方式，讓不同的團隊、專案或環境可以在同一個叢集中安全地共存。</p>
+<h3 id="Namespace-的主要功能："><a href="#Namespace-的主要功能：" class="headerlink" title="Namespace 的主要功能："></a>Namespace 的主要功能：</h3><ul>
+<li><strong>資源隔離</strong>：將不同的應用程式或環境分隔在不同的命名空間中</li>
+<li><strong>存取控制</strong>：透過 RBAC 實現細粒度的權限管理</li>
+<li><strong>資源配額管理</strong>：限制每個命名空間可使用的叢集資源量</li>
+<li><strong>名稱空間管理</strong>：避免資源名稱衝突，支援相同名稱的資源存在於不同命名空間</li>
+</ul>
+<h3 id="為什麼使用-Namespace？"><a href="#為什麼使用-Namespace？" class="headerlink" title="為什麼使用 Namespace？"></a>為什麼使用 Namespace？</h3><p>相較於將所有資源都放在預設命名空間中，Namespace 提供了更好的資源管理方式：</p>
+<ol>
+<li><strong>多租戶支援</strong>：讓多個團隊或專案安全地共享同一個 Kubernetes 叢集</li>
+<li><strong>環境分離</strong>：清楚區分開發、測試、生產等不同環境的資源</li>
+<li><strong>資源管理</strong>：透過資源配額控制每個環境的資源使用量</li>
+<li><strong>權限控制</strong>：實現精細的存取權限管理，提升安全性</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h2 id="預設-Namespace"><a href="#預設-Namespace" class="headerlink" title="預設 Namespace"></a>預設 Namespace</h2><p>Kubernetes 叢集預設會創建四個系統命名空間：</p>
+<ul>
+<li><strong>kube-system</strong>: 存放 Kubernetes 系統元件，如 kube-dns、kube-proxy、etcd 等核心服務</li>
+<li><strong>kube-public</strong>: 公開可讀的命名空間，通常用於存放叢集資訊，所有使用者（包括未認證使用者）都可以讀取</li>
+<li><strong>kube-node-lease</strong>: 用於 Node 租約物件，幫助確定 Node 的可用性和健康狀態</li>
+<li><strong>default</strong>: 預設命名空間，當沒有指定命名空間時，資源會被創建在這裡</li>
+</ul>
+<h2 id="建立自定義-Namespace"><a href="#建立自定義-Namespace" class="headerlink" title="建立自定義 Namespace"></a>建立自定義 Namespace</h2><h3 id="方法一：使用-YAML-檔案建立"><a href="#方法一：使用-YAML-檔案建立" class="headerlink" title="方法一：使用 YAML 檔案建立"></a>方法一：使用 YAML 檔案建立</h3><p>建立 <code>dockertest-namespace.yaml</code> 檔案：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Namespace</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">dockertest-namespace</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">dockertest-namespace</span></span><br><span class="line">    <span class="attr">environment:</span> <span class="string">dev</span></span><br></pre></td></tr></table></figure>
+
+<p>套用設定檔：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create -f dockertest-namespace.yaml</span><br></pre></td></tr></table></figure>
+
+<img src="/2025/10/10/kubernetes-namespace/kubernetes_namespace_create.png" class="" title="namespace建立">
+
+<h3 id="方法二：使用指令直接建立"><a href="#方法二：使用指令直接建立" class="headerlink" title="方法二：使用指令直接建立"></a>方法二：使用指令直接建立</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create namespace dockertest-namespace</span><br></pre></td></tr></table></figure>
+
+<h3 id="檢視所有-Namespace"><a href="#檢視所有-Namespace" class="headerlink" title="檢視所有 Namespace"></a>檢視所有 Namespace</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kubectl get namespaces</span><br><span class="line"><span class="comment"># 或使用簡寫</span></span><br><span class="line">kubectl get ns</span><br></pre></td></tr></table></figure>
+
+<h2 id="在指定-Namespace-中操作資源"><a href="#在指定-Namespace-中操作資源" class="headerlink" title="在指定 Namespace 中操作資源"></a>在指定 Namespace 中操作資源</h2><h3 id="在特定-Namespace-建立資源"><a href="#在特定-Namespace-建立資源" class="headerlink" title="在特定 Namespace 建立資源"></a>在特定 Namespace 建立資源</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在指定的 namespace 中建立 pod</span></span><br><span class="line">kubectl run nginx --image=nginx -n dockertest-namespace</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 YAML 檔案建立資源到指定 namespace</span></span><br><span class="line">kubectl apply -f dockertest-deployment.yaml -n dockertest-namespace</span><br></pre></td></tr></table></figure>
+
+<img src="/2025/10/10/kubernetes-namespace/kubernetes_namespace_run.png" class="" title="namespace建立pod">
+
+<h3 id="設定預設-Namespace"><a href="#設定預設-Namespace" class="headerlink" title="設定預設 Namespace"></a>設定預設 Namespace</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 設定當前 context 的預設 namespace</span></span><br><span class="line">kubectl config set-context --current --namespace=dockertest-namespace</span><br><span class="line"></span><br><span class="line"><span class="comment"># 確認目前的 context 設定</span></span><br><span class="line">kubectl config view --minify | grep namespace</span><br></pre></td></tr></table></figure>
+
+<img src="/2025/10/10/kubernetes-namespace/kubernetes_namespace_default.png" class="" title="設置預設namespace">
+
+<h3 id="檢視-Namespace-中的資源"><a href="#檢視-Namespace-中的資源" class="headerlink" title="檢視 Namespace 中的資源"></a>檢視 Namespace 中的資源</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 檢視指定 namespace 中的所有 pod</span></span><br><span class="line">kubectl get pods -n dockertest-namespace</span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢視所有 namespace 中的 pod</span></span><br><span class="line">kubectl get pods --all-namespaces</span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢視 namespace 的詳細資訊</span></span><br><span class="line">kubectl describe namespace dockertest-namespace</span><br></pre></td></tr></table></figure>
+
+<img src="/2025/10/10/kubernetes-namespace/kubernetes_namespace_describe.png" class="" title="namespace詳細資訊">
+
+<h2 id="刪除-Namespace"><a href="#刪除-Namespace" class="headerlink" title="刪除 Namespace"></a>刪除 Namespace</h2><p><strong>注意：刪除 Namespace 會同時刪除該命名空間內的所有資源！</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete namespace dockertest-namespace</span><br></pre></td></tr></table></figure>
+
+<img src="/2025/10/10/kubernetes-namespace/kubernetes_namespace_delete.png" class="" title="namespace刪除">
+
+<h2 id="資源配額管理"><a href="#資源配額管理" class="headerlink" title="資源配額管理"></a>資源配額管理</h2><p>為 Namespace 設定資源限制，避免某個環境消耗過多叢集資源：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ResourceQuota</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">compute-quota</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">dockertest-namespace</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">hard:</span></span><br><span class="line">    <span class="attr">requests.cpu:</span> <span class="string">&quot;4&quot;</span></span><br><span class="line">    <span class="attr">requests.memory:</span> <span class="string">8Gi</span></span><br><span class="line">    <span class="attr">limits.cpu:</span> <span class="string">&quot;8&quot;</span></span><br><span class="line">    <span class="attr">limits.memory:</span> <span class="string">16Gi</span></span><br><span class="line">    <span class="attr">persistentvolumeclaims:</span> <span class="string">&quot;10&quot;</span></span><br><span class="line">    <span class="attr">pods:</span> <span class="string">&quot;10&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="最佳實踐建議"><a href="#最佳實踐建議" class="headerlink" title="最佳實踐建議"></a>最佳實踐建議</h2><ol>
+<li><strong>環境分離</strong>：為不同環境（開發、測試、生產）建立獨立的命名空間</li>
+<li><strong>團隊隔離</strong>：為不同團隊或專案建立專用的命名空間</li>
+<li><strong>命名規範</strong>：採用一致的命名規範，如 <code>team-environment</code> 格式</li>
+<li><strong>資源配額</strong>：為每個命名空間設定合適的資源配額</li>
+<li><strong>權限控制</strong>：結合 RBAC 實現細粒度的權限管理</li>
+<li><strong>監控標籤</strong>：為命名空間加上有意義的標籤，便於監控和管理</li>
+</ol>
+<p>範例命名建議：</p>
+<ul>
+<li><code>frontend-dev</code>、<code>frontend-prod</code></li>
+<li><code>backend-staging</code>、<code>backend-prod</code></li>
+<li><code>team-alpha-dev</code>、<code>team-beta-prod</code></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/10/04/kubernetes-controller-intro/" rel="prev" title="Kubernetes 控制元件介紹">
+                  <i class="fa fa-angle-left"></i> Kubernetes 控制元件介紹
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"eea66a7a88c92230835e87f61701ba4d"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+</body>
+</html>
