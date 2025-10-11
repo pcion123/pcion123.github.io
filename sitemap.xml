@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://pcion123.github.io/2025/10/11/docker-hub-pat-guide/</loc>
+    
+    <lastmod>2025-10-11T15:54:12.573Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://pcion123.github.io/2025/10/11/kubernetes-image-pull/</loc>
+    
+    <lastmod>2025-10-11T15:49:13.215Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://pcion123.github.io/2025/10/11/kubernetes-deployment/</loc>
+    
+    <lastmod>2025-10-11T15:42:59.118Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://pcion123.github.io/about/index.html</loc>
     
     <lastmod>2025-10-10T15:56:24.913Z</lastmod>
@@ -121,14 +142,14 @@
   </url>
   
   <url>
-    <loc>https://pcion123.github.io/2019/03/16/ubuntu-installredis/</loc>
+    <loc>https://pcion123.github.io/2019/03/16/ubuntu-installmariadb/</loc>
     
     <lastmod>2025-08-13T14:31:49.422Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://pcion123.github.io/2019/03/16/ubuntu-installmariadb/</loc>
+    <loc>https://pcion123.github.io/2019/03/16/ubuntu-installredis/</loc>
     
     <lastmod>2025-08-13T14:31:49.422Z</lastmod>
     

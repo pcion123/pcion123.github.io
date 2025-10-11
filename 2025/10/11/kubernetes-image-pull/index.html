@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Kubernetes Image 拉取指南什麼是容器映像拉取？在 Kubernetes 中，Pod 需要使用容器映像來啟動容器。根據映像的來源和存取方式不同，Kubernetes 提供了多種映像拉取策略。了解這些不同的拉取方式對於有效管理應用程式部署至關重要。 映像拉取的主要場景： 本地映像：使用本地構建並載入到節點的映像 公開倉庫：從 Docker Hub 等公開倉庫拉取映像 私有倉庫：從需要身">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes Image 拉取指南">
+<meta property="og:url" content="https://pcion123.github.io/2025/10/11/kubernetes-image-pull/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="Kubernetes Image 拉取指南什麼是容器映像拉取？在 Kubernetes 中，Pod 需要使用容器映像來啟動容器。根據映像的來源和存取方式不同，Kubernetes 提供了多種映像拉取策略。了解這些不同的拉取方式對於有效管理應用程式部署至關重要。 映像拉取的主要場景： 本地映像：使用本地構建並載入到節點的映像 公開倉庫：從 Docker Hub 等公開倉庫拉取映像 私有倉庫：從需要身">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2025/10/11/kubernetes-image-pull/kubernetes_pull-image_switch_in.png">
+<meta property="og:image" content="https://pcion123.github.io/2025/10/11/kubernetes-image-pull/kubernetes_pull-image_switch_back.png">
+<meta property="article:published_time" content="2025-10-11T15:13:38.000Z">
+<meta property="article:modified_time" content="2025-10-11T15:49:13.215Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="kubernetes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2025/10/11/kubernetes-image-pull/kubernetes_pull-image_switch_in.png">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2025/10/11/kubernetes-image-pull/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2025/10/11/kubernetes-image-pull/","path":"2025/10/11/kubernetes-image-pull/","title":"Kubernetes Image 拉取指南"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Kubernetes Image 拉取指南 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes-Image-%E6%8B%89%E5%8F%96%E6%8C%87%E5%8D%97"><span class="nav-number">1.</span> <span class="nav-text">Kubernetes Image 拉取指南</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF%E5%AE%B9%E5%99%A8%E6%98%A0%E5%83%8F%E6%8B%89%E5%8F%96%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">什麼是容器映像拉取？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%A0%E5%83%8F%E6%8B%89%E5%8F%96%E7%9A%84%E4%B8%BB%E8%A6%81%E5%A0%B4%E6%99%AF%EF%BC%9A"><span class="nav-number">1.1.1.</span> <span class="nav-text">映像拉取的主要場景：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E4%B8%8D%E5%90%8C%E7%9A%84%E6%8B%89%E5%8F%96%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="nav-number">1.1.2.</span> <span class="nav-text">為什麼需要了解不同的拉取方式？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A%E6%9C%AC%E5%9C%B0-Docker-%E6%98%A0%E5%83%8F%E7%9B%B4%E6%8E%A5%E5%BC%95%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text">方式一：本地 Docker 映像直接引用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.2.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%A0%B4%E6%99%AF"><span class="nav-number">1.2.2.</span> <span class="nav-text">使用場景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C%E6%AD%A5%E9%A9%9F"><span class="nav-number">1.2.3.</span> <span class="nav-text">實作步驟</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E7%A2%BA%E4%BF%9D-Docker-%E7%92%B0%E5%A2%83%E8%88%87-Kubernetes-%E5%85%B1%E4%BA%AB"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">1. 確保 Docker 環境與 Kubernetes 共享</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%A7%8B%E5%BB%BA%E6%9C%AC%E5%9C%B0%E6%98%A0%E5%83%8F"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">2. 構建本地映像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E5%9C%A8-Kubernetes-%E4%B8%AD%E4%BD%BF%E7%94%A8%E6%9C%AC%E5%9C%B0%E6%98%A0%E5%83%8F"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">3. 在 Kubernetes 中使用本地映像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E9%83%A8%E7%BD%B2%E6%87%89%E7%94%A8%E7%A8%8B%E5%BC%8F"><span class="nav-number">1.2.3.4.</span> <span class="nav-text">4. 部署應用程式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E8%A6%81%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85"><span class="nav-number">1.2.4.</span> <span class="nav-text">重要注意事項</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-%E7%92%B0%E5%A2%83%E7%AE%A1%E7%90%86"><span class="nav-number">1.2.5.</span> <span class="nav-text">Docker 環境管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%BA%8C%EF%BC%9A%E6%8B%89%E5%8F%96-Docker-Hub-%E5%85%AC%E9%96%8B%E5%80%89%E5%BA%AB%E6%98%A0%E5%83%8F"><span class="nav-number">1.3.</span> <span class="nav-text">方式二：拉取 Docker Hub 公開倉庫映像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%A0%B4%E6%99%AF-1"><span class="nav-number">1.3.2.</span> <span class="nav-text">使用場景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C%E6%AD%A5%E9%A9%9F-1"><span class="nav-number">1.3.3.</span> <span class="nav-text">實作步驟</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%9F%BA%E6%9C%AC%E5%85%AC%E9%96%8B%E6%98%A0%E5%83%8F%E4%BD%BF%E7%94%A8%E7%AF%84%E4%BE%8B"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">1. 基本公開映像使用範例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E9%80%B2%E9%9A%8E%E5%85%AC%E9%96%8B%E6%98%A0%E5%83%8F%E9%85%8D%E7%BD%AE%E7%AF%84%E4%BE%8B"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">2. 進階公開映像配置範例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E9%83%A8%E7%BD%B2%E6%87%89%E7%94%A8%E7%A8%8B%E5%BC%8F"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">3. 部署應用程式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ImagePullPolicy-%E9%81%B8%E9%A0%85%E8%AA%AA%E6%98%8E"><span class="nav-number">1.3.4.</span> <span class="nav-text">ImagePullPolicy 選項說明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%89%EF%BC%9A%E6%8B%89%E5%8F%96-Docker-Hub-%E7%A7%81%E6%9C%89%E5%80%89%E5%BA%AB%E6%98%A0%E5%83%8F"><span class="nav-number">1.4.</span> <span class="nav-text">方式三：拉取 Docker Hub 私有倉庫映像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0-2"><span class="nav-number">1.4.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%A0%B4%E6%99%AF-2"><span class="nav-number">1.4.2.</span> <span class="nav-text">使用場景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C%E6%AD%A5%E9%A9%9F-2"><span class="nav-number">1.4.3.</span> <span class="nav-text">實作步驟</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%BB%BA%E7%AB%8B-Docker-Registry-Secret"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">1. 建立 Docker Registry Secret</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%9C%A8-Deployment-%E4%B8%AD%E4%BD%BF%E7%94%A8%E7%A7%81%E6%9C%89%E6%98%A0%E5%83%8F"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">2. 在 Deployment 中使用私有映像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E4%BD%BF%E7%94%A8-ServiceAccount-%E8%87%AA%E5%8B%95%E5%A5%97%E7%94%A8-Secret"><span class="nav-number">1.4.3.3.</span> <span class="nav-text">3. 使用 ServiceAccount 自動套用 Secret</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E7%A7%81%E6%9C%89%E5%80%89%E5%BA%AB%E7%9A%84%E8%A8%AD%E5%AE%9A"><span class="nav-number">1.4.4.</span> <span class="nav-text">不同私有倉庫的設定</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AWS-ECR"><span class="nav-number">1.4.4.1.</span> <span class="nav-text">AWS ECR</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Azure-ACR"><span class="nav-number">1.4.4.2.</span> <span class="nav-text">Azure ACR</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Google-GCR"><span class="nav-number">1.4.4.3.</span> <span class="nav-text">Google GCR</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%AE%A1%E7%90%86%E6%8C%87%E4%BB%A4"><span class="nav-number">1.5.</span> <span class="nav-text">常用管理指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%98%A0%E5%83%8F%E6%8B%89%E5%8F%96%E7%8B%80%E6%85%8B"><span class="nav-number">1.5.1.</span> <span class="nav-text">查看映像拉取狀態</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%A1%E7%90%86-Image-Pull-Secrets"><span class="nav-number">1.5.2.</span> <span class="nav-text">管理 Image Pull Secrets</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%8B%E5%8B%95%E6%8B%89%E5%8F%96%E6%98%A0%E5%83%8F%E9%80%B2%E8%A1%8C%E6%B8%AC%E8%A9%A6"><span class="nav-number">1.5.3.</span> <span class="nav-text">手動拉取映像進行測試</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%96%91%E9%9B%A3%E6%8E%92%E8%A7%A3"><span class="nav-number">1.6.</span> <span class="nav-text">疑難排解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C%E8%88%87%E8%A7%A3%E6%B1%BA%E6%96%B9%E6%A1%88"><span class="nav-number">1.6.1.</span> <span class="nav-text">常見問題與解決方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-ImagePullBackOff-%E9%8C%AF%E8%AA%A4"><span class="nav-number">1.6.1.1.</span> <span class="nav-text">1. ImagePullBackOff 錯誤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%9C%AC%E5%9C%B0%E6%98%A0%E5%83%8F%E7%84%A1%E6%B3%95%E6%8B%89%E5%8F%96"><span class="nav-number">1.6.1.2.</span> <span class="nav-text">2. 本地映像無法拉取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E7%A7%81%E6%9C%89%E5%80%89%E5%BA%AB%E8%AA%8D%E8%AD%89%E5%A4%B1%E6%95%97"><span class="nav-number">1.6.1.3.</span> <span class="nav-text">3. 私有倉庫認證失敗</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E6%98%A0%E5%83%8F%E6%8B%89%E5%8F%96%E9%80%9F%E5%BA%A6%E7%B7%A9%E6%85%A2"><span class="nav-number">1.6.1.4.</span> <span class="nav-text">4. 映像拉取速度緩慢</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E5%AF%A6%E5%8B%99%E5%BB%BA%E8%AD%B0"><span class="nav-number">1.7.</span> <span class="nav-text">最佳實務建議</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%A0%E5%83%8F%E7%AE%A1%E7%90%86"><span class="nav-number">1.7.1.</span> <span class="nav-text">映像管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">1.7.2.</span> <span class="nav-text">安全性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%88%E8%83%BD%E5%84%AA%E5%8C%96"><span class="nav-number">1.7.3.</span> <span class="nav-text">效能優化</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/docker/" style="font-size: 21px;" class="tag-cloud-5">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/github-copilot/" style="font-size: 15px;" class="tag-cloud-2">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 18px;" class="tag-cloud-3">gitlab</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 18px;" class="tag-cloud-3">java</a> <a href="/tags/jdk/" style="font-size: 15px;" class="tag-cloud-2">jdk</a> <a href="/tags/jenkins/" style="font-size: 21px;" class="tag-cloud-5">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 24px;" class="tag-cloud-7">kubernetes</a> <a href="/tags/linux/" style="font-size: 30px;" class="tag-cloud-10">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 18px;" class="tag-cloud-3">maven</a> <a href="/tags/minikube/" style="font-size: 15px;" class="tag-cloud-2">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/pm2/" style="font-size: 15px;" class="tag-cloud-2">pm2</a> <a href="/tags/powershell/" style="font-size: 18px;" class="tag-cloud-3">powershell</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 18px;" class="tag-cloud-3">terminal</a> <a href="/tags/tomcat/" style="font-size: 15px;" class="tag-cloud-2">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 27px;" class="tag-cloud-8">ubuntu</a> <a href="/tags/vscode/" style="font-size: 18px;" class="tag-cloud-3">vscode</a> <a href="/tags/windows/" style="font-size: 18px;" class="tag-cloud-3">windows</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 18px;" class="tag-cloud-3">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2025/10/11/kubernetes-image-pull/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Kubernetes Image 拉取指南 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Kubernetes Image 拉取指南
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-10-11 23:13:38 / 修改時間：23:49:13" itemprop="dateCreated datePublished" datetime="2025-10-11T23:13:38+08:00">2025-10-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kubernetes/" itemprop="url" rel="index"><span itemprop="name">kubernetes</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Kubernetes-Image-拉取指南"><a href="#Kubernetes-Image-拉取指南" class="headerlink" title="Kubernetes Image 拉取指南"></a>Kubernetes Image 拉取指南</h1><h2 id="什麼是容器映像拉取？"><a href="#什麼是容器映像拉取？" class="headerlink" title="什麼是容器映像拉取？"></a>什麼是容器映像拉取？</h2><p>在 Kubernetes 中，Pod 需要使用容器映像來啟動容器。根據映像的來源和存取方式不同，Kubernetes 提供了多種映像拉取策略。了解這些不同的拉取方式對於有效管理應用程式部署至關重要。</p>
+<h3 id="映像拉取的主要場景："><a href="#映像拉取的主要場景：" class="headerlink" title="映像拉取的主要場景："></a>映像拉取的主要場景：</h3><ul>
+<li><strong>本地映像</strong>：使用本地構建並載入到節點的映像</li>
+<li><strong>公開倉庫</strong>：從 Docker Hub 等公開倉庫拉取映像</li>
+<li><strong>私有倉庫</strong>：從需要身份驗證的私有倉庫拉取映像</li>
+<li><strong>企業倉庫</strong>：從組織內部的私有映像倉庫拉取映像</li>
+</ul>
+<h3 id="為什麼需要了解不同的拉取方式？"><a href="#為什麼需要了解不同的拉取方式？" class="headerlink" title="為什麼需要了解不同的拉取方式？"></a>為什麼需要了解不同的拉取方式？</h3><p>根據不同的使用場景，選擇合適的映像拉取方式可以：</p>
+<ol>
+<li><strong>提升效率</strong>：減少不必要的網路傳輸和下載時間</li>
+<li><strong>增強安全性</strong>：保護私有映像不被未授權存取</li>
+<li><strong>降低成本</strong>：避免重複拉取相同的映像</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h2 id="方式一：本地-Docker-映像直接引用"><a href="#方式一：本地-Docker-映像直接引用" class="headerlink" title="方式一：本地 Docker 映像直接引用"></a>方式一：本地 Docker 映像直接引用</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>當您在本地環境（如 Minikube、Docker Desktop）開發時，可以直接使用本地構建的 Docker 映像，無需推送到遠端倉庫。</p>
+<h3 id="使用場景"><a href="#使用場景" class="headerlink" title="使用場景"></a>使用場景</h3><ul>
+<li>開發和測試階段</li>
+<li>本地 Kubernetes 環境（Minikube、Kind）</li>
+<li>不希望將映像推送到外部倉庫的情況</li>
+</ul>
+<h3 id="實作步驟"><a href="#實作步驟" class="headerlink" title="實作步驟"></a>實作步驟</h3><h4 id="1-確保-Docker-環境與-Kubernetes-共享"><a href="#1-確保-Docker-環境與-Kubernetes-共享" class="headerlink" title="1. 確保 Docker 環境與 Kubernetes 共享"></a>1. 確保 Docker 環境與 Kubernetes 共享</h4><p><strong>在 Minikube 中：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 設定 Docker 環境指向 Minikube</span></span><br><span class="line"><span class="built_in">eval</span> $(minikube docker-env)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或在 Windows PowerShell 中</span></span><br><span class="line">minikube docker-env | Invoke-Expression</span><br><span class="line"></span><br><span class="line"><span class="comment"># 驗證已切換到 Minikube Docker 環境</span></span><br><span class="line">docker context <span class="built_in">ls</span></span><br><span class="line"><span class="comment"># 或者檢查 Docker Host</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$DOCKER_HOST</span></span><br><span class="line"><span class="comment"># Minikube 環境會顯示類似：tcp://192.168.49.2:2376</span></span><br></pre></td></tr></table></figure>
+
+<img src="/2025/10/11/kubernetes-image-pull/kubernetes_pull-image_switch_in.png" class="">
+
+<p><strong>切回原本的 Docker 環境：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在 Linux/macOS 中</span></span><br><span class="line"><span class="built_in">eval</span> $(minikube docker-env -u)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或在 Windows PowerShell 中</span></span><br><span class="line">minikube docker-env -u | Invoke-Expression</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或者直接重新啟動終端機會話</span></span><br><span class="line"><span class="comment"># 新的終端會自動使用本地 Docker 環境</span></span><br></pre></td></tr></table></figure>
+
+<img src="/2025/10/11/kubernetes-image-pull/kubernetes_pull-image_switch_back.png" class="">
+
+<p><strong>在 Docker Desktop 中：</strong><br>Docker Desktop 的 Kubernetes 會自動共享本地 Docker 映像。</p>
+<h4 id="2-構建本地映像"><a href="#2-構建本地映像" class="headerlink" title="2. 構建本地映像"></a>2. 構建本地映像</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 構建 Docker 映像</span></span><br><span class="line">docker build -t my-local-app:latest .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 驗證映像已建立</span></span><br><span class="line">docker images | grep my-local-app</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-在-Kubernetes-中使用本地映像"><a href="#3-在-Kubernetes-中使用本地映像" class="headerlink" title="3. 在 Kubernetes 中使用本地映像"></a>3. 在 Kubernetes 中使用本地映像</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">local-app-deployment</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">local-app</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">local-app</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">app</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">my-local-app:latest</span></span><br><span class="line">        <span class="attr">imagePullPolicy:</span> <span class="string">Never</span>  <span class="comment"># 關鍵設定：不從遠端拉取</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8080</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="4-部署應用程式"><a href="#4-部署應用程式" class="headerlink" title="4. 部署應用程式"></a>4. 部署應用程式</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f local-deployment.yaml</span><br></pre></td></tr></table></figure>
+
+<h3 id="重要注意事項"><a href="#重要注意事項" class="headerlink" title="重要注意事項"></a>重要注意事項</h3><ul>
+<li><strong>imagePullPolicy</strong>: 必須設定為 <code>Never</code> 或 <code>IfNotPresent</code></li>
+<li><strong>映像標籤</strong>: 建議使用具體的標籤而非 <code>latest</code></li>
+<li><strong>節點限制</strong>: 映像只存在於特定節點上</li>
+<li><strong>Docker 環境切換</strong>: 使用 <code>minikube docker-env</code> 後記得切回原本環境<ul>
+<li>使用 <code>eval $(minikube docker-env -u)</code> 來取消設定</li>
+<li>或重新啟動終端機會話</li>
+</ul>
+</li>
+</ul>
+<h3 id="Docker-環境管理"><a href="#Docker-環境管理" class="headerlink" title="Docker 環境管理"></a>Docker 環境管理</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 檢查當前 Docker 環境和主機</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$DOCKER_HOST</span></span><br><span class="line"><span class="comment"># 本地：通常為空或顯示 unix:///var/run/docker.sock</span></span><br><span class="line"><span class="comment"># Minikube：顯示 tcp://192.168.49.2:2376 (或類似的 IP)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 Docker 上下文</span></span><br><span class="line">docker context <span class="built_in">ls</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出 Docker 映像（確認在正確的環境中）</span></span><br><span class="line">docker images</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果需要在不同環境間切換：</span></span><br><span class="line"><span class="comment"># 切換到 Minikube</span></span><br><span class="line"><span class="built_in">eval</span> $(minikube docker-env)</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;當前 Docker Host: <span class="variable">$DOCKER_HOST</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 切換回本地</span></span><br><span class="line"><span class="built_in">eval</span> $(minikube docker-env -u)</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;當前 Docker Host: <span class="variable">$DOCKER_HOST</span>&quot;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="方式二：拉取-Docker-Hub-公開倉庫映像"><a href="#方式二：拉取-Docker-Hub-公開倉庫映像" class="headerlink" title="方式二：拉取 Docker Hub 公開倉庫映像"></a>方式二：拉取 Docker Hub 公開倉庫映像</h2><h3 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h3><p>從 Docker Hub 等公開倉庫拉取映像是最常見的方式，適用於使用開源軟體或公開可用的應用程式映像。</p>
+<h3 id="使用場景-1"><a href="#使用場景-1" class="headerlink" title="使用場景"></a>使用場景</h3><ul>
+<li>使用官方映像（如 nginx、redis、mysql）</li>
+<li>使用開源專案的公開映像</li>
+<li>生產環境中的標準化映像</li>
+</ul>
+<h3 id="實作步驟-1"><a href="#實作步驟-1" class="headerlink" title="實作步驟"></a>實作步驟</h3><h4 id="1-基本公開映像使用範例"><a href="#1-基本公開映像使用範例" class="headerlink" title="1. 基本公開映像使用範例"></a>1. 基本公開映像使用範例</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx-deployment</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">nginx:1.21-alpine</span>  <span class="comment"># Docker Hub 官方映像</span></span><br><span class="line">        <span class="attr">imagePullPolicy:</span> <span class="string">Always</span>   <span class="comment"># 總是拉取最新版本</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-進階公開映像配置範例"><a href="#2-進階公開映像配置範例" class="headerlink" title="2. 進階公開映像配置範例"></a>2. 進階公開映像配置範例</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">tomcat-deployment</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">tomcat</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">tomcat</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">tomcat</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">tomcat:10.1-jdk17</span></span><br><span class="line">        <span class="attr">imagePullPolicy:</span> <span class="string">IfNotPresent</span>  <span class="comment"># 如果本地不存在才拉取</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8080</span></span><br><span class="line">        <span class="attr">command:</span> [<span class="string">&quot;/bin/sh&quot;</span>,<span class="string">&quot;-c&quot;</span>]</span><br><span class="line">        <span class="attr">args:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="string">cp</span> <span class="string">-r</span> <span class="string">/usr/local/tomcat/webapps.dist/ROOT</span> <span class="string">/usr/local/tomcat/webapps/</span> <span class="string">&amp;&amp;</span> <span class="string">exec</span> <span class="string">catalina.sh</span> <span class="string">run</span></span><br><span class="line">        <span class="attr">readinessProbe:</span></span><br><span class="line">          <span class="attr">httpGet:</span></span><br><span class="line">            <span class="attr">path:</span> <span class="string">/</span></span><br><span class="line">            <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">          <span class="attr">initialDelaySeconds:</span> <span class="number">10</span></span><br><span class="line">          <span class="attr">periodSeconds:</span> <span class="number">5</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-部署應用程式"><a href="#3-部署應用程式" class="headerlink" title="3. 部署應用程式"></a>3. 部署應用程式</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 部署基本的 Nginx 應用</span></span><br><span class="line">kubectl apply -f nginx-deployment.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署進階的 Tomcat 應用</span></span><br><span class="line">kubectl apply -f tomcat-deployment.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看部署狀態</span></span><br><span class="line">kubectl get deployments</span><br><span class="line">kubectl get pods</span><br></pre></td></tr></table></figure>
+
+<h3 id="ImagePullPolicy-選項說明"><a href="#ImagePullPolicy-選項說明" class="headerlink" title="ImagePullPolicy 選項說明"></a>ImagePullPolicy 選項說明</h3><ul>
+<li><strong>Always</strong>: 每次都重新拉取映像</li>
+<li><strong>IfNotPresent</strong>: 本地不存在時才拉取（預設值）</li>
+<li><strong>Never</strong>: 絕不拉取，只使用本地映像</li>
+</ul>
+<hr>
+<h2 id="方式三：拉取-Docker-Hub-私有倉庫映像"><a href="#方式三：拉取-Docker-Hub-私有倉庫映像" class="headerlink" title="方式三：拉取 Docker Hub 私有倉庫映像"></a>方式三：拉取 Docker Hub 私有倉庫映像</h2><h3 id="概述-2"><a href="#概述-2" class="headerlink" title="概述"></a>概述</h3><p>當使用私有倉庫中的映像時，需要提供身份驗證資訊。Kubernetes 使用 Image Pull Secret 來安全地存儲這些憑證。</p>
+<h3 id="使用場景-2"><a href="#使用場景-2" class="headerlink" title="使用場景"></a>使用場景</h3><ul>
+<li>使用組織的私有映像</li>
+<li>商業軟體的私有映像</li>
+<li>包含敏感資訊的應用程式映像</li>
+</ul>
+<h3 id="實作步驟-2"><a href="#實作步驟-2" class="headerlink" title="實作步驟"></a>實作步驟</h3><h4 id="1-建立-Docker-Registry-Secret"><a href="#1-建立-Docker-Registry-Secret" class="headerlink" title="1. 建立 Docker Registry Secret"></a>1. 建立 Docker Registry Secret</h4><p>為了讓 Kubernetes 能夠從 Docker Hub 私有倉庫拉取映像檔，需要建立包含認證資訊的 Secret 資源：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kubectl create secret docker-registry regcred \</span><br><span class="line">  --docker-server=https://index.docker.io/v1/ \</span><br><span class="line">  --docker-username=&lt;username&gt; \</span><br><span class="line">  --docker-password=&lt;password&gt; \</span><br><span class="line">  --docker-email=&lt;mail&gt; \</span><br><span class="line">  --namespace=&lt;namespace&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>參數說明：</strong></p>
+<ul>
+<li><code>regcred</code>：Secret 的名稱，可以自行定義</li>
+<li><code>--docker-server</code>：Docker Hub 的伺服器地址，固定為 <code>https://index.docker.io/v1/</code></li>
+<li><code>--docker-username</code>：您的 Docker Hub 使用者名稱</li>
+<li><code>--docker-password</code>：建議使用 Personal Access Token (PAT) 而非密碼</li>
+<li><code>--namespace</code>：指定 Secret 建立的命名空間</li>
+</ul>
+<blockquote>
+<a href="/2025/10/11/docker-hub-pat-guide/" title="Docker Hub PAT 申請指南">關於如何獲取 Docker Hub Personal Access Token 的詳細說明，請參考之前的文章</a></blockquote>
+<p><strong>重要提醒：</strong></p>
+<ul>
+<li>出於安全考量，強烈建議使用 <strong>Personal Access Token (PAT)</strong> 而非帳戶密碼</li>
+<li><code>--docker-email</code> 參數為可選，現代 Docker 倉庫通常不需要此參數</li>
+<li>Secret 必須建立在與 Pod 相同的命名空間中才能使用</li>
+</ul>
+<h4 id="2-在-Deployment-中使用私有映像"><a href="#2-在-Deployment-中使用私有映像" class="headerlink" title="2. 在 Deployment 中使用私有映像"></a>2. 在 Deployment 中使用私有映像</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">k8s-deployment</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">k8s-namespace</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">k8s-app</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">k8s-app</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">k8s-app</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">&lt;username&gt;/&lt;repo-name&gt;:latest</span>  <span class="comment"># 私有倉庫映像</span></span><br><span class="line">        <span class="attr">imagePullPolicy:</span> <span class="string">Always</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8080</span></span><br><span class="line">      <span class="attr">imagePullSecrets:</span>  <span class="comment"># 指定用於身份驗證的 Secret</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">regcred</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-使用-ServiceAccount-自動套用-Secret"><a href="#3-使用-ServiceAccount-自動套用-Secret" class="headerlink" title="3. 使用 ServiceAccount 自動套用 Secret"></a>3. 使用 ServiceAccount 自動套用 Secret</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ServiceAccount</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">k8s-sa</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">k8s-namespace</span></span><br><span class="line"><span class="attr">imagePullSecrets:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">regcred</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">k8s-deployment</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">k8s-namespace</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">k8s-app</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">k8s-app</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">serviceAccountName:</span> <span class="string">k8s-sa</span>  <span class="comment"># 使用 ServiceAccount</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">k8s-app</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">&lt;username&gt;/&lt;repo-name&gt;:latest</span>  <span class="comment"># 私有倉庫映像</span></span><br><span class="line">        <span class="attr">imagePullPolicy:</span> <span class="string">Always</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8080</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="不同私有倉庫的設定"><a href="#不同私有倉庫的設定" class="headerlink" title="不同私有倉庫的設定"></a>不同私有倉庫的設定</h3><h4 id="AWS-ECR"><a href="#AWS-ECR" class="headerlink" title="AWS ECR"></a>AWS ECR</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kubectl create secret docker-registry ecr-secret \</span><br><span class="line">  --docker-server=&lt;account-id&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com \</span><br><span class="line">  --docker-username=AWS \</span><br><span class="line">  --docker-password=$(aws ecr get-login-password) \</span><br><span class="line">  --namespace=&lt;namespace&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Azure-ACR"><a href="#Azure-ACR" class="headerlink" title="Azure ACR"></a>Azure ACR</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kubectl create secret docker-registry acr-secret \</span><br><span class="line">  --docker-server=&lt;registry-name&gt;.azurecr.io \</span><br><span class="line">  --docker-username=&lt;username&gt; \</span><br><span class="line">  --docker-password=&lt;password&gt; \</span><br><span class="line">  --namespace=&lt;namespace&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Google-GCR"><a href="#Google-GCR" class="headerlink" title="Google GCR"></a>Google GCR</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kubectl create secret docker-registry gcr-secret \</span><br><span class="line">  --docker-server=gcr.io \</span><br><span class="line">  --docker-username=_json_key \</span><br><span class="line">  --docker-password=<span class="string">&quot;<span class="subst">$(cat key.json)</span>&quot;</span> \</span><br><span class="line">  --namespace=&lt;namespace&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="常用管理指令"><a href="#常用管理指令" class="headerlink" title="常用管理指令"></a>常用管理指令</h2><h3 id="查看映像拉取狀態"><a href="#查看映像拉取狀態" class="headerlink" title="查看映像拉取狀態"></a>查看映像拉取狀態</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看 Pod 狀態</span></span><br><span class="line">kubectl get pods -n &lt;namespace&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 Pod 詳細資訊（包含映像拉取事件）</span></span><br><span class="line">kubectl describe pod &lt;pod-name&gt; -n &lt;namespace&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看映像拉取相關的事件</span></span><br><span class="line">kubectl get events --field-selector reason=Pulling -n &lt;namespace&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="管理-Image-Pull-Secrets"><a href="#管理-Image-Pull-Secrets" class="headerlink" title="管理 Image Pull Secrets"></a>管理 Image Pull Secrets</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看 Secret 列表</span></span><br><span class="line">kubectl get secrets -n &lt;namespace&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 Secret 詳細資訊</span></span><br><span class="line">kubectl describe secret &lt;secret-name&gt; -n &lt;namespace&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刪除 Secret</span></span><br><span class="line">kubectl delete secret &lt;secret-name&gt; -n &lt;namespace&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="手動拉取映像進行測試"><a href="#手動拉取映像進行測試" class="headerlink" title="手動拉取映像進行測試"></a>手動拉取映像進行測試</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在節點上手動拉取映像</span></span><br><span class="line">docker pull &lt;image-name&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢查映像是否存在</span></span><br><span class="line">docker images | grep &lt;image-name&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="疑難排解"><a href="#疑難排解" class="headerlink" title="疑難排解"></a>疑難排解</h2><h3 id="常見問題與解決方案"><a href="#常見問題與解決方案" class="headerlink" title="常見問題與解決方案"></a>常見問題與解決方案</h3><h4 id="1-ImagePullBackOff-錯誤"><a href="#1-ImagePullBackOff-錯誤" class="headerlink" title="1. ImagePullBackOff 錯誤"></a>1. ImagePullBackOff 錯誤</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 檢查 Pod 事件</span></span><br><span class="line">kubectl describe pod &lt;pod-name&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 常見原因：</span></span><br><span class="line"><span class="comment"># - 映像名稱錯誤</span></span><br><span class="line"><span class="comment"># - 網路連線問題</span></span><br><span class="line"><span class="comment"># - 身份驗證失敗</span></span><br><span class="line"><span class="comment"># - 映像不存在</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-本地映像無法拉取"><a href="#2-本地映像無法拉取" class="headerlink" title="2. 本地映像無法拉取"></a>2. 本地映像無法拉取</h4><ul>
+<li>確認 <code>imagePullPolicy</code> 設定為 <code>Never</code> 或 <code>IfNotPresent</code></li>
+<li>檢查映像是否存在於正確的節點上</li>
+<li>在 Minikube 中確認 Docker 環境設定正確</li>
+<li><strong>Docker 環境問題</strong>：確認是否在正確的 Docker 環境中<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 檢查當前 Docker 環境（更準確的方法）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$DOCKER_HOST</span></span><br><span class="line"><span class="comment"># 本地環境：通常為空或 unix:///var/run/docker.sock</span></span><br><span class="line"><span class="comment"># Minikube 環境：tcp://192.168.49.2:2376 或類似 IP</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 或者檢查環境變數</span></span><br><span class="line"><span class="built_in">env</span> | grep DOCKER</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果在 Minikube 環境中找不到映像，切換到正確環境</span></span><br><span class="line"><span class="built_in">eval</span> $(minikube docker-env)  <span class="comment"># 切換到 Minikube</span></span><br><span class="line">docker images  <span class="comment"># 確認映像存在</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果需要切回本地環境</span></span><br><span class="line"><span class="built_in">eval</span> $(minikube docker-env -u)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="3-私有倉庫認證失敗"><a href="#3-私有倉庫認證失敗" class="headerlink" title="3. 私有倉庫認證失敗"></a>3. 私有倉庫認證失敗</h4><ul>
+<li>驗證 Secret 中的憑證是否正確</li>
+<li>檢查 Secret 是否在正確的命名空間中</li>
+<li>確認倉庫伺服器地址格式正確</li>
+</ul>
+<h4 id="4-映像拉取速度緩慢"><a href="#4-映像拉取速度緩慢" class="headerlink" title="4. 映像拉取速度緩慢"></a>4. 映像拉取速度緩慢</h4><ul>
+<li>考慮使用映像快取或本地倉庫</li>
+<li>檢查網路連線品質</li>
+<li>使用較小的映像或多階段構建</li>
+</ul>
+<h2 id="最佳實務建議"><a href="#最佳實務建議" class="headerlink" title="最佳實務建議"></a>最佳實務建議</h2><h3 id="映像管理"><a href="#映像管理" class="headerlink" title="映像管理"></a>映像管理</h3><ol>
+<li><strong>使用具體標籤</strong>：避免使用 <code>latest</code> 標籤</li>
+<li><strong>映像掃描</strong>：定期掃描映像的安全漏洞</li>
+<li><strong>映像分層</strong>：優化 Dockerfile 以減少映像大小</li>
+<li><strong>定期更新</strong>：保持映像為最新版本</li>
+</ol>
+<h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><ol>
+<li><strong>最小權限</strong>：使用最小權限的 ServiceAccount</li>
+<li><strong>Secret 管理</strong>：定期輪換 Image Pull Secret</li>
+<li><strong>網路隔離</strong>：在適當的情況下使用網路策略</li>
+<li><strong>映像簽章</strong>：考慮使用映像簽章驗證</li>
+</ol>
+<h3 id="效能優化"><a href="#效能優化" class="headerlink" title="效能優化"></a>效能優化</h3><ol>
+<li><strong>本地快取</strong>：在開發環境中使用本地映像</li>
+<li><strong>並行拉取</strong>：合理設定 Pod 的並行啟動數量</li>
+<li><strong>映像預拉取</strong>：在節點上預先拉取常用映像</li>
+<li><strong>資源限制</strong>：設定適當的資源限制避免資源競爭</li>
+</ol>
+<p>透過了解和正確使用這三種映像拉取方式，您可以在不同的環境和場景中高效、安全地管理 Kubernetes 應用程式的容器映像。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/10/11/docker-hub-pat-guide/" rel="prev" title="Docker Hub PAT 申請指南">
+                  <i class="fa fa-angle-left"></i> Docker Hub PAT 申請指南
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2025/10/11/kubernetes-deployment/" rel="next" title="Kubernetes Deployment 使用指南">
+                  Kubernetes Deployment 使用指南 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"3c6e9ae9530f62ab92aa1cbcdd131ec6"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+</body>
+</html>

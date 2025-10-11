@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Kubernetes Deployment 使用指南什麼是 Deployment？Kubernetes Deployment 是一個 API 物件，用於管理應用程式的宣告式部署和更新。Deployment 提供了對 Pod 和 ReplicaSet 的管理功能，確保應用程式能夠穩定運行並支援無縫更新。 Deployment 的主要功能： 副本管理：維護指定數量的 Pod 副本，確保服務的高可用性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes Deployment 使用指南">
+<meta property="og:url" content="https://pcion123.github.io/2025/10/11/kubernetes-deployment/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="Kubernetes Deployment 使用指南什麼是 Deployment？Kubernetes Deployment 是一個 API 物件，用於管理應用程式的宣告式部署和更新。Deployment 提供了對 Pod 和 ReplicaSet 的管理功能，確保應用程式能夠穩定運行並支援無縫更新。 Deployment 的主要功能： 副本管理：維護指定數量的 Pod 副本，確保服務的高可用性">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2025/10/11/kubernetes-deployment/kubernetes_deployment_create.png">
+<meta property="og:image" content="https://pcion123.github.io/2025/10/11/kubernetes-deployment/kubernetes_deployment_get_all.png">
+<meta property="og:image" content="https://pcion123.github.io/2025/10/11/kubernetes-deployment/kubernetes_deployment_describe.png">
+<meta property="og:image" content="https://pcion123.github.io/2025/10/11/kubernetes-deployment/kubernetes_deployment_scale.png">
+<meta property="og:image" content="https://pcion123.github.io/2025/10/11/kubernetes-deployment/kubernetes_deployment_update.png">
+<meta property="og:image" content="https://pcion123.github.io/2025/10/11/kubernetes-deployment/kubernetes_deployment_update_status.png">
+<meta property="og:image" content="https://pcion123.github.io/2025/10/11/kubernetes-deployment/kubernetes_deployment_rollback.png">
+<meta property="og:image" content="https://pcion123.github.io/2025/10/11/kubernetes-deployment/kubernetes_deployment_history.png">
+<meta property="og:image" content="https://pcion123.github.io/2025/10/11/kubernetes-deployment/kubernetes_deployment_pod_status.png">
+<meta property="article:published_time" content="2025-10-11T15:20:40.000Z">
+<meta property="article:modified_time" content="2025-10-11T15:42:59.118Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="kubernetes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2025/10/11/kubernetes-deployment/kubernetes_deployment_create.png">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2025/10/11/kubernetes-deployment/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2025/10/11/kubernetes-deployment/","path":"2025/10/11/kubernetes-deployment/","title":"Kubernetes Deployment 使用指南"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Kubernetes Deployment 使用指南 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes-Deployment-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97"><span class="nav-number">1.</span> <span class="nav-text">Kubernetes Deployment 使用指南</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-Deployment%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">什麼是 Deployment？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Deployment-%E7%9A%84%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD%EF%BC%9A"><span class="nav-number">1.1.1.</span> <span class="nav-text">Deployment 的主要功能：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E4%BD%BF%E7%94%A8-Deployment%EF%BC%9F"><span class="nav-number">1.1.2.</span> <span class="nav-text">為什麼使用 Deployment？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deployment-%E7%AF%84%E4%BE%8B%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.</span> <span class="nav-text">Deployment 範例配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%A9%B3%E8%A7%A3"><span class="nav-number">1.3.</span> <span class="nav-text">配置詳解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Metadata-%E5%8D%80%E6%AE%B5"><span class="nav-number">1.3.1.</span> <span class="nav-text">Metadata 區段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spec-%E5%8D%80%E6%AE%B5"><span class="nav-number">1.3.2.</span> <span class="nav-text">Spec 區段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Container-%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.3.</span> <span class="nav-text">Container 配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%81%A5%E5%BA%B7%E6%AA%A2%E6%9F%A5%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.4.</span> <span class="nav-text">健康檢查配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Liveness-Probe%EF%BC%88%E5%AD%98%E6%B4%BB%E6%8E%A2%E9%87%9D%EF%BC%89"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">Liveness Probe（存活探針）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Readiness-Probe%EF%BC%88%E5%B0%B1%E7%B7%92%E6%8E%A2%E9%87%9D%EF%BC%89"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">Readiness Probe（就緒探針）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C%E6%8C%87%E4%BB%A4"><span class="nav-number">1.4.</span> <span class="nav-text">常用操作指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E6%87%89%E7%94%A8%E7%A8%8B%E5%BC%8F"><span class="nav-number">1.4.1.</span> <span class="nav-text">部署應用程式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B-Deployment-%E7%8B%80%E6%85%8B"><span class="nav-number">1.4.2.</span> <span class="nav-text">查看 Deployment 狀態</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B-Deployment-%E8%A9%B3%E7%B4%B0%E8%B3%87%E8%A8%8A"><span class="nav-number">1.4.3.</span> <span class="nav-text">查看 Deployment 詳細資訊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%93%B4%E7%B8%AE%E5%AE%B9%E6%93%8D%E4%BD%9C"><span class="nav-number">1.4.4.</span> <span class="nav-text">擴縮容操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E6%87%89%E7%94%A8%E7%A8%8B%E5%BC%8F"><span class="nav-number">1.4.5.</span> <span class="nav-text">更新應用程式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%9B%B4%E6%96%B0%E7%8B%80%E6%85%8B"><span class="nav-number">1.4.6.</span> <span class="nav-text">查看更新狀態</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9E%E6%BB%BE%E5%88%B0%E4%B8%8A%E4%B8%80%E5%80%8B%E7%89%88%E6%9C%AC"><span class="nav-number">1.4.7.</span> <span class="nav-text">回滾到上一個版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E9%83%A8%E7%BD%B2%E6%AD%B7%E5%8F%B2"><span class="nav-number">1.4.8.</span> <span class="nav-text">查看部署歷史</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B-Pod-%E7%8B%80%E6%85%8B"><span class="nav-number">1.4.9.</span> <span class="nav-text">查看 Pod 狀態</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E5%AF%A6%E5%8B%99%E5%BB%BA%E8%AD%B0"><span class="nav-number">1.5.</span> <span class="nav-text">最佳實務建議</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/docker/" style="font-size: 21px;" class="tag-cloud-5">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/github-copilot/" style="font-size: 15px;" class="tag-cloud-2">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 18px;" class="tag-cloud-3">gitlab</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 18px;" class="tag-cloud-3">java</a> <a href="/tags/jdk/" style="font-size: 15px;" class="tag-cloud-2">jdk</a> <a href="/tags/jenkins/" style="font-size: 21px;" class="tag-cloud-5">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 24px;" class="tag-cloud-7">kubernetes</a> <a href="/tags/linux/" style="font-size: 30px;" class="tag-cloud-10">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 18px;" class="tag-cloud-3">maven</a> <a href="/tags/minikube/" style="font-size: 15px;" class="tag-cloud-2">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/pm2/" style="font-size: 15px;" class="tag-cloud-2">pm2</a> <a href="/tags/powershell/" style="font-size: 18px;" class="tag-cloud-3">powershell</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 18px;" class="tag-cloud-3">terminal</a> <a href="/tags/tomcat/" style="font-size: 15px;" class="tag-cloud-2">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 27px;" class="tag-cloud-8">ubuntu</a> <a href="/tags/vscode/" style="font-size: 18px;" class="tag-cloud-3">vscode</a> <a href="/tags/windows/" style="font-size: 18px;" class="tag-cloud-3">windows</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 18px;" class="tag-cloud-3">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2025/10/11/kubernetes-deployment/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Kubernetes Deployment 使用指南 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Kubernetes Deployment 使用指南
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-10-11 23:20:40 / 修改時間：23:42:59" itemprop="dateCreated datePublished" datetime="2025-10-11T23:20:40+08:00">2025-10-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kubernetes/" itemprop="url" rel="index"><span itemprop="name">kubernetes</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Kubernetes-Deployment-使用指南"><a href="#Kubernetes-Deployment-使用指南" class="headerlink" title="Kubernetes Deployment 使用指南"></a>Kubernetes Deployment 使用指南</h1><h2 id="什麼是-Deployment？"><a href="#什麼是-Deployment？" class="headerlink" title="什麼是 Deployment？"></a>什麼是 Deployment？</h2><p>Kubernetes Deployment 是一個 API 物件，用於管理應用程式的宣告式部署和更新。Deployment 提供了對 Pod 和 ReplicaSet 的管理功能，確保應用程式能夠穩定運行並支援無縫更新。</p>
+<h3 id="Deployment-的主要功能："><a href="#Deployment-的主要功能：" class="headerlink" title="Deployment 的主要功能："></a>Deployment 的主要功能：</h3><ul>
+<li><strong>副本管理</strong>：維護指定數量的 Pod 副本，確保服務的高可用性</li>
+<li><strong>滾動更新</strong>：支援零停機時間的應用程式更新</li>
+<li><strong>版本回滾</strong>：快速回滾到先前的應用程式版本</li>
+<li><strong>擴縮容</strong>：根據需求動態調整 Pod 的數量</li>
+</ul>
+<h3 id="為什麼使用-Deployment？"><a href="#為什麼使用-Deployment？" class="headerlink" title="為什麼使用 Deployment？"></a>為什麼使用 Deployment？</h3><p>相較於直接管理 Pod 或 ReplicaSet，Deployment 提供了更高層次的管理抽象：</p>
+<ol>
+<li><strong>宣告式管理</strong>：只需描述期望狀態，Kubernetes 會自動達成目標</li>
+<li><strong>更新策略</strong>：內建滾動更新機制，避免服務中斷</li>
+<li><strong>版本控制</strong>：保留部署歷史，支援快速回滾</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h2 id="Deployment-範例配置"><a href="#Deployment-範例配置" class="headerlink" title="Deployment 範例配置"></a>Deployment 範例配置</h2><p>以下是一個完整的 Deployment 配置範例，展示了如何部署一個 Java Spring Boot 應用程式：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">dockertest-deployment</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">dockertest-namespace</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line">    <span class="attr">version:</span> <span class="string">v0.0.8</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line">        <span class="attr">version:</span> <span class="string">v0.0.8</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">dockertest</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">docker.io/pcion123/tinydocker:0.0.8</span></span><br><span class="line">        <span class="attr">imagePullPolicy:</span> <span class="string">Always</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8080</span></span><br><span class="line">        <span class="attr">env:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">JAVA_OPTS</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">&quot;-Xmx512m -Xms256m -Djava.awt.headless=true -Dspring.profiles.active=dev&quot;</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">TZ</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">&quot;Asia/Taipei&quot;</span></span><br><span class="line">        <span class="attr">livenessProbe:</span></span><br><span class="line">          <span class="attr">httpGet:</span></span><br><span class="line">            <span class="attr">path:</span> <span class="string">/actuator/health</span></span><br><span class="line">            <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">          <span class="attr">initialDelaySeconds:</span> <span class="number">60</span></span><br><span class="line">          <span class="attr">periodSeconds:</span> <span class="number">30</span></span><br><span class="line">          <span class="attr">timeoutSeconds:</span> <span class="number">10</span></span><br><span class="line">          <span class="attr">failureThreshold:</span> <span class="number">3</span></span><br><span class="line">        <span class="attr">readinessProbe:</span></span><br><span class="line">          <span class="attr">httpGet:</span></span><br><span class="line">            <span class="attr">path:</span> <span class="string">/actuator/health/readiness</span></span><br><span class="line">            <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">          <span class="attr">initialDelaySeconds:</span> <span class="number">30</span></span><br><span class="line">          <span class="attr">periodSeconds:</span> <span class="number">10</span></span><br><span class="line">          <span class="attr">timeoutSeconds:</span> <span class="number">5</span></span><br><span class="line">          <span class="attr">failureThreshold:</span> <span class="number">3</span></span><br><span class="line">      <span class="attr">imagePullSecrets:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">regcred</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="配置詳解"><a href="#配置詳解" class="headerlink" title="配置詳解"></a>配置詳解</h2><h3 id="Metadata-區段"><a href="#Metadata-區段" class="headerlink" title="Metadata 區段"></a>Metadata 區段</h3><ul>
+<li><strong>name</strong>: Deployment 的名稱，在同一個 namespace 中必須唯一</li>
+<li><strong>namespace</strong>: 指定部署的命名空間</li>
+<li><strong>labels</strong>: 用於識別和分組資源的標籤</li>
+</ul>
+<h3 id="Spec-區段"><a href="#Spec-區段" class="headerlink" title="Spec 區段"></a>Spec 區段</h3><ul>
+<li><strong>replicas</strong>: 指定要運行的 Pod 副本數量</li>
+<li><strong>selector</strong>: 用於選擇管理哪些 Pod 的標籤選擇器</li>
+<li><strong>template</strong>: Pod 模板，定義了 Pod 的規格</li>
+</ul>
+<h3 id="Container-配置"><a href="#Container-配置" class="headerlink" title="Container 配置"></a>Container 配置</h3><ul>
+<li><strong>image</strong>: 容器映像檔位置</li>
+<li><strong>imagePullPolicy</strong>: 映像檔拉取策略，<code>Always</code> 表示每次都會重新拉取</li>
+<li><strong>ports</strong>: 容器對外暴露的連接埠</li>
+<li><strong>env</strong>: 環境變數設定</li>
+<li><strong>imagePullSecrets</strong>: 指定用於從私有容器註冊表拉取映像檔的 Secret 資源。當容器映像檔存放在需要身份驗證的私有倉庫時（如 Docker Hub 私有倉庫、Azure Container Registry、Amazon ECR 等），Kubernetes 需要相應的認證資訊才能成功拉取映像檔。此配置引用預先建立的 Kubernetes Secret 物件，該 Secret 包含了註冊表的登入憑證。</li>
+</ul>
+<blockquote>
+<a href="/2025/10/11/kubernetes-image-pull/" title="Kubernetes Image 拉取指南">關於如何拉取 image 的詳細說明，請參考之前的文章</a></blockquote>
+<h3 id="健康檢查配置"><a href="#健康檢查配置" class="headerlink" title="健康檢查配置"></a>健康檢查配置</h3><h4 id="Liveness-Probe（存活探針）"><a href="#Liveness-Probe（存活探針）" class="headerlink" title="Liveness Probe（存活探針）"></a>Liveness Probe（存活探針）</h4><p>用於檢查容器是否仍在運行，如果檢查失敗，Kubernetes 會重啟容器。</p>
+<h4 id="Readiness-Probe（就緒探針）"><a href="#Readiness-Probe（就緒探針）" class="headerlink" title="Readiness Probe（就緒探針）"></a>Readiness Probe（就緒探針）</h4><p>用於檢查容器是否準備好接收流量，如果檢查失敗，容器會從 Service 的端點中移除。</p>
+<h2 id="常用操作指令"><a href="#常用操作指令" class="headerlink" title="常用操作指令"></a>常用操作指令</h2><h3 id="部署應用程式"><a href="#部署應用程式" class="headerlink" title="部署應用程式"></a>部署應用程式</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f dockertest-deployment-v0.0.8.yaml</span><br></pre></td></tr></table></figure>
+
+<img src="/2025/10/11/kubernetes-deployment/kubernetes_deployment_create.png" class="">
+
+<h3 id="查看-Deployment-狀態"><a href="#查看-Deployment-狀態" class="headerlink" title="查看 Deployment 狀態"></a>查看 Deployment 狀態</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get deployments -n dockertest-namespace</span><br></pre></td></tr></table></figure>
+
+<img src="/2025/10/11/kubernetes-deployment/kubernetes_deployment_get_all.png" class="">
+
+<h3 id="查看-Deployment-詳細資訊"><a href="#查看-Deployment-詳細資訊" class="headerlink" title="查看 Deployment 詳細資訊"></a>查看 Deployment 詳細資訊</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl describe deployment dockertest-deployment -n dockertest-namespace</span><br></pre></td></tr></table></figure>
+
+<img src="/2025/10/11/kubernetes-deployment/kubernetes_deployment_describe.png" class="">
+
+<h3 id="擴縮容操作"><a href="#擴縮容操作" class="headerlink" title="擴縮容操作"></a>擴縮容操作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 擴展到 3 個副本</span></span><br><span class="line">kubectl scale deployment dockertest-deployment --replicas=3 -n dockertest-namespace</span><br></pre></td></tr></table></figure>
+
+<img src="/2025/10/11/kubernetes-deployment/kubernetes_deployment_scale.png" class="">
+
+<h3 id="更新應用程式"><a href="#更新應用程式" class="headerlink" title="更新應用程式"></a>更新應用程式</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更新映像檔版本（從 0.0.10 更新到 0.0.11）</span></span><br><span class="line">kubectl <span class="built_in">set</span> image deployment/dockertest-deployment dockertest=docker.io/pcion123/tinydocker:0.0.11 -n dockertest-namespace</span><br></pre></td></tr></table></figure>
+
+<img src="/2025/10/11/kubernetes-deployment/kubernetes_deployment_update.png" class="">
+
+<h3 id="查看更新狀態"><a href="#查看更新狀態" class="headerlink" title="查看更新狀態"></a>查看更新狀態</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl rollout status deployment/dockertest-deployment -n dockertest-namespace</span><br></pre></td></tr></table></figure>
+
+<img src="/2025/10/11/kubernetes-deployment/kubernetes_deployment_update_status.png" class="">
+
+<h3 id="回滾到上一個版本"><a href="#回滾到上一個版本" class="headerlink" title="回滾到上一個版本"></a>回滾到上一個版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl rollout undo deployment/dockertest-deployment -n dockertest-namespace</span><br></pre></td></tr></table></figure>
+
+<img src="/2025/10/11/kubernetes-deployment/kubernetes_deployment_rollback.png" class="">
+
+<h3 id="查看部署歷史"><a href="#查看部署歷史" class="headerlink" title="查看部署歷史"></a>查看部署歷史</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl rollout <span class="built_in">history</span> deployment/dockertest-deployment -n dockertest-namespace</span><br></pre></td></tr></table></figure>
+
+<img src="/2025/10/11/kubernetes-deployment/kubernetes_deployment_history.png" class="">
+
+<h3 id="查看-Pod-狀態"><a href="#查看-Pod-狀態" class="headerlink" title="查看 Pod 狀態"></a>查看 Pod 狀態</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pods -n dockertest-namespace -l app=dockertest</span><br></pre></td></tr></table></figure>
+
+<img src="/2025/10/11/kubernetes-deployment/kubernetes_deployment_pod_status.png" class="">
+
+<h2 id="最佳實務建議"><a href="#最佳實務建議" class="headerlink" title="最佳實務建議"></a>最佳實務建議</h2><ol>
+<li><strong>設定適當的資源限制</strong>: 為容器設定 CPU 和記憶體的 requests 和 limits</li>
+<li><strong>配置健康檢查</strong>: 務必設定 liveness 和 readiness probe 以確保應用程式的穩定性</li>
+<li><strong>使用標籤管理</strong>: 善用標籤來組織和管理不同的資源</li>
+<li><strong>版本控制</strong>: 使用具體的映像檔標籤而非 <code>latest</code></li>
+<li><strong>命名空間隔離</strong>: 使用不同的命名空間來隔離不同環境的應用程式</li>
+</ol>
+<p>透過這些配置和操作，您可以有效地管理 Kubernetes 中的應用程式部署，確保服務的高可用性和穩定性。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/10/11/kubernetes-image-pull/" rel="prev" title="Kubernetes Image 拉取指南">
+                  <i class="fa fa-angle-left"></i> Kubernetes Image 拉取指南
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"4d465963dab21ca6a39ab547f5c49488"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+</body>
+</html>
