@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Kubernetes ConfigMap 使用指南什麼是 ConfigMap？Kubernetes ConfigMap 是一個 API 物件，用於存儲非敏感的配置資料，以鍵值對的形式存在。ConfigMap 允許您將配置從容器映像中分離出來，使應用程式更具可移植性和靈活性。 ConfigMap 的主要功能： 配置分離：將應用程式配置與程式碼分離 環境管理：支援不同環境的配置管理 動態更新：支援運行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes ConfigMap 使用指南">
+<meta property="og:url" content="https://pcion123.github.io/2025/10/25/kubernetes-configmap-intro/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="Kubernetes ConfigMap 使用指南什麼是 ConfigMap？Kubernetes ConfigMap 是一個 API 物件，用於存儲非敏感的配置資料，以鍵值對的形式存在。ConfigMap 允許您將配置從容器映像中分離出來，使應用程式更具可移植性和靈活性。 ConfigMap 的主要功能： 配置分離：將應用程式配置與程式碼分離 環境管理：支援不同環境的配置管理 動態更新：支援運行">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2025/10/25/kubernetes-configmap-intro/kubernetes_configmap_get_config1.png">
+<meta property="og:image" content="https://pcion123.github.io/2025/10/25/kubernetes-configmap-intro/kubernetes_configmap_get_config2.png">
+<meta property="article:published_time" content="2025-10-25T07:42:38.000Z">
+<meta property="article:modified_time" content="2025-10-25T09:35:51.896Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="kubernetes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2025/10/25/kubernetes-configmap-intro/kubernetes_configmap_get_config1.png">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2025/10/25/kubernetes-configmap-intro/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2025/10/25/kubernetes-configmap-intro/","path":"2025/10/25/kubernetes-configmap-intro/","title":"Kubernetes ConfigMap 使用指南"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Kubernetes ConfigMap 使用指南 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kubernetes-ConfigMap-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97"><span class="nav-number">1.</span> <span class="nav-text">Kubernetes ConfigMap 使用指南</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-ConfigMap%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">什麼是 ConfigMap？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ConfigMap-%E7%9A%84%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD%EF%BC%9A"><span class="nav-number">1.1.1.</span> <span class="nav-text">ConfigMap 的主要功能：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E4%BD%BF%E7%94%A8-ConfigMap%EF%BC%9F"><span class="nav-number">1.1.2.</span> <span class="nav-text">為什麼使用 ConfigMap？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ConfigMap-%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.</span> <span class="nav-text">ConfigMap 基本配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC-ConfigMap-%E7%AF%84%E4%BE%8B"><span class="nav-number">1.2.1.</span> <span class="nav-text">基本 ConfigMap 範例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%85%E5%90%AB%E6%AA%94%E6%A1%88%E5%85%A7%E5%AE%B9%E7%9A%84-ConfigMap"><span class="nav-number">1.2.2.</span> <span class="nav-text">包含檔案內容的 ConfigMap</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8-Pod-%E4%B8%AD%E4%BD%BF%E7%94%A8-ConfigMap"><span class="nav-number">1.3.</span> <span class="nav-text">在 Pod 中使用 ConfigMap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A%E4%BD%9C%E7%82%BA%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8"><span class="nav-number">1.3.1.</span> <span class="nav-text">方法一：作為環境變數</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A%E4%BD%9C%E7%82%BA%E6%AA%94%E6%A1%88%E6%8E%9B%E8%BC%89"><span class="nav-number">1.3.2.</span> <span class="nav-text">方法二：作為檔案掛載</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%89%EF%BC%9A%E6%B7%B7%E5%90%88%E4%BD%BF%E7%94%A8"><span class="nav-number">1.3.3.</span> <span class="nav-text">方法三：混合使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E5%92%8C%E7%AE%A1%E7%90%86-ConfigMap"><span class="nav-number">1.4.</span> <span class="nav-text">建立和管理 ConfigMap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-kubectl-%E6%8C%87%E4%BB%A4%E5%BB%BA%E7%AB%8B"><span class="nav-number">1.4.1.</span> <span class="nav-text">使用 kubectl 指令建立</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%A1%E7%90%86%E6%8C%87%E4%BB%A4"><span class="nav-number">1.4.2.</span> <span class="nav-text">管理指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0-ConfigMap"><span class="nav-number">1.4.3.</span> <span class="nav-text">更新 ConfigMap</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E9%9A%9B%E6%87%89%E7%94%A8%E7%AF%84%E4%BE%8B"><span class="nav-number">1.5.</span> <span class="nav-text">實際應用範例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AF%84%E4%BE%8B%E4%B8%80%EF%BC%9ASpring-Boot-%E6%87%89%E7%94%A8%E7%A8%8B%E5%BC%8F%E9%85%8D%E7%BD%AE"><span class="nav-number">1.5.1.</span> <span class="nav-text">範例一：Spring Boot 應用程式配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AF%84%E4%BE%8B%E4%BA%8C%EF%BC%9A%E5%A4%9A%E7%92%B0%E5%A2%83%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86"><span class="nav-number">1.5.2.</span> <span class="nav-text">範例二：多環境配置管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E5%AF%A6%E5%8B%99%E5%BB%BA%E8%AD%B0"><span class="nav-number">1.6.</span> <span class="nav-text">最佳實務建議</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86"><span class="nav-number">1.6.1.</span> <span class="nav-text">配置管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7%E8%80%83%E9%87%8F"><span class="nav-number">1.6.2.</span> <span class="nav-text">安全性考量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%88%E8%83%BD%E5%92%8C%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="nav-number">1.6.3.</span> <span class="nav-text">效能和可靠性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%A3%E6%8E%A7%E5%92%8C%E7%B6%AD%E8%AD%B7"><span class="nav-number">1.6.4.</span> <span class="nav-text">監控和維護</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%96%91%E9%9B%A3%E6%8E%92%E8%A7%A3"><span class="nav-number">1.7.</span> <span class="nav-text">疑難排解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C"><span class="nav-number">1.7.1.</span> <span class="nav-text">常見問題</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Pod-%E7%84%A1%E6%B3%95%E8%AE%80%E5%8F%96-ConfigMap"><span class="nav-number">1.7.1.1.</span> <span class="nav-text">1. Pod 無法讀取 ConfigMap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E9%85%8D%E7%BD%AE%E6%9B%B4%E6%96%B0%E5%BE%8C-Pod-%E6%9C%AA%E9%87%8D%E5%95%9F"><span class="nav-number">1.7.1.2.</span> <span class="nav-text">2. 配置更新後 Pod 未重啟</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8%E6%9C%AA%E6%AD%A3%E7%A2%BA%E8%BC%89%E5%85%A5"><span class="nav-number">1.7.1.3.</span> <span class="nav-text">3. 環境變數未正確載入</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/docker/" style="font-size: 22.8px;" class="tag-cloud-6">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/github-copilot/" style="font-size: 15.6px;" class="tag-cloud-2">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 19.2px;" class="tag-cloud-4">gitlab</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 19.2px;" class="tag-cloud-4">java</a> <a href="/tags/jdk/" style="font-size: 15.6px;" class="tag-cloud-2">jdk</a> <a href="/tags/jenkins/" style="font-size: 22.8px;" class="tag-cloud-6">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 26.4px;" class="tag-cloud-8">kubernetes</a> <a href="/tags/linux/" style="font-size: 30px;" class="tag-cloud-10">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 19.2px;" class="tag-cloud-4">maven</a> <a href="/tags/minikube/" style="font-size: 15.6px;" class="tag-cloud-2">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/pm2/" style="font-size: 15.6px;" class="tag-cloud-2">pm2</a> <a href="/tags/powershell/" style="font-size: 19.2px;" class="tag-cloud-4">powershell</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 19.2px;" class="tag-cloud-4">terminal</a> <a href="/tags/tomcat/" style="font-size: 15.6px;" class="tag-cloud-2">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 26.4px;" class="tag-cloud-8">ubuntu</a> <a href="/tags/vscode/" style="font-size: 19.2px;" class="tag-cloud-4">vscode</a> <a href="/tags/windows/" style="font-size: 19.2px;" class="tag-cloud-4">windows</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 19.2px;" class="tag-cloud-4">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2025/10/25/kubernetes-configmap-intro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Kubernetes ConfigMap 使用指南 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Kubernetes ConfigMap 使用指南
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-10-25 15:42:38 / 修改時間：17:35:51" itemprop="dateCreated datePublished" datetime="2025-10-25T15:42:38+08:00">2025-10-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kubernetes/" itemprop="url" rel="index"><span itemprop="name">kubernetes</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Kubernetes-ConfigMap-使用指南"><a href="#Kubernetes-ConfigMap-使用指南" class="headerlink" title="Kubernetes ConfigMap 使用指南"></a>Kubernetes ConfigMap 使用指南</h1><h2 id="什麼是-ConfigMap？"><a href="#什麼是-ConfigMap？" class="headerlink" title="什麼是 ConfigMap？"></a>什麼是 ConfigMap？</h2><p>Kubernetes ConfigMap 是一個 API 物件，用於存儲非敏感的配置資料，以鍵值對的形式存在。ConfigMap 允許您將配置從容器映像中分離出來，使應用程式更具可移植性和靈活性。</p>
+<h3 id="ConfigMap-的主要功能："><a href="#ConfigMap-的主要功能：" class="headerlink" title="ConfigMap 的主要功能："></a>ConfigMap 的主要功能：</h3><ul>
+<li><strong>配置分離</strong>：將應用程式配置與程式碼分離</li>
+<li><strong>環境管理</strong>：支援不同環境的配置管理</li>
+<li><strong>動態更新</strong>：支援運行時配置更新</li>
+<li><strong>多種掛載方式</strong>：可作為環境變數、檔案或目錄掛載</li>
+</ul>
+<h3 id="為什麼使用-ConfigMap？"><a href="#為什麼使用-ConfigMap？" class="headerlink" title="為什麼使用 ConfigMap？"></a>為什麼使用 ConfigMap？</h3><p>相較於將配置硬編碼在應用程式中，ConfigMap 提供了更好的配置管理方式：</p>
+<ol>
+<li><strong>靈活性</strong>：無需重新構建映像就能改變配置</li>
+<li><strong>可重用性</strong>：同一個 ConfigMap 可被多個 Pod 使用</li>
+<li><strong>版本控制</strong>：配置變更可以被追蹤和管理</li>
+<li><strong>環境一致性</strong>：確保不同環境使用正確的配置</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h2 id="ConfigMap-基本配置"><a href="#ConfigMap-基本配置" class="headerlink" title="ConfigMap 基本配置"></a>ConfigMap 基本配置</h2><h3 id="基本-ConfigMap-範例"><a href="#基本-ConfigMap-範例" class="headerlink" title="基本 ConfigMap 範例"></a>基本 ConfigMap 範例</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">dockertest-config</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">dockertest-namespace</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="comment"># 應用程式配置</span></span><br><span class="line">  <span class="attr">CUSTOM_VALUE:</span> <span class="string">&quot;configmap_version&quot;</span></span><br><span class="line">  <span class="attr">LOG_LEVEL:</span> <span class="string">&quot;INFO&quot;</span></span><br><span class="line">  <span class="attr">MAX_CONNECTIONS:</span> <span class="string">&quot;100&quot;</span></span><br><span class="line">  <span class="attr">FEATURE_ENABLED:</span> <span class="string">&quot;true&quot;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># 資料庫配置</span></span><br><span class="line">  <span class="attr">DB_HOST:</span> <span class="string">&quot;database.example.com&quot;</span></span><br><span class="line">  <span class="attr">DB_PORT:</span> <span class="string">&quot;5432&quot;</span></span><br><span class="line">  <span class="attr">DB_NAME:</span> <span class="string">&quot;myapp&quot;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># 快取配置</span></span><br><span class="line">  <span class="attr">REDIS_HOST:</span> <span class="string">&quot;redis.example.com&quot;</span></span><br><span class="line">  <span class="attr">REDIS_PORT:</span> <span class="string">&quot;6379&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="包含檔案內容的-ConfigMap"><a href="#包含檔案內容的-ConfigMap" class="headerlink" title="包含檔案內容的 ConfigMap"></a>包含檔案內容的 ConfigMap</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">app-config-files</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">dockertest-namespace</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="comment"># 配置檔案內容</span></span><br><span class="line">  <span class="attr">application.properties:</span> <span class="string">|</span></span><br><span class="line"><span class="string">    app.name=MyApplication</span></span><br><span class="line"><span class="string">    app.version=1.0.0</span></span><br><span class="line"><span class="string">    server.port=8080</span></span><br><span class="line"><span class="string">    logging.level.root=INFO</span></span><br><span class="line"><span class="string"></span>    </span><br><span class="line">  <span class="attr">nginx.conf:</span> <span class="string">|</span></span><br><span class="line"><span class="string">    server &#123;</span></span><br><span class="line"><span class="string">        listen 80;</span></span><br><span class="line"><span class="string">        server_name localhost;</span></span><br><span class="line"><span class="string">        location / &#123;</span></span><br><span class="line"><span class="string">            root /usr/share/nginx/html;</span></span><br><span class="line"><span class="string">            index index.html;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string"></span>    </span><br><span class="line">  <span class="comment"># JSON 格式配置</span></span><br><span class="line">  <span class="attr">config.json:</span> <span class="string">|</span></span><br><span class="line"><span class="string">    &#123;</span></span><br><span class="line"><span class="string">      &quot;database&quot;: &#123;</span></span><br><span class="line"><span class="string">        &quot;host&quot;: &quot;localhost&quot;,</span></span><br><span class="line"><span class="string">        &quot;port&quot;: 5432,</span></span><br><span class="line"><span class="string">        &quot;name&quot;: &quot;myapp&quot;</span></span><br><span class="line"><span class="string">      &#125;,</span></span><br><span class="line"><span class="string">      &quot;features&quot;: &#123;</span></span><br><span class="line"><span class="string">        &quot;enableLogging&quot;: true,</span></span><br><span class="line"><span class="string">        &quot;maxRetries&quot;: 3</span></span><br><span class="line"><span class="string">      &#125;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="在-Pod-中使用-ConfigMap"><a href="#在-Pod-中使用-ConfigMap" class="headerlink" title="在 Pod 中使用 ConfigMap"></a>在 Pod 中使用 ConfigMap</h2><h3 id="方法一：作為環境變數"><a href="#方法一：作為環境變數" class="headerlink" title="方法一：作為環境變數"></a>方法一：作為環境變數</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">dockertest-deployment</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">dockertest-namespace</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">dockertest</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">docker.io/pcion123/tinydocker:0.0.10</span></span><br><span class="line">        <span class="attr">env:</span></span><br><span class="line">        <span class="comment"># 引用整個 ConfigMap</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">CUSTOM_VALUE</span></span><br><span class="line">          <span class="attr">valueFrom:</span></span><br><span class="line">            <span class="attr">configMapKeyRef:</span></span><br><span class="line">              <span class="attr">name:</span> <span class="string">dockertest-config</span></span><br><span class="line">              <span class="attr">key:</span> <span class="string">CUSTOM_VALUE</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">LOG_LEVEL</span></span><br><span class="line">          <span class="attr">valueFrom:</span></span><br><span class="line">            <span class="attr">configMapKeyRef:</span></span><br><span class="line">              <span class="attr">name:</span> <span class="string">dockertest-config</span></span><br><span class="line">              <span class="attr">key:</span> <span class="string">LOG_LEVEL</span></span><br><span class="line">        <span class="comment"># 引用多個鍵值</span></span><br><span class="line">        <span class="attr">envFrom:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">configMapRef:</span></span><br><span class="line">            <span class="attr">name:</span> <span class="string">dockertest-config</span></span><br></pre></td></tr></table></figure>
+
+<img src="/2025/10/25/kubernetes-configmap-intro/kubernetes_configmap_get_config1.png" class="">
+
+<h3 id="方法二：作為檔案掛載"><a href="#方法二：作為檔案掛載" class="headerlink" title="方法二：作為檔案掛載"></a>方法二：作為檔案掛載</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">dockertest-deployment</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">dockertest-namespace</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">dockertest</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">docker.io/pcion123/tinydocker:0.0.10</span></span><br><span class="line">        <span class="attr">volumeMounts:</span></span><br><span class="line">        <span class="comment"># 掛載整個 ConfigMap 為目錄</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">config-volume</span></span><br><span class="line">          <span class="attr">mountPath:</span> <span class="string">/etc/config</span></span><br><span class="line">        <span class="comment"># 掛載特定檔案到指定位置</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx-config</span></span><br><span class="line">          <span class="attr">mountPath:</span> <span class="string">/etc/nginx/nginx.conf</span></span><br><span class="line">          <span class="attr">subPath:</span> <span class="string">nginx.conf</span></span><br><span class="line">      <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">config-volume</span></span><br><span class="line">        <span class="attr">configMap:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">dockertest-config</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx-config</span></span><br><span class="line">        <span class="attr">configMap:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">dockertest-config</span></span><br><span class="line">          <span class="attr">items:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">key:</span> <span class="string">nginx.conf</span></span><br><span class="line">            <span class="attr">path:</span> <span class="string">nginx.conf</span></span><br></pre></td></tr></table></figure>
+
+<img src="/2025/10/25/kubernetes-configmap-intro/kubernetes_configmap_get_config2.png" class="">
+
+<h3 id="方法三：混合使用"><a href="#方法三：混合使用" class="headerlink" title="方法三：混合使用"></a>方法三：混合使用</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">dockertest-deployment</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">dockertest-namespace</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">dockertest</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">docker.io/pcion123/tinydocker:0.0.10</span></span><br><span class="line">        <span class="attr">env:</span></span><br><span class="line">        <span class="comment"># 引用整個 ConfigMap</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">CUSTOM_VALUE</span></span><br><span class="line">          <span class="attr">valueFrom:</span></span><br><span class="line">            <span class="attr">configMapKeyRef:</span></span><br><span class="line">              <span class="attr">name:</span> <span class="string">dockertest-config</span></span><br><span class="line">              <span class="attr">key:</span> <span class="string">CUSTOM_VALUE</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">LOG_LEVEL</span></span><br><span class="line">          <span class="attr">valueFrom:</span></span><br><span class="line">            <span class="attr">configMapKeyRef:</span></span><br><span class="line">              <span class="attr">name:</span> <span class="string">dockertest-config</span></span><br><span class="line">              <span class="attr">key:</span> <span class="string">LOG_LEVEL</span></span><br><span class="line">        <span class="comment"># 引用多個鍵值</span></span><br><span class="line">        <span class="attr">envFrom:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">configMapRef:</span></span><br><span class="line">            <span class="attr">name:</span> <span class="string">dockertest-config</span></span><br><span class="line">        <span class="attr">volumeMounts:</span></span><br><span class="line">        <span class="comment"># 掛載整個 ConfigMap 為目錄</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">config-volume</span></span><br><span class="line">          <span class="attr">mountPath:</span> <span class="string">/etc/config</span></span><br><span class="line">        <span class="comment"># 掛載特定檔案到指定位置</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx-config</span></span><br><span class="line">          <span class="attr">mountPath:</span> <span class="string">/etc/nginx/nginx.conf</span></span><br><span class="line">          <span class="attr">subPath:</span> <span class="string">nginx.conf</span></span><br><span class="line">      <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">config-volume</span></span><br><span class="line">        <span class="attr">configMap:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">dockertest-config</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx-config</span></span><br><span class="line">        <span class="attr">configMap:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">dockertest-config</span></span><br><span class="line">          <span class="attr">items:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">key:</span> <span class="string">nginx.conf</span></span><br><span class="line">            <span class="attr">path:</span> <span class="string">nginx.conf</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="建立和管理-ConfigMap"><a href="#建立和管理-ConfigMap" class="headerlink" title="建立和管理 ConfigMap"></a>建立和管理 ConfigMap</h2><h3 id="使用-kubectl-指令建立"><a href="#使用-kubectl-指令建立" class="headerlink" title="使用 kubectl 指令建立"></a>使用 kubectl 指令建立</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 從字面值建立</span></span><br><span class="line">kubectl create configmap my-config \</span><br><span class="line">  --from-literal=key1=value1 \</span><br><span class="line">  --from-literal=key2=value2 \</span><br><span class="line">  -n dockertest-namespace</span><br><span class="line"></span><br><span class="line"><span class="comment"># 從檔案建立</span></span><br><span class="line">kubectl create configmap file-config \</span><br><span class="line">  --from-file=application.properties \</span><br><span class="line">  --from-file=config.json \</span><br><span class="line">  -n dockertest-namespace</span><br><span class="line"></span><br><span class="line"><span class="comment"># 從目錄建立</span></span><br><span class="line">kubectl create configmap dir-config \</span><br><span class="line">  --from-file=./config-directory/ \</span><br><span class="line">  -n dockertest-namespace</span><br><span class="line"></span><br><span class="line"><span class="comment"># 從環境檔案建立</span></span><br><span class="line">kubectl create configmap env-config \</span><br><span class="line">  --from-env-file=.<span class="built_in">env</span> \</span><br><span class="line">  -n dockertest-namespace</span><br></pre></td></tr></table></figure>
+
+<h3 id="管理指令"><a href="#管理指令" class="headerlink" title="管理指令"></a>管理指令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看 ConfigMap 列表</span></span><br><span class="line">kubectl get configmaps -n dockertest-namespace</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 ConfigMap 詳細內容</span></span><br><span class="line">kubectl describe configmap dockertest-config -n dockertest-namespace</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 ConfigMap 的 YAML 格式</span></span><br><span class="line">kubectl get configmap dockertest-config -n dockertest-namespace -o yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 編輯 ConfigMap</span></span><br><span class="line">kubectl edit configmap dockertest-config -n dockertest-namespace</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刪除 ConfigMap</span></span><br><span class="line">kubectl delete configmap dockertest-config -n dockertest-namespace</span><br></pre></td></tr></table></figure>
+
+<h3 id="更新-ConfigMap"><a href="#更新-ConfigMap" class="headerlink" title="更新 ConfigMap"></a>更新 ConfigMap</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方法一：重新應用 YAML 檔案</span></span><br><span class="line">kubectl apply -f configmap.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法二：使用 patch 更新特定鍵值</span></span><br><span class="line">kubectl patch configmap dockertest-config -n dockertest-namespace \</span><br><span class="line">  --<span class="built_in">type</span> merge -p <span class="string">&#x27;&#123;&quot;data&quot;:&#123;&quot;NEW_KEY&quot;:&quot;new_value&quot;&#125;&#125;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法三：替換整個 ConfigMap</span></span><br><span class="line">kubectl replace -f updated-configmap.yaml</span><br></pre></td></tr></table></figure>
+
+<h2 id="實際應用範例"><a href="#實際應用範例" class="headerlink" title="實際應用範例"></a>實際應用範例</h2><h3 id="範例一：Spring-Boot-應用程式配置"><a href="#範例一：Spring-Boot-應用程式配置" class="headerlink" title="範例一：Spring Boot 應用程式配置"></a>範例一：Spring Boot 應用程式配置</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">spring-app-config</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">dockertest-namespace</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="comment"># Spring Boot 配置</span></span><br><span class="line">  <span class="attr">SPRING_PROFILES_ACTIVE:</span> <span class="string">&quot;production&quot;</span></span><br><span class="line">  <span class="attr">SERVER_PORT:</span> <span class="string">&quot;8080&quot;</span></span><br><span class="line">  <span class="attr">LOGGING_LEVEL_ROOT:</span> <span class="string">&quot;INFO&quot;</span></span><br><span class="line">  <span class="attr">LOGGING_LEVEL_COM_EXAMPLE:</span> <span class="string">&quot;DEBUG&quot;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># 資料庫配置</span></span><br><span class="line">  <span class="attr">SPRING_DATASOURCE_URL:</span> <span class="string">&quot;jdbc:postgresql://db:5432/myapp&quot;</span></span><br><span class="line">  <span class="attr">SPRING_DATASOURCE_USERNAME:</span> <span class="string">&quot;appuser&quot;</span></span><br><span class="line">  <span class="attr">SPRING_DATASOURCE_DRIVERCLASSNAME:</span> <span class="string">&quot;org.postgresql.Driver&quot;</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment"># JVM 配置</span></span><br><span class="line">  <span class="attr">JAVA_OPTS:</span> <span class="string">&quot;-Xmx512m -Xms256m -Djava.awt.headless=true&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">spring-app</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">dockertest-namespace</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">spring-app</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">spring-app</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">spring-app</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">docker.io/pcion123/tinydocker:0.0.10</span></span><br><span class="line">        <span class="attr">envFrom:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">configMapRef:</span></span><br><span class="line">            <span class="attr">name:</span> <span class="string">spring-app-config</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8080</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="範例二：多環境配置管理"><a href="#範例二：多環境配置管理" class="headerlink" title="範例二：多環境配置管理"></a>範例二：多環境配置管理</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 開發環境 ConfigMap</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">app-config-dev</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">development</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="attr">ENVIRONMENT:</span> <span class="string">&quot;development&quot;</span></span><br><span class="line">  <span class="attr">LOG_LEVEL:</span> <span class="string">&quot;DEBUG&quot;</span></span><br><span class="line">  <span class="attr">DB_HOST:</span> <span class="string">&quot;dev-database&quot;</span></span><br><span class="line">  <span class="attr">CACHE_ENABLED:</span> <span class="string">&quot;false&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="comment"># 生產環境 ConfigMap</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">app-config-prod</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">production</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="attr">ENVIRONMENT:</span> <span class="string">&quot;production&quot;</span></span><br><span class="line">  <span class="attr">LOG_LEVEL:</span> <span class="string">&quot;WARN&quot;</span></span><br><span class="line">  <span class="attr">DB_HOST:</span> <span class="string">&quot;prod-database&quot;</span></span><br><span class="line">  <span class="attr">CACHE_ENABLED:</span> <span class="string">&quot;true&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="最佳實務建議"><a href="#最佳實務建議" class="headerlink" title="最佳實務建議"></a>最佳實務建議</h2><h3 id="配置管理"><a href="#配置管理" class="headerlink" title="配置管理"></a>配置管理</h3><ol>
+<li><strong>命名規範</strong>：使用清晰、一致的 ConfigMap 命名</li>
+<li><strong>環境分離</strong>：為不同環境建立獨立的 ConfigMap</li>
+<li><strong>版本控制</strong>：將 ConfigMap 定義納入版本控制系統</li>
+<li><strong>文檔記錄</strong>：詳細記錄每個配置項的用途和格式</li>
+</ol>
+<h3 id="安全性考量"><a href="#安全性考量" class="headerlink" title="安全性考量"></a>安全性考量</h3><ol>
+<li><strong>敏感資料</strong>：將密碼等敏感資料存儲在 Secret 中，而非 ConfigMap</li>
+<li><strong>存取控制</strong>：使用 RBAC 控制 ConfigMap 的存取權限</li>
+<li><strong>最小權限</strong>：只授予應用程式所需的最小配置存取權限</li>
+<li><strong>定期審核</strong>：定期檢查和清理不再使用的 ConfigMap</li>
+</ol>
+<h3 id="效能和可靠性"><a href="#效能和可靠性" class="headerlink" title="效能和可靠性"></a>效能和可靠性</h3><ol>
+<li><strong>大小限制</strong>：單個 ConfigMap 不應超過 1MB</li>
+<li><strong>變更影響</strong>：了解 ConfigMap 變更對運行中 Pod 的影響</li>
+<li><strong>自動重啟</strong>：考慮使用工具自動重啟使用更新配置的 Pod</li>
+<li><strong>配置驗證</strong>：在應用配置前驗證配置的正確性</li>
+</ol>
+<h3 id="監控和維護"><a href="#監控和維護" class="headerlink" title="監控和維護"></a>監控和維護</h3><ol>
+<li><strong>配置追蹤</strong>：追蹤配置變更的歷史和影響</li>
+<li><strong>健康檢查</strong>：確保應用程式能正確讀取和使用配置</li>
+<li><strong>備份策略</strong>：定期備份重要的 ConfigMap</li>
+<li><strong>清理策略</strong>：定期清理不再使用的 ConfigMap</li>
+</ol>
+<h2 id="疑難排解"><a href="#疑難排解" class="headerlink" title="疑難排解"></a>疑難排解</h2><h3 id="常見問題"><a href="#常見問題" class="headerlink" title="常見問題"></a>常見問題</h3><h4 id="1-Pod-無法讀取-ConfigMap"><a href="#1-Pod-無法讀取-ConfigMap" class="headerlink" title="1. Pod 無法讀取 ConfigMap"></a>1. Pod 無法讀取 ConfigMap</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 檢查 ConfigMap 是否存在</span></span><br><span class="line">kubectl get configmap dockertest-config -n dockertest-namespace</span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢查 Pod 配置</span></span><br><span class="line">kubectl describe pod &lt;pod-name&gt; -n dockertest-namespace</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 Pod 日誌</span></span><br><span class="line">kubectl logs &lt;pod-name&gt; -n dockertest-namespace</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-配置更新後-Pod-未重啟"><a href="#2-配置更新後-Pod-未重啟" class="headerlink" title="2. 配置更新後 Pod 未重啟"></a>2. 配置更新後 Pod 未重啟</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 手動重啟 Deployment</span></span><br><span class="line">kubectl rollout restart deployment dockertest-deployment -n dockertest-namespace</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看重啟狀態</span></span><br><span class="line">kubectl rollout status deployment dockertest-deployment -n dockertest-namespace</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-環境變數未正確載入"><a href="#3-環境變數未正確載入" class="headerlink" title="3. 環境變數未正確載入"></a>3. 環境變數未正確載入</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 進入 Pod 檢查環境變數</span></span><br><span class="line">kubectl <span class="built_in">exec</span> -it &lt;pod-name&gt; -n dockertest-namespace -- <span class="built_in">env</span> | grep CUSTOM_VALUE</span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢查 ConfigMap 內容</span></span><br><span class="line">kubectl get configmap dockertest-config -n dockertest-namespace -o yaml</span><br></pre></td></tr></table></figure>
+
+<p>透過正確使用 ConfigMap，您可以實現靈活的配置管理，讓應用程式更容易在不同環境間移植和部署，同時保持配置的一致性和可維護性。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/10/11/kubernetes-deployment/" rel="prev" title="Kubernetes Deployment 使用指南">
+                  <i class="fa fa-angle-left"></i> Kubernetes Deployment 使用指南
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"3bd24a232b3c692f013a8e90126e39b8"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+</body>
+</html>

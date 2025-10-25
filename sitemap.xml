@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://pcion123.github.io/2025/10/25/kubernetes-configmap-intro/</loc>
+    
+    <lastmod>2025-10-25T09:35:51.896Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://pcion123.github.io/2025/10/11/docker-hub-pat-guide/</loc>
     
     <lastmod>2025-10-11T15:54:12.573Z</lastmod>
@@ -226,13 +233,6 @@
   </url>
   
   <url>
-    <loc>https://pcion123.github.io/2018/03/23/gitlab-install/</loc>
-    
-    <lastmod>2025-08-13T14:31:49.388Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://pcion123.github.io/2018/03/01/hello-world/</loc>
     
     <lastmod>2025-08-13T14:31:49.388Z</lastmod>
@@ -248,6 +248,13 @@
   
   <url>
     <loc>https://pcion123.github.io/2018/03/24/jenkins-install/</loc>
+    
+    <lastmod>2025-08-13T14:31:49.388Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://pcion123.github.io/2018/03/23/gitlab-install/</loc>
     
     <lastmod>2025-08-13T14:31:49.388Z</lastmod>
     
