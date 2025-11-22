@@ -4,10 +4,12 @@
 User-agent: *
 Allow: /
 
+Disallow: /sitemap-v2.xml
+
 # Allow all search engines to crawl all content
 # Sitemap locations
 Sitemap: https://pcion123.github.io/sitemap.xml
-Sitemap: https://pcion123.github.io/sitemap-v2.xml
+Sitemap: https://pcion123.github.io/sitemap-v3.xml
 
 # Additional common crawlers
 User-agent: Googlebot
