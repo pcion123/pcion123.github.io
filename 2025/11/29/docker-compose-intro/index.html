@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Docker Compose 編寫指南什麼是 Docker Compose？Docker Compose 是一個用於定義和管理多容器 Docker 應用程式的工具。透過 YAML 檔案來配置應用程式的服務、網路和資料卷，讓您可以用單一命令來建立和啟動所有相關的服務。 Docker Compose 的優勢 簡化多容器管理：用一個檔案定義整個應用程式架構 環境一致性：確保開發、測試、生產環境的一致性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker Compose 編寫指南">
+<meta property="og:url" content="https://pcion123.github.io/2025/11/29/docker-compose-intro/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="Docker Compose 編寫指南什麼是 Docker Compose？Docker Compose 是一個用於定義和管理多容器 Docker 應用程式的工具。透過 YAML 檔案來配置應用程式的服務、網路和資料卷，讓您可以用單一命令來建立和啟動所有相關的服務。 Docker Compose 的優勢 簡化多容器管理：用一個檔案定義整個應用程式架構 環境一致性：確保開發、測試、生產環境的一致性">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2025-11-29T15:18:34.000Z">
+<meta property="article:modified_time" content="2025-11-29T15:26:54.373Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2025/11/29/docker-compose-intro/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2025/11/29/docker-compose-intro/","path":"2025/11/29/docker-compose-intro/","title":"Docker Compose 編寫指南"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Docker Compose 編寫指南 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-Compose-%E7%B7%A8%E5%AF%AB%E6%8C%87%E5%8D%97"><span class="nav-number">1.</span> <span class="nav-text">Docker Compose 編寫指南</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-Docker-Compose%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">什麼是 Docker Compose？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-Compose-%E7%9A%84%E5%84%AA%E5%8B%A2"><span class="nav-number">1.1.1.</span> <span class="nav-text">Docker Compose 的優勢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%A0%B4%E6%99%AF"><span class="nav-number">1.1.2.</span> <span class="nav-text">使用場景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.2.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E7%B5%84%E4%BB%B6"><span class="nav-number">1.2.1.</span> <span class="nav-text">核心組件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AA%94%E6%A1%88%E7%B5%90%E6%A7%8B"><span class="nav-number">1.2.2.</span> <span class="nav-text">檔案結構</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E7%AF%84%E4%BE%8B%EF%BC%9ASpring-Boot-%E6%87%89%E7%94%A8%E7%A8%8B%E5%BC%8F"><span class="nav-number">1.3.</span> <span class="nav-text">完整範例：Spring Boot 應用程式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%A9%B3%E8%A7%A3"><span class="nav-number">1.3.1.</span> <span class="nav-text">配置詳解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E7%89%88%E6%9C%AC%E8%81%B2%E6%98%8E"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">1. 版本聲明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%9C%8D%E5%8B%99%E6%A7%8B%E5%BB%BA%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">2. 服務構建配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">3. 端口映射</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8"><span class="nav-number">1.3.1.4.</span> <span class="nav-text">4. 環境變數</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E8%B3%87%E6%96%99%E5%8D%B7%E6%8E%9B%E8%BC%89"><span class="nav-number">1.3.1.5.</span> <span class="nav-text">5. 資料卷掛載</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-%E5%81%A5%E5%BA%B7%E6%AA%A2%E6%9F%A5"><span class="nav-number">1.3.1.6.</span> <span class="nav-text">6. 健康檢查</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-%E9%87%8D%E5%95%9F%E7%AD%96%E7%95%A5"><span class="nav-number">1.3.1.7.</span> <span class="nav-text">7. 重啟策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-%E7%B6%B2%E8%B7%AF%E9%85%8D%E7%BD%AE"><span class="nav-number">1.3.1.8.</span> <span class="nav-text">8. 網路配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE%E9%81%B8%E9%A0%85"><span class="nav-number">1.4.</span> <span class="nav-text">常用配置選項</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8B%99%E9%85%8D%E7%BD%AE"><span class="nav-number">1.4.1.</span> <span class="nav-text">服務配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B6%B2%E8%B7%AF%E9%A1%9E%E5%9E%8B"><span class="nav-number">1.4.2.</span> <span class="nav-text">網路類型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E5%8D%B7%E9%A1%9E%E5%9E%8B"><span class="nav-number">1.4.3.</span> <span class="nav-text">資料卷類型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">1.5.</span> <span class="nav-text">常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-number">1.5.1.</span> <span class="nav-text">基本操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E6%A7%8B%E5%92%8C%E6%9B%B4%E6%96%B0"><span class="nav-number">1.5.2.</span> <span class="nav-text">建構和更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%93%B4%E5%B1%95%E5%92%8C%E7%AE%A1%E7%90%86"><span class="nav-number">1.5.3.</span> <span class="nav-text">擴展和管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%92%B0%E5%A2%83%E7%AE%A1%E7%90%86"><span class="nav-number">1.6.</span> <span class="nav-text">環境管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E7%92%B0%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="nav-number">1.6.1.</span> <span class="nav-text">多環境配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%89%B9%E5%AE%9A%E9%85%8D%E7%BD%AE%E6%AA%94%E6%A1%88"><span class="nav-number">1.6.2.</span> <span class="nav-text">使用特定配置檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8%E6%AA%94%E6%A1%88-env"><span class="nav-number">1.6.3.</span> <span class="nav-text">環境變數檔案 (.env)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E5%AF%A6%E8%B8%90"><span class="nav-number">1.7.</span> <span class="nav-text">最佳實踐</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%AA%94%E6%A1%88%E7%B5%84%E7%B9%94"><span class="nav-number">1.7.1.</span> <span class="nav-text">1. 檔案組織</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%AE%89%E5%85%A8%E6%80%A7%E8%80%83%E9%87%8F"><span class="nav-number">1.7.2.</span> <span class="nav-text">2. 安全性考量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%B3%87%E6%BA%90%E9%99%90%E5%88%B6"><span class="nav-number">1.7.3.</span> <span class="nav-text">3. 資源限制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%81%A5%E5%BA%B7%E6%AA%A2%E6%9F%A5"><span class="nav-number">1.7.4.</span> <span class="nav-text">4. 健康檢查</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4"><span class="nav-number">1.8.</span> <span class="nav-text">故障排除</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C"><span class="nav-number">1.8.1.</span> <span class="nav-text">常見問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%A4%E9%8C%AF%E6%8A%80%E5%B7%A7"><span class="nav-number">1.8.2.</span> <span class="nav-text">除錯技巧</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%B2%E9%9A%8E%E9%85%8D%E7%BD%AE"><span class="nav-number">1.9.</span> <span class="nav-text">進階配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E8%AA%8C%E7%AE%A1%E7%90%86"><span class="nav-number">1.9.1.</span> <span class="nav-text">日誌管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B3%87%E6%BA%90%E9%99%90%E5%88%B6"><span class="nav-number">1.9.2.</span> <span class="nav-text">資源限制</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/docker/" style="font-size: 22.29px;" class="tag-cloud-6">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/github-copilot/" style="font-size: 14.57px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 17.14px;" class="tag-cloud-3">gitlab</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 17.14px;" class="tag-cloud-3">java</a> <a href="/tags/jdk/" style="font-size: 14.57px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 19.71px;" class="tag-cloud-4">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 27.43px;" class="tag-cloud-9">kubernetes</a> <a href="/tags/linux/" style="font-size: 30px;" class="tag-cloud-10">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 17.14px;" class="tag-cloud-3">maven</a> <a href="/tags/minikube/" style="font-size: 14.57px;" class="tag-cloud-1">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/pm2/" style="font-size: 14.57px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 17.14px;" class="tag-cloud-3">powershell</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 17.14px;" class="tag-cloud-3">terminal</a> <a href="/tags/tomcat/" style="font-size: 14.57px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 24.86px;" class="tag-cloud-7">ubuntu</a> <a href="/tags/vscode/" style="font-size: 17.14px;" class="tag-cloud-3">vscode</a> <a href="/tags/windows/" style="font-size: 17.14px;" class="tag-cloud-3">windows</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 17.14px;" class="tag-cloud-3">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2025/11/29/docker-compose-intro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Docker Compose 編寫指南 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Docker Compose 編寫指南
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-11-29 23:18:34 / 修改時間：23:26:54" itemprop="dateCreated datePublished" datetime="2025-11-29T23:18:34+08:00">2025-11-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Docker-Compose-編寫指南"><a href="#Docker-Compose-編寫指南" class="headerlink" title="Docker Compose 編寫指南"></a>Docker Compose 編寫指南</h1><h2 id="什麼是-Docker-Compose？"><a href="#什麼是-Docker-Compose？" class="headerlink" title="什麼是 Docker Compose？"></a>什麼是 Docker Compose？</h2><p>Docker Compose 是一個用於定義和管理多容器 Docker 應用程式的工具。透過 YAML 檔案來配置應用程式的服務、網路和資料卷，讓您可以用單一命令來建立和啟動所有相關的服務。</p>
+<h3 id="Docker-Compose-的優勢"><a href="#Docker-Compose-的優勢" class="headerlink" title="Docker Compose 的優勢"></a>Docker Compose 的優勢</h3><ul>
+<li><strong>簡化多容器管理</strong>：用一個檔案定義整個應用程式架構</li>
+<li><strong>環境一致性</strong>：確保開發、測試、生產環境的一致性</li>
+<li><strong>快速部署</strong>：一鍵啟動整個應用程式堆疊</li>
+<li><strong>服務編排</strong>：輕鬆管理服務間的依賴關係</li>
+<li><strong>可重現性</strong>：版本控制友好，便於團隊協作</li>
+</ul>
+<h3 id="使用場景"><a href="#使用場景" class="headerlink" title="使用場景"></a>使用場景</h3><ul>
+<li><strong>微服務架構</strong>：管理多個相互依賴的服務</li>
+<li><strong>開發環境</strong>：快速搭建完整的開發環境</li>
+<li><strong>測試環境</strong>：創建隔離的測試環境</li>
+<li><strong>CI&#x2F;CD 流程</strong>：自動化部署和測試</li>
+</ul>
+<span id="more"></span>
+
+<hr>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="核心組件"><a href="#核心組件" class="headerlink" title="核心組件"></a>核心組件</h3><ul>
+<li><strong>Services（服務）</strong>：定義容器的配置，包括映像檔、端口、環境變數等</li>
+<li><strong>Networks（網路）</strong>：管理容器間的網路通訊</li>
+<li><strong>Volumes（資料卷）</strong>：處理資料持久化和共享</li>
+</ul>
+<h3 id="檔案結構"><a href="#檔案結構" class="headerlink" title="檔案結構"></a>檔案結構</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.8&#x27;</span>      <span class="comment"># Compose 檔案版本</span></span><br><span class="line"><span class="attr">services:</span>           <span class="comment"># 服務定義</span></span><br><span class="line">  <span class="attr">service1:</span></span><br><span class="line">    <span class="comment"># 服務配置</span></span><br><span class="line"><span class="attr">networks:</span>           <span class="comment"># 網路定義（可選）</span></span><br><span class="line">  <span class="comment"># 網路配置</span></span><br><span class="line"><span class="attr">volumes:</span>            <span class="comment"># 資料卷定義（可選）</span></span><br><span class="line">  <span class="comment"># 資料卷配置</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="完整範例：Spring-Boot-應用程式"><a href="#完整範例：Spring-Boot-應用程式" class="headerlink" title="完整範例：Spring Boot 應用程式"></a>完整範例：Spring Boot 應用程式</h2><p>以下是一個 Spring Boot 應用程式的 Docker Compose 配置範例：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.8&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">dockertest:</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">      <span class="attr">context:</span> <span class="string">.</span></span><br><span class="line">      <span class="attr">dockerfile:</span> <span class="string">Dockerfile</span></span><br><span class="line">      <span class="attr">args:</span></span><br><span class="line">        <span class="attr">MAVEN_PROFILE:</span> <span class="string">dev</span></span><br><span class="line">        <span class="attr">SPRING_PROFILE:</span> <span class="string">dev</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">dockertest:latest</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">dockertest-dev</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;80:8080&quot;</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">SPRING_PROFILES_ACTIVE=dev</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">JAVA_OPTS=-Xmx512m</span> <span class="string">-Xms256m</span> <span class="string">-Dspring.profiles.active=dev</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="comment"># 使用 named volume 避免權限問題</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">dev-logs:/app/logs</span></span><br><span class="line">    <span class="attr">healthcheck:</span></span><br><span class="line">      <span class="attr">test:</span> [<span class="string">&quot;CMD&quot;</span>, <span class="string">&quot;curl&quot;</span>, <span class="string">&quot;-f&quot;</span>, <span class="string">&quot;http://localhost:8080/actuator/health&quot;</span>]</span><br><span class="line">      <span class="attr">interval:</span> <span class="string">30s</span></span><br><span class="line">      <span class="attr">timeout:</span> <span class="string">10s</span></span><br><span class="line">      <span class="attr">retries:</span> <span class="number">3</span></span><br><span class="line">      <span class="attr">start_period:</span> <span class="string">60s</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">app-network</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">app-network:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">bridge</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Named volume for development logs</span></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">dev-logs:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">local</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置詳解"><a href="#配置詳解" class="headerlink" title="配置詳解"></a>配置詳解</h3><h4 id="1-版本聲明"><a href="#1-版本聲明" class="headerlink" title="1. 版本聲明"></a>1. 版本聲明</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.8&#x27;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>目的</strong>：指定 Docker Compose 檔案格式版本</li>
+<li><strong>建議</strong>：使用 3.8 或更新版本以支援最新功能</li>
+</ul>
+<h4 id="2-服務構建配置"><a href="#2-服務構建配置" class="headerlink" title="2. 服務構建配置"></a>2. 服務構建配置</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">build:</span></span><br><span class="line">  <span class="attr">context:</span> <span class="string">.</span></span><br><span class="line">  <span class="attr">dockerfile:</span> <span class="string">Dockerfile</span></span><br><span class="line">  <span class="attr">args:</span></span><br><span class="line">    <span class="attr">MAVEN_PROFILE:</span> <span class="string">dev</span></span><br><span class="line">    <span class="attr">SPRING_PROFILE:</span> <span class="string">dev</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>context</strong>：建構上下文路徑</li>
+<li><strong>dockerfile</strong>：指定 Dockerfile 檔案</li>
+<li><strong>args</strong>：傳遞建構參數</li>
+</ul>
+<h4 id="3-端口映射"><a href="#3-端口映射" class="headerlink" title="3. 端口映射"></a>3. 端口映射</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&quot;80:8080&quot;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>格式</strong>：<code>&quot;主機端口:容器端口&quot;</code></li>
+<li><strong>用途</strong>：讓外部可以存取容器內的服務</li>
+</ul>
+<h4 id="4-環境變數"><a href="#4-環境變數" class="headerlink" title="4. 環境變數"></a>4. 環境變數</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">environment:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">SPRING_PROFILES_ACTIVE=dev</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">JAVA_OPTS=-Xmx512m</span> <span class="string">-Xms256m</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>格式一</strong>：列表格式 <code>- KEY=VALUE</code></li>
+<li><strong>格式二</strong>：字典格式 <code>KEY: VALUE</code></li>
+</ul>
+<h4 id="5-資料卷掛載"><a href="#5-資料卷掛載" class="headerlink" title="5. 資料卷掛載"></a>5. 資料卷掛載</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">dev-logs:/app/logs</span>                    <span class="comment"># Named volume</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">./config:/app/config:ro</span>               <span class="comment"># Bind mount (唯讀)</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">/var/run/docker.sock:/var/run/docker.sock</span>  <span class="comment"># Socket 掛載</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="6-健康檢查"><a href="#6-健康檢查" class="headerlink" title="6. 健康檢查"></a>6. 健康檢查</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">healthcheck:</span></span><br><span class="line">  <span class="attr">test:</span> [<span class="string">&quot;CMD&quot;</span>, <span class="string">&quot;curl&quot;</span>, <span class="string">&quot;-f&quot;</span>, <span class="string">&quot;http://localhost:8080/actuator/health&quot;</span>]</span><br><span class="line">  <span class="attr">interval:</span> <span class="string">30s</span></span><br><span class="line">  <span class="attr">timeout:</span> <span class="string">10s</span></span><br><span class="line">  <span class="attr">retries:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">start_period:</span> <span class="string">60s</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="7-重啟策略"><a href="#7-重啟策略" class="headerlink" title="7. 重啟策略"></a>7. 重啟策略</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>no</strong>：不自動重啟（預設）</li>
+<li><strong>always</strong>：總是重啟</li>
+<li><strong>on-failure</strong>：失敗時重啟</li>
+<li><strong>unless-stopped</strong>：除非手動停止，否則總是重啟</li>
+</ul>
+<h4 id="8-網路配置"><a href="#8-網路配置" class="headerlink" title="8. 網路配置"></a>8. 網路配置</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">app-network</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>功能</strong>：將服務加入指定網路</li>
+<li><strong>用途</strong>：實現服務間的網路隔離和通訊管理</li>
+</ul>
+<hr>
+<h2 id="常用配置選項"><a href="#常用配置選項" class="headerlink" title="常用配置選項"></a>常用配置選項</h2><h3 id="服務配置"><a href="#服務配置" class="headerlink" title="服務配置"></a>服務配置</h3><table>
+<thead>
+<tr>
+<th>選項</th>
+<th>功能</th>
+<th>範例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>image</code></td>
+<td>指定映像檔</td>
+<td><code>image: nginx:latest</code></td>
+</tr>
+<tr>
+<td><code>build</code></td>
+<td>建構配置</td>
+<td><code>build: .</code></td>
+</tr>
+<tr>
+<td><code>ports</code></td>
+<td>端口映射</td>
+<td><code>ports: [&quot;80:8080&quot;]</code></td>
+</tr>
+<tr>
+<td><code>environment</code></td>
+<td>環境變數</td>
+<td><code>environment: NODE_ENV=production</code></td>
+</tr>
+<tr>
+<td><code>volumes</code></td>
+<td>資料卷掛載</td>
+<td><code>volumes: [&quot;./data:/app/data&quot;]</code></td>
+</tr>
+<tr>
+<td><code>networks</code></td>
+<td>網路配置</td>
+<td><code>networks: [&quot;app-net&quot;]</code></td>
+</tr>
+<tr>
+<td><code>depends_on</code></td>
+<td>服務依賴</td>
+<td><code>depends_on: [&quot;db&quot;]</code></td>
+</tr>
+<tr>
+<td><code>restart</code></td>
+<td>重啟策略</td>
+<td><code>restart: always</code></td>
+</tr>
+<tr>
+<td><code>command</code></td>
+<td>覆寫命令</td>
+<td><code>command: nginx -g &#39;daemon off;&#39;</code></td>
+</tr>
+<tr>
+<td><code>entrypoint</code></td>
+<td>覆寫入口點</td>
+<td><code>entrypoint: /app/start.sh</code></td>
+</tr>
+</tbody></table>
+<h3 id="網路類型"><a href="#網路類型" class="headerlink" title="網路類型"></a>網路類型</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">frontend:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">bridge</span></span><br><span class="line">  <span class="attr">backend:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">bridge</span></span><br><span class="line">    <span class="attr">internal:</span> <span class="literal">true</span>  <span class="comment"># 內部網路，無法存取外部</span></span><br><span class="line">  <span class="attr">overlay-net:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">overlay</span>  <span class="comment"># 用於 Swarm 模式</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="資料卷類型"><a href="#資料卷類型" class="headerlink" title="資料卷類型"></a>資料卷類型</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="comment"># Named volume</span></span><br><span class="line">  <span class="attr">mysql-data:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">local</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># NFS volume</span></span><br><span class="line">  <span class="attr">nfs-data:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">local</span></span><br><span class="line">    <span class="attr">driver_opts:</span></span><br><span class="line">      <span class="attr">type:</span> <span class="string">nfs</span></span><br><span class="line">      <span class="attr">o:</span> <span class="string">addr=192.168.1.100,rw</span></span><br><span class="line">      <span class="attr">device:</span> <span class="string">&quot;:/path/to/dir&quot;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><h3 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 啟動服務（背景執行）</span></span><br><span class="line">docker-compose up -d</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看服務狀態</span></span><br><span class="line">docker-compose ps</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看服務日誌</span></span><br><span class="line">docker-compose logs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看特定服務日誌</span></span><br><span class="line">docker-compose logs dockertest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止服務</span></span><br><span class="line">docker-compose stop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止並刪除容器</span></span><br><span class="line">docker-compose down</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止並刪除容器、網路、資料卷</span></span><br><span class="line">docker-compose down -v</span><br></pre></td></tr></table></figure>
+
+<h3 id="建構和更新"><a href="#建構和更新" class="headerlink" title="建構和更新"></a>建構和更新</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 建構映像檔</span></span><br><span class="line">docker-compose build</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建構特定服務</span></span><br><span class="line">docker-compose build dockertest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 強制重新建構</span></span><br><span class="line">docker-compose build --no-cache</span><br><span class="line"></span><br><span class="line"><span class="comment"># 拉取最新映像檔</span></span><br><span class="line">docker-compose pull</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重啟服務</span></span><br><span class="line">docker-compose restart dockertest</span><br></pre></td></tr></table></figure>
+
+<h3 id="擴展和管理"><a href="#擴展和管理" class="headerlink" title="擴展和管理"></a>擴展和管理</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 擴展服務實例</span></span><br><span class="line">docker-compose up -d --scale web=3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 執行一次性命令</span></span><br><span class="line">docker-compose <span class="built_in">exec</span> dockertest bash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在新容器中執行命令</span></span><br><span class="line">docker-compose run dockertest python manage.py migrate</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看配置</span></span><br><span class="line">docker-compose config</span><br><span class="line"></span><br><span class="line"><span class="comment"># 驗證配置檔案</span></span><br><span class="line">docker-compose config --quiet</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="環境管理"><a href="#環境管理" class="headerlink" title="環境管理"></a>環境管理</h2><h3 id="多環境配置"><a href="#多環境配置" class="headerlink" title="多環境配置"></a>多環境配置</h3><p><strong>基礎配置：docker-compose.yml</strong></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.8&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">app:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="string">.</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">NODE_ENV=$&#123;NODE_ENV:-development&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>開發環境：docker-compose.override.yml</strong></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.8&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">app:</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">.:/app</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;3000:3000&quot;</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DEBUG=true</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>生產環境：docker-compose.prod.yml</strong></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.8&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">app:</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">NODE_ENV=production</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="使用特定配置檔案"><a href="#使用特定配置檔案" class="headerlink" title="使用特定配置檔案"></a>使用特定配置檔案</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用生產環境配置</span></span><br><span class="line">docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用開發環境配置（啟動服務）</span></span><br><span class="line">docker compose -f docker-compose.dev.yml up -d</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用開發環境配置（停止並清理）</span></span><br><span class="line">docker compose -f docker-compose.dev.yml down -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用環境變數檔案</span></span><br><span class="line">docker-compose --env-file .env.prod up -d</span><br></pre></td></tr></table></figure>
+
+<p><strong>命令說明：</strong></p>
+<ul>
+<li><code>-f</code>：指定使用的 Docker Compose 檔案</li>
+<li><code>up -d</code>：背景啟動服務</li>
+<li><code>down -v</code>：停止服務並刪除相關的資料卷</li>
+<li>可以同時指定多個配置檔案，後面的會覆蓋前面的設定</li>
+</ul>
+<h3 id="環境變數檔案-env"><a href="#環境變數檔案-env" class="headerlink" title="環境變數檔案 (.env)"></a>環境變數檔案 (.env)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># .env</span></span><br><span class="line">COMPOSE_PROJECT_NAME=myapp</span><br><span class="line">POSTGRES_PASSWORD=secretpassword</span><br><span class="line">APP_VERSION=1.0.0</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="最佳實踐"><a href="#最佳實踐" class="headerlink" title="最佳實踐"></a>最佳實踐</h2><h3 id="1-檔案組織"><a href="#1-檔案組織" class="headerlink" title="1. 檔案組織"></a>1. 檔案組織</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">project/</span><br><span class="line">├── docker-compose.yml          # 基礎配置</span><br><span class="line">├── docker-compose.override.yml # 開發環境覆蓋</span><br><span class="line">├── docker-compose.prod.yml     # 生產環境配置</span><br><span class="line">├── docker-compose.test.yml     # 測試環境配置</span><br><span class="line">├── .env                        # 環境變數</span><br><span class="line">├── .env.example               # 環境變數範例</span><br><span class="line">└── dockerfiles/               # 自定義 Dockerfile</span><br><span class="line">    ├── app.Dockerfile</span><br><span class="line">    └── nginx.Dockerfile</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-安全性考量"><a href="#2-安全性考量" class="headerlink" title="2. 安全性考量"></a>2. 安全性考量</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用非 root 使用者</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">app:</span></span><br><span class="line">    <span class="attr">user:</span> <span class="string">&quot;1001:1001&quot;</span></span><br><span class="line">    </span><br><span class="line"><span class="comment"># 限制容器權限</span></span><br><span class="line">    <span class="attr">cap_drop:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ALL</span></span><br><span class="line">    <span class="attr">cap_add:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">NET_BIND_SERVICE</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 secrets 管理敏感資料</span></span><br><span class="line"><span class="attr">secrets:</span></span><br><span class="line">  <span class="attr">db_password:</span></span><br><span class="line">    <span class="attr">file:</span> <span class="string">./secrets/db_password.txt</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">app:</span></span><br><span class="line">    <span class="attr">secrets:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">db_password</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-資源限制"><a href="#3-資源限制" class="headerlink" title="3. 資源限制"></a>3. 資源限制</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">app:</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">resources:</span></span><br><span class="line">        <span class="attr">limits:</span></span><br><span class="line">          <span class="attr">memory:</span> <span class="string">512M</span></span><br><span class="line">          <span class="attr">cpus:</span> <span class="string">&#x27;0.5&#x27;</span></span><br><span class="line">        <span class="attr">reservations:</span></span><br><span class="line">          <span class="attr">memory:</span> <span class="string">256M</span></span><br><span class="line">          <span class="attr">cpus:</span> <span class="string">&#x27;0.25&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-健康檢查"><a href="#4-健康檢查" class="headerlink" title="4. 健康檢查"></a>4. 健康檢查</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">web:</span></span><br><span class="line">    <span class="attr">healthcheck:</span></span><br><span class="line">      <span class="attr">test:</span> [<span class="string">&quot;CMD&quot;</span>, <span class="string">&quot;curl&quot;</span>, <span class="string">&quot;-f&quot;</span>, <span class="string">&quot;http://localhost:8080/health&quot;</span>]</span><br><span class="line">      <span class="attr">interval:</span> <span class="string">1m30s</span></span><br><span class="line">      <span class="attr">timeout:</span> <span class="string">10s</span></span><br><span class="line">      <span class="attr">retries:</span> <span class="number">3</span></span><br><span class="line">      <span class="attr">start_period:</span> <span class="string">40s</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="故障排除"><a href="#故障排除" class="headerlink" title="故障排除"></a>故障排除</h2><h3 id="常見問題"><a href="#常見問題" class="headerlink" title="常見問題"></a>常見問題</h3><p><strong>Q1: 服務無法啟動？</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 檢查配置語法</span></span><br><span class="line">docker-compose config</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看詳細錯誤信息</span></span><br><span class="line">docker-compose up --no-deps service-name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢查服務日誌</span></span><br><span class="line">docker-compose logs service-name</span><br></pre></td></tr></table></figure>
+
+<p><strong>Q2: 端口衝突？</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看端口使用情況</span></span><br><span class="line">netstat -tulpn | grep :8080</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改端口映射</span></span><br><span class="line">ports:</span><br><span class="line">  - <span class="string">&quot;8081:8080&quot;</span>  <span class="comment"># 改用其他主機端口</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Q3: 資料遺失？</strong></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用 named volumes 確保資料持久化</span></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">postgres-data:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">local</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">db:</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">postgres-data:/var/lib/postgresql/data</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="除錯技巧"><a href="#除錯技巧" class="headerlink" title="除錯技巧"></a>除錯技巧</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 進入容器進行除錯</span></span><br><span class="line">docker-compose <span class="built_in">exec</span> service-name bash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看容器內程序</span></span><br><span class="line">docker-compose <span class="built_in">exec</span> service-name ps aux</span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢查網路連接</span></span><br><span class="line">docker-compose <span class="built_in">exec</span> service-name ping other-service</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看環境變數</span></span><br><span class="line">docker-compose <span class="built_in">exec</span> service-name <span class="built_in">env</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="進階配置"><a href="#進階配置" class="headerlink" title="進階配置"></a>進階配置</h2><h3 id="日誌管理"><a href="#日誌管理" class="headerlink" title="日誌管理"></a>日誌管理</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.8&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">dockertest:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="string">.</span></span><br><span class="line">    <span class="attr">logging:</span></span><br><span class="line">      <span class="attr">driver:</span> <span class="string">&quot;json-file&quot;</span></span><br><span class="line">      <span class="attr">options:</span></span><br><span class="line">        <span class="attr">max-size:</span> <span class="string">&quot;10m&quot;</span></span><br><span class="line">        <span class="attr">max-file:</span> <span class="string">&quot;3&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./logs:/app/logs</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="資源限制"><a href="#資源限制" class="headerlink" title="資源限制"></a>資源限制</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.8&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">dockertest:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="string">.</span></span><br><span class="line">    <span class="attr">deploy:</span></span><br><span class="line">      <span class="attr">resources:</span></span><br><span class="line">        <span class="attr">limits:</span></span><br><span class="line">          <span class="attr">memory:</span> <span class="string">512M</span></span><br><span class="line">          <span class="attr">cpus:</span> <span class="string">&#x27;0.5&#x27;</span></span><br><span class="line">        <span class="attr">reservations:</span></span><br><span class="line">          <span class="attr">memory:</span> <span class="string">256M</span></span><br><span class="line">          <span class="attr">cpus:</span> <span class="string">&#x27;0.25&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>提示</strong><br>建議在開發環境使用 <code>docker-compose.override.yml</code> 來覆蓋生產環境配置</p>
+</blockquote>
+<blockquote>
+<p><strong>重要提示</strong><br>在生產環境中，請務必設定適當的資源限制、健康檢查和重啟策略</p>
+</blockquote>
+<blockquote>
+<p><strong>安全提醒</strong><br>避免在 Docker Compose 檔案中硬編碼敏感資料，使用環境變數或 Docker Secrets</p>
+</blockquote>
+<p><strong>📺 實戰教學影片：<a target="_blank" rel="noopener" href="https://youtu.be/F-RE_raMMlA">編寫docker-compose快速部屬環境</a></strong></p>
+<div style="position: relative; width: 100%; max-width: 800px; margin: 20px auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe src="https://www.youtube.com/embed/F-RE_raMMlA?rel=0&modestbranding=1&showinfo=0" 
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
+            allowfullscreen>
+    </iframe>
+  </div>
+</div>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/docker/" rel="tag"># docker</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/11/23/docker-file-intro/" rel="prev" title="Docker Dockerfile 編寫指南">
+                  <i class="fa fa-angle-left"></i> Docker Dockerfile 編寫指南
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"7fbc431cef5cdeb5af960b5750aa4bb2"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+</body>
+</html>
