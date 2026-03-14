@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 695" width="1200" height="695" style="max-width: 100%; height: auto; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+  <!-- 定義漸層和陰影效果 -->
+  <defs>
+    <linearGradient id="controlPlaneGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#357ABD;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="workerNodeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#50C878;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3A9B5C;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="componentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B6B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E55252;stop-opacity:1" />
+    </linearGradient>
+    <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="3" dy="3" stdDeviation="3" flood-color="rgba(0,0,0,0.2)" />
+    </filter>
+  </defs>
+
+  <!-- 標題 -->
+  <rect x="0" y="0" width="1200" height="80" fill="#2C3E50" />
+  <text x="600" y="35" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="white">
+    🎯 Kubernetes 控制元件架構圖
+  </text>
+  <text x="600" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#BDC3C7">
+    Master-Worker 架構 | 問題→過程→解決方案
+  </text>
+
+  <!-- Control Plane 區域 -->
+  <rect x="100" y="100" width="450" height="380" rx="15" fill="url(#controlPlaneGradient)" filter="url(#dropShadow)" />
+  <text x="325" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="white">
+    🎮 Control Plane (Master)
+  </text>
+  <text x="325" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#E8F4FD">
+    負責管理整個叢集的決策和控制
+  </text>
+  <!-- Control Plane 分隔線 -->
+  <line x1="120" y1="170" x2="530" y2="170" stroke="rgba(255,255,255,0.3)" stroke-width="1" />
+
+  <!-- Control Plane 元件 -->
+  <!-- kube-api-server -->
+  <rect x="135" y="210" width="180" height="60" rx="8" fill="white" filter="url(#dropShadow)" />
+  <text x="145" y="230" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2C3E50">🌐 kube-api-server</text>
+  <text x="145" y="245" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">Kubernetes API 前端</text>
+  <text x="145" y="258" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">處理客戶端請求</text>
+
+  <!-- kube-scheduler -->
+  <rect x="335" y="210" width="180" height="60" rx="8" fill="white" filter="url(#dropShadow)" />
+  <text x="345" y="230" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2C3E50">📅 kube-scheduler</text>
+  <text x="345" y="245" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">Pod 調度到適合的 Node</text>
+  <text x="345" y="258" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">資源優化分配</text>
+
+  <!-- kube-controller-manager -->
+  <rect x="135" y="290" width="180" height="60" rx="8" fill="white" filter="url(#dropShadow)" />
+  <text x="145" y="310" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2C3E50">⚙️ controller-manager</text>
+  <text x="145" y="325" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">執行各種控制器</text>
+  <text x="145" y="338" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">監控叢集狀態</text>
+
+  <!-- etcd -->
+  <rect x="335" y="290" width="180" height="60" rx="8" fill="white" filter="url(#dropShadow)" />
+  <text x="345" y="310" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2C3E50">💾 etcd</text>
+  <text x="345" y="325" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">分散式 key-value 儲存</text>
+  <text x="345" y="338" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">叢集配置和狀態</text>
+
+  <!-- cloud-controller-manager -->
+  <rect x="235" y="370" width="180" height="60" rx="8" fill="white" filter="url(#dropShadow)" />
+  <text x="245" y="390" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2C3E50">☁️ cloud-controller</text>
+  <text x="245" y="405" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">雲端服務整合</text>
+  <text x="245" y="418" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">管理雲端資源</text>
+
+  <!-- Worker Nodes 區域 -->
+  <rect x="650" y="100" width="450" height="380" rx="15" fill="url(#workerNodeGradient)" filter="url(#dropShadow)" />
+  <text x="875" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="white">
+    👷 Worker Nodes
+  </text>
+  <text x="875" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#E8F8EC">
+    負責執行實際的應用程式工作負載
+  </text>
+  <!-- Worker Nodes 分隔線 -->
+  <line x1="670" y1="170" x2="1080" y2="170" stroke="rgba(255,255,255,0.3)" stroke-width="1" />
+
+  <!-- Worker Node 元件 -->
+  <!-- Container Runtime -->
+  <rect x="685" y="210" width="180" height="80" rx="8" fill="white" filter="url(#dropShadow)" />
+  <text x="695" y="230" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2C3E50">📦 Container Runtime</text>
+  <text x="695" y="248" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">管理容器生命週期</text>
+  <text x="695" y="263" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">• 容器建立</text>
+  <text x="695" y="276" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">• 執行和銷毀</text>
+
+  <!-- kubelet -->
+  <rect x="885" y="210" width="180" height="80" rx="8" fill="white" filter="url(#dropShadow)" />
+  <text x="895" y="230" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2C3E50">🤖 kubelet</text>
+  <text x="895" y="248" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">Node 代理程式</text>
+  <text x="895" y="263" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">• 建立 Pod</text>
+  <text x="895" y="276" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">• 維護容器健康</text>
+
+  <!-- kube-proxy -->
+  <rect x="785" y="310" width="180" height="80" rx="8" fill="white" filter="url(#dropShadow)" />
+  <text x="795" y="330" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2C3E50">🌐 kube-proxy</text>
+  <text x="795" y="348" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">網路代理功能</text>
+  <text x="795" y="363" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">• 服務發現</text>
+  <text x="795" y="376" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">• 負載平衡</text>
+
+  <!-- 通訊流程箭頭和說明 -->
+  <!-- Control Plane 到 Worker Nodes 的箭頭 -->
+  <path d="M 550 310 L 650 310" stroke="#808080" stroke-width="3" stroke-dasharray="5,3" marker-end="url(#arrowhead)" />
+  <text x="600" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#808080">
+    管理控制
+  </text>
+
+  <!-- Worker Nodes 到 Control Plane 的箭頭 -->
+  <path d="M 650 370 L 550 370" stroke="#808080" stroke-width="3" stroke-dasharray="5,3" marker-end="url(#arrowhead2)" />
+  <text x="600" y="395" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#808080">
+    狀態回報
+  </text>
+
+  <!-- 通訊樞紐說明 -->
+  <rect x="320" y="505" width="560" height="110" rx="10" fill="rgba(241, 196, 15, 0.1)" stroke="#F1C40F" stroke-width="2" />
+  <text x="600" y="525" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#E67E22">
+    🔄 元件間通訊機制
+  </text>
+  <text x="600" y="550" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">
+    所有元件之間的通訊都必須透過 kube-api-server 進行
+  </text>
+  <text x="600" y="575" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">
+    • kubelet 透過 API Server 回報 Node 和 Pod 的狀態
+  </text>
+  <text x="600" y="590" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">
+    • Controller Manager 透過 API Server 監控叢集狀態
+  </text>
+  <text x="600" y="605" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">
+    • Scheduler 透過 API Server 獲取調度資訊並做出調度決策
+  </text>
+
+  <!-- 高可用性說明 -->
+  <rect x="120" y="505" width="180" height="110" rx="8" fill="rgba(46, 204, 113, 0.1)" stroke="#2ECC71" stroke-width="2" />
+  <text x="210" y="525" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#27AE60">
+    🏆 高可用性
+  </text>
+  <!-- 分隔線 -->
+  <line x1="140" y1="535" x2="280" y2="535" stroke="#2ECC71" stroke-width="1" opacity="0.5" />
+  <text x="210" y="555" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#2C3E50">
+    生產環境通常部署
+  </text>
+  <text x="210" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#2C3E50">
+    兩個以上的 Control
+  </text>
+  <text x="210" y="585" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#2C3E50">
+    Plane 節點
+  </text>
+
+  <!-- 雲端環境說明 -->
+  <rect x="900" y="505" width="180" height="110" rx="8" fill="rgba(52, 152, 219, 0.1)" stroke="#3498DB" stroke-width="2" />
+  <text x="990" y="525" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#2980B9">
+    ☁️ 雲端環境
+  </text>
+  <!-- 分隔線 -->
+  <line x1="920" y1="535" x2="1060" y2="535" stroke="#3498DB" stroke-width="1" opacity="0.5" />
+  <text x="990" y="555" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#2C3E50">
+    cloud-controller 僅
+  </text>
+  <text x="990" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#2C3E50">
+    在雲端環境中才會
+  </text>
+  <text x="990" y="585" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#2C3E50">
+    部署使用
+  </text>
+
+  <!-- 底部流程說明 -->
+  <rect x="0" y="635" width="1200" height="60" fill="#34495E" />
+  <text x="220" y="655" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#E74C3C">
+    問題
+  </text>
+  <text x="220" y="675" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white">
+    如何管理複雜的容器叢集？
+  </text>
+  
+  <text x="600" y="655" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#F39C12">
+    過程
+  </text>
+  <text x="600" y="675" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white">
+    Master-Worker 架構分離管理與執行
+  </text>
+  
+  <text x="980" y="655" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#27AE60">
+    解決方案
+  </text>
+  <text x="980" y="675" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white">
+    統一的 API Server 協調所有元件
+  </text>
+
+  <!-- 箭頭定義 -->
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#808080" />
+    </marker>
+    <marker id="arrowhead2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#808080" />
+    </marker>
+    <marker id="arrowhead3" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto">
+      <polygon points="0 0, 7 2.5, 0 5" fill="#808080" />
+    </marker>
+  </defs>
+
+  <!-- 流程箭頭 -->
+  <path d="M 320 665 L 460 665" stroke="#808080" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrowhead3)" />
+  <path d="M 720 665 L 860 665" stroke="#808080" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrowhead3)" />
+</svg>

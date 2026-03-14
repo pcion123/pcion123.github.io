@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 860" width="1200" height="860" aria-labelledby="t">
+  <title id="t">Windows → VirtualBox → Minikube → Ingress → Tomcat（根據實際設定調整）</title>
+  <defs>
+    <style>
+      .box { fill:#0f172a; stroke:#64748b; stroke-width:1.5; rx:14; }
+      .title { fill:#e2e8f0; font:700 14px ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,'Noto Sans TC','PingFang TC','Hiragino Sans','Microsoft JhengHei',sans-serif; }
+      .label { fill:#cbd5e1; font:400 12px ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,'Noto Sans TC','PingFang TC','Hiragino Sans','Microsoft JhengHei',sans-serif; }
+      .muted { fill:#94a3b8; font:400 11px ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,'Noto Sans TC','PingFang TC','Hiragino Sans','Microsoft JhengHei',sans-serif; }
+      .em { fill:#f8fafc; font-weight:700; }
+      .legend { fill:#e2e8f0; font:400 12px ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,'Noto Sans TC','PingFang TC','Hiragino Sans','Microsoft JhengHei',sans-serif; }
+      .badge { fill:#1e293b; stroke:#64748b; stroke-width:1; rx:10; }
+      .arrow { stroke:#cbd5e1; stroke-width:1.7; marker-end:url(#arrowHollow); fill:none; }
+      .arrowBold { stroke:#e2e8f0; stroke-width:2; marker-end:url(#arrowSolid); fill:none; }
+      .dashed { stroke-dasharray:6 5; }
+      .bg { fill:#0b1220; }
+    </style>
+<!--Hollow outline arrow for "routing/flow"-->
+    <marker id="arrowHollow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10Z" fill="none" stroke="#cbd5e1" stroke-width="1.7"/>
+    </marker>
+<!--Solid arrow for "service chaining" inside cluster-->
+    <marker id="arrowSolid" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10Z" fill="#e2e8f0"/>
+    </marker>
+  </defs>
+<!--背景-->
+  <rect class="bg" x="0" y="0" width="1200" height="860"/>
+<!--Windows Host-->
+  <rect class="box" x="30" y="40" width="540" height="350"/>
+  <text class="title" x="50" y="70">Windows 主機</text>
+  <text class="label" x="50" y="95">瀏覽器 / curl</text>
+  <rect class="badge" x="50" y="112" width="500" height="44"/>
+  <text class="label" x="60" y="139">方式 A（直接 NAT）：<tspan class="em">http://127.0.0.1:8080/</tspan> → VM:80 → Ingress</text>
+  <rect class="badge" x="50" y="166" width="500" height="44"/>
+  <text class="label" x="60" y="193">方式 B（SSH Tunnel）：<tspan class="em">127.0.0.1:18080</tspan> → Minikube:80</text>
+  <rect class="badge" x="50" y="220" width="500" height="44"/>
+  <text class="label" x="60" y="247">SSH 指令：<tspan class="em">ssh -N -L 18080:${MINIKUBE_IP}:80 -p 2222 $USER@127.0.0.1</tspan></text>
+  <rect class="badge" x="50" y="274" width="500" height="44"/>
+  <text class="label" x="60" y="301">Dashboard：<tspan class="em">http://127.0.0.1:8001/...</tspan></text>
+<!--NAT 規則-->
+  <rect class="box" x="50" y="330" width="520" height="60"/>
+  <text class="title" x="70" y="355">VirtualBox NAT 轉送規則（根據您的設定）</text>
+  <text class="label" x="70" y="376">Host <tspan class="em">8080</tspan> → Guest <tspan class="em">80</tspan>（nginx ingress） · Host <tspan class="em">8001</tspan> → Guest <tspan class="em">8001</tspan>（dashboard） · Host <tspan class="em">2222</tspan> → Guest <tspan class="em">22</tspan>（ssh）</text>
+<!--Ubuntu VM-->
+  <rect class="box" x="620" y="40" width="540" height="770"/>
+  <text class="title" x="640" y="70">Ubuntu VM（VirtualBox）</text>
+  <text class="label" x="640" y="95">Ubuntu 24.04.3 LTS</text>
+  <text class="label" x="640" y="115">Minikube IP：<tspan class="em">192.168.49.2</tspan>（預設）</text>
+<!--Minikube Cluster-->
+  <rect class="box" x="650" y="140" width="480" height="640"/>
+  <text class="title" x="670" y="168">minikube（單節點叢集）</text>
+<!--Ingress Controller-->
+  <rect class="box" x="680" y="190" width="420" height="120"/>
+  <text class="title" x="700" y="218">NGINX Ingress Controller</text>
+  <text class="label" x="700" y="242">對外 Listen：<tspan class="em">VM:80</tspan>（接收 NAT 轉發流量）</text>
+  <text class="label" x="700" y="262">ingressClassName: nginx</text>
+<!--Ingress Rule (no host)-->
+  <rect class="box" x="680" y="330" width="420" height="110"/>
+  <text class="title" x="700" y="358">Ingress 規則：tomcat-ingress</text>
+  <text class="label" x="700" y="380">path：<tspan class="em">/</tspan>（無 host 限制） → backend：<tspan class="em">tomcat-service:8080</tspan></text>
+  <text class="muted" x="700" y="402">pathType: Prefix</text>
+<!--Service (ClusterIP)-->
+  <rect class="box" x="680" y="460" width="420" height="110"/>
+  <text class="title" x="700" y="488">Service：tomcat-service</text>
+  <text class="label" x="700" y="510">型別：<tspan class="em">ClusterIP</tspan> · port：8080 → targetPort：8080</text>
+  <text class="label" x="700" y="532">selector：app=tomcat</text>
+<!--Pod / Tomcat-->
+  <rect class="box" x="680" y="590" width="420" height="170"/>
+  <text class="title" x="700" y="618">Pod：tomcat（Deployment: tomcat-deployment）</text>
+  <text class="label" x="700" y="642">容器：<tspan class="em">tomcat:10.1-jdk17</tspan></text>
+  <text class="label" x="700" y="662">containerPort：<tspan class="em">8080</tspan></text>
+  <text class="label" x="700" y="682">readinessProbe：GET /:8080</text>
+  <text class="muted" x="700" y="702">初始延遲：10s，檢查間隔：5s</text>
+  <text class="muted" x="700" y="722">啟動指令：複製 ROOT 到 webapps 並啟動 Tomcat</text>
+<!--Flow inside cluster (solid arrows)-->
+  <path class="arrowBold" d="M 890 310 V 330"/>
+  <path class="arrowBold" d="M 890 450 V 460"/>
+  <path class="arrowBold" d="M 890 570 V 590"/>
+<!--Access paths from host (hollow arrows)-->
+  <path class="arrow dashed" d="M 560 134 C 600 134 610 134 650 200"/>
+  <path class="arrow dashed" d="M 560 193 C 600 193 610 193 650 220"/>
+  <path class="arrow dashed" d="M 560 301 C 600 301 610 301 650 240"/>
+<!--Legend / Tips-->
+  <rect class="box" x="30" y="410" width="540" height="240"/>
+  <text class="title" x="50" y="438">使用方式與驗證</text>
+  <text class="legend" x="50" y="462">• <tspan class="em">方式 A</tspan>：直接使用 http://127.0.0.1:8080/ 存取（NAT 自動轉發到 VM:80）</text>
+  <text class="legend" x="50" y="484">• <tspan class="em">方式 B</tspan>：SSH 隧道方式，適用於更複雜的網路環境</text>
+  <text class="legend" x="50" y="506">• <tspan class="em">Dashboard</tspan>：http://127.0.0.1:8001/... 存取 Kubernetes 儀表板</text>
+  <text class="legend" x="50" y="528">• <tspan class="em">驗證狀態</tspan>：看到 Tomcat 頁面 = 成功；502/504 = 檢查 Pod 狀態</text>
+  <text class="legend" x="50" y="550">• <tspan class="em">替代方法</tspan>：kubectl port-forward svc/tomcat-service 8080:8080</text>
+  <text class="legend" x="50" y="572">• <tspan class="em">檢查指令</tspan>：kubectl get pods, kubectl get svc, kubectl get ingress</text>
+</svg>
