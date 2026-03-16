@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="VSCode 與 Java 環境整合在 VSCode 中進行 Java 開發，需要完成 JDK 安裝、環境變數配置 以及 擴充套件安裝 三個核心步驟。本文將系統性地介紹從環境建置到專案運行的完整流程，幫助開發者在 VSCode 上高效進行 Java 開發。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VSCode 與 Java 環境整合">
+<meta property="og:url" content="https://pcion123.github.io/2026/03/16/vscode-install-java/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="VSCode 與 Java 環境整合在 VSCode 中進行 Java 開發，需要完成 JDK 安裝、環境變數配置 以及 擴充套件安裝 三個核心步驟。本文將系統性地介紹從環境建置到專案運行的完整流程，幫助開發者在 VSCode 上高效進行 Java 開發。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2026-03-16T14:07:12.000Z">
+<meta property="article:modified_time" content="2026-03-16T14:11:15.409Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="vscode">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/03/16/vscode-install-java/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/03/16/vscode-install-java/","path":"2026/03/16/vscode-install-java/","title":"VSCode 與 Java 環境整合"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>VSCode 與 Java 環境整合 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#VSCode-%E8%88%87-Java-%E7%92%B0%E5%A2%83%E6%95%B4%E5%90%88"><span class="nav-number">1.</span> <span class="nav-text">VSCode 與 Java 環境整合</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#VSCode-%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="nav-number">1.1.</span> <span class="nav-text">VSCode 開發環境配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Java-%E6%93%B4%E5%85%85%E5%A5%97%E4%BB%B6"><span class="nav-number">1.1.1.</span> <span class="nav-text">安裝 Java 擴充套件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-JDK-%E8%B7%AF%E5%BE%91"><span class="nav-number">1.1.2.</span> <span class="nav-text">配置 JDK 路徑</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-%E5%B0%88%E6%A1%88%E9%96%8B%E7%99%BC%E8%88%87%E9%81%8B%E8%A1%8C"><span class="nav-number">1.2.</span> <span class="nav-text">Java 專案開發與運行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E5%B0%88%E6%A1%88"><span class="nav-number">1.2.1.</span> <span class="nav-text">建立專案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%92%B0%E5%AF%AB%E8%88%87%E9%81%8B%E8%A1%8C%E7%A8%8B%E5%BC%8F%E7%A2%BC"><span class="nav-number">1.2.2.</span> <span class="nav-text">撰寫與運行程式碼</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%81%B5%E9%8C%AF%E5%8A%9F%E8%83%BD"><span class="nav-number">1.2.3.</span> <span class="nav-text">偵錯功能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%B2%E9%9A%8E%E9%85%8D%E7%BD%AE%EF%BC%88%E9%81%B8%E7%94%A8%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">進階配置（選用）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%BD%AE%E5%B7%A5%E5%85%B7%E6%94%AF%E6%8F%B4"><span class="nav-number">1.3.1.</span> <span class="nav-text">建置工具支援</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Maven"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">Maven</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gradle"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">Gradle</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A8%8B%E5%BC%8F%E7%A2%BC%E6%A0%BC%E5%BC%8F%E5%8C%96"><span class="nav-number">1.3.2.</span> <span class="nav-text">程式碼格式化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%96%AE%E5%85%83%E6%B8%AC%E8%A9%A6"><span class="nav-number">1.3.3.</span> <span class="nav-text">單元測試</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C%E8%99%95%E7%90%86"><span class="nav-number">1.4.</span> <span class="nav-text">常見問題處理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK-%E6%9C%AA%E8%A2%AB%E5%81%B5%E6%B8%AC"><span class="nav-number">1.4.1.</span> <span class="nav-text">JDK 未被偵測</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%93%B4%E5%85%85%E5%A5%97%E4%BB%B6%E8%A1%9D%E7%AA%81"><span class="nav-number">1.4.2.</span> <span class="nav-text">擴充套件衝突</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B7%A8%E8%AD%AF%E9%8C%AF%E8%AA%A4"><span class="nav-number">1.4.3.</span> <span class="nav-text">編譯錯誤</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/docker/" style="font-size: 23.25px;" class="tag-cloud-6">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/github-copilot/" style="font-size: 14.25px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 16.5px;" class="tag-cloud-3">gitlab</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 18.75px;" class="tag-cloud-4">java</a> <a href="/tags/jdk/" style="font-size: 14.25px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 18.75px;" class="tag-cloud-4">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 27.75px;" class="tag-cloud-9">kubernetes</a> <a href="/tags/linux/" style="font-size: 30px;" class="tag-cloud-10">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 16.5px;" class="tag-cloud-3">maven</a> <a href="/tags/minikube/" style="font-size: 14.25px;" class="tag-cloud-1">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 12px;" class="tag-cloud-0">nodejs</a> <a href="/tags/pm2/" style="font-size: 14.25px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 16.5px;" class="tag-cloud-3">powershell</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 16.5px;" class="tag-cloud-3">terminal</a> <a href="/tags/tomcat/" style="font-size: 14.25px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 25.5px;" class="tag-cloud-8">ubuntu</a> <a href="/tags/vscode/" style="font-size: 21px;" class="tag-cloud-5">vscode</a> <a href="/tags/windows/" style="font-size: 16.5px;" class="tag-cloud-3">windows</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 16.5px;" class="tag-cloud-3">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/03/16/vscode-install-java/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="VSCode 與 Java 環境整合 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          VSCode 與 Java 環境整合
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-03-16 22:07:12 / 修改時間：22:11:15" itemprop="dateCreated datePublished" datetime="2026-03-16T22:07:12+08:00">2026-03-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/vscodelife/" itemprop="url" rel="index"><span itemprop="name">vscodelife</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="VSCode-與-Java-環境整合"><a href="#VSCode-與-Java-環境整合" class="headerlink" title="VSCode 與 Java 環境整合"></a>VSCode 與 Java 環境整合</h1><p>在 VSCode 中進行 Java 開發，需要完成 <strong>JDK 安裝</strong>、<strong>環境變數配置</strong> 以及 <strong>擴充套件安裝</strong> 三個核心步驟。本文將系統性地介紹從環境建置到專案運行的完整流程，幫助開發者在 VSCode 上高效進行 Java 開發。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="VSCode-開發環境配置"><a href="#VSCode-開發環境配置" class="headerlink" title="VSCode 開發環境配置"></a>VSCode 開發環境配置</h2><h3 id="安裝-Java-擴充套件"><a href="#安裝-Java-擴充套件" class="headerlink" title="安裝 Java 擴充套件"></a>安裝 Java 擴充套件</h3><p>透過擴充套件市場（<code>Ctrl + Shift + X</code>）安裝以下核心套件：</p>
+<table>
+<thead>
+<tr>
+<th>擴充套件名稱</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Extension Pack for Java</strong></td>
+<td>Java 開發必備套件包，內含語言支援、偵錯器、測試執行器、Maven 支援等</td>
+</tr>
+<tr>
+<td><strong>Spring Boot Extension Pack</strong></td>
+<td>（選用）Spring Boot 開發工具，提供專案建立、自動完成、執行管理等功能</td>
+</tr>
+<tr>
+<td><strong>Gradle for Java</strong></td>
+<td>（選用）Gradle 建置工具支援</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>Extension Pack for Java</strong> 是由 Microsoft 官方維護的套件包，安裝後會自動包含以下擴充套件：</p>
+<ul>
+<li>Language Support for Java™ by Red Hat</li>
+<li>Debugger for Java</li>
+<li>Test Runner for Java</li>
+<li>Maven for Java</li>
+<li>Project Manager for Java</li>
+<li>IntelliCode</li>
+</ul>
+</blockquote>
+<h3 id="配置-JDK-路徑"><a href="#配置-JDK-路徑" class="headerlink" title="配置 JDK 路徑"></a>配置 JDK 路徑</h3><p>若 VSCode 未自動偵測到 JDK，可透過以下方式手動設定：</p>
+<ol>
+<li>按下 <code>Ctrl + Shift + P</code> 開啟命令面板</li>
+<li>輸入 <code>Java: Configure Java Runtime</code></li>
+<li>選擇已安裝的 JDK 路徑</li>
+</ol>
+<p>或者直接在 <code>settings.json</code> 中加入設定：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;java.jdt.ls.java.home&quot;</span><span class="punctuation">:</span> <span class="string">&quot;C:\\Program Files\\Java\\jdk-17&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>提示</strong><br>若系統安裝了多個 JDK 版本，可透過 <code>java.configuration.runtimes</code> 進行管理：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;java.configuration.runtimes&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;JavaSE-17&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;path&quot;</span><span class="punctuation">:</span> <span class="string">&quot;C:\\Program Files\\Java\\jdk-17&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;default&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;JavaSE-21&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;path&quot;</span><span class="punctuation">:</span> <span class="string">&quot;C:\\Program Files\\Java\\jdk-21&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></blockquote>
+<hr>
+<h2 id="Java-專案開發與運行"><a href="#Java-專案開發與運行" class="headerlink" title="Java 專案開發與運行"></a>Java 專案開發與運行</h2><h3 id="建立專案"><a href="#建立專案" class="headerlink" title="建立專案"></a>建立專案</h3><p>有以下兩種方式可以建立 Java 專案：</p>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>操作步驟</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>命令面板</strong></td>
+<td><code>Ctrl + Shift + P</code> → 輸入 <code>Java: Create Java Project</code> → 選擇專案類型（No build tools &#x2F; Maven &#x2F; Gradle）→ 指定路徑</td>
+</tr>
+<tr>
+<td><strong>手動建立</strong></td>
+<td>新增 <code>src</code> 目錄 → 在其中建立 <code>.java</code> 檔案</td>
+</tr>
+</tbody></table>
+<h3 id="撰寫與運行程式碼"><a href="#撰寫與運行程式碼" class="headerlink" title="撰寫與運行程式碼"></a>撰寫與運行程式碼</h3><p>在 <code>src</code> 目錄下建立 <code>HelloWorld.java</code> 檔案：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloWorld</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Hello, VSCode!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>運行方式：</p>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>操作</th>
+<th>適用情境</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>點擊 Run</strong></td>
+<td>點擊 <code>main</code> 方法上方的 <code>Run</code> 按鈕</td>
+<td>快速執行，最常用</td>
+</tr>
+<tr>
+<td><strong>偵錯模式</strong></td>
+<td>切換至偵錯檢視（<code>Ctrl + Shift + D</code>）→ 設定中斷點 → 按 <code>F5</code> 啟動</td>
+<td>需要除錯時使用</td>
+</tr>
+<tr>
+<td><strong>終端機編譯</strong></td>
+<td><code>javac src/HelloWorld.java</code> → <code>java -cp src HelloWorld</code></td>
+<td>傳統命令列編譯方式</td>
+</tr>
+</tbody></table>
+<h3 id="偵錯功能"><a href="#偵錯功能" class="headerlink" title="偵錯功能"></a>偵錯功能</h3><p>VSCode 的 Java 偵錯器提供完整的除錯功能：</p>
+<ul>
+<li><strong>設定中斷點</strong>：在行號左側點擊即可新增 &#x2F; 移除中斷點</li>
+<li><strong>逐步執行</strong>：<code>F10</code>（跳過）、<code>F11</code>（進入）、<code>Shift + F11</code>（跳出）</li>
+<li><strong>變數檢視</strong>：在偵錯面板中即時查看變數值</li>
+<li><strong>監看運算式</strong>：新增自訂運算式進行即時監控</li>
+<li><strong>呼叫堆疊</strong>：檢視方法的呼叫層級</li>
+</ul>
+<hr>
+<h2 id="進階配置（選用）"><a href="#進階配置（選用）" class="headerlink" title="進階配置（選用）"></a>進階配置（選用）</h2><h3 id="建置工具支援"><a href="#建置工具支援" class="headerlink" title="建置工具支援"></a>建置工具支援</h3><h4 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a>Maven</h4><p>安裝 <strong>Extension Pack for Java</strong> 後即內建 Maven 支援，可透過命令面板執行以下操作：</p>
+<ul>
+<li><code>Maven: Create Maven Project</code> — 使用 archetype 建立新專案</li>
+<li><code>Maven: Execute Commands</code> — 執行 <code>clean</code>、<code>install</code>、<code>package</code> 等指令</li>
+</ul>
+<h4 id="Gradle"><a href="#Gradle" class="headerlink" title="Gradle"></a>Gradle</h4><p>安裝 <strong>Gradle for Java</strong> 擴充套件後，即可支援 Gradle 專案的建置與管理。</p>
+<h3 id="程式碼格式化"><a href="#程式碼格式化" class="headerlink" title="程式碼格式化"></a>程式碼格式化</h3><p>在 <code>settings.json</code> 中可設定 Google Java Style 格式化規範，並啟用存檔時自動格式化：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;java.format.settings.url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;[java]&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;editor.defaultFormatter&quot;</span><span class="punctuation">:</span> <span class="string">&quot;redhat.java&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;editor.formatOnSave&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>若不希望每次格式化都從遠端下載設定檔，可將 <code>eclipse-java-google-style.xml</code> 下載至本機，改用本地路徑來降低網路流量負擔：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;java.format.settings.url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;./config/eclipse-java-google-style.xml&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>下載指令（以專案根目錄的 <code>config</code> 資料夾為例）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p config</span><br><span class="line">curl -o config/eclipse-java-google-style.xml https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml</span><br></pre></td></tr></table></figure></blockquote>
+<h3 id="單元測試"><a href="#單元測試" class="headerlink" title="單元測試"></a>單元測試</h3><p><strong>Test Runner for Java</strong>（已包含在 Extension Pack for Java 中）支援以下測試框架：</p>
+<ul>
+<li><strong>JUnit 4 &#x2F; 5</strong></li>
+<li><strong>TestNG</strong></li>
+</ul>
+<p>可直接在測試方法上方點擊 <code>Run Test</code> 或 <code>Debug Test</code> 按鈕執行測試，測試結果會以視覺化方式呈現在側邊欄中。</p>
+<hr>
+<h2 id="常見問題處理"><a href="#常見問題處理" class="headerlink" title="常見問題處理"></a>常見問題處理</h2><h3 id="JDK-未被偵測"><a href="#JDK-未被偵測" class="headerlink" title="JDK 未被偵測"></a>JDK 未被偵測</h3><ul>
+<li>確認 <code>JAVA_HOME</code> 環境變數已正確設定</li>
+<li>確認 <code>Path</code> 中包含 <code>%JAVA_HOME%\bin</code></li>
+<li>在 VSCode <code>settings.json</code> 中手動指定 <code>java.jdt.ls.java.home</code></li>
+<li>設定完成後重新啟動 VSCode</li>
+</ul>
+<h3 id="擴充套件衝突"><a href="#擴充套件衝突" class="headerlink" title="擴充套件衝突"></a>擴充套件衝突</h3><ul>
+<li>避免同時安裝多個功能重複的 Java 擴充套件</li>
+<li>若出現異常，嘗試停用所有 Java 相關擴充套件後，僅啟用 <strong>Extension Pack for Java</strong></li>
+<li>確保擴充套件皆更新至最新版本</li>
+</ul>
+<h3 id="編譯錯誤"><a href="#編譯錯誤" class="headerlink" title="編譯錯誤"></a>編譯錯誤</h3><ul>
+<li>確認類別名稱與檔案名稱一致（Java 規範要求）</li>
+<li>確認 <code>.java</code> 檔案位於正確的目錄結構下</li>
+<li>檢查 <code>package</code> 宣告是否與資料夾路徑匹配</li>
+<li>執行 <code>Java: Clean Java Language Server Workspace</code> 清除快取後重試</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+              <a href="/tags/vscode/" rel="tag"># vscode</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/14/vscode-install/" rel="prev" title="VSCode 安裝指南">
+                  <i class="fa fa-angle-left"></i> VSCode 安裝指南
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"ff5d81c3b592b55344cb8edbb46d67f3"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+</body>
+</html>
