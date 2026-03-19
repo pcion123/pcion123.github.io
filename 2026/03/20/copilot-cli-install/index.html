@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="GitHub Copilot CLI 安裝指南GitHub Copilot CLI 是 GitHub Copilot 的命令列介面工具，讓開發者可以直接在終端機中與 Copilot 互動。它能夠理解你的程式碼庫，協助撰寫程式碼、修復錯誤、建立新功能，甚至執行多步驟的自動化任務。  前置需求 有效的 GitHub Copilot 訂閱方案（所有 Copilot 方案皆支援） Windows 環境需使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitHub Copilot CLI 安裝指南">
+<meta property="og:url" content="https://pcion123.github.io/2026/03/20/copilot-cli-install/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="GitHub Copilot CLI 安裝指南GitHub Copilot CLI 是 GitHub Copilot 的命令列介面工具，讓開發者可以直接在終端機中與 Copilot 互動。它能夠理解你的程式碼庫，協助撰寫程式碼、修復錯誤、建立新功能，甚至執行多步驟的自動化任務。  前置需求 有效的 GitHub Copilot 訂閱方案（所有 Copilot 方案皆支援） Windows 環境需使">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/20/copilot-cli-install/copilot_install_1.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/20/copilot-cli-install/copilot_install_13.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/20/copilot-cli-install/copilot_install_2.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/20/copilot-cli-install/copilot_install_3.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/20/copilot-cli-install/copilot_install_4.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/20/copilot-cli-install/copilot_install_5.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/20/copilot-cli-install/copilot_install_6.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/20/copilot-cli-install/copilot_install_7.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/20/copilot-cli-install/copilot_install_8.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/20/copilot-cli-install/copilot_install_9.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/20/copilot-cli-install/copilot_install_10.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/20/copilot-cli-install/copilot_install_11.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/20/copilot-cli-install/copilot_install_12.jpg">
+<meta property="article:published_time" content="2026-03-19T17:10:34.000Z">
+<meta property="article:modified_time" content="2026-03-19T17:17:32.956Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="copilot cli">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2026/03/20/copilot-cli-install/copilot_install_1.jpg">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/03/20/copilot-cli-install/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/03/20/copilot-cli-install/","path":"2026/03/20/copilot-cli-install/","title":"GitHub Copilot CLI 安裝指南"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>GitHub Copilot CLI 安裝指南 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GitHub-Copilot-CLI-%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97"><span class="nav-number">1.</span> <span class="nav-text">GitHub Copilot CLI 安裝指南</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E9%9C%80%E6%B1%82"><span class="nav-number">1.1.</span> <span class="nav-text">前置需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E6%96%B9%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text">安裝方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#WinGet-%E5%AE%89%E8%A3%9D"><span class="nav-number">1.2.1.</span> <span class="nav-text">WinGet 安裝</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A9%97%E8%AD%89%E5%AE%89%E8%A3%9D"><span class="nav-number">1.3.</span> <span class="nav-text">驗證安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E6%AC%A1%E5%95%9F%E5%8B%95%E8%A8%AD%E7%BD%AE"><span class="nav-number">1.4.</span> <span class="nav-text">初次啟動設置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BA%AB%E5%88%86%E9%A9%97%E8%AD%89"><span class="nav-number">1.5.</span> <span class="nav-text">身分驗證</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%92%E5%8B%95%E5%BC%8F%E7%99%BB%E5%85%A5%EF%BC%88%E6%8E%A8%E8%96%A6%EF%BC%89"><span class="nav-number">1.5.1.</span> <span class="nav-text">互動式登入（推薦）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Personal-Access-Token%EF%BC%88%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88%EF%BC%89"><span class="nav-number">1.5.2.</span> <span class="nav-text">使用 Personal Access Token（替代方案）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">1.6.</span> <span class="nav-text">基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%9C%E7%B7%9A%E6%8C%87%E4%BB%A4"><span class="nav-number">1.6.1.</span> <span class="nav-text">常用斜線指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%8D%B5"><span class="nav-number">1.6.2.</span> <span class="nav-text">常用快捷鍵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%A6%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="nav-number">1.6.3.</span> <span class="nav-text">實用技巧</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%B2%E9%9A%8E%E9%85%8D%E7%BD%AE"><span class="nav-number">1.7.</span> <span class="nav-text">進階配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E8%A8%82%E6%8C%87%E7%A4%BA"><span class="nav-number">1.7.1.</span> <span class="nav-text">自訂指示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MCP-Server-%E8%A8%AD%E5%AE%9A"><span class="nav-number">1.7.2.</span> <span class="nav-text">MCP Server 設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A%E6%AA%94"><span class="nav-number">1.7.3.</span> <span class="nav-text">設定檔</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/copilot-cli/" style="font-size: 12px;" class="tag-cloud-0">copilot cli</a> <a href="/tags/docker/" style="font-size: 23.25px;" class="tag-cloud-6">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/github-copilot/" style="font-size: 14.25px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 16.5px;" class="tag-cloud-3">gitlab</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 18.75px;" class="tag-cloud-4">java</a> <a href="/tags/jdk/" style="font-size: 14.25px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 18.75px;" class="tag-cloud-4">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 27.75px;" class="tag-cloud-9">kubernetes</a> <a href="/tags/linux/" style="font-size: 30px;" class="tag-cloud-10">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 16.5px;" class="tag-cloud-3">maven</a> <a href="/tags/minikube/" style="font-size: 14.25px;" class="tag-cloud-1">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 12px;" class="tag-cloud-0">nodejs</a> <a href="/tags/pm2/" style="font-size: 14.25px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 16.5px;" class="tag-cloud-3">powershell</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 16.5px;" class="tag-cloud-3">terminal</a> <a href="/tags/tomcat/" style="font-size: 14.25px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 25.5px;" class="tag-cloud-8">ubuntu</a> <a href="/tags/vscode/" style="font-size: 21px;" class="tag-cloud-5">vscode</a> <a href="/tags/windows/" style="font-size: 16.5px;" class="tag-cloud-3">windows</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 16.5px;" class="tag-cloud-3">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/03/20/copilot-cli-install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="GitHub Copilot CLI 安裝指南 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GitHub Copilot CLI 安裝指南
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-03-20 01:10:34 / 修改時間：01:17:32" itemprop="dateCreated datePublished" datetime="2026-03-20T01:10:34+08:00">2026-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/vscodelife/" itemprop="url" rel="index"><span itemprop="name">vscodelife</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="GitHub-Copilot-CLI-安裝指南"><a href="#GitHub-Copilot-CLI-安裝指南" class="headerlink" title="GitHub Copilot CLI 安裝指南"></a>GitHub Copilot CLI 安裝指南</h1><p><strong>GitHub Copilot CLI</strong> 是 GitHub Copilot 的命令列介面工具，讓開發者可以直接在終端機中與 Copilot 互動。它能夠理解你的程式碼庫，協助撰寫程式碼、修復錯誤、建立新功能，甚至執行多步驟的自動化任務。</p>
+<hr>
+<h2 id="前置需求"><a href="#前置需求" class="headerlink" title="前置需求"></a>前置需求</h2><ul>
+<li>有效的 <strong>GitHub Copilot 訂閱方案</strong>（所有 Copilot 方案皆支援）</li>
+<li>Windows 環境需使用 <strong>PowerShell v6</strong> 以上版本</li>
+<li>若透過組織或企業取得 Copilot 授權，需確認管理員已啟用 Copilot CLI 功能</li>
+</ul>
+<span id="more"></span>
+
+<hr>
+<h2 id="安裝方式"><a href="#安裝方式" class="headerlink" title="安裝方式"></a>安裝方式</h2><h3 id="WinGet-安裝"><a href="#WinGet-安裝" class="headerlink" title="WinGet 安裝"></a>WinGet 安裝</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">winget install GitHub.Copilot <span class="literal">--source</span> winget</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/03/20/copilot-cli-install/copilot_install_1.jpg" class="">
+
+<hr>
+<h2 id="驗證安裝"><a href="#驗證安裝" class="headerlink" title="驗證安裝"></a>驗證安裝</h2><p>安裝完成後，在終端機中執行以下指令確認是否成功：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copilot help</span><br></pre></td></tr></table></figure>
+
+<p>若正確顯示說明資訊，代表安裝成功。</p>
+<img src="/2026/03/20/copilot-cli-install/copilot_install_13.jpg" class="">
+
+<hr>
+<h2 id="初次啟動設置"><a href="#初次啟動設置" class="headerlink" title="初次啟動設置"></a>初次啟動設置</h2><p>輸入以下指令啟動 Copilot CLI：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copilot <span class="literal">--banner</span></span><br></pre></td></tr></table></figure>
+
+<p>啟動後系統會詢問你是否信任當前目錄：</p>
+<img src="/2026/03/20/copilot-cli-install/copilot_install_2.jpg" class="">
+
+<table>
+<thead>
+<tr>
+<th>選項</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Yes, proceed</strong></td>
+<td>僅在本次對話中信任此資料夾</td>
+</tr>
+<tr>
+<td><strong>Yes, and remember this folder</strong></td>
+<td>信任此資料夾且未來不再詢問</td>
+</tr>
+<tr>
+<td><strong>No, exit (Esc)</strong></td>
+<td>不信任，結束 Copilot CLI</td>
+</tr>
+</tbody></table>
+<p>接著設置多行編輯輸入模式：</p>
+<img src="/2026/03/20/copilot-cli-install/copilot_install_3.jpg" class="">
+
+<p>初步設置完成，後續需進行登入才能發揮完整功能：</p>
+<img src="/2026/03/20/copilot-cli-install/copilot_install_4.jpg" class="">
+
+<hr>
+<h2 id="身分驗證"><a href="#身分驗證" class="headerlink" title="身分驗證"></a>身分驗證</h2><h3 id="互動式登入（推薦）"><a href="#互動式登入（推薦）" class="headerlink" title="互動式登入（推薦）"></a>互動式登入（推薦）</h3><p>在互動式介面中輸入 <code>/login</code> 斜線指令開始登入流程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/login</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/03/20/copilot-cli-install/copilot_install_5.jpg" class="">
+
+<p>選擇登入方式（預設為個人帳號）：</p>
+<img src="/2026/03/20/copilot-cli-install/copilot_install_6.jpg" class="">
+
+<p>系統會產生一組一次性啟動代碼，用於裝置驗證登入：</p>
+<img src="/2026/03/20/copilot-cli-install/copilot_install_7.jpg" class="">
+
+<p>自動跳轉至瀏覽器進行網頁登入流程：</p>
+<img src="/2026/03/20/copilot-cli-install/copilot_install_8.jpg" class="">
+
+<p>確認裝置授權登入：</p>
+<img src="/2026/03/20/copilot-cli-install/copilot_install_9.jpg" class="">
+
+<p>若帳號有綁定雙因子驗證（2FA），選擇你習慣的方式完成驗證：</p>
+<img src="/2026/03/20/copilot-cli-install/copilot_install_10.jpg" class="">
+
+<p>網頁顯示登入成功，返回終端機查看結果：</p>
+<img src="/2026/03/20/copilot-cli-install/copilot_install_11.jpg" class="">
+
+<p>終端機顯示登入完成畫面，即可開始使用：</p>
+<img src="/2026/03/20/copilot-cli-install/copilot_install_12.jpg" class="">
+
+<h3 id="使用-Personal-Access-Token（替代方案）"><a href="#使用-Personal-Access-Token（替代方案）" class="headerlink" title="使用 Personal Access Token（替代方案）"></a>使用 Personal Access Token（替代方案）</h3><p>也可以使用 Fine-grained Personal Access Token 進行驗證：</p>
+<ol>
+<li><p>前往 <a target="_blank" rel="noopener" href="https://github.com/settings/personal-access-tokens/new">Fine-grained personal access tokens</a> 建立新 Token</p>
+</li>
+<li><p>在 <strong>Permissions</strong> 中點擊 <strong>Add permissions</strong>，選擇 <strong>Copilot Requests</strong> 權限</p>
+</li>
+<li><p>點擊 <strong>Generate token</strong> 產生 Token</p>
+</li>
+<li><p>在終端機中設定環境變數（以下三個變數依優先順序使用）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 優先順序：COPILOT_GITHUB_TOKEN &gt; GH_TOKEN &gt; GITHUB_TOKEN</span></span><br><span class="line"><span class="built_in">export</span> COPILOT_GITHUB_TOKEN=ghp_xxxxxxxxxxxx</span><br></pre></td></tr></table></figure>
+
+<p>Windows PowerShell：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$env:COPILOT_GITHUB_TOKEN</span> = <span class="string">&quot;ghp_xxxxxxxxxxxx&quot;</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><h3 id="常用斜線指令"><a href="#常用斜線指令" class="headerlink" title="常用斜線指令"></a>常用斜線指令</h3><table>
+<thead>
+<tr>
+<th>指令</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/login</code></td>
+<td>登入 GitHub 帳號</td>
+</tr>
+<tr>
+<td><code>/agent</code></td>
+<td>選擇可用的自訂 Agent</td>
+</tr>
+<tr>
+<td><code>/resume</code></td>
+<td>恢復先前的互動式對話</td>
+</tr>
+<tr>
+<td><code>/compact</code></td>
+<td>壓縮對話歷史以釋放上下文空間</td>
+</tr>
+<tr>
+<td><code>/context</code></td>
+<td>查看當前的 Token 使用狀況</td>
+</tr>
+<tr>
+<td><code>/usage</code></td>
+<td>查看對話統計資訊</td>
+</tr>
+<tr>
+<td><code>/cwd</code></td>
+<td>切換工作目錄</td>
+</tr>
+<tr>
+<td><code>/add-dir</code></td>
+<td>新增信任的目錄</td>
+</tr>
+<tr>
+<td><code>/mcp add</code></td>
+<td>新增 MCP Server</td>
+</tr>
+<tr>
+<td><code>/feedback</code></td>
+<td>提供回饋意見</td>
+</tr>
+</tbody></table>
+<h3 id="常用快捷鍵"><a href="#常用快捷鍵" class="headerlink" title="常用快捷鍵"></a>常用快捷鍵</h3><table>
+<thead>
+<tr>
+<th>快捷鍵</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Esc</code></td>
+<td>停止目前正在執行的操作</td>
+</tr>
+<tr>
+<td><code>Shift + Tab</code></td>
+<td>切換計畫模式（Plan Mode）</td>
+</tr>
+<tr>
+<td><code>Ctrl + T</code></td>
+<td>顯示 &#x2F; 隱藏模型推理過程</td>
+</tr>
+</tbody></table>
+<h3 id="實用技巧"><a href="#實用技巧" class="headerlink" title="實用技巧"></a>實用技巧</h3><ul>
+<li><strong>引用特定檔案</strong>：在提示中使用 <code>@</code> 加上相對路徑，例如 <code>Explain @src/app.js</code></li>
+<li><strong>執行 Shell 指令</strong>：以 <code>!</code> 開頭直接執行命令，例如 <code>!git status</code></li>
+<li><strong>恢復對話</strong>：使用 <code>copilot --continue</code> 快速恢復最近關閉的對話</li>
+<li><strong>啟用全部權限</strong>：使用 <code>copilot --allow-all</code> 跳過所有工具使用確認</li>
+</ul>
+<hr>
+<h2 id="進階配置"><a href="#進階配置" class="headerlink" title="進階配置"></a>進階配置</h2><h3 id="自訂指示"><a href="#自訂指示" class="headerlink" title="自訂指示"></a>自訂指示</h3><p>Copilot CLI 支援透過 Markdown 檔案提供自訂指示，以下檔案會自動載入：</p>
+<table>
+<thead>
+<tr>
+<th>檔案路徑</th>
+<th>作用範圍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>.github/copilot-instructions.md</code></td>
+<td>整個專案的通用指示</td>
+</tr>
+<tr>
+<td><code>.github/instructions/**/*.instructions.md</code></td>
+<td>特定路徑的指示</td>
+</tr>
+<tr>
+<td><code>AGENTS.md</code></td>
+<td>Agent 相關設定</td>
+</tr>
+</tbody></table>
+<h3 id="MCP-Server-設定"><a href="#MCP-Server-設定" class="headerlink" title="MCP Server 設定"></a>MCP Server 設定</h3><p>Copilot CLI 預設已內建 GitHub MCP Server，可與 GitHub.com 上的資源互動（例如合併 PR）。</p>
+<p>新增額外 MCP Server：</p>
+<ol>
+<li>在互動式介面中輸入 <code>/mcp add</code></li>
+<li>填寫 Server 相關資訊，使用 <code>Tab</code> 鍵在欄位間切換</li>
+<li>按 <code>Ctrl + S</code> 儲存</li>
+</ol>
+<p>MCP Server 設定儲存於 <code>~/.copilot/mcp-config.json</code>，可透過 <code>COPILOT_HOME</code> 環境變數變更路徑。</p>
+<h3 id="設定檔"><a href="#設定檔" class="headerlink" title="設定檔"></a>設定檔</h3><p>Copilot CLI 的設定檔位於 <code>~/.copilot/config.json</code>，可透過以下指令查看可用的設定項目：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copilot <span class="built_in">help</span> config</span><br></pre></td></tr></table></figure>
+
+<p>其他輔助指令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">copilot <span class="built_in">help</span> environment   <span class="comment"># 查看影響 Copilot CLI 的環境變數</span></span><br><span class="line">copilot <span class="built_in">help</span> logging       <span class="comment"># 查看可用的日誌等級</span></span><br><span class="line">copilot <span class="built_in">help</span> permissions   <span class="comment"># 查看工具使用權限設定</span></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/copilot-cli/" rel="tag"># copilot cli</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/16/vscode-install-java/" rel="prev" title="VSCode 與 Java 環境整合">
+                  <i class="fa fa-angle-left"></i> VSCode 與 Java 環境整合
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"e88ba7a4b389fba9b914acf1f0abdf13"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+</body>
+</html>
