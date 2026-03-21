@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Unity MCP 安裝指南與使用簡介什麼是 Unity MCP？MCP for Unity 是由 Coplay 開發並維護的開源專案，透過 Model Context Protocol（MCP） 將 AI 助手（Claude、Claude Code、Cursor、VS Code Copilot、GitHub Copilot CLI 等）與你的 Unity Editor 串接起來。 簡單來說，只要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unity MCP 安裝指南與使用">
+<meta property="og:url" content="https://pcion123.github.io/2026/03/21/unity-mcp-install/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="Unity MCP 安裝指南與使用簡介什麼是 Unity MCP？MCP for Unity 是由 Coplay 開發並維護的開源專案，透過 Model Context Protocol（MCP） 將 AI 助手（Claude、Claude Code、Cursor、VS Code Copilot、GitHub Copilot CLI 等）與你的 Unity Editor 串接起來。 簡單來說，只要">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/21/unity-mcp-install/unity_mcp_install_1.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/21/unity-mcp-install/unity_mcp_install_2.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/21/unity-mcp-install/unity_mcp_install_3.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/21/unity-mcp-install/unity_mcp_install_4.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/21/unity-mcp-install/unity_mcp_install_5.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/21/unity-mcp-install/unity_mcp_install_6.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/21/unity-mcp-install/unity_mcp_install_7.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/21/unity-mcp-install/unity_mcp_install_8.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/21/unity-mcp-install/unity_mcp_install_9.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/21/unity-mcp-install/unity_mcp_install_10.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/21/unity-mcp-install/unity_mcp_install_11.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/21/unity-mcp-install/unity_mcp_install_12.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/21/unity-mcp-install/unity_mcp_install_13.jpg">
+<meta property="article:published_time" content="2026-03-21T12:24:06.000Z">
+<meta property="article:modified_time" content="2026-03-21T12:32:18.859Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="copilot cli">
+<meta property="article:tag" content="unity">
+<meta property="article:tag" content="mcp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2026/03/21/unity-mcp-install/unity_mcp_install_1.jpg">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/03/21/unity-mcp-install/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/03/21/unity-mcp-install/","path":"2026/03/21/unity-mcp-install/","title":"Unity MCP 安裝指南與使用"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Unity MCP 安裝指南與使用 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Unity-MCP-%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97%E8%88%87%E4%BD%BF%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">Unity MCP 安裝指南與使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B0%A1%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">簡介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-Unity-MCP%EF%BC%9F"><span class="nav-number">1.1.1.</span> <span class="nav-text">什麼是 Unity MCP？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E6%80%A7"><span class="nav-number">1.1.2.</span> <span class="nav-text">核心特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%AF%E6%8F%B4%E7%9A%84-MCP-%E5%AE%A2%E6%88%B6%E7%AB%AF"><span class="nav-number">1.1.3.</span> <span class="nav-text">支援的 MCP 客戶端</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%B5%B1%E8%A6%81%E6%B1%82"><span class="nav-number">1.2.</span> <span class="nav-text">系統要求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%85%E8%A6%81%E6%A2%9D%E4%BB%B6"><span class="nav-number">1.2.1.</span> <span class="nav-text">必要條件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E6%AD%A5%E9%A9%9F"><span class="nav-number">1.3.</span> <span class="nav-text">安裝步驟</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-1%EF%BC%9A%E5%9C%A8-WSL-%E4%B8%AD%E4%BB%A5-Docker-%E5%95%9F%E5%8B%95-MCP-Server"><span class="nav-number">1.3.1.</span> <span class="nav-text">步驟 1：在 WSL 中以 Docker 啟動 MCP Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-2%EF%BC%9A%E5%9C%A8-Unity-%E4%B8%AD%E5%AE%89%E8%A3%9D%E5%A5%97%E4%BB%B6"><span class="nav-number">1.3.2.</span> <span class="nav-text">步驟 2：在 Unity 中安裝套件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-3%EF%BC%9A%E8%A8%AD%E5%AE%9A-MCP-%E5%AE%A2%E6%88%B6%E7%AB%AF%E9%80%A3%E7%B7%9A"><span class="nav-number">1.3.3.</span> <span class="nav-text">步驟 3：設定 MCP 客戶端連線</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%8B%E5%8B%95%E8%A8%AD%E5%AE%9A%EF%BC%88%E8%8B%A5%E8%87%AA%E5%8B%95%E8%A8%AD%E5%AE%9A%E5%A4%B1%E6%95%97%EF%BC%89"><span class="nav-number">1.4.</span> <span class="nav-text">手動設定（若自動設定失敗）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-%E6%A8%A1%E5%BC%8F%EF%BC%88%E9%81%A9%E7%94%A8-Claude-Desktop%E3%80%81Cursor%E3%80%81Windsurf%EF%BC%89"><span class="nav-number">1.4.1.</span> <span class="nav-text">HTTP 模式（適用 Claude Desktop、Cursor、Windsurf）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VS-Code-%E8%A8%AD%E5%AE%9A"><span class="nav-number">1.4.2.</span> <span class="nav-text">VS Code 設定</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E9%9A%9B%E6%BC%94%E7%A4%BA"><span class="nav-number">1.5.</span> <span class="nav-text">實際演示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E7%94%A8%E5%B7%A5%E5%85%B7%E4%B8%80%E8%A6%BD"><span class="nav-number">1.6.</span> <span class="nav-text">可用工具一覽</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A0%B4%E6%99%AF%E8%88%87%E7%89%A9%E4%BB%B6%E7%AE%A1%E7%90%86"><span class="nav-number">1.6.1.</span> <span class="nav-text">場景與物件管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B3%87%E7%94%A2%E7%AE%A1%E7%90%86"><span class="nav-number">1.6.2.</span> <span class="nav-text">資產管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%85%B3%E6%9C%AC%E9%96%8B%E7%99%BC"><span class="nav-number">1.6.3.</span> <span class="nav-text">腳本開發</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8B%95%E7%95%AB%E3%80%81UI-%E8%88%87%E8%A6%96%E8%A6%BA%E6%95%88%E6%9E%9C"><span class="nav-number">1.6.4.</span> <span class="nav-text">動畫、UI 與視覺效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B7%A8%E8%BC%AF%E5%99%A8%E8%88%87%E5%B0%88%E6%A1%88%E7%AE%A1%E7%90%86"><span class="nav-number">1.6.5.</span> <span class="nav-text">編輯器與專案管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API-%E9%A9%97%E8%AD%89"><span class="nav-number">1.6.6.</span> <span class="nav-text">API 驗證</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A-Unity-%E5%AF%A6%E4%BE%8B%E7%AE%A1%E7%90%86"><span class="nav-number">1.7.</span> <span class="nav-text">多 Unity 實例管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%B2%E9%9A%8E%E5%8A%9F%E8%83%BD%EF%BC%9ARoslyn-%E8%85%B3%E6%9C%AC%E9%A9%97%E8%AD%89"><span class="nav-number">1.8.</span> <span class="nav-text">進階功能：Roslyn 腳本驗證</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E9%8D%B5%E5%AE%89%E8%A3%9D%EF%BC%88%E6%8E%A8%E8%96%A6%EF%BC%89"><span class="nav-number">1.8.1.</span> <span class="nav-text">一鍵安裝（推薦）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%8B%E5%8B%95%E5%AE%89%E8%A3%9D"><span class="nav-number">1.8.2.</span> <span class="nav-text">手動安裝</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C%E8%88%87%E6%8E%92%E8%A7%A3"><span class="nav-number">1.9.</span> <span class="nav-text">常見問題與排解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7%E8%AA%AA%E6%98%8E"><span class="nav-number">1.10.</span> <span class="nav-text">安全性說明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E9%97%9C%E8%B3%87%E6%BA%90"><span class="nav-number">1.11.</span> <span class="nav-text">相關資源</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/copilot-cli/" style="font-size: 14.25px;" class="tag-cloud-1">copilot cli</a> <a href="/tags/docker/" style="font-size: 23.25px;" class="tag-cloud-6">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/github-copilot/" style="font-size: 14.25px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 16.5px;" class="tag-cloud-3">gitlab</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 18.75px;" class="tag-cloud-4">java</a> <a href="/tags/jdk/" style="font-size: 14.25px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 18.75px;" class="tag-cloud-4">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 27.75px;" class="tag-cloud-9">kubernetes</a> <a href="/tags/linux/" style="font-size: 30px;" class="tag-cloud-10">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 16.5px;" class="tag-cloud-3">maven</a> <a href="/tags/mcp/" style="font-size: 12px;" class="tag-cloud-0">mcp</a> <a href="/tags/minikube/" style="font-size: 14.25px;" class="tag-cloud-1">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 12px;" class="tag-cloud-0">nodejs</a> <a href="/tags/pm2/" style="font-size: 14.25px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 16.5px;" class="tag-cloud-3">powershell</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 16.5px;" class="tag-cloud-3">terminal</a> <a href="/tags/tomcat/" style="font-size: 14.25px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 25.5px;" class="tag-cloud-8">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/vscode/" style="font-size: 21px;" class="tag-cloud-5">vscode</a> <a href="/tags/windows/" style="font-size: 18.75px;" class="tag-cloud-4">windows</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 16.5px;" class="tag-cloud-3">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/03/21/unity-mcp-install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Unity MCP 安裝指南與使用 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Unity MCP 安裝指南與使用
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-03-21 20:24:06 / 修改時間：20:32:18" itemprop="dateCreated datePublished" datetime="2026-03-21T20:24:06+08:00">2026-03-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/unity/" itemprop="url" rel="index"><span itemprop="name">unity</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Unity-MCP-安裝指南與使用"><a href="#Unity-MCP-安裝指南與使用" class="headerlink" title="Unity MCP 安裝指南與使用"></a>Unity MCP 安裝指南與使用</h1><h2 id="簡介"><a href="#簡介" class="headerlink" title="簡介"></a>簡介</h2><h3 id="什麼是-Unity-MCP？"><a href="#什麼是-Unity-MCP？" class="headerlink" title="什麼是 Unity MCP？"></a>什麼是 Unity MCP？</h3><p><strong>MCP for Unity</strong> 是由 <a target="_blank" rel="noopener" href="https://www.coplay.dev/">Coplay</a> 開發並維護的開源專案，透過 <strong>Model Context Protocol（MCP）</strong> 將 AI 助手（Claude、Claude Code、Cursor、VS Code Copilot、GitHub Copilot CLI 等）與你的 Unity Editor 串接起來。</p>
+<p>簡單來說，只要你開著 Unity 編輯器，就可以直接對 AI 說：「幫我建立一個有紅色、藍色和黃色方塊的場景」或「幫我寫一個簡單的玩家控制器」，AI 就能透過 MCP 協定直接操作你的 Unity 專案。</p>
+<h3 id="核心特性"><a href="#核心特性" class="headerlink" title="核心特性"></a>核心特性</h3><ul>
+<li><strong>自然語言控制</strong>：用文字描述任務，讓 AI 直接在 Unity 中執行</li>
+<li><strong>豐富工具集</strong>：管理資產、場景、材質、腳本、UI、動畫、著色器等</li>
+<li><strong>高效能批次執行</strong>：<code>batch_execute</code> 指令比逐一呼叫快 10 ～ 100 倍</li>
+<li><strong>可擴充自訂工具</strong>：支援 Roslyn 執行時期腳本驗證與自訂工具擴充</li>
+<li><strong>多 Unity 實例支援</strong>：可同時連接多個 Unity Editor 並指定目標實例</li>
+<li><strong>MIT 授權</strong>：完全開源免費</li>
+</ul>
+<h3 id="支援的-MCP-客戶端"><a href="#支援的-MCP-客戶端" class="headerlink" title="支援的 MCP 客戶端"></a>支援的 MCP 客戶端</h3><ul>
+<li>Claude Desktop</li>
+<li>Claude Code</li>
+<li>Cursor</li>
+<li>VS Code Copilot</li>
+<li>GitHub Copilot CLI</li>
+<li>Windsurf</li>
+</ul>
+<span id="more"></span>
+
+<hr>
+<h2 id="系統要求"><a href="#系統要求" class="headerlink" title="系統要求"></a>系統要求</h2><h3 id="必要條件"><a href="#必要條件" class="headerlink" title="必要條件"></a>必要條件</h3><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>版本需求</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Unity</td>
+<td>2021.3 LTS 或更新版本</td>
+</tr>
+<tr>
+<td>WSL 2</td>
+<td>Windows 10 21H2 或更新版本</td>
+</tr>
+<tr>
+<td>Docker Desktop</td>
+<td>最新版本（需啟用 WSL 2 整合）</td>
+</tr>
+<tr>
+<td>Git</td>
+<td>任意版本（用於 clone 專案）</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>本指南採用 <strong>WSL + Docker</strong> 的方式在本機運行 MCP Server，無需在 Windows 主機上安裝 Python 或 uv，環境隔離性佳且易於維護。</p>
+</blockquote>
+<hr>
+<h2 id="安裝步驟"><a href="#安裝步驟" class="headerlink" title="安裝步驟"></a>安裝步驟</h2><h3 id="步驟-1：在-WSL-中以-Docker-啟動-MCP-Server"><a href="#步驟-1：在-WSL-中以-Docker-啟動-MCP-Server" class="headerlink" title="步驟 1：在 WSL 中以 Docker 啟動 MCP Server"></a>步驟 1：在 WSL 中以 Docker 啟動 MCP Server</h3><p>開啟 WSL 終端機，依序執行以下操作。</p>
+<hr>
+<p><strong>抓取專案原始碼</strong></p>
+<p>將 <a target="_blank" rel="noopener" href="https://github.com/CoplayDev/unity-mcp">unity-mcp</a> clone 至本機，並切換至專案目錄：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/CoplayDev/unity-mcp.git</span><br><span class="line"><span class="built_in">cd</span> unity-mcp</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/03/21/unity-mcp-install/unity_mcp_install_1.jpg" class="">
+
+<hr>
+<p><strong>修改 <code>docker-compose.yml</code></strong></p>
+<p>原始的 <code>docker-compose.yml</code> 啟動方式是直接執行 Python 腳本，在 WSL 環境下需要調整為使用內建進入點，以確保容器可正確啟動。</p>
+<p>原始內容：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3.9&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">unity-mcp-server:</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">      <span class="attr">context:</span> <span class="string">.</span></span><br><span class="line">      <span class="attr">dockerfile:</span> <span class="string">Server/Dockerfile</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;8080:8080&quot;</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">PYTHONPATH=/app/Server/src</span></span><br><span class="line">    <span class="attr">command:</span> [<span class="string">&quot;uv&quot;</span>, <span class="string">&quot;run&quot;</span>, <span class="string">&quot;python&quot;</span>, <span class="string">&quot;src/main.py&quot;</span>, <span class="string">&quot;--transport&quot;</span>, <span class="string">&quot;http&quot;</span>, <span class="string">&quot;--http-host&quot;</span>, <span class="string">&quot;0.0.0.0&quot;</span>, <span class="string">&quot;--http-port&quot;</span>, <span class="string">&quot;8080&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>修改後（移除 <code>environment</code> 區段，並改用簡化的啟動指令）：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3.9&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">unity-mcp-server:</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">      <span class="attr">context:</span> <span class="string">.</span></span><br><span class="line">      <span class="attr">dockerfile:</span> <span class="string">Server/Dockerfile</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;8080:8080&quot;</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br><span class="line">    <span class="attr">command:</span> [<span class="string">&quot;--transport&quot;</span>, <span class="string">&quot;http&quot;</span>, <span class="string">&quot;--http-url&quot;</span>, <span class="string">&quot;http://0.0.0.0:8080&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/03/21/unity-mcp-install/unity_mcp_install_2.jpg" class="">
+
+<hr>
+<p><strong>Build Image 並啟動容器</strong></p>
+<p>第一次執行時需要 Build Docker Image，依網路與機器效能不同，可能需要數分鐘：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose up -d</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/03/21/unity-mcp-install/unity_mcp_install_3.jpg" class="">
+
+<hr>
+<p><strong>確認容器正常運行</strong></p>
+<p>執行以下指令列出目前運行中的容器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+
+<p>確認清單中出現 <code>unity-mcp-server</code> 容器，且狀態欄位顯示 <code>Up</code> 即代表啟動成功。</p>
+<img src="/2026/03/21/unity-mcp-install/unity_mcp_install_4.jpg" class="">
+
+<hr>
+<p><strong>確認 Server 健康狀態</strong></p>
+<p>透過 <code>curl</code> 向 Server 發送健康檢查請求：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://localhost:8080/health</span><br></pre></td></tr></table></figure>
+
+<p>收到正常回應即代表 MCP Server 已順利啟動，可以接受連線。</p>
+<img src="/2026/03/21/unity-mcp-install/unity_mcp_install_5.jpg" class="">
+
+<hr>
+<h3 id="步驟-2：在-Unity-中安裝套件"><a href="#步驟-2：在-Unity-中安裝套件" class="headerlink" title="步驟 2：在 Unity 中安裝套件"></a>步驟 2：在 Unity 中安裝套件</h3><p>MCP Server 啟動完成後，接著要在 Unity 編輯器內安裝對應的 Client 套件，讓 Unity 能夠與 Server 溝通。</p>
+<p>開啟 Unity 編輯器，依序選擇：</p>
+<p><code>Window &gt; Package Manager &gt; Package Management...</code></p>
+<img src="/2026/03/21/unity-mcp-install/unity_mcp_install_6.jpg" class="">
+
+<p><code>+ &gt; Add package from git URL...</code></p>
+<img src="/2026/03/21/unity-mcp-install/unity_mcp_install_7.jpg" class="">
+
+<p>在輸入框中貼上以下 Git URL（正式版）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#main</span><br></pre></td></tr></table></figure>
+
+<p>若需要搶先體驗最新測試版（beta）功能，可改用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#beta</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/03/21/unity-mcp-install/unity_mcp_install_8.jpg" class="">
+
+<p>點擊 <strong>Add</strong> 後等待 Unity 下載並匯入套件，完成後即可在 Package Manager 中看到 <code>MCP for Unity</code>。</p>
+<img src="/2026/03/21/unity-mcp-install/unity_mcp_install_9.jpg" class="">
+
+<blockquote>
+<p><strong>其他安裝方式</strong></p>
+<p><strong>Unity Asset Store：</strong><br>前往 <a target="_blank" rel="noopener" href="https://assetstore.unity.com/packages/tools/generative-ai/mcp-for-unity-ai-driven-development-329908">MCP for Unity Asset Store 頁面</a>，點擊 <code>Add to My Assets</code>，再透過 <code>Window &gt; Package Manager</code> 匯入。</p>
+<p><strong>OpenUPM：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openupm add com.coplaydev.unity-mcp</span><br></pre></td></tr></table></figure></blockquote>
+<hr>
+<h3 id="步驟-3：設定-MCP-客戶端連線"><a href="#步驟-3：設定-MCP-客戶端連線" class="headerlink" title="步驟 3：設定 MCP 客戶端連線"></a>步驟 3：設定 MCP 客戶端連線</h3><p>套件安裝完成後，最後一步是將 Unity 與你的 AI 工具（MCP 客戶端）完成對接。</p>
+<p>在 Unity 中開啟 <code>Window &gt; MCP for Unity &gt; Toggle MCP Window</code>，進行連接設置。</p>
+<img src="/2026/03/21/unity-mcp-install/unity_mcp_install_10.jpg" class="">
+
+<p>填入 <code>http://localhost:8080/mcp</code> 作為 MCP Server URL，以及選擇 MCP Client：</p>
+<img src="/2026/03/21/unity-mcp-install/unity_mcp_install_11.jpg" class="">
+
+<p>連線成功後，即可在你的 MCP 客戶端（Claude Desktop、Cursor、VS Code Copilot 等）對 AI 下達自然語言指令，讓它直接操作 Unity 編輯器。</p>
+<img src="/2026/03/21/unity-mcp-install/unity_mcp_install_12.jpg" class="">
+
+<p>以 GitHub Copilot CLI 為例，可透過以下方式確認是否已成功連接 MCP Server：</p>
+<img src="/2026/03/21/unity-mcp-install/unity_mcp_install_13.jpg" class="">
+
+<hr>
+<h2 id="手動設定（若自動設定失敗）"><a href="#手動設定（若自動設定失敗）" class="headerlink" title="手動設定（若自動設定失敗）"></a>手動設定（若自動設定失敗）</h2><p>若自動設定流程無法正常運作，可手動將以下設定加入 MCP 客戶端的設定檔。</p>
+<blockquote>
+<p>使用 WSL Docker 運行 Server 時，統一採用 HTTP 模式連線至 <code>localhost:8080</code>。</p>
+</blockquote>
+<h3 id="HTTP-模式（適用-Claude-Desktop、Cursor、Windsurf）"><a href="#HTTP-模式（適用-Claude-Desktop、Cursor、Windsurf）" class="headerlink" title="HTTP 模式（適用 Claude Desktop、Cursor、Windsurf）"></a>HTTP 模式（適用 Claude Desktop、Cursor、Windsurf）</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;mcpServers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;unityMCP&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://localhost:8080/mcp&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="VS-Code-設定"><a href="#VS-Code-設定" class="headerlink" title="VS Code 設定"></a>VS Code 設定</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;servers&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;unityMCP&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://localhost:8080/mcp&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="實際演示"><a href="#實際演示" class="headerlink" title="實際演示"></a>實際演示</h2><p>現在我們可以像開頭說的，直接對 AI 說：「幫我建立一個有紅色、藍色和黃色方塊的場景」，AI 就能透過 MCP 協定直接操作你的 Unity 專案。</p>
+<div style="position: relative; width: 100%; max-width: 800px; margin: 20px auto; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+    <iframe src="https://www.youtube.com/embed/lMJTd4M1AD4?rel=0&modestbranding=1&showinfo=0" 
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
+            allowfullscreen>
+    </iframe>
+  </div>
+</div>
+
+<hr>
+<h2 id="可用工具一覽"><a href="#可用工具一覽" class="headerlink" title="可用工具一覽"></a>可用工具一覽</h2><p>安裝完成後，AI 助手可透過以下工具操作你的 Unity 專案：</p>
+<h3 id="場景與物件管理"><a href="#場景與物件管理" class="headerlink" title="場景與物件管理"></a>場景與物件管理</h3><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>manage_scene</code></td>
+<td>建立、載入、儲存場景，查詢場景階層</td>
+</tr>
+<tr>
+<td><code>manage_gameobject</code></td>
+<td>新增、修改、刪除 GameObject，管理元件屬性</td>
+</tr>
+<tr>
+<td><code>find_gameobjects</code></td>
+<td>依名稱、標籤或條件搜尋場景中的物件</td>
+</tr>
+<tr>
+<td><code>manage_components</code></td>
+<td>新增、移除、設定 GameObject 上的元件</td>
+</tr>
+<tr>
+<td><code>manage_prefabs</code></td>
+<td>建立、修改、實例化 Prefab</td>
+</tr>
+</tbody></table>
+<h3 id="資產管理"><a href="#資產管理" class="headerlink" title="資產管理"></a>資產管理</h3><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>manage_asset</code></td>
+<td>搜尋、建立、修改專案資產</td>
+</tr>
+<tr>
+<td><code>manage_material</code></td>
+<td>建立與設定材質屬性</td>
+</tr>
+<tr>
+<td><code>manage_texture</code></td>
+<td>管理貼圖資產</td>
+</tr>
+<tr>
+<td><code>manage_shader</code></td>
+<td>建立與設定著色器</td>
+</tr>
+</tbody></table>
+<h3 id="腳本開發"><a href="#腳本開發" class="headerlink" title="腳本開發"></a>腳本開發</h3><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>create_script</code></td>
+<td>建立新的 C# 腳本</td>
+</tr>
+<tr>
+<td><code>manage_script</code></td>
+<td>讀取與修改腳本內容</td>
+</tr>
+<tr>
+<td><code>delete_script</code></td>
+<td>刪除腳本</td>
+</tr>
+<tr>
+<td><code>validate_script</code></td>
+<td>驗證腳本語法正確性</td>
+</tr>
+<tr>
+<td><code>script_apply_edits</code></td>
+<td>套用腳本編輯</td>
+</tr>
+<tr>
+<td><code>apply_text_edits</code></td>
+<td>通用文字編輯工具</td>
+</tr>
+<tr>
+<td><code>find_in_file</code></td>
+<td>在檔案中搜尋內容</td>
+</tr>
+</tbody></table>
+<h3 id="動畫、UI-與視覺效果"><a href="#動畫、UI-與視覺效果" class="headerlink" title="動畫、UI 與視覺效果"></a>動畫、UI 與視覺效果</h3><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>manage_animation</code></td>
+<td>建立與設定動畫 Clip、Animator 控制器</td>
+</tr>
+<tr>
+<td><code>manage_ui</code></td>
+<td>管理 Unity UI 元件</td>
+</tr>
+<tr>
+<td><code>manage_vfx</code></td>
+<td>設定視覺特效（VFX Graph）</td>
+</tr>
+<tr>
+<td><code>manage_camera</code></td>
+<td>設定相機，支援 Cinemachine</td>
+</tr>
+<tr>
+<td><code>manage_graphics</code></td>
+<td>後處理、光照烘焙、渲染管線設定（33 項操作）</td>
+</tr>
+</tbody></table>
+<h3 id="編輯器與專案管理"><a href="#編輯器與專案管理" class="headerlink" title="編輯器與專案管理"></a>編輯器與專案管理</h3><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>manage_editor</code></td>
+<td>控制 Play Mode、暫停，管理標籤 &#x2F; Layer</td>
+</tr>
+<tr>
+<td><code>manage_packages</code></td>
+<td>安裝、移除、搜尋 Unity 套件</td>
+</tr>
+<tr>
+<td><code>execute_menu_item</code></td>
+<td>執行 Unity 選單項目</td>
+</tr>
+<tr>
+<td><code>read_console</code></td>
+<td>讀取 Unity Console 輸出</td>
+</tr>
+<tr>
+<td><code>refresh_unity</code></td>
+<td>刷新 AssetDatabase</td>
+</tr>
+<tr>
+<td><code>run_tests</code></td>
+<td>執行 Unity 測試</td>
+</tr>
+<tr>
+<td><code>batch_execute</code></td>
+<td>批次執行多個操作（效能提升 10 ～ 100 倍）</td>
+</tr>
+<tr>
+<td><code>manage_tools</code></td>
+<td>即時切換工具群組的啟用狀態</td>
+</tr>
+</tbody></table>
+<h3 id="API-驗證"><a href="#API-驗證" class="headerlink" title="API 驗證"></a>API 驗證</h3><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>unity_reflect</code></td>
+<td>透過反射即時查詢 C# API 資訊</td>
+</tr>
+<tr>
+<td><code>unity_docs</code></td>
+<td>取得官方 Unity 文件（ScriptReference、Manual）</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>效能提示</strong>：執行多個操作時，建議使用 <code>batch_execute</code> — 比逐一呼叫快 10 ～ 100 倍！</p>
+</blockquote>
+<hr>
+<h2 id="多-Unity-實例管理"><a href="#多-Unity-實例管理" class="headerlink" title="多 Unity 實例管理"></a>多 Unity 實例管理</h2><p>MCP for Unity 支援同時連接多個 Unity Editor 實例，方便在多專案環境下工作。</p>
+<ol>
+<li>請 AI 查詢 <code>unity_instances</code> 資源以列出目前連線的實例</li>
+<li>使用 <code>set_active_instance</code>，傳入 <code>Name@hash</code> 格式（例如 <code>MyProject@abc123</code>）指定目標實例</li>
+<li>後續所有工具呼叫都會路由至指定的實例</li>
+</ol>
+<hr>
+<h2 id="進階功能：Roslyn-腳本驗證"><a href="#進階功能：Roslyn-腳本驗證" class="headerlink" title="進階功能：Roslyn 腳本驗證"></a>進階功能：Roslyn 腳本驗證</h2><p>啟用 Roslyn 後，AI 可在執行前進行<strong>嚴格驗證</strong>，即時偵測未定義的命名空間、型別和方法。</p>
+<h3 id="一鍵安裝（推薦）"><a href="#一鍵安裝（推薦）" class="headerlink" title="一鍵安裝（推薦）"></a>一鍵安裝（推薦）</h3><p>開啟 <code>Window &gt; MCP for Unity</code>，切換至 <strong>Scripts&#x2F;Validation</strong> 頁籤，找到 <strong>Runtime Code Execution (Roslyn)</strong> 區塊，點擊 <strong>Install Roslyn DLLs</strong>。</p>
+<p>系統會自動下載必要的 NuGet 套件，並將 DLL 放置於 <code>Assets/Plugins/Roslyn/</code>。</p>
+<p>也可從選單執行：<code>Window &gt; MCP For Unity &gt; Install Roslyn DLLs</code></p>
+<h3 id="手動安裝"><a href="#手動安裝" class="headerlink" title="手動安裝"></a>手動安裝</h3><ol>
+<li>安裝 <a target="_blank" rel="noopener" href="https://github.com/GlitchEnzo/NuGetForUnity">NuGetForUnity</a></li>
+<li>透過 <code>Window &gt; NuGet Package Manager</code> 安裝 <code>Microsoft.CodeAnalysis</code> v5.0</li>
+<li>同時安裝 <code>SQLitePCLRaw.core</code> 與 <code>SQLitePCLRaw.bundle_e_sqlite3</code> v3.0.2</li>
+<li>前往 <code>Player Settings &gt; Scripting Define Symbols</code>，加入 <code>USE_ROSLYN</code></li>
+<li>重新啟動 Unity</li>
+</ol>
+<hr>
+<h2 id="常見問題與排解"><a href="#常見問題與排解" class="headerlink" title="常見問題與排解"></a>常見問題與排解</h2><table>
+<thead>
+<tr>
+<th>問題</th>
+<th>解決方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Unity Bridge 無法連線</td>
+<td>確認 <code>Window &gt; MCP for Unity</code> 狀態，嘗試重啟 Unity</td>
+</tr>
+<tr>
+<td>Docker 容器無法啟動</td>
+<td>檢查 <code>docker compose logs unity-mcp-server</code> 查看錯誤輸出</td>
+</tr>
+<tr>
+<td>Server 健康檢查失敗</td>
+<td>確認容器正在運行（<code>docker ps</code>），並確認 port 8080 沒有被其他程式佔用</td>
+</tr>
+<tr>
+<td>客戶端無法連線</td>
+<td>確認 <code>curl http://localhost:8080/health</code> 有正常回應，URL 與設定一致</td>
+</tr>
+<tr>
+<td>WSL 無法存取 localhost</td>
+<td>確認 Docker Desktop 已啟用 WSL 2 整合（Settings &gt; Resources &gt; WSL Integration）</td>
+</tr>
+</tbody></table>
+<p>更多詳細排解指南：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/CoplayDev/unity-mcp/wiki/1.-Fix-Unity-MCP-and-Cursor,-VSCode-&-Windsurf">修復 Cursor、VSCode 及 Windsurf 連線問題</a>（uv&#x2F;Python 安裝、PATH 設定）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/CoplayDev/unity-mcp/wiki/2.-Fix-Unity-MCP-and-Claude-Code">修復 Claude Code 連線問題</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/CoplayDev/unity-mcp/wiki/3.-Common-Setup-Problems">常見安裝問題 FAQ</a>（macOS dyld 錯誤等）</li>
+</ul>
+<p>仍有問題？<a target="_blank" rel="noopener" href="https://github.com/CoplayDev/unity-mcp/issues">提交 Issue</a> 或加入 <a target="_blank" rel="noopener" href="https://discord.gg/y4p8KfzrN4">Discord 社群</a>。</p>
+<hr>
+<h2 id="安全性說明"><a href="#安全性說明" class="headerlink" title="安全性說明"></a>安全性說明</h2><p>MCP for Unity 的網路設定採用預設封閉原則，以確保安全：</p>
+<ul>
+<li><strong>HTTP Local 模式</strong>：預設只允許本機回環位址（<code>127.0.0.1</code>、<code>localhost</code>、<code>::1</code>）</li>
+<li>若需綁定所有網路介面（<code>0.0.0.0</code>、<code>::</code>），需在 <strong>Advanced Settings</strong> 中明確啟用 <strong>Allow LAN Bind</strong></li>
+<li><strong>HTTP Remote 模式</strong>：預設要求使用 <code>https://</code> 加密傳輸</li>
+<li>若要使用明文 <code>http://</code> 進行遠端連線，需明確啟用 <strong>Allow Insecure Remote HTTP</strong></li>
+</ul>
+<blockquote>
+<p><strong>免責聲明</strong>：本專案為 Unity Editor 的免費開源工具，與 Unity Technologies 無從屬關係。</p>
+</blockquote>
+<hr>
+<h2 id="相關資源"><a href="#相關資源" class="headerlink" title="相關資源"></a>相關資源</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/CoplayDev/unity-mcp">GitHub 專案主頁</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.coplay.dev/">Coplay 官方網站</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/copilot-cli/" rel="tag"># copilot cli</a>
+              <a href="/tags/unity/" rel="tag"># unity</a>
+              <a href="/tags/mcp/" rel="tag"># mcp</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/21/wsl-install/" rel="prev" title="WSL2 安裝指南">
+                  <i class="fa fa-angle-left"></i> WSL2 安裝指南
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"cbf7e29f169e3aff69fc73097bc83fa0"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+</body>
+</html>
