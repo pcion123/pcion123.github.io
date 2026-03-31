@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="VS Code Agent Skills 使用指南GitHub Copilot 的 Agent Skills 功能讓你能夠建立可重複使用的工作流程，並在需要時自動載入對應的指令、腳本與資源。本文將介紹 Agent Skills 的核心概念、建立方式，以及與其他自訂功能的差異。 Agent Skills 是什麼？Agent Skills 是由一個資料夾組成的技能包，內含 SKILL.md 指令檔、腳">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VS Code Agent Skills 使用指南">
+<meta property="og:url" content="https://pcion123.github.io/2026/03/31/vscode-skill-intro/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="VS Code Agent Skills 使用指南GitHub Copilot 的 Agent Skills 功能讓你能夠建立可重複使用的工作流程，並在需要時自動載入對應的指令、腳本與資源。本文將介紹 Agent Skills 的核心概念、建立方式，以及與其他自訂功能的差異。 Agent Skills 是什麼？Agent Skills 是由一個資料夾組成的技能包，內含 SKILL.md 指令檔、腳">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://code.visualstudio.com/assets/docs/copilot/customization/create-skill.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/03/31/vscode-skill-intro/vscode_skill_1.webp">
+<meta property="article:published_time" content="2026-03-31T15:45:43.000Z">
+<meta property="article:modified_time" content="2026-03-31T15:53:14.113Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="vscode">
+<meta property="article:tag" content="skills">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://code.visualstudio.com/assets/docs/copilot/customization/create-skill.png">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/03/31/vscode-skill-intro/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/03/31/vscode-skill-intro/","path":"2026/03/31/vscode-skill-intro/","title":"VS Code Agent Skills 使用指南"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>VS Code Agent Skills 使用指南 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#VS-Code-Agent-Skills-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97"><span class="nav-number">1.</span> <span class="nav-text">VS Code Agent Skills 使用指南</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Agent-Skills-%E6%98%AF%E4%BB%80%E9%BA%BC%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">Agent Skills 是什麼？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Agent-Skills-vs-%E8%87%AA%E8%A8%82%E6%8C%87%E4%BB%A4"><span class="nav-number">1.2.</span> <span class="nav-text">Agent Skills vs. 自訂指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E6%8A%80%E8%83%BD"><span class="nav-number">1.3.</span> <span class="nav-text">建立技能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%84%B2%E5%AD%98%E4%BD%8D%E7%BD%AE"><span class="nav-number">1.3.1.</span> <span class="nav-text">儲存位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%8B%E5%8B%95%E5%BB%BA%E7%AB%8B%E6%AD%A5%E9%A9%9F"><span class="nav-number">1.3.2.</span> <span class="nav-text">手動建立步驟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-AI-%E8%87%AA%E5%8B%95%E7%94%9F%E6%88%90"><span class="nav-number">1.3.3.</span> <span class="nav-text">使用 AI 自動生成</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SKILL-md-%E6%AA%94%E6%A1%88%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.4.</span> <span class="nav-text">SKILL.md 檔案格式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#YAML-Frontmatter%EF%BC%88%E5%BF%85%E5%A1%AB%EF%BC%89"><span class="nav-number">1.4.1.</span> <span class="nav-text">YAML Frontmatter（必填）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E4%BB%A4%E5%85%A7%E6%96%87%EF%BC%88Body%EF%BC%89"><span class="nav-number">1.4.2.</span> <span class="nav-text">指令內文（Body）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A5-Slash-Command-%E5%91%BC%E5%8F%AB%E6%8A%80%E8%83%BD"><span class="nav-number">1.5.</span> <span class="nav-text">以 Slash Command 呼叫技能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Copilot-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E6%8A%80%E8%83%BD"><span class="nav-number">1.6.</span> <span class="nav-text">Copilot 如何使用技能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Copilot-CLI-%E5%AF%A6%E9%9A%9BDemo"><span class="nav-number">1.7.</span> <span class="nav-text">Copilot CLI 實際Demo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%A4%BE%E7%BE%A4%E5%88%86%E4%BA%AB%E7%9A%84%E6%8A%80%E8%83%BD"><span class="nav-number">1.8.</span> <span class="nav-text">使用社群分享的技能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E9%BB%9E%E6%95%B4%E7%90%86"><span class="nav-number">1.9.</span> <span class="nav-text">重點整理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E9%97%9C%E8%B3%87%E6%BA%90"><span class="nav-number">1.10.</span> <span class="nav-text">相關資源</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/copilot-cli/" style="font-size: 17.14px;" class="tag-cloud-3">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 24.86px;" class="tag-cloud-7">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/github-copilot/" style="font-size: 14.57px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 17.14px;" class="tag-cloud-3">gitlab</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 19.71px;" class="tag-cloud-4">java</a> <a href="/tags/jdk/" style="font-size: 14.57px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 19.71px;" class="tag-cloud-4">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 27.43px;" class="tag-cloud-9">kubernetes</a> <a href="/tags/linux/" style="font-size: 30px;" class="tag-cloud-10">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 17.14px;" class="tag-cloud-3">maven</a> <a href="/tags/mcp/" style="font-size: 14.57px;" class="tag-cloud-1">mcp</a> <a href="/tags/minikube/" style="font-size: 14.57px;" class="tag-cloud-1">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 14.57px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/pm2/" style="font-size: 14.57px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 17.14px;" class="tag-cloud-3">powershell</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/skills/" style="font-size: 12px;" class="tag-cloud-0">skills</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 17.14px;" class="tag-cloud-3">terminal</a> <a href="/tags/tomcat/" style="font-size: 14.57px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 24.86px;" class="tag-cloud-7">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/vscode/" style="font-size: 22.29px;" class="tag-cloud-6">vscode</a> <a href="/tags/windows/" style="font-size: 19.71px;" class="tag-cloud-4">windows</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 17.14px;" class="tag-cloud-3">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/03/31/vscode-skill-intro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="VS Code Agent Skills 使用指南 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          VS Code Agent Skills 使用指南
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-03-31 23:45:43 / 修改時間：23:53:14" itemprop="dateCreated datePublished" datetime="2026-03-31T23:45:43+08:00">2026-03-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/vscodelife/" itemprop="url" rel="index"><span itemprop="name">vscodelife</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="VS-Code-Agent-Skills-使用指南"><a href="#VS-Code-Agent-Skills-使用指南" class="headerlink" title="VS Code Agent Skills 使用指南"></a>VS Code Agent Skills 使用指南</h1><p>GitHub Copilot 的 Agent Skills 功能讓你能夠建立可重複使用的工作流程，並在需要時自動載入對應的指令、腳本與資源。本文將介紹 Agent Skills 的核心概念、建立方式，以及與其他自訂功能的差異。</p>
+<h2 id="Agent-Skills-是什麼？"><a href="#Agent-Skills-是什麼？" class="headerlink" title="Agent Skills 是什麼？"></a>Agent Skills 是什麼？</h2><p>Agent Skills 是由一個資料夾組成的技能包，內含 <code>SKILL.md</code> 指令檔、腳本與相關資源。當 GitHub Copilot 判斷某個技能與當前任務相關時，會自動載入對應的內容。</p>
+<p>Agent Skills 的設計遵循開放標準（<a target="_blank" rel="noopener" href="https://agentskills.io/">agentskills.io</a>），因此建立好的技能不僅適用於 VS Code，也能在 GitHub Copilot CLI 與 GitHub Copilot Coding Agent 等環境中使用。</p>
+<p><strong>使用 Agent Skills 的主要優點：</strong></p>
+<ul>
+<li><strong>專業化</strong>：為特定領域的任務量身打造能力，不需每次重複說明背景</li>
+<li><strong>減少重工</strong>：建立一次，自動套用於所有相關對話</li>
+<li><strong>組合運用</strong>：多個技能可以組合搭配，建構複雜的工作流程</li>
+<li><strong>高效載入</strong>：僅在相關時才將內容載入 context，避免浪費 token</li>
+</ul>
+<span id="more"></span>
+
+<hr>
+<h2 id="Agent-Skills-vs-自訂指令"><a href="#Agent-Skills-vs-自訂指令" class="headerlink" title="Agent Skills vs. 自訂指令"></a>Agent Skills vs. 自訂指令</h2><p>Agent Skills 與 Custom Instructions（自訂指令）都能自訂 Copilot 的行為，但用途截然不同：</p>
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>Agent Skills</th>
+<th>Custom Instructions</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>用途</td>
+<td>封裝專業能力與工作流程</td>
+<td>定義編碼規範與準則</td>
+</tr>
+<tr>
+<td>可攜性</td>
+<td>跨 VS Code、Copilot CLI、Copilot Coding Agent</td>
+<td>僅限 VS Code 與 GitHub.com</td>
+</tr>
+<tr>
+<td>內容</td>
+<td>指令、腳本、範例與資源</td>
+<td>僅限指令</td>
+</tr>
+<tr>
+<td>載入時機</td>
+<td>依需求動態載入</td>
+<td>永遠套用（或透過 glob 模式控制）</td>
+</tr>
+<tr>
+<td>標準</td>
+<td>開放標準（agentskills.io）</td>
+<td>VS Code 專屬</td>
+</tr>
+</tbody></table>
+<p><strong>選用 Agent Skills 的情境：</strong></p>
+<ul>
+<li>需要跨不同 AI 工具重複使用同一套能力</li>
+<li>需要附帶腳本、範例或其他資源</li>
+<li>定義測試、除錯或部署等專業工作流程</li>
+</ul>
+<p><strong>選用 Custom Instructions 的情境：</strong></p>
+<ul>
+<li>定義專案的編碼規範</li>
+<li>設定語言或框架慣例</li>
+<li>套用基於檔案類型的規則</li>
+</ul>
+<hr>
+<h2 id="建立技能"><a href="#建立技能" class="headerlink" title="建立技能"></a>建立技能</h2><h3 id="儲存位置"><a href="#儲存位置" class="headerlink" title="儲存位置"></a>儲存位置</h3><p>技能分為兩種範疇：</p>
+<table>
+<thead>
+<tr>
+<th>類型</th>
+<th>儲存路徑</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>專案技能（存放於 repository）</td>
+<td><code>.github/skills/</code>、<code>.claude/skills/</code>、<code>.agents/skills/</code></td>
+</tr>
+<tr>
+<td>個人技能（存放於使用者設定）</td>
+<td><code>~/.copilot/skills/</code>、<code>~/.claude/skills/</code>、<code>~/.agents/skills/</code></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>提示</strong>：可在設定中調整 <code>chat.agentSkillsLocations</code>，指定額外的技能搜尋位置，方便跨專案共用。</p>
+</blockquote>
+<h3 id="手動建立步驟"><a href="#手動建立步驟" class="headerlink" title="手動建立步驟"></a>手動建立步驟</h3><ol>
+<li>在 Chat 視圖中，選擇齒輪圖示開啟 <strong>Chat Customizations</strong> 編輯器，切換至 <strong>Skills</strong> 頁籤</li>
+<li>從下拉選單選擇 <strong>New Skill (Workspace)</strong> 或 <strong>New Skill (User)</strong></li>
+</ol>
+<p><img src="https://code.visualstudio.com/assets/docs/copilot/customization/create-skill.png" alt="建立新技能的畫面，顯示 Chat Customizations 編輯器的 Skills 頁籤與下拉選單"></p>
+<ol start="3">
+<li>選擇儲存位置並輸入技能名稱</li>
+<li>填寫 <code>SKILL.md</code> 的 YAML frontmatter 與指令內文</li>
+<li>依需求新增腳本、範例或其他資源</li>
+</ol>
+<h3 id="使用-AI-自動生成"><a href="#使用-AI-自動生成" class="headerlink" title="使用 AI 自動生成"></a>使用 AI 自動生成</h3><p>在聊天輸入框中輸入 <code>/create-skill</code>，並描述你想建立的技能（例如「一個用來執行與除錯整合測試的技能」）。Copilot 會提問釐清需求，並自動生成包含目錄結構、指令與 frontmatter 的 <code>SKILL.md</code> 檔案。</p>
+<p>你也可以從正在進行的對話中萃取技能——例如在一段多輪除錯對話結束後，輸入「從我們剛才的除錯過程建立技能」，讓 Copilot 將這段流程封裝成可重複使用的技能。</p>
+<hr>
+<h2 id="SKILL-md-檔案格式"><a href="#SKILL-md-檔案格式" class="headerlink" title="SKILL.md 檔案格式"></a>SKILL.md 檔案格式</h2><p><code>SKILL.md</code> 是一個包含 YAML frontmatter 的 Markdown 檔案，負責定義技能的元資料與行為。</p>
+<h3 id="YAML-Frontmatter（必填）"><a href="#YAML-Frontmatter（必填）" class="headerlink" title="YAML Frontmatter（必填）"></a>YAML Frontmatter（必填）</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">skill-name</span>              <span class="comment"># 必填：小寫英數字與連字號，需與資料夾名稱相同，最多 64 字元</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">&#x27;說明技能的功能與使用時機，越具體越好，最多 1024 字元&#x27;</span></span><br><span class="line"><span class="attr">argument-hint:</span> <span class="string">&#x27;[可選] 以 slash command 呼叫時顯示的提示文字&#x27;</span></span><br><span class="line"><span class="attr">user-invocable:</span> <span class="literal">true</span>          <span class="comment"># 可選，預設 true：false 則不顯示於 / 選單</span></span><br><span class="line"><span class="attr">disable-model-invocation:</span> <span class="literal">false</span> <span class="comment"># 可選，預設 false：true 則僅允許手動呼叫</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>各欄位說明：</strong></p>
+<table>
+<thead>
+<tr>
+<th>欄位</th>
+<th>必填</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>name</code></td>
+<td>是</td>
+<td>技能唯一識別名稱，需與上層資料夾名稱完全相同</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>是</td>
+<td>描述功能與使用時機，是 Copilot 判斷是否載入的依據</td>
+</tr>
+<tr>
+<td><code>argument-hint</code></td>
+<td>否</td>
+<td>以 slash command 呼叫時顯示的輸入提示</td>
+</tr>
+<tr>
+<td><code>user-invocable</code></td>
+<td>否</td>
+<td>是否顯示於 <code>/</code> 選單，預設 <code>true</code></td>
+</tr>
+<tr>
+<td><code>disable-model-invocation</code></td>
+<td>否</td>
+<td>禁止 Copilot 自動載入，僅允許手動呼叫，預設 <code>false</code></td>
+</tr>
+</tbody></table>
+<h3 id="指令內文（Body）"><a href="#指令內文（Body）" class="headerlink" title="指令內文（Body）"></a>指令內文（Body）</h3><p>內文填寫 Copilot 使用此技能時應遵循的指令、準則與範例，建議包含：</p>
+<ul>
+<li>技能能完成的事項</li>
+<li>使用時機說明</li>
+<li>逐步操作流程</li>
+<li>預期輸入與輸出的範例</li>
+<li>隨附腳本或資源的參考路徑</li>
+</ul>
+<p>可以用相對路徑引用技能資料夾內的檔案，例如：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">執行測試請參考 [<span class="string">測試腳本</span>](<span class="link">./scripts/test.js</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>完整範例：</strong></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">name: webapp-testing</span><br><span class="line"><span class="section">description: &#x27;測試 Web 應用程式的技能。Use for: verifying frontend, debugging UI, capturing screenshots.&#x27;</span></span><br><span class="line"><span class="section">---</span></span><br><span class="line"></span><br><span class="line"><span class="section"># Web 應用程式測試</span></span><br><span class="line"></span><br><span class="line"><span class="section">## 使用時機</span></span><br><span class="line"><span class="bullet">-</span> 驗證前端功能</span><br><span class="line"><span class="bullet">-</span> 除錯 UI 行為</span><br><span class="line"></span><br><span class="line"><span class="section">## 操作步驟</span></span><br><span class="line"><span class="bullet">1.</span> 啟動 Web 伺服器</span><br><span class="line"><span class="bullet">2.</span> 執行 [<span class="string">測試腳本</span>](<span class="link">./scripts/test.js</span>)</span><br><span class="line"><span class="bullet">3.</span> 查閱 <span class="code">`./screenshots/`</span> 中的截圖結果</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="以-Slash-Command-呼叫技能"><a href="#以-Slash-Command-呼叫技能" class="headerlink" title="以 Slash Command 呼叫技能"></a>以 Slash Command 呼叫技能</h2><p>技能建立後會自動出現在 chat 的 <code>/</code> 指令選單中。輸入 <code>/</code> 即可瀏覽所有可用的技能與 prompt，選取後即可呼叫。</p>
+<p>呼叫時也能附加額外的情境說明，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/webapp-testing 驗證登入頁面的功能</span><br><span class="line">/github-actions-debugging PR #42</span><br></pre></td></tr></table></figure>
+
+<p><strong>Slash Command 行為控制：</strong></p>
+<table>
+<thead>
+<tr>
+<th>設定組合</th>
+<th>顯示於 &#x2F; 選單</th>
+<th>自動載入</th>
+<th>適用情境</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>預設（兩者皆略去）</td>
+<td>是</td>
+<td>是</td>
+<td>一般用途技能</td>
+</tr>
+<tr>
+<td><code>user-invocable: false</code></td>
+<td>否</td>
+<td>是</td>
+<td>背景知識型技能（由 Copilot 自動判斷載入）</td>
+</tr>
+<tr>
+<td><code>disable-model-invocation: true</code></td>
+<td>是</td>
+<td>否</td>
+<td>僅在手動呼叫時執行的技能</td>
+</tr>
+<tr>
+<td>兩者皆設定</td>
+<td>否</td>
+<td>否</td>
+<td>暫時停用的技能</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="Copilot-如何使用技能"><a href="#Copilot-如何使用技能" class="headerlink" title="Copilot 如何使用技能"></a>Copilot 如何使用技能</h2><p>技能採用<strong>漸進式載入</strong>機制，確保 context 使用效率：</p>
+<ol>
+<li><strong>探索（Discovery）</strong>：Copilot 讀取 YAML frontmatter 中的 <code>name</code> 與 <code>description</code>。當你提出相關問題時，Copilot 會根據描述比對最合適的技能。</li>
+<li><strong>載入指令（Instructions Loading）</strong>：Copilot 將 <code>SKILL.md</code> 的內文載入 context，取得詳細的操作流程與準則。你也可以直接輸入 <code>/技能名稱</code> 手動觸發此步驟。</li>
+<li><strong>存取資源（Resource Access）</strong>：當 Copilot 在執行指令時需要引用額外檔案（如腳本或範例），才會按需載入技能資料夾中的對應資源。</li>
+</ol>
+<p>這個三層式載入機制的優點在於：即使安裝了大量技能，也不會佔用不必要的 context，Copilot 只會載入當前任務真正需要的內容。</p>
+<hr>
+<h2 id="Copilot-CLI-實際Demo"><a href="#Copilot-CLI-實際Demo" class="headerlink" title="Copilot CLI 實際Demo"></a>Copilot CLI 實際Demo</h2><img src="/2026/03/31/vscode-skill-intro/vscode_skill_1.webp" class="">
+
+<hr>
+<h2 id="使用社群分享的技能"><a href="#使用社群分享的技能" class="headerlink" title="使用社群分享的技能"></a>使用社群分享的技能</h2><p>你可以從以下社群資源取得現成的技能：</p>
+<ul>
+<li><strong><a target="_blank" rel="noopener" href="https://github.com/github/awesome-copilot">github&#x2F;awesome-copilot</a></strong>：持續成長的社群技能、自訂 Agent、指令與 Prompt 集合</li>
+<li><strong><a target="_blank" rel="noopener" href="https://github.com/anthropics/skills">anthropics&#x2F;skills</a></strong>：額外的參考技能</li>
+</ul>
+<p>使用步驟：</p>
+<ol>
+<li>瀏覽上述 repository 中的可用技能</li>
+<li>將技能資料夾複製到你的 <code>.github/skills/</code> 目錄</li>
+<li>檢閱並視需要自訂 <code>SKILL.md</code> 內容</li>
+<li>依需求修改或新增資源</li>
+</ol>
+<blockquote>
+<p><strong>安全提示</strong>：使用前務必仔細審查共享技能的內容，確認符合你的需求與安全標準。</p>
+</blockquote>
+<hr>
+<h2 id="重點整理"><a href="#重點整理" class="headerlink" title="重點整理"></a>重點整理</h2><ul>
+<li>Agent Skills 讓你能夠封裝可重複使用的工作流程，並搭配腳本與資源一同管理</li>
+<li><code>SKILL.md</code> 中的 <code>name</code> 需與資料夾名稱完全相同</li>
+<li><code>description</code> 是 Copilot 自動判斷是否載入的關鍵，請寫得具體且包含觸發關鍵字</li>
+<li>技能採用漸進式載入，不用擔心安裝太多技能會影響效能</li>
+<li>Agent Skills 遵循開放標準，可跨多個 AI 工具使用</li>
+</ul>
+<hr>
+<h2 id="相關資源"><a href="#相關資源" class="headerlink" title="相關資源"></a>相關資源</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/copilot/customization/overview">Customize AI responses overview</a></li>
+<li><a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/copilot/customization/custom-instructions">Create custom instructions</a></li>
+<li><a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/copilot/customization/prompt-files">Create reusable prompt files</a></li>
+<li><a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/copilot/customization/custom-agents">Create custom agents</a></li>
+<li><a target="_blank" rel="noopener" href="https://agentskills.io/">Agent Skills specification</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/vscode/" rel="tag"># vscode</a>
+              <a href="/tags/skills/" rel="tag"># skills</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/30/chrome-devtools-mcp-install/" rel="prev" title="Chrome DevTools MCP 安裝指南與使用">
+                  <i class="fa fa-angle-left"></i> Chrome DevTools MCP 安裝指南與使用
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"760d72ecf44d0eaaeb7f7a487b6b804c"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+</body>
+</html>
