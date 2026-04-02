@@ -1335,7 +1335,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #ff6605;
+    background: #1f0644;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -1681,6 +1681,30 @@ pre code {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.sidebar-post-related {
+  font-size: 0.8125em;
+  padding: 18px 0 0 0;
+}
+.popular-posts {
+  margin: 0;
+  padding: 1em 0;
+  text-align: left;
+}
+.popular-posts .popular-posts-item {
+  display: block;
+}
+.popular-posts .popular-posts-item .popular-posts-link {
+  border-bottom: 0;
+  display: block;
+  padding: 5px 20px;
+  transition: background 0.2s ease-in-out;
+}
+.popular-posts .popular-posts-item .popular-posts-link:hover {
+  background: var(--menu-item-bg-color);
+}
+.popular-posts .popular-posts-item .popular-posts-time {
+  color: #999;
 }
 .footer {
   color: #999;
@@ -2908,4 +2932,221 @@ header.header {
 }
 .post-body .video-container {
   padding-top: 56.25%;
+}
+.post-recent-posts {
+  margin-top: 2em;
+}
+.post-recent-posts .post-recent-posts-title {
+  font-size: 0.875em;
+  font-weight: 600;
+  margin-bottom: 1em;
+  color: var(--link-color);
+}
+.post-recent-posts .post-recent-posts-title i {
+  margin-right: 0.4em;
+}
+.post-recent-posts .post-recent-posts-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+@media (max-width: 900px) {
+  .post-recent-posts .post-recent-posts-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .post-recent-posts .post-recent-posts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.post-recent-posts .post-recent-card {
+  display: block;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+  background: var(--card-bg-color);
+}
+.post-recent-posts .post-recent-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+  text-decoration: none;
+}
+.post-recent-posts .post-recent-card .post-recent-card-banner {
+  position: relative;
+  width: 100%;
+  padding-top: 70%;
+  overflow: hidden;
+  background: var(--card-bg-color);
+}
+.post-recent-posts .post-recent-card .post-recent-card-banner::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 22px;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(90deg, #100a30 0% 14.29%, #2a1a70 14.29% 28.57%, #4a30a8 28.57% 42.86%, #65c 42.86% 57.14%, #8899f0 57.14% 71.43%, #aabbf5 71.43% 85.71%, #dde0ff 85.71% 100%);
+}
+.post-recent-posts .post-recent-card .post-recent-card-banner img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.post-recent-posts .post-recent-card .post-recent-card-banner .post-recent-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  background: transparent;
+  transition: background 0.2s;
+  z-index: 2;
+}
+.post-recent-posts .post-recent-card .post-recent-card-banner .post-recent-card-overlay .post-recent-card-title {
+  color: #fff;
+  font-size: 0.95em;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.post-recent-posts .post-recent-card .post-recent-card-banner:hover .post-recent-card-overlay {
+  background: rgba(255,255,255,0.06);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--vscodelife {
+  background: var(--card-bg-color);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--vscodelife::before {
+  background: linear-gradient(90deg, #120020 0% 14.29%, #3d0080 14.29% 28.57%, #6200bf 28.57% 42.86%, #9026e0 42.86% 57.14%, #bb86fc 57.14% 71.43%, #d4aaff 71.43% 85.71%, #eedbff 85.71% 100%);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--docker {
+  background: var(--card-bg-color);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--docker::before {
+  background: linear-gradient(90deg, #001040 0% 14.29%, #002b8c 14.29% 28.57%, #004fd0 28.57% 42.86%, #1d63ed 42.86% 57.14%, #69f 57.14% 71.43%, #9bf 71.43% 85.71%, #cce0ff 85.71% 100%);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--kubernetes {
+  background: var(--card-bg-color);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--kubernetes::before {
+  background: linear-gradient(90deg, #001040 0% 14.29%, #002b8c 14.29% 28.57%, #1a4fa0 28.57% 42.86%, #326ce5 42.86% 57.14%, #69f 57.14% 71.43%, #9bf 71.43% 85.71%, #cce0ff 85.71% 100%);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--linux {
+  background: var(--card-bg-color);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--linux::before {
+  background: linear-gradient(90deg, #2a1000 0% 14.29%, #5c2500 14.29% 28.57%, #994000 28.57% 42.86%, #c60 42.86% 57.14%, #f7971e 57.14% 71.43%, #ffc066 71.43% 85.71%, #ffe8cc 85.71% 100%);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--jenkins {
+  background: var(--card-bg-color);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--jenkins::before {
+  background: linear-gradient(90deg, #200000 0% 14.29%, #500000 14.29% 28.57%, #8b1717 28.57% 42.86%, #c02020 42.86% 57.14%, #d33833 57.14% 71.43%, #e88888 71.43% 85.71%, #f8cccc 85.71% 100%);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--gitlab {
+  background: var(--card-bg-color);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--gitlab::before {
+  background: linear-gradient(90deg, #2a0800 0% 14.29%, #601500 14.29% 28.57%, #992800 28.57% 42.86%, #cc3500 42.86% 57.14%, #e24329 57.14% 71.43%, #ed8070 71.43% 85.71%, #f8ccbb 85.71% 100%);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--elasticsearch {
+  background: var(--card-bg-color);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--elasticsearch::before {
+  background: linear-gradient(90deg, #001a18 0% 14.29%, #004040 14.29% 28.57%, #007070 28.57% 42.86%, #009f99 42.86% 57.14%, #00bfb3 57.14% 71.43%, #66d9d5 71.43% 85.71%, #ccf0ee 85.71% 100%);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--nginx {
+  background: var(--card-bg-color);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--nginx::before {
+  background: linear-gradient(90deg, #001500 0% 14.29%, #030 14.29% 28.57%, #050 28.57% 42.86%, #080 42.86% 57.14%, #0b0 57.14% 71.43%, #6d6 71.43% 85.71%, #ccf2cc 85.71% 100%);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--nodejs {
+  background: var(--card-bg-color);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--nodejs::before {
+  background: linear-gradient(90deg, #0a1a08 0% 14.29%, #1a3818 14.29% 28.57%, #255222 28.57% 42.86%, #3c873a 42.86% 57.14%, #60b05e 57.14% 71.43%, #90cc8e 71.43% 85.71%, #c5e8c4 85.71% 100%);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--java {
+  background: var(--card-bg-color);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--java::before {
+  background: linear-gradient(90deg, #2a1000 0% 14.29%, #5c2500 14.29% 28.57%, #994000 28.57% 42.86%, #c50 42.86% 57.14%, #e76f00 57.14% 71.43%, #fa5 71.43% 85.71%, #ffe0bb 85.71% 100%);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--windows {
+  background: var(--card-bg-color);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--windows::before {
+  background: linear-gradient(90deg, #001828 0% 14.29%, #003a6b 14.29% 28.57%, #005fb0 28.57% 42.86%, #0078d4 42.86% 57.14%, #4da8ff 57.14% 71.43%, #9cf 71.43% 85.71%, #cce5ff 85.71% 100%);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--maven {
+  background: var(--card-bg-color);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--maven::before {
+  background: linear-gradient(90deg, #200000 0% 14.29%, #500000 14.29% 28.57%, #800 28.57% 42.86%, #b50000 42.86% 57.14%, #d42020 57.14% 71.43%, #e87070 71.43% 85.71%, #f8cccc 85.71% 100%);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--tomcat {
+  background: var(--card-bg-color);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--tomcat::before {
+  background: linear-gradient(90deg, #1e0e00 0% 14.29%, #4a2400 14.29% 28.57%, #7a3e00 28.57% 42.86%, #a85900 42.86% 57.14%, #f5a623 57.14% 71.43%, #ffc866 71.43% 85.71%, #ffe9aa 85.71% 100%);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--pm2 {
+  background: var(--card-bg-color);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--pm2::before {
+  background: linear-gradient(90deg, #080808 0% 14.29%, #1a1a1a 14.29% 28.57%, #333 28.57% 42.86%, #555 42.86% 57.14%, #888 57.14% 71.43%, #bbb 71.43% 85.71%, #eee 85.71% 100%);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--telegram {
+  background: var(--card-bg-color);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--telegram::before {
+  background: linear-gradient(90deg, #001820 0% 14.29%, #003d55 14.29% 28.57%, #069 28.57% 42.86%, #08c 42.86% 57.14%, #2ca5e0 57.14% 71.43%, #7ce 71.43% 85.71%, #ccecf8 85.71% 100%);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--unity {
+  background: var(--card-bg-color);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--unity::before {
+  background: linear-gradient(90deg, #080c10 0% 14.29%, #121c24 14.29% 28.57%, #1e2c38 28.57% 42.86%, #2c3e50 42.86% 57.14%, #607080 57.14% 71.43%, #9aaabb 71.43% 85.71%, #dde5ee 85.71% 100%);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--default {
+  background: var(--card-bg-color);
+}
+.post-recent-posts .post-recent-card .post-recent-card-cat--default::before {
+  background: linear-gradient(90deg, #100a30 0% 14.29%, #2a1a70 14.29% 28.57%, #4a30a8 28.57% 42.86%, #65c 42.86% 57.14%, #8899f0 57.14% 71.43%, #aabbf5 71.43% 85.71%, #dde0ff 85.71% 100%);
+}
+.post-recent-posts .post-recent-card .post-recent-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 8px;
+  font-size: 0.75em;
+  background: var(--card-bg-color);
+}
+.post-recent-posts .post-recent-card .post-recent-card-meta .post-recent-card-date {
+  color: #888;
+}
+.post-recent-posts .post-recent-card .post-recent-card-meta .post-recent-card-cat {
+  color: var(--link-color);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 55%;
 }
