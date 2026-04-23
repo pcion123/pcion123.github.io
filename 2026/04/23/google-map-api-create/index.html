@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="從零開始導入 Google Maps API簡介什麼是 Google Maps API？Google Maps API 是 Google 提供的網頁地圖服務，讓開發者能在自己的網站或 Web App 中嵌入互動式地圖。除了基本的地圖顯示外，還支援標記（Marker）、路線規劃、街景、自訂樣式等豐富功能,是製作 LBS（Location-Based Service）應用、店家定位、地圖小遊戲等常見專">
+<meta property="og:type" content="article">
+<meta property="og:title" content="從零開始導入 Google Maps API">
+<meta property="og:url" content="https://pcion123.github.io/2026/04/23/google-map-api-create/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="從零開始導入 Google Maps API簡介什麼是 Google Maps API？Google Maps API 是 Google 提供的網頁地圖服務，讓開發者能在自己的網站或 Web App 中嵌入互動式地圖。除了基本的地圖顯示外，還支援標記（Marker）、路線規劃、街景、自訂樣式等豐富功能,是製作 LBS（Location-Based Service）應用、店家定位、地圖小遊戲等常見專">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2026/04/23/google-map-api-create/google_map_api_create_1.jpg">
+<meta property="article:published_time" content="2026-04-23T14:49:39.000Z">
+<meta property="article:modified_time" content="2026-04-23T15:07:26.761Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="googlemap">
+<meta property="article:tag" content="gamedev">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2026/04/23/google-map-api-create/google_map_api_create_1.jpg">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/04/23/google-map-api-create/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/04/23/google-map-api-create/","path":"2026/04/23/google-map-api-create/","title":"從零開始導入 Google Maps API"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>從零開始導入 Google Maps API | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BE%9E%E9%9B%B6%E9%96%8B%E5%A7%8B%E5%B0%8E%E5%85%A5-Google-Maps-API"><span class="nav-number">1.</span> <span class="nav-text">從零開始導入 Google Maps API</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B0%A1%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">簡介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-Google-Maps-API%EF%BC%9F"><span class="nav-number">1.1.1.</span> <span class="nav-text">什麼是 Google Maps API？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%A9%E5%90%88%E4%BD%BF%E7%94%A8%E6%83%85%E5%A2%83"><span class="nav-number">1.1.2.</span> <span class="nav-text">適合使用情境</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%B5%B1%E8%A6%81%E6%B1%82"><span class="nav-number">1.2.</span> <span class="nav-text">系統要求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-1%EF%BC%9A%E5%BB%BA%E7%AB%8B-Google-Cloud-%E5%B0%88%E6%A1%88"><span class="nav-number">1.3.</span> <span class="nav-text">步驟 1：建立 Google Cloud 專案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-2%EF%BC%9A%E5%95%9F%E7%94%A8-Maps-JavaScript-API"><span class="nav-number">1.4.</span> <span class="nav-text">步驟 2：啟用 Maps JavaScript API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-3%EF%BC%9A%E5%BB%BA%E7%AB%8B%E4%B8%A6%E9%99%90%E5%88%B6-API-Key"><span class="nav-number">1.5.</span> <span class="nav-text">步驟 3：建立並限制 API Key</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-4%EF%BC%9A%E5%BB%BA%E7%AB%8B%E7%AC%AC%E4%B8%80%E5%BC%B5%E5%9C%B0%E5%9C%96"><span class="nav-number">1.6.</span> <span class="nav-text">步驟 4：建立第一張地圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A8%8B%E5%BC%8F%E7%A2%BC%E8%A7%A3%E6%9E%90"><span class="nav-number">1.7.</span> <span class="nav-text">程式碼解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BC%89%E5%85%A5%E8%85%B3%E6%9C%AC%E7%9A%84%E5%85%A9%E5%80%8B%E9%97%9C%E9%8D%B5%E5%8F%83%E6%95%B8"><span class="nav-number">1.7.1.</span> <span class="nav-text">載入腳本的兩個關鍵參數</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8B%95%E6%85%8B%E8%BC%89%E5%85%A5%E5%87%BD%E5%BC%8F%E5%BA%AB-importLibrary"><span class="nav-number">1.7.2.</span> <span class="nav-text">動態載入函式庫:importLibrary()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Map-%E5%BB%BA%E6%A7%8B%E5%AD%90%E7%9A%84%E5%B8%B8%E7%94%A8%E9%81%B8%E9%A0%85"><span class="nav-number">1.7.3.</span> <span class="nav-text">Map 建構子的常用選項</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C%E6%8E%92%E9%99%A4"><span class="nav-number">1.8.</span> <span class="nav-text">常見問題排除</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%B0%E5%9C%96%E5%8D%80%E5%9F%9F%E9%A1%AF%E7%A4%BA%E7%81%B0%E5%BA%95%E4%B8%A6%E5%87%BA%E7%8F%BE%E8%AD%A6%E5%91%8A"><span class="nav-number">1.8.1.</span> <span class="nav-text">地圖區域顯示灰底並出現警告</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%B0%E5%9C%96%E5%AE%B9%E5%99%A8%E6%B2%92%E6%9C%89%E9%AB%98%E5%BA%A6"><span class="nav-number">1.8.2.</span> <span class="nav-text">地圖容器沒有高度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#initMap-is-not-a-function-%E9%8C%AF%E8%AA%A4"><span class="nav-number">1.8.3.</span> <span class="nav-text">initMap is not a function 錯誤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AA%9E"><span class="nav-number">1.9.</span> <span class="nav-text">結語</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/copilot-cli/" style="font-size: 17.14px;" class="tag-cloud-3">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 24.86px;" class="tag-cloud-7">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 12px;" class="tag-cloud-0">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 14.57px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 17.14px;" class="tag-cloud-3">gitlab</a> <a href="/tags/googlemap/" style="font-size: 12px;" class="tag-cloud-0">googlemap</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 19.71px;" class="tag-cloud-4">java</a> <a href="/tags/jdk/" style="font-size: 14.57px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 19.71px;" class="tag-cloud-4">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 27.43px;" class="tag-cloud-9">kubernetes</a> <a href="/tags/linux/" style="font-size: 30px;" class="tag-cloud-10">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 17.14px;" class="tag-cloud-3">maven</a> <a href="/tags/mcp/" style="font-size: 14.57px;" class="tag-cloud-1">mcp</a> <a href="/tags/minikube/" style="font-size: 14.57px;" class="tag-cloud-1">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 14.57px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/pm2/" style="font-size: 14.57px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 17.14px;" class="tag-cloud-3">powershell</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/skills/" style="font-size: 14.57px;" class="tag-cloud-1">skills</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 17.14px;" class="tag-cloud-3">terminal</a> <a href="/tags/tomcat/" style="font-size: 14.57px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 24.86px;" class="tag-cloud-7">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/vscode/" style="font-size: 22.29px;" class="tag-cloud-6">vscode</a> <a href="/tags/windows/" style="font-size: 19.71px;" class="tag-cloud-4">windows</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 17.14px;" class="tag-cloud-3">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/04/23/google-map-api-create/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="從零開始導入 Google Maps API | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          從零開始導入 Google Maps API
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-04-23 22:49:39 / 修改時間：23:07:26" itemprop="dateCreated datePublished" datetime="2026-04-23T22:49:39+08:00">2026-04-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/gamelife/" itemprop="url" rel="index"><span itemprop="name">gamelife</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="從零開始導入-Google-Maps-API"><a href="#從零開始導入-Google-Maps-API" class="headerlink" title="從零開始導入 Google Maps API"></a>從零開始導入 Google Maps API</h1><h2 id="簡介"><a href="#簡介" class="headerlink" title="簡介"></a>簡介</h2><h3 id="什麼是-Google-Maps-API？"><a href="#什麼是-Google-Maps-API？" class="headerlink" title="什麼是 Google Maps API？"></a>什麼是 Google Maps API？</h3><p>Google Maps API 是 Google 提供的網頁地圖服務，讓開發者能在自己的網站或 Web App 中嵌入互動式地圖。除了基本的地圖顯示外，還支援標記（Marker）、路線規劃、街景、自訂樣式等豐富功能,是製作 LBS（Location-Based Service）應用、店家定位、地圖小遊戲等常見專案時的首選方案。</p>
+<p>本文以最精簡的範例,示範如何取得 API Key、建立第一張可運作的地圖,並透過 <code>importLibrary()</code> 動態載入新版地圖函式庫。</p>
+<h3 id="適合使用情境"><a href="#適合使用情境" class="headerlink" title="適合使用情境"></a>適合使用情境</h3><ul>
+<li>需要在網站中嵌入互動式地圖的應用</li>
+<li>開發以地理位置為基礎的小型專案或 Game Jam 作品</li>
+<li>想體驗 Google Maps 新版動態載入 API（<code>importLibrary</code>）的開發者</li>
+<li>需要使用 Cloud-based Map Styling（雲端地圖樣式）的專案</li>
+</ul>
+<span id="more"></span>
+
+<hr>
+<h2 id="系統要求"><a href="#系統要求" class="headerlink" title="系統要求"></a>系統要求</h2><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>需求</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>瀏覽器</td>
+<td>任何支援 ES2017（async&#x2F;await）的現代瀏覽器</td>
+</tr>
+<tr>
+<td>Google 帳號</td>
+<td>已啟用結帳功能的 Google Cloud 帳號</td>
+</tr>
+<tr>
+<td>開發環境</td>
+<td>任意靜態網頁伺服器(VS Code Live Server、Vite、http-server 等)</td>
+</tr>
+<tr>
+<td>網路連線</td>
+<td>可連線至 <code>maps.googleapis.com</code></td>
+</tr>
+</tbody></table>
+<hr>
+<blockquote>
+<p><strong>重要提醒</strong>：Google Maps Platform 雖然提供每月免費額度,但仍須在 Google Cloud Console 中<strong>啟用結帳帳戶</strong>才能取得可用的 API Key。請務必於 Cloud Console 中設定<strong>配額（Quota）<strong>或</strong>用量上限警示</strong>,避免因額度爆量而產生非預期費用。</p>
+</blockquote>
+<hr>
+<h2 id="步驟-1：建立-Google-Cloud-專案"><a href="#步驟-1：建立-Google-Cloud-專案" class="headerlink" title="步驟 1：建立 Google Cloud 專案"></a>步驟 1：建立 Google Cloud 專案</h2><p>要使用 Google Maps API,必須先在 Google Cloud Platform 上建立一個專案來承載相關設定。</p>
+<ol>
+<li>前往 <a target="_blank" rel="noopener" href="https://console.cloud.google.com/">Google Cloud Console</a> 並登入 Google 帳號。</li>
+<li>點擊頂部的專案下拉選單,選擇 <strong>New Project（新增專案）</strong>。</li>
+<li>輸入專案名稱(例如 <code>my-map-demo</code>),選擇所屬組織後按下 <strong>Create</strong>。</li>
+<li>等待專案建立完成,並從上方的下拉選單切換到該專案。</li>
+</ol>
+<hr>
+<h2 id="步驟-2：啟用-Maps-JavaScript-API"><a href="#步驟-2：啟用-Maps-JavaScript-API" class="headerlink" title="步驟 2：啟用 Maps JavaScript API"></a>步驟 2：啟用 Maps JavaScript API</h2><p>新版的 Google Maps Platform 採取「按服務啟用」的模式,需要先開啟對應的 API 才能使用。</p>
+<ol>
+<li>在 Cloud Console 左側導覽列中,選擇 <strong>APIs &amp; Services &gt; Library</strong>。</li>
+<li>在搜尋框輸入 <code>Maps JavaScript API</code>,點擊搜尋結果。</li>
+<li>進入服務頁面後,按下 <strong>Enable</strong> 按鈕啟用此 API。</li>
+</ol>
+<blockquote>
+<p><strong>小提醒</strong>:如果未來要使用 Places、Directions、Geocoding 等其他服務,也需要在 Library 中分別啟用,各自會獨立計算用量。</p>
+</blockquote>
+<hr>
+<h2 id="步驟-3：建立並限制-API-Key"><a href="#步驟-3：建立並限制-API-Key" class="headerlink" title="步驟 3：建立並限制 API Key"></a>步驟 3：建立並限制 API Key</h2><p>API Key 是呼叫 Google Maps 服務的憑證,<strong>強烈建議</strong>在建立後立刻加上使用限制,避免被盜用造成損失。</p>
+<ol>
+<li>進入 <strong>APIs &amp; Services &gt; Credentials</strong>。</li>
+<li>點擊 <strong>Create Credentials &gt; API key</strong>,系統會產生一組金鑰。</li>
+<li>複製 Key 並按下 <strong>Edit API key</strong>(或點擊金鑰名稱)進入詳細設定。</li>
+<li>在 <strong>Application restrictions</strong> 中選擇 <strong>HTTP referrers (web sites)</strong>,並加入允許的網域,例如:<ul>
+<li>本地開發:<code>http://localhost:5500/*</code></li>
+<li>正式環境:<code>https://your-domain.com/*</code></li>
+</ul>
+</li>
+<li>在 <strong>API restrictions</strong> 中選擇 <strong>Restrict key</strong>,勾選剛才啟用的 <strong>Maps JavaScript API</strong>。</li>
+<li>按下 <strong>Save</strong> 儲存設定。</li>
+</ol>
+<blockquote>
+<p><strong>安全提醒</strong>:絕對不要將 API Key 直接 commit 到公開的 Git Repository。建議透過環境變數、後端代理或建置流程注入。</p>
+</blockquote>
+<hr>
+<h2 id="步驟-4：建立第一張地圖"><a href="#步驟-4：建立第一張地圖" class="headerlink" title="步驟 4：建立第一張地圖"></a>步驟 4：建立第一張地圖</h2><p>設定完成後,只需要一個 HTML 檔案就能渲染出第一張地圖。以下是一份完整可運作的最小範例:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Google Map Test<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">      <span class="comment">/* 讓地圖填滿整個畫面 */</span></span></span><br><span class="line"><span class="language-css">      <span class="selector-tag">html</span>, <span class="selector-tag">body</span> &#123;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">height</span>: <span class="number">100%</span>;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">margin</span>: <span class="number">0</span>;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">padding</span>: <span class="number">0</span>;</span></span><br><span class="line"><span class="language-css">      &#125;</span></span><br><span class="line"><span class="language-css">      <span class="comment">/* 這是用來裝載地圖的容器 */</span></span></span><br><span class="line"><span class="language-css">      <span class="selector-id">#map</span> &#123;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">height</span>: <span class="number">100%</span>;</span></span><br><span class="line"><span class="language-css">        <span class="attribute">width</span>: <span class="number">100%</span>;</span></span><br><span class="line"><span class="language-css">      &#125;</span></span><br><span class="line"><span class="language-css">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;map&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">      <span class="comment">// 初始化地圖的函數</span></span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">let</span> map;</span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">initMap</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="comment">// 載入核心地圖函式庫</span></span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">const</span> &#123; <span class="title class_">Map</span> &#125; = <span class="keyword">await</span> google.<span class="property">maps</span>.<span class="title function_">importLibrary</span>(<span class="string">&quot;maps&quot;</span>);</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="comment">// 建立地圖實體,並設定中心點與縮放級別</span></span></span><br><span class="line"><span class="language-javascript">        map = <span class="keyword">new</span> <span class="title class_">Map</span>(<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;map&quot;</span>), &#123;</span></span><br><span class="line"><span class="language-javascript">          <span class="attr">center</span>: &#123; <span class="attr">lat</span>: <span class="number">25.033968</span>, <span class="attr">lng</span>: <span class="number">121.564468</span> &#125;, <span class="comment">// 預設中心點設定在台北101</span></span></span><br><span class="line"><span class="language-javascript">          <span class="attr">zoom</span>: <span class="number">14</span>, <span class="comment">// 數值越大,視角越近</span></span></span><br><span class="line"><span class="language-javascript">          <span class="attr">mapId</span>: <span class="string">&quot;DEMO_MAP_ID&quot;</span>, <span class="comment">// 未來如果要套用 Cloud 樣式,會需要這個設定</span></span></span><br><span class="line"><span class="language-javascript">          <span class="attr">disableDefaultUI</span>: <span class="literal">true</span> <span class="comment">// 隱藏預設的縮放與街景控制項</span></span></span><br><span class="line"><span class="language-javascript">        &#125;);</span></span><br><span class="line"><span class="language-javascript">      &#125;</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span></span></span><br><span class="line"><span class="tag">        <span class="attr">src</span>=<span class="string">&quot;https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&amp;callback=initMap&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>將上述程式碼中的 <code>YOUR_API_KEY</code> 替換成步驟 3 取得的金鑰,接著用任何靜態伺服器開啟此頁面即可看到地圖。</p>
+<img src="/2026/04/23/google-map-api-create/google_map_api_create_1.jpg" class="">
+
+<hr>
+<h2 id="程式碼解析"><a href="#程式碼解析" class="headerlink" title="程式碼解析"></a>程式碼解析</h2><h3 id="載入腳本的兩個關鍵參數"><a href="#載入腳本的兩個關鍵參數" class="headerlink" title="載入腳本的兩個關鍵參數"></a>載入腳本的兩個關鍵參數</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span></span></span><br><span class="line"><span class="tag">    <span class="attr">src</span>=<span class="string">&quot;https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&amp;callback=initMap&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>async</code></td>
+<td>讓瀏覽器以非同步方式載入腳本,不會阻塞頁面渲染</td>
+</tr>
+<tr>
+<td><code>key</code></td>
+<td>上一步取得的 API Key,Google 透過此值辨識用量歸屬</td>
+</tr>
+<tr>
+<td><code>callback</code></td>
+<td>腳本載入完成後要呼叫的全域函式名稱(此處為 <code>initMap</code>)</td>
+</tr>
+</tbody></table>
+<p>由於使用了 <code>callback</code>,<code>initMap</code> 必須是<strong>全域函式</strong>才能被 Google Maps 腳本呼叫到。</p>
+<h3 id="動態載入函式庫-importLibrary"><a href="#動態載入函式庫-importLibrary" class="headerlink" title="動態載入函式庫:importLibrary()"></a>動態載入函式庫:<code>importLibrary()</code></h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; <span class="title class_">Map</span> &#125; = <span class="keyword">await</span> google.<span class="property">maps</span>.<span class="title function_">importLibrary</span>(<span class="string">&quot;maps&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>過去要使用 <code>Marker</code>、<code>places</code> 或 <code>drawing</code> 等功能,需要在 <code>&lt;script&gt;</code> 的 URL 中以 <code>&amp;libraries=places,drawing</code> 的方式預先載入,造成初始載入體積過大。</p>
+<p>新版 API 改用 <code>importLibrary()</code> 動態載入所需模組,常見的函式庫名稱包括:</p>
+<ul>
+<li><code>&quot;maps&quot;</code>:核心地圖類別(<code>Map</code>、<code>InfoWindow</code>)</li>
+<li><code>&quot;marker&quot;</code>:<code>AdvancedMarkerElement</code> 等新版標記</li>
+<li><code>&quot;places&quot;</code>:Places API(自動完成、附近搜尋)</li>
+<li><code>&quot;geocoding&quot;</code>:地址與座標互轉</li>
+<li><code>&quot;routes&quot;</code>:路線規劃</li>
+</ul>
+<p>採用此方式後,只會載入實際使用到的功能,有助於提升頁面效能。</p>
+<h3 id="Map-建構子的常用選項"><a href="#Map-建構子的常用選項" class="headerlink" title="Map 建構子的常用選項"></a>Map 建構子的常用選項</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">map = <span class="keyword">new</span> <span class="title class_">Map</span>(<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;map&quot;</span>), &#123;</span><br><span class="line">  <span class="attr">center</span>: &#123; <span class="attr">lat</span>: <span class="number">25.033968</span>, <span class="attr">lng</span>: <span class="number">121.564468</span> &#125;,</span><br><span class="line">  <span class="attr">zoom</span>: <span class="number">14</span>,</span><br><span class="line">  <span class="attr">mapId</span>: <span class="string">&quot;DEMO_MAP_ID&quot;</span>,</span><br><span class="line">  <span class="attr">disableDefaultUI</span>: <span class="literal">true</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>選項</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>center</code></td>
+<td>地圖初始中心點,以 <code>&#123; lat, lng &#125;</code> 物件指定</td>
+</tr>
+<tr>
+<td><code>zoom</code></td>
+<td>縮放級別,數值越大越接近地面(常用 0~22)</td>
+</tr>
+<tr>
+<td><code>mapId</code></td>
+<td>對應 Cloud Console 中設定的地圖樣式 ID</td>
+</tr>
+<tr>
+<td><code>disableDefaultUI</code></td>
+<td>隱藏所有預設控制項,適合需要自訂 UI 的情境</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>關於 <code>mapId</code></strong>:若要使用 <code>AdvancedMarkerElement</code> 或 Cloud-based Map Styling,<strong>必須</strong>指定一組有效的 <code>mapId</code>。範例中的 <code>&quot;DEMO_MAP_ID&quot;</code> 為 Google 提供的測試用 ID,正式專案應於 Cloud Console 中自行建立。</p>
+</blockquote>
+<hr>
+<h2 id="常見問題排除"><a href="#常見問題排除" class="headerlink" title="常見問題排除"></a>常見問題排除</h2><h3 id="地圖區域顯示灰底並出現警告"><a href="#地圖區域顯示灰底並出現警告" class="headerlink" title="地圖區域顯示灰底並出現警告"></a>地圖區域顯示灰底並出現警告</h3><p>最常見的原因有三種:</p>
+<ol>
+<li><strong>API Key 未啟用對應服務</strong>:確認 Maps JavaScript API 已在 Library 中 Enable。</li>
+<li><strong>Referrer 限制不符</strong>:檢查目前網址是否符合 Credentials 中設定的 HTTP referrers。</li>
+<li><strong>未啟用結帳帳戶</strong>:即使在免費額度內,Google Cloud 仍要求綁定有效的付款方式。</li>
+</ol>
+<p>開啟瀏覽器 DevTools 的 Console 面板,Google Maps 通常會輸出明確的錯誤訊息(例如 <code>RefererNotAllowedMapError</code>、<code>ApiNotActivatedMapError</code>),依訊息修正即可。</p>
+<h3 id="地圖容器沒有高度"><a href="#地圖容器沒有高度" class="headerlink" title="地圖容器沒有高度"></a>地圖容器沒有高度</h3><p>如果 <code>#map</code> 的父層元素未設定高度,地圖將會以 0px 呈現而看不到任何內容。請確認 <code>html</code>、<code>body</code> 與 <code>#map</code> 都明確設定了 <code>height</code>,如同範例中的 CSS 寫法。</p>
+<h3 id="initMap-is-not-a-function-錯誤"><a href="#initMap-is-not-a-function-錯誤" class="headerlink" title="initMap is not a function 錯誤"></a><code>initMap is not a function</code> 錯誤</h3><p><code>callback</code> 指定的函式必須掛在全域 <code>window</code> 物件下。若使用模組打包工具(如 Vite、Webpack),預設不會將函式暴露為全域,需要手動執行 <code>window.initMap = initMap;</code> 才能被 Google Maps 腳本呼叫。</p>
+<hr>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>到這裡,已經完成了 Google Maps JavaScript API 的最小可運作範例。後續可以延伸的方向相當多元,例如加入 <code>AdvancedMarkerElement</code> 顯示自訂圖示、整合 Places API 製作搜尋框、或是透過 Cloud-based Map Styling 打造專屬風格的地圖外觀。</p>
+<p>最近我正嘗試用 AI 來製作一款基於 Google Maps API 的遊戲,也因為這樣,才促成了這篇文章的整理與撰寫。對於 Game Dev 等短期專案而言,Google Maps 的優勢在於資料完整、文件豐富、上手快速;只要妥善設定 API Key 限制與用量警示,就能在免費額度內完成大多數原型驗證。</p>
+<p>如果後續實作與踩坑經驗累積得夠完整,也有機會再把相關內容整理成系列文章,包含地圖互動設計、位置資料應用,以及 AI 輔助開發流程等主題。有興趣的話,可以期待一下後面的延伸分享。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <div class="post-recent-posts" style="display:none">
+      <div class="post-recent-posts-title">
+        <i class="fa fa-history fa-fw"></i> 近期文章
+      </div>
+      <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/04/23/google-map-api-create/" title="從零開始導入 Google Maps API">
+            <div class="post-recent-card-banner post-recent-card-cat--gamelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">從零開始導入 Google Maps API</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-04-23</span><span class="post-recent-card-cat">gamelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/04/22/uv-install/" title="uv 安裝指南">
+            <div class="post-recent-card-banner post-recent-card-cat--python">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">uv 安裝指南</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-04-22</span><span class="post-recent-card-cat">python</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/04/01/vscode-skill-create/" title="用 `/create-skill` 打造專屬 Copilot 技能">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">用 `/create-skill` 打造專屬 Copilot 技能</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-04-01</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/03/31/vscode-skill-intro/" title="VS Code Agent Skills 使用指南">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">VS Code Agent Skills 使用指南</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-03-31</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/03/30/chrome-devtools-mcp-install/" title="Chrome DevTools MCP 安裝指南與使用">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Chrome DevTools MCP 安裝指南與使用</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-03-30</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function showRecentPosts() {
+          var block = document.querySelector('.post-recent-posts');
+          if (!block) return;
+
+          // 重置狀態
+          block.classList.remove('animated', 'fadeIn');
+          block.style.display = 'none';
+
+          var comments = document.querySelector('.comments');
+          if (comments) {
+            comments.parentNode.insertBefore(block, comments);
+          }
+
+          function reveal() {
+            block.style.display = '';
+            block.offsetHeight; // force reflow
+            block.classList.add('animated', 'fadeIn');
+          }
+
+          if (!comments) {
+            reveal();
+          } else {
+            // 觀察 .comments 被 NexT motion 加上 animated class 的時機
+            var observer = new MutationObserver(function () {
+              if (comments.classList.contains('animated')) {
+                observer.disconnect();
+                reveal();
+              }
+            });
+            observer.observe(comments, { attributes: true, attributeFilter: ['class'] });
+            // 若 motion 已跑完（comments 已有 animated），也直接顯示
+            if (comments.classList.contains('animated')) {
+              observer.disconnect();
+              reveal();
+            }
+          }
+        }
+
+        // 初次載入
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', showRecentPosts, { once: true });
+        } else {
+          showRecentPosts();
+        }
+
+        // PJAX：pjax:success 時 NexT motion 剛啟動（async），.comments 尚未有 animated
+        document.addEventListener('pjax:success', showRecentPosts);
+      })();
+    </script>
+
+          <div class="post-tags">
+              <a href="/tags/googlemap/" rel="tag"># googlemap</a>
+              <a href="/tags/gamedev/" rel="tag"># gamedev</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/04/22/uv-install/" rel="prev" title="uv 安裝指南">
+                  <i class="fa fa-angle-left"></i> uv 安裝指南
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"4a3645cbe1e6eed86fd110161410bdf2"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+</body>
+</html>
