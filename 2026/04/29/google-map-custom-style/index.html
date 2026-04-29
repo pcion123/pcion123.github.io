@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="客製化 Google Map 樣式完整教學Google Maps 是目前最廣泛使用的地圖服務之一,但預設樣式對於追求設計感或特殊主題的網站(例如遊戲、品牌官網、資料視覺化儀表板)來說,往往略顯單調。所幸 Google 提供了完整的樣式自訂機制,讓開發者可以透過 JSON 設定檔調整地圖上每一項元素的色彩、可見度與標籤呈現方式。 本文將介紹兩個最常被使用的工具:官方推出的 Google Maps S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="客製化 Google Map 樣式完整教學">
+<meta property="og:url" content="https://pcion123.github.io/2026/04/29/google-map-custom-style/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="客製化 Google Map 樣式完整教學Google Maps 是目前最廣泛使用的地圖服務之一,但預設樣式對於追求設計感或特殊主題的網站(例如遊戲、品牌官網、資料視覺化儀表板)來說,往往略顯單調。所幸 Google 提供了完整的樣式自訂機制,讓開發者可以透過 JSON 設定檔調整地圖上每一項元素的色彩、可見度與標籤呈現方式。 本文將介紹兩個最常被使用的工具:官方推出的 Google Maps S">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2026/04/29/google-map-custom-style/google_map_custom_style_01.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/04/29/google-map-custom-style/google_map_custom_style_02.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/04/29/google-map-custom-style/google_map_custom_style_03.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/04/29/google-map-custom-style/google_map_custom_style_04.jpg">
+<meta property="article:published_time" content="2026-04-29T12:57:22.000Z">
+<meta property="article:modified_time" content="2026-04-29T13:00:16.359Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="googlemap">
+<meta property="article:tag" content="gamedev">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2026/04/29/google-map-custom-style/google_map_custom_style_01.jpg">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/04/29/google-map-custom-style/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/04/29/google-map-custom-style/","path":"2026/04/29/google-map-custom-style/","title":"客製化 Google Map 樣式完整教學"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>客製化 Google Map 樣式完整教學 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%A2%E8%A3%BD%E5%8C%96-Google-Map-%E6%A8%A3%E5%BC%8F%E5%AE%8C%E6%95%B4%E6%95%99%E5%AD%B8"><span class="nav-number">1.</span> <span class="nav-text">客製化 Google Map 樣式完整教學</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E8%A6%81%E5%AE%A2%E8%A3%BD%E5%8C%96%E5%9C%B0%E5%9C%96%E6%A8%A3%E5%BC%8F"><span class="nav-number">1.1.</span> <span class="nav-text">為什麼要客製化地圖樣式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E4%B8%80-Google-Maps-Styling-Wizard"><span class="nav-number">1.2.</span> <span class="nav-text">工具一:Google Maps Styling Wizard</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8B%E9%9D%A2%E6%93%8D%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">1.2.1.</span> <span class="nav-text">介面操作流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%B2%E9%9A%8E%E8%87%AA%E8%A8%82-More-Options"><span class="nav-number">1.2.2.</span> <span class="nav-text">進階自訂(More Options)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%AF%E5%87%BA-JSON-%E6%A8%A3%E5%BC%8F"><span class="nav-number">1.2.3.</span> <span class="nav-text">匯出 JSON 樣式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E4%BA%8C-Snazzy-Maps-%E6%A8%A3%E6%9D%BF%E7%B6%B2%E7%AB%99"><span class="nav-number">1.3.</span> <span class="nav-text">工具二:Snazzy Maps 樣板網站</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%80%8F%E8%A6%BD%E8%88%87%E7%AF%A9%E9%81%B8"><span class="nav-number">1.3.1.</span> <span class="nav-text">瀏覽與篩選</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%96%E5%BE%97%E6%A8%A3%E5%BC%8F%E7%A8%8B%E5%BC%8F%E7%A2%BC"><span class="nav-number">1.3.2.</span> <span class="nav-text">取得樣式程式碼</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%BB%E5%86%8A%E5%B8%B3%E8%99%9F%E7%9A%84%E5%A5%BD%E8%99%95"><span class="nav-number">1.3.3.</span> <span class="nav-text">註冊帳號的好處</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%87%E6%A8%A3%E5%BC%8F%E5%A5%97%E7%94%A8%E5%88%B0%E7%B6%B2%E9%A0%81"><span class="nav-number">1.4.</span> <span class="nav-text">將樣式套用到網頁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cloud-based-Map-Styling-%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85"><span class="nav-number">1.4.1.</span> <span class="nav-text">Cloud-based Map Styling 的注意事項</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E5%8B%99%E5%BB%BA%E8%AD%B0"><span class="nav-number">1.5.</span> <span class="nav-text">實務建議</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AA%9E"><span class="nav-number">1.6.</span> <span class="nav-text">結語</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/copilot-cli/" style="font-size: 17.14px;" class="tag-cloud-3">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 24.86px;" class="tag-cloud-7">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 14.57px;" class="tag-cloud-1">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 14.57px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 17.14px;" class="tag-cloud-3">gitlab</a> <a href="/tags/googlemap/" style="font-size: 14.57px;" class="tag-cloud-1">googlemap</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 19.71px;" class="tag-cloud-4">java</a> <a href="/tags/jdk/" style="font-size: 14.57px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 19.71px;" class="tag-cloud-4">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 27.43px;" class="tag-cloud-9">kubernetes</a> <a href="/tags/linux/" style="font-size: 30px;" class="tag-cloud-10">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 17.14px;" class="tag-cloud-3">maven</a> <a href="/tags/mcp/" style="font-size: 14.57px;" class="tag-cloud-1">mcp</a> <a href="/tags/minikube/" style="font-size: 14.57px;" class="tag-cloud-1">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 14.57px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/pm2/" style="font-size: 14.57px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 17.14px;" class="tag-cloud-3">powershell</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/skills/" style="font-size: 14.57px;" class="tag-cloud-1">skills</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 17.14px;" class="tag-cloud-3">terminal</a> <a href="/tags/tomcat/" style="font-size: 14.57px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 24.86px;" class="tag-cloud-7">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/vscode/" style="font-size: 22.29px;" class="tag-cloud-6">vscode</a> <a href="/tags/windows/" style="font-size: 19.71px;" class="tag-cloud-4">windows</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 17.14px;" class="tag-cloud-3">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相關文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/04/23/google-map-api-create/" rel="bookmark">
+        <time class="popular-posts-time">2026-04-23</time>
+        <br>
+      從零開始導入 Google Maps API
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2018/03/29/jenkins-work/" rel="bookmark">
+        <time class="popular-posts-time">2018-03-29</time>
+        <br>
+      Jenkins + Gitlab + Tomcat 自動化部署
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/04/29/google-map-custom-style/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="客製化 Google Map 樣式完整教學 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          客製化 Google Map 樣式完整教學
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-04-29 20:57:22 / 修改時間：21:00:16" itemprop="dateCreated datePublished" datetime="2026-04-29T20:57:22+08:00">2026-04-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/gamelife/" itemprop="url" rel="index"><span itemprop="name">gamelife</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="客製化-Google-Map-樣式完整教學"><a href="#客製化-Google-Map-樣式完整教學" class="headerlink" title="客製化 Google Map 樣式完整教學"></a>客製化 Google Map 樣式完整教學</h1><p>Google Maps 是目前最廣泛使用的地圖服務之一,但預設樣式對於追求設計感或特殊主題的網站(例如遊戲、品牌官網、資料視覺化儀表板)來說,往往略顯單調。所幸 Google 提供了完整的樣式自訂機制,讓開發者可以透過 JSON 設定檔調整地圖上每一項元素的色彩、可見度與標籤呈現方式。</p>
+<p>本文將介紹兩個最常被使用的工具:官方推出的 <a target="_blank" rel="noopener" href="https://mapstyle.withgoogle.com/">Google Maps Styling Wizard</a>,以及社群維護的 <a target="_blank" rel="noopener" href="https://snazzymaps.com/">Snazzy Maps</a>,並說明如何將樣式套用到實際的網頁中。</p>
+<h2 id="為什麼要客製化地圖樣式"><a href="#為什麼要客製化地圖樣式" class="headerlink" title="為什麼要客製化地圖樣式"></a>為什麼要客製化地圖樣式</h2><p>預設的 Google Maps 配色雖然中性,但在某些情境下會帶來干擾:</p>
+<ul>
+<li><strong>遊戲或互動體驗</strong>:需要突出地圖上的角色、任務點或路線,過多的 POI(興趣點)反而會分散注意力</li>
+<li><strong>品牌一致性</strong>:希望地圖配色與網站主視覺(Logo、主色調)融合</li>
+<li><strong>深色模式</strong>:夜間瀏覽情境下,亮色地圖會造成眩光</li>
+<li><strong>資料視覺化</strong>:在地圖上疊加大量標記或熱力圖時,需要降低底圖的視覺權重</li>
+</ul>
+<p>透過樣式設定,你可以隱藏不需要的元素、調整配色,甚至打造復古、科幻、極簡等各種風格主題。</p>
+<span id="more"></span>
+
+<h2 id="工具一-Google-Maps-Styling-Wizard"><a href="#工具一-Google-Maps-Styling-Wizard" class="headerlink" title="工具一:Google Maps Styling Wizard"></a>工具一:Google Maps Styling Wizard</h2><p><a target="_blank" rel="noopener" href="https://mapstyle.withgoogle.com/">Google Maps Styling Wizard</a> 是 Google 官方提供的線上樣式編輯器,完全免費,且不需要登入即可使用。</p>
+<img src="/2026/04/29/google-map-custom-style/google_map_custom_style_01.jpg" class="">
+
+<h3 id="介面操作流程"><a href="#介面操作流程" class="headerlink" title="介面操作流程"></a>介面操作流程</h3><p>進入網站後,點選 <strong>Create a Style</strong> 開始建立新的樣式。整個編輯介面分為三個主要區塊:</p>
+<ol>
+<li><strong>左側樣板區</strong>:提供 Standard、Silver、Retro、Dark、Night、Aubergine 等內建主題,可作為起始樣板</li>
+<li><strong>中央預覽區</strong>:即時顯示樣式套用後的效果,可以縮放與拖曳</li>
+<li><strong>右側細節調整區</strong>(進入 More Options 後):可針對個別元素進行精細控制</li>
+</ol>
+<img src="/2026/04/29/google-map-custom-style/google_map_custom_style_02.jpg" class="">
+
+<h3 id="進階自訂-More-Options"><a href="#進階自訂-More-Options" class="headerlink" title="進階自訂(More Options)"></a>進階自訂(More Options)</h3><p>點選 <strong>More Options</strong> 後,可以對地圖元素進行細項調整。Google 將地圖元素分為以下幾大類:</p>
+<table>
+<thead>
+<tr>
+<th>元素類別</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>all</code></td>
+<td>所有元素的全域設定</td>
+</tr>
+<tr>
+<td><code>administrative</code></td>
+<td>行政區界線(國家、縣市)</td>
+</tr>
+<tr>
+<td><code>landscape</code></td>
+<td>地形(自然景觀、人造建物)</td>
+</tr>
+<tr>
+<td><code>poi</code></td>
+<td>興趣點(學校、醫院、公園、商家)</td>
+</tr>
+<tr>
+<td><code>road</code></td>
+<td>道路(高速公路、主幹道、巷弄)</td>
+</tr>
+<tr>
+<td><code>transit</code></td>
+<td>大眾運輸(公車、捷運、火車)</td>
+</tr>
+<tr>
+<td><code>water</code></td>
+<td>水域(海洋、河流、湖泊)</td>
+</tr>
+</tbody></table>
+<p>每個類別還可以再細分為 <code>geometry</code>(幾何形狀)、<code>labels</code>(標籤)、<code>labels.icon</code>(標籤圖示)、<code>labels.text</code>(標籤文字)等子層級。針對每個層級,你可以調整:</p>
+<ul>
+<li><strong>Visibility</strong>:<code>on</code>、<code>off</code>、<code>simplified</code> 控制顯示與否</li>
+<li><strong>Color</strong>:幾何形狀的填色</li>
+<li><strong>Stroke</strong>:邊框顏色</li>
+<li><strong>Saturation &#x2F; Lightness &#x2F; Gamma</strong>:整體飽和度與亮度</li>
+</ul>
+<p>舉例來說,若要打造一張「只保留道路與水域」的極簡地圖,可以將 <code>poi</code>、<code>transit</code>、<code>administrative.labels</code> 全部設為 <code>visibility: off</code>。</p>
+<h3 id="匯出-JSON-樣式"><a href="#匯出-JSON-樣式" class="headerlink" title="匯出 JSON 樣式"></a>匯出 JSON 樣式</h3><p>完成編輯後,點選右上角的 <strong>Finish</strong>,Wizard 會產生一段 JSON 陣列。這就是 Google Maps API 所使用的樣式格式,範例如下:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">[</span></span><br><span class="line">  <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;featureType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;poi&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;elementType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;labels&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;stylers&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="punctuation">&#123;</span> <span class="attr">&quot;visibility&quot;</span><span class="punctuation">:</span> <span class="string">&quot;off&quot;</span> <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;featureType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;water&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;elementType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;geometry&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;stylers&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="punctuation">&#123;</span> <span class="attr">&quot;color&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#193341&quot;</span> <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+
+<p>複製這段 JSON,稍後將會使用它套用到實際的地圖實例中。</p>
+<h2 id="工具二-Snazzy-Maps-樣板網站"><a href="#工具二-Snazzy-Maps-樣板網站" class="headerlink" title="工具二:Snazzy Maps 樣板網站"></a>工具二:Snazzy Maps 樣板網站</h2><p>雖然 Wizard 提供了完整的編輯能力,但從零開始設計一份美觀的地圖樣式仍然需要不少美感與時間。<a target="_blank" rel="noopener" href="https://snazzymaps.com/">Snazzy Maps</a> 則是一個由社群驅動的樣式分享平台,上面有超過 40,000 種免費樣式可以直接套用。</p>
+<img src="/2026/04/29/google-map-custom-style/google_map_custom_style_03.jpg" class="">
+
+<h3 id="瀏覽與篩選"><a href="#瀏覽與篩選" class="headerlink" title="瀏覽與篩選"></a>瀏覽與篩選</h3><p>Snazzy Maps 的首頁提供多種瀏覽方式:</p>
+<ul>
+<li><strong>Explore</strong>:依熱門程度、最新上架、編輯精選排序</li>
+<li><strong>Tags</strong>:依標籤篩選,例如 <code>dark</code>、<code>monochrome</code>、<code>retro</code>、<code>subtle</code>、<code>gaming</code></li>
+<li><strong>Colors</strong>:依主色調篩選,適合需要配合品牌色的場景</li>
+</ul>
+<p>點選任一樣式進入詳細頁面後,左側為大圖預覽,右側則直接提供 JavaScript 程式碼與 JSON 樣式陣列。</p>
+<img src="/2026/04/29/google-map-custom-style/google_map_custom_style_04.jpg" class="">
+
+<h3 id="取得樣式程式碼"><a href="#取得樣式程式碼" class="headerlink" title="取得樣式程式碼"></a>取得樣式程式碼</h3><p>在樣式詳細頁面中,你可以選擇兩種使用方式:</p>
+<ol>
+<li><strong>JavaScript Style Array</strong>:直接複製 JSON 陣列,適合自行整合到既有專案</li>
+<li><strong>JavaScript Code</strong>:完整可執行的 HTML + JS 範例,適合快速驗證效果</li>
+</ol>
+<p>對於大部分整合情境,建議直接取用 JSON 陣列,後續再透過 Maps API 注入。</p>
+<h3 id="註冊帳號的好處"><a href="#註冊帳號的好處" class="headerlink" title="註冊帳號的好處"></a>註冊帳號的好處</h3><p>雖然不註冊也能使用大部分功能,但註冊後可以:</p>
+<ul>
+<li>建立個人收藏夾(Favorites),方便管理常用樣式</li>
+<li>上傳自己設計的樣式並分享給社群</li>
+<li>留言與評論其他使用者的作品</li>
+</ul>
+<h2 id="將樣式套用到網頁"><a href="#將樣式套用到網頁" class="headerlink" title="將樣式套用到網頁"></a>將樣式套用到網頁</h2><p>取得 JSON 樣式後,接著就是將它套用到實際的 Google Maps 實例。以下是最常見的 JavaScript Maps API 整合方式:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Custom Styled Map<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">    <span class="selector-id">#map</span> &#123; <span class="attribute">height</span>: <span class="number">100vh</span>; <span class="attribute">width</span>: <span class="number">100%</span>; &#125;</span></span><br><span class="line"><span class="language-css">  </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;map&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">function</span> <span class="title function_">initMap</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">const</span> customStyle = [</span></span><br><span class="line"><span class="language-javascript">        &#123;</span></span><br><span class="line"><span class="language-javascript">          <span class="string">&quot;featureType&quot;</span>: <span class="string">&quot;poi&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">          <span class="string">&quot;elementType&quot;</span>: <span class="string">&quot;labels&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">          <span class="string">&quot;stylers&quot;</span>: [&#123; <span class="string">&quot;visibility&quot;</span>: <span class="string">&quot;off&quot;</span> &#125;]</span></span><br><span class="line"><span class="language-javascript">        &#125;,</span></span><br><span class="line"><span class="language-javascript">        &#123;</span></span><br><span class="line"><span class="language-javascript">          <span class="string">&quot;featureType&quot;</span>: <span class="string">&quot;water&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">          <span class="string">&quot;elementType&quot;</span>: <span class="string">&quot;geometry&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">          <span class="string">&quot;stylers&quot;</span>: [&#123; <span class="string">&quot;color&quot;</span>: <span class="string">&quot;#193341&quot;</span> &#125;]</span></span><br><span class="line"><span class="language-javascript">        &#125;</span></span><br><span class="line"><span class="language-javascript">      ];</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">const</span> map = <span class="keyword">new</span> google.<span class="property">maps</span>.<span class="title class_">Map</span>(<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;map&quot;</span>), &#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">center</span>: &#123; <span class="attr">lat</span>: <span class="number">25.0330</span>, <span class="attr">lng</span>: <span class="number">121.5654</span> &#125;,</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">zoom</span>: <span class="number">13</span>,</span></span><br><span class="line"><span class="language-javascript">        <span class="attr">styles</span>: customStyle</span></span><br><span class="line"><span class="language-javascript">      &#125;);</span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span></span></span><br><span class="line"><span class="tag">    <span class="attr">src</span>=<span class="string">&quot;https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&amp;callback=initMap&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>關鍵在於 <code>Map</code> 建構子的 <code>styles</code> 屬性,將從 Wizard 或 Snazzy Maps 取得的 JSON 陣列直接傳入即可。</p>
+<h3 id="Cloud-based-Map-Styling-的注意事項"><a href="#Cloud-based-Map-Styling-的注意事項" class="headerlink" title="Cloud-based Map Styling 的注意事項"></a>Cloud-based Map Styling 的注意事項</h3><p>需要特別留意的是,Google 自 2023 年起推出了 <strong>Cloud-based Map Styling</strong>,在 Google Cloud Console 中以視覺化介面管理樣式,並透過 <code>mapId</code> 參數套用:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> map = <span class="keyword">new</span> google.<span class="property">maps</span>.<span class="title class_">Map</span>(<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;map&quot;</span>), &#123;</span><br><span class="line">  <span class="attr">center</span>: &#123; <span class="attr">lat</span>: <span class="number">25.0330</span>, <span class="attr">lng</span>: <span class="number">121.5654</span> &#125;,</span><br><span class="line">  <span class="attr">zoom</span>: <span class="number">13</span>,</span><br><span class="line">  <span class="attr">mapId</span>: <span class="string">&quot;YOUR_MAP_ID&quot;</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>當 <code>mapId</code> 與 <code>styles</code> 同時存在時,<code>styles</code> 屬性會被忽略。若你計畫使用本文介紹的 JSON 樣式方式,請確保<strong>不要</strong>指定 <code>mapId</code>,否則自訂樣式將不會生效。</p>
+<h2 id="實務建議"><a href="#實務建議" class="headerlink" title="實務建議"></a>實務建議</h2><p>最後分享幾個實務上常見的調整方向:</p>
+<ul>
+<li><strong>效能考量</strong>:大量隱藏標籤(設為 <code>visibility: off</code>)能略微減少地圖渲染負擔,適合行動裝置</li>
+<li><strong>可讀性平衡</strong>:即使追求極簡風,主要道路標籤仍建議保留,避免使用者迷失方向</li>
+<li><strong>版權標示</strong>:無論如何客製化,Google 的 Logo 與版權標示(<code>Map data ©Google</code>)依規定不可隱藏</li>
+<li><strong>樣式版本控管</strong>:將 JSON 樣式獨立存成 <code>mapStyle.json</code> 檔案,方便日後維護與多專案共用</li>
+</ul>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>客製化 Google Map 樣式並不困難,關鍵在於善用工具:<strong>Google Maps Styling Wizard</strong> 適合需要從零打造、追求精細控制的場景;<strong>Snazzy Maps</strong> 則是快速取得高品質樣板的最佳途徑。兩者搭配使用,能讓你在最短時間內為網頁打造出獨特且符合品牌調性的地圖體驗。</p>
+<p>下次當你需要在網站中嵌入地圖時,不妨花十分鐘挑選或設計一份專屬樣式,讓使用者體驗從「能用」升級為「印象深刻」。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <div class="post-recent-posts" style="display:none">
+      <div class="post-recent-posts-title">
+        <i class="fa fa-history fa-fw"></i> 近期文章
+      </div>
+      <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/04/29/google-map-custom-style/" title="客製化 Google Map 樣式完整教學">
+            <div class="post-recent-card-banner post-recent-card-cat--gamelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">客製化 Google Map 樣式完整教學</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-04-29</span><span class="post-recent-card-cat">gamelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/04/23/google-map-api-create/" title="從零開始導入 Google Maps API">
+            <div class="post-recent-card-banner post-recent-card-cat--gamelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">從零開始導入 Google Maps API</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-04-23</span><span class="post-recent-card-cat">gamelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/04/22/uv-install/" title="uv 安裝指南">
+            <div class="post-recent-card-banner post-recent-card-cat--python">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">uv 安裝指南</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-04-22</span><span class="post-recent-card-cat">python</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/04/01/vscode-skill-create/" title="用 `/create-skill` 打造專屬 Copilot 技能">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">用 `/create-skill` 打造專屬 Copilot 技能</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-04-01</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/03/31/vscode-skill-intro/" title="VS Code Agent Skills 使用指南">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">VS Code Agent Skills 使用指南</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-03-31</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function showRecentPosts() {
+          var block = document.querySelector('.post-recent-posts');
+          if (!block) return;
+
+          // 重置狀態
+          block.classList.remove('animated', 'fadeIn');
+          block.style.display = 'none';
+
+          var comments = document.querySelector('.comments');
+          if (comments) {
+            comments.parentNode.insertBefore(block, comments);
+          }
+
+          function reveal() {
+            block.style.display = '';
+            block.offsetHeight; // force reflow
+            block.classList.add('animated', 'fadeIn');
+          }
+
+          if (!comments) {
+            reveal();
+          } else {
+            // 觀察 .comments 被 NexT motion 加上 animated class 的時機
+            var observer = new MutationObserver(function () {
+              if (comments.classList.contains('animated')) {
+                observer.disconnect();
+                reveal();
+              }
+            });
+            observer.observe(comments, { attributes: true, attributeFilter: ['class'] });
+            // 若 motion 已跑完（comments 已有 animated），也直接顯示
+            if (comments.classList.contains('animated')) {
+              observer.disconnect();
+              reveal();
+            }
+          }
+        }
+
+        // 初次載入
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', showRecentPosts, { once: true });
+        } else {
+          showRecentPosts();
+        }
+
+        // PJAX：pjax:success 時 NexT motion 剛啟動（async），.comments 尚未有 animated
+        document.addEventListener('pjax:success', showRecentPosts);
+      })();
+    </script>
+
+          <div class="post-tags">
+              <a href="/tags/googlemap/" rel="tag"># googlemap</a>
+              <a href="/tags/gamedev/" rel="tag"># gamedev</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/04/23/google-map-api-create/" rel="prev" title="從零開始導入 Google Maps API">
+                  <i class="fa fa-angle-left"></i> 從零開始導入 Google Maps API
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"3b59b2e106d43629619b16de950c5b5a"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+</body>
+</html>
