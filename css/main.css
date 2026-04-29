@@ -1335,7 +1335,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #38ffff;
+    background: #ffd9cd;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -3149,4 +3149,284 @@ header.header {
   text-overflow: ellipsis;
   white-space: nowrap;
   max-width: 55%;
+}
+.category-all-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 10px 0 40px;
+}
+.category-all-page .category-all-title {
+  text-align: left;
+  color: #aaa;
+  font-size: 0.95em;
+  margin: 8px 0 22px;
+  letter-spacing: 0.5px;
+}
+.category-all-page .category-all {
+  margin-top: 0;
+}
+.category-all-page .category-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+@media (max-width: 1000px) {
+  .category-all-page .category-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 760px) {
+  .category-all-page .category-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 480px) {
+  .category-all-page .category-list {
+    grid-template-columns: 1fr;
+  }
+}
+.category-all-page .category-list-item {
+  margin: 0;
+  padding: 14px 16px;
+  background: var(--card-bg-color, #1f1f1f);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.category-all-page .category-list-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.45);
+  background: rgba(255,255,255,0.03);
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  padding-right: 44px;
+  font-size: 1.15em;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  border-bottom: none;
+  line-height: 1.3;
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link::before {
+  content: '\f07b';
+  font-family: 'Font Awesome 6 Free', 'Font Awesome 5 Free', 'FontAwesome';
+  font-weight: 900;
+  font-size: 1.4em;
+  margin-right: 12px;
+  flex-shrink: 0;
+  width: 1.4em;
+  text-align: center;
+  color: var(--link-color, #87cefa);
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link:hover {
+  color: var(--link-color, #87cefa);
+  border-bottom: none;
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-count {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 8px;
+  font-size: 0.78em;
+  font-weight: 600;
+  color: #ccc;
+  background: transparent;
+  border: 1.5px solid rgba(255,255,255,0.25);
+  border-radius: 14px;
+  line-height: 1;
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/docker/"]::before,
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/docker/docker-hub/"]::before {
+  content: '\f395';
+  font-family: 'Font Awesome 6 Brands', 'Font Awesome 5 Brands';
+  font-weight: 400;
+  color: #1d63ed;
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/gitlab/"]::before {
+  content: '\f296';
+  font-family: 'Font Awesome 6 Brands', 'Font Awesome 5 Brands';
+  font-weight: 400;
+  color: #e24329;
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/java/"]::before {
+  content: '\f4e4';
+  font-family: 'Font Awesome 6 Brands', 'Font Awesome 5 Brands';
+  font-weight: 400;
+  color: #e76f00;
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/jenkins/"]::before {
+  content: '\f3b6';
+  font-family: 'Font Awesome 6 Brands', 'Font Awesome 5 Brands';
+  font-weight: 400;
+  color: #d33833;
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/linux/"]::before {
+  content: '\f17c';
+  font-family: 'Font Awesome 6 Brands', 'Font Awesome 5 Brands';
+  font-weight: 400;
+  color: #f7971e;
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/nodejs/"]::before {
+  content: '\f3d3';
+  font-family: 'Font Awesome 6 Brands', 'Font Awesome 5 Brands';
+  font-weight: 400;
+  color: #3c873a;
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/python/"]::before {
+  content: '\f3e2';
+  font-family: 'Font Awesome 6 Brands', 'Font Awesome 5 Brands';
+  font-weight: 400;
+  color: #ffd43b;
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/telegram/"]::before {
+  content: '\f2c6';
+  font-family: 'Font Awesome 6 Brands', 'Font Awesome 5 Brands';
+  font-weight: 400;
+  color: #2ca5e0;
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/unity/"]::before {
+  content: '\f1b2';
+  color: #ccc;
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/windows/"]::before {
+  content: '\f17a';
+  font-family: 'Font Awesome 6 Brands', 'Font Awesome 5 Brands';
+  font-weight: 400;
+  color: #0078d4;
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/elasticsearch/"]::before {
+  content: '\f1c0';
+  color: #00bfb3;
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/elasticsearch/elasticsearch/"]::before {
+  content: '\f1c0';
+  color: #00bfb3;
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/kubernetes/"]::before {
+  content: '\f655';
+  color: #326ce5;
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/nginx/"]::before {
+  content: '\f233';
+  color: #009639;
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/maven/"]::before {
+  content: '\f0ad';
+  color: #c71a36;
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/tomcat/"]::before {
+  content: '\f6be';
+  color: #f5a623;
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/pm2/"]::before {
+  content: '\f1b3';
+  color: #2b037a;
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/gamelife/"]::before {
+  content: '\f11b';
+  color: #76b900;
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/vscodelife/"]::before {
+  content: '\f121';
+  color: #bb86fc;
+}
+.category-all-page .category-list-child {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+}
+.category-all-page .category-list-child .category-list-item {
+  background: transparent;
+  box-shadow: none;
+  border-radius: 6px;
+  padding: 4px 8px 4px 18px;
+  margin: 0;
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
+  position: relative;
+}
+.category-all-page .category-list-child .category-list-item::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 0;
+  bottom: 50%;
+  width: 10px;
+  border-left: 1.5px solid rgba(255,255,255,0.18);
+  border-bottom: 1.5px solid rgba(255,255,255,0.18);
+  border-bottom-left-radius: 4px;
+}
+.category-all-page .category-list-child .category-list-item:hover {
+  transform: none;
+  box-shadow: none;
+  background: rgba(255,255,255,0.04);
+}
+.category-all-page .category-list-child .category-list-link {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  font-size: 0.95em;
+  font-weight: 500;
+  color: #ddd;
+  text-decoration: none;
+  border-bottom: none;
+}
+.category-all-page .category-list-child .category-list-link::before {
+  content: '\f07b';
+  font-family: 'Font Awesome 6 Free', 'Font Awesome 5 Free', 'FontAwesome';
+  font-weight: 900;
+  font-size: 1em;
+  margin-right: 8px;
+  width: 1.2em;
+  text-align: center;
+  color: rgba(255,255,255,0.5);
+}
+.category-all-page .category-list-child .category-list-link:hover {
+  color: #fff;
+  border-bottom: none;
+}
+.category-all-page .category-list-child .category-list-link[href$="/categories/docker/docker-hub/"]::before {
+  content: '\f395';
+  font-family: 'Font Awesome 6 Brands', 'Font Awesome 5 Brands';
+  font-weight: 400;
+  color: #1d63ed;
+}
+.category-all-page .category-list-child .category-list-link[href$="/categories/elasticsearch/elasticsearch/"]::before {
+  content: '\f1c0';
+  font-family: 'Font Awesome 6 Free', 'Font Awesome 5 Free', 'FontAwesome';
+  font-weight: 900;
+  color: #00bfb3;
+}
+.category-all-page .category-list-child .category-list-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 22px;
+  padding: 0 7px;
+  font-size: 0.72em;
+  font-weight: 600;
+  color: #aaa;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 11px;
+  margin-left: 8px;
 }
