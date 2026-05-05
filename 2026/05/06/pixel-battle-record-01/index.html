@@ -23,16 +23,16 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="使用 VS Code 與 AI 協作開發遊戲的一個月心得想更新一下最近使用 VS Code 開發遊戲的想法。 從零開始開發這個專案到現在，已經經過了一個月。這段時間我一直在摸索一套能和 AI 穩定協作的開發循環：如何把想法交給 AI、如何讓 AI 參與實作，以及如何避免它在錯誤的方向上越走越遠。 一開始，我其實不太敢開放完整權限給 AI。畢竟讓它直接修改專案內容，多少會擔心它做出自己無法掌握的變更">
+    <meta name="description" content="使用 VS Code 與 AI 協作開發遊戲的一個月心得想更新一下最近使用 VS Code 開發遊戲的想法。 從零開始開發這個專案到現在，已經經過了一個月。這段時間我一直在摸索一套能和 AI 穩定協作的開發循環：如何把想法交給 AI、如何讓 AI 參與實作，以及如何避免它在錯誤的方向上越走越遠。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用 VS Code 與 AI 協作開發遊戲的一個月心得">
 <meta property="og:url" content="https://pcion123.github.io/2026/05/06/pixel-battle-record-01/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
-<meta property="og:description" content="使用 VS Code 與 AI 協作開發遊戲的一個月心得想更新一下最近使用 VS Code 開發遊戲的想法。 從零開始開發這個專案到現在，已經經過了一個月。這段時間我一直在摸索一套能和 AI 穩定協作的開發循環：如何把想法交給 AI、如何讓 AI 參與實作，以及如何避免它在錯誤的方向上越走越遠。 一開始，我其實不太敢開放完整權限給 AI。畢竟讓它直接修改專案內容，多少會擔心它做出自己無法掌握的變更">
+<meta property="og:description" content="使用 VS Code 與 AI 協作開發遊戲的一個月心得想更新一下最近使用 VS Code 開發遊戲的想法。 從零開始開發這個專案到現在，已經經過了一個月。這段時間我一直在摸索一套能和 AI 穩定協作的開發循環：如何把想法交給 AI、如何讓 AI 參與實作，以及如何避免它在錯誤的方向上越走越遠。">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://pcion123.github.io/2026/05/06/pixel-battle-record-01/pixel-battle-demo.webp">
 <meta property="article:published_time" content="2026-05-05T16:01:08.000Z">
-<meta property="article:modified_time" content="2026-05-05T16:15:11.098Z">
+<meta property="article:modified_time" content="2026-05-05T16:32:30.169Z">
 <meta property="article:author" content="Jason Lai">
 <meta property="article:tag" content="gamedev">
 <meta property="article:tag" content="vscode">
@@ -292,7 +292,7 @@
       <span class="post-meta-item-text">發表於</span>
       
 
-      <time title="創建時間：2026-05-06 00:01:08 / 修改時間：00:15:11" itemprop="dateCreated datePublished" datetime="2026-05-06T00:01:08+08:00">2026-05-06</time>
+      <time title="創建時間：2026-05-06 00:01:08 / 修改時間：00:32:30" itemprop="dateCreated datePublished" datetime="2026-05-06T00:01:08+08:00">2026-05-06</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -315,6 +315,8 @@
     
     <div class="post-body" itemprop="articleBody"><h1 id="使用-VS-Code-與-AI-協作開發遊戲的一個月心得"><a href="#使用-VS-Code-與-AI-協作開發遊戲的一個月心得" class="headerlink" title="使用 VS Code 與 AI 協作開發遊戲的一個月心得"></a>使用 VS Code 與 AI 協作開發遊戲的一個月心得</h1><p>想更新一下最近使用 VS Code 開發遊戲的想法。</p>
 <p>從零開始開發這個專案到現在，已經經過了一個月。這段時間我一直在摸索一套能和 AI 穩定協作的開發循環：如何把想法交給 AI、如何讓 AI 參與實作，以及如何避免它在錯誤的方向上越走越遠。</p>
+<span id="more"></span>
+
 <p>一開始，我其實不太敢開放完整權限給 AI。畢竟讓它直接修改專案內容，多少會擔心它做出自己無法掌握的變更。後來慢慢放開限制，甚至嘗試讓 autorun 完全放飛，結果很快就遇到另一個問題：AI 會在自我修正的過程中不斷改錯，最後陷入一種反覆修補、反覆出錯的迴圈。</p>
 <p>那次經驗讓我意識到，AI 不是不能放手讓它做，而是需要有清楚的邊界。於是我開始改成先寫入計畫，透過計畫來限縮開發範圍，讓 AI 明確知道這一輪要處理什麼、不處理什麼。這個調整之後，整個開發節奏變得穩定很多，也出現了一段快速推進遊戲內容的階段。</p>
 <p>不過，當開發效率真的提升之後，另一個瓶頸也出現了：我開始不知道遊戲內容接下來要做什麼。也就是說，問題不再只是「怎麼實作」，而是「要實作什麼」。這個階段如果只靠自己發想，很容易卡在空白頁面前面，明明工具已經準備好了，卻不知道下一步該往哪裡走。</p>
