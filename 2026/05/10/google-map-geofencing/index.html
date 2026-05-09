@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="使用 geojson.io 在 Google Maps 上建立地理柵欄在開發需要「位置範圍判斷」的功能時，地理柵欄（Geofencing）是很常見的需求。例如：判斷玩家是否進入指定活動區域、確認使用者是否位於服務範圍內，或是根據所在位置觸發不同的互動內容。 如果直接在程式碼裡手動輸入經緯度，不但不直覺，也很容易因為座標順序或邊界不精準而出錯。這時候可以使用 geojson.io 先在地圖上畫出範圍">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 geojson.io 在 Google Maps 上建立地理柵欄">
+<meta property="og:url" content="https://pcion123.github.io/2026/05/10/google-map-geofencing/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="使用 geojson.io 在 Google Maps 上建立地理柵欄在開發需要「位置範圍判斷」的功能時，地理柵欄（Geofencing）是很常見的需求。例如：判斷玩家是否進入指定活動區域、確認使用者是否位於服務範圍內，或是根據所在位置觸發不同的互動內容。 如果直接在程式碼裡手動輸入經緯度，不但不直覺，也很容易因為座標順序或邊界不精準而出錯。這時候可以使用 geojson.io 先在地圖上畫出範圍">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2026/05/10/google-map-geofencing/google_map_geofencing_3.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/05/10/google-map-geofencing/google_map_geofencing_4.jpg">
+<meta property="article:published_time" content="2026-05-09T17:53:08.000Z">
+<meta property="article:modified_time" content="2026-05-09T17:56:22.777Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="googlemap">
+<meta property="article:tag" content="gamedev">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2026/05/10/google-map-geofencing/google_map_geofencing_3.jpg">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/05/10/google-map-geofencing/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/05/10/google-map-geofencing/","path":"2026/05/10/google-map-geofencing/","title":"使用 geojson.io 在 Google Maps 上建立地理柵欄"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用 geojson.io 在 Google Maps 上建立地理柵欄 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-geojson-io-%E5%9C%A8-Google-Maps-%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%9C%B0%E7%90%86%E6%9F%B5%E6%AC%84"><span class="nav-number">1.</span> <span class="nav-text">使用 geojson.io 在 Google Maps 上建立地理柵欄</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF%E5%9C%B0%E7%90%86%E6%9F%B5%E6%AC%84"><span class="nav-number">1.1.</span> <span class="nav-text">什麼是地理柵欄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E4%BD%BF%E7%94%A8-geojson-io"><span class="nav-number">1.2.</span> <span class="nav-text">為什麼使用 geojson.io</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-geojson-io-%E7%B9%AA%E8%A3%BD%E5%9C%B0%E7%90%86%E6%9F%B5%E6%AC%84"><span class="nav-number">1.3.</span> <span class="nav-text">使用 geojson.io 繪製地理柵欄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8-Google-Maps-%E4%B8%8A%E9%A1%AF%E7%A4%BA-GeoJSON"><span class="nav-number">1.4.</span> <span class="nav-text">在 Google Maps 上顯示 GeoJSON</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A4%E6%96%B7%E5%BA%A7%E6%A8%99%E6%98%AF%E5%90%A6%E5%9C%A8%E5%9C%B0%E7%90%86%E6%9F%B5%E6%AC%84%E5%85%A7"><span class="nav-number">1.5.</span> <span class="nav-text">判斷座標是否在地理柵欄內</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E9%9A%9B%E6%BC%94%E7%A4%BA%E7%B5%90%E6%9E%9C"><span class="nav-number">1.6.</span> <span class="nav-text">實際演示結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E5%8B%99%E9%96%8B%E7%99%BC%E6%99%82%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E7%B4%B0%E7%AF%80"><span class="nav-number">1.7.</span> <span class="nav-text">實務開發時需要注意的細節</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%8A%E6%88%B2%E7%95%AB%E9%9D%A2%E6%95%88%E6%9E%9C"><span class="nav-number">1.8.</span> <span class="nav-text">遊戲畫面效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%B5%90"><span class="nav-number">1.9.</span> <span class="nav-text">小結</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/copilot-cli/" style="font-size: 18px;" class="tag-cloud-3">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 24px;" class="tag-cloud-7">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 21px;" class="tag-cloud-5">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 15px;" class="tag-cloud-2">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 18px;" class="tag-cloud-3">gitlab</a> <a href="/tags/googlemap/" style="font-size: 18px;" class="tag-cloud-3">googlemap</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 21px;" class="tag-cloud-5">java</a> <a href="/tags/jdk/" style="font-size: 15px;" class="tag-cloud-2">jdk</a> <a href="/tags/jenkins/" style="font-size: 21px;" class="tag-cloud-5">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 27px;" class="tag-cloud-8">kubernetes</a> <a href="/tags/linux/" style="font-size: 30px;" class="tag-cloud-10">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 18px;" class="tag-cloud-3">maven</a> <a href="/tags/mcp/" style="font-size: 15px;" class="tag-cloud-2">mcp</a> <a href="/tags/minikube/" style="font-size: 15px;" class="tag-cloud-2">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 15px;" class="tag-cloud-2">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/pm2/" style="font-size: 15px;" class="tag-cloud-2">pm2</a> <a href="/tags/powershell/" style="font-size: 18px;" class="tag-cloud-3">powershell</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/skills/" style="font-size: 15px;" class="tag-cloud-2">skills</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 18px;" class="tag-cloud-3">terminal</a> <a href="/tags/tomcat/" style="font-size: 15px;" class="tag-cloud-2">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 24px;" class="tag-cloud-7">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/vscode/" style="font-size: 24px;" class="tag-cloud-7">vscode</a> <a href="/tags/windows/" style="font-size: 21px;" class="tag-cloud-5">windows</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 18px;" class="tag-cloud-3">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相關文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/04/23/google-map-api-create/" rel="bookmark">
+        <time class="popular-posts-time">2026-04-23</time>
+        <br>
+      從零開始導入 Google Maps API
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/04/29/google-map-custom-style/" rel="bookmark">
+        <time class="popular-posts-time">2026-04-29</time>
+        <br>
+      客製化 Google Map 樣式完整教學
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/05/10/google-map-geofencing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用 geojson.io 在 Google Maps 上建立地理柵欄 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 geojson.io 在 Google Maps 上建立地理柵欄
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-05-10 01:53:08 / 修改時間：01:56:22" itemprop="dateCreated datePublished" datetime="2026-05-10T01:53:08+08:00">2026-05-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/gamelife/" itemprop="url" rel="index"><span itemprop="name">gamelife</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="使用-geojson-io-在-Google-Maps-上建立地理柵欄"><a href="#使用-geojson-io-在-Google-Maps-上建立地理柵欄" class="headerlink" title="使用 geojson.io 在 Google Maps 上建立地理柵欄"></a>使用 geojson.io 在 Google Maps 上建立地理柵欄</h1><p>在開發需要「位置範圍判斷」的功能時，地理柵欄（Geofencing）是很常見的需求。例如：判斷玩家是否進入指定活動區域、確認使用者是否位於服務範圍內，或是根據所在位置觸發不同的互動內容。</p>
+<p>如果直接在程式碼裡手動輸入經緯度，不但不直覺，也很容易因為座標順序或邊界不精準而出錯。這時候可以使用 <code>geojson.io</code> 先在地圖上畫出範圍，再把結果匯出成 GeoJSON，最後放到 Google Maps 裡顯示與判斷。</p>
+<p>這篇文章會介紹如何使用 <code>geojson.io</code> 建立地理柵欄，並示範如何將 GeoJSON 套用到 Google Maps JavaScript API 中。</p>
+<span id="more"></span>
+
+<h2 id="什麼是地理柵欄"><a href="#什麼是地理柵欄" class="headerlink" title="什麼是地理柵欄"></a>什麼是地理柵欄</h2><p>地理柵欄可以想成是在地圖上畫出一個虛擬邊界。當某個座標進入、離開或停留在這個範圍內時，系統就可以根據判斷結果執行對應邏輯。</p>
+<p>常見的應用情境包含：</p>
+<ul>
+<li>活動場域範圍判斷</li>
+<li>外送或物流服務區域限制</li>
+<li>遊戲中的區域任務觸發</li>
+<li>公司、校園或展場的定位互動</li>
+<li>特定行政區或商圈範圍標記</li>
+</ul>
+<p>在 Google Maps 上實作地理柵欄時，最常用的圖形是多邊形（Polygon）。只要有一組多邊形座標，就能在地圖上畫出範圍，並判斷某個位置是否落在範圍內。</p>
+<h2 id="為什麼使用-geojson-io"><a href="#為什麼使用-geojson-io" class="headerlink" title="為什麼使用 geojson.io"></a>為什麼使用 geojson.io</h2><p><code>geojson.io</code> 是一個線上 GeoJSON 編輯工具，可以直接在地圖上繪製點、線、多邊形，並即時產生 GeoJSON 內容。對於需要快速建立地理範圍的開發流程來說，它非常方便。</p>
+<p>使用 <code>geojson.io</code> 的好處包含：</p>
+<ul>
+<li>可以直接在地圖上視覺化繪製範圍</li>
+<li>不需要手動查詢每個邊界座標</li>
+<li>支援 GeoJSON 格式，方便與前後端交換資料</li>
+<li>可以快速調整多邊形邊界</li>
+<li>適合用來製作原型或建立初始範圍資料</li>
+</ul>
+<p>GeoJSON 本身是一種常見的地理資料格式，能描述點（Point）、線（LineString）、多邊形（Polygon）等地理物件。Google Maps 雖然不是直接以 GeoJSON 作為主要操作格式，但可以透過 Data Layer 載入 GeoJSON，也可以將 GeoJSON 座標轉換成 Google Maps 使用的座標格式。</p>
+<h2 id="使用-geojson-io-繪製地理柵欄"><a href="#使用-geojson-io-繪製地理柵欄" class="headerlink" title="使用 geojson.io 繪製地理柵欄"></a>使用 geojson.io 繪製地理柵欄</h2><p>首先開啟 <code>geojson.io</code>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://geojson.io/</span><br></pre></td></tr></table></figure>
+
+<p>進入網站後，可以在左側看到地圖，右側則會顯示目前產生的 GeoJSON 內容。接著按照以下步驟操作：</p>
+<ol>
+<li>使用搜尋或縮放功能移動到目標區域</li>
+<li>選擇多邊形繪製工具</li>
+<li>在地圖上依序點選地理柵欄的邊界位置</li>
+<li>點回起始點或完成繪製，形成封閉多邊形</li>
+<li>觀察右側產生的 GeoJSON 內容</li>
+</ol>
+<p>完成後，右側會產生類似以下的 GeoJSON：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">	<span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;FeatureCollection&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;features&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">		<span class="punctuation">&#123;</span></span><br><span class="line">			<span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Feature&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">				<span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;demo-geofence&quot;</span></span><br><span class="line">			<span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="attr">&quot;geometry&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">				<span class="attr">&quot;coordinates&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">					<span class="punctuation">[</span></span><br><span class="line">						<span class="punctuation">[</span><span class="number">121.562712</span><span class="punctuation">,</span> <span class="number">25.033968</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">						<span class="punctuation">[</span><span class="number">121.565148</span><span class="punctuation">,</span> <span class="number">25.033968</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">						<span class="punctuation">[</span><span class="number">121.565148</span><span class="punctuation">,</span> <span class="number">25.031856</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">						<span class="punctuation">[</span><span class="number">121.562712</span><span class="punctuation">,</span> <span class="number">25.031856</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">						<span class="punctuation">[</span><span class="number">121.562712</span><span class="punctuation">,</span> <span class="number">25.033968</span><span class="punctuation">]</span></span><br><span class="line">					<span class="punctuation">]</span></span><br><span class="line">				<span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">				<span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Polygon&quot;</span></span><br><span class="line">			<span class="punctuation">&#125;</span></span><br><span class="line">		<span class="punctuation">&#125;</span></span><br><span class="line">	<span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>這裡有一個很重要的細節：GeoJSON 的座標順序是 <code>[longitude, latitude]</code>，也就是 <code>[經度, 緯度]</code>。但 Google Maps 常見的座標物件格式是 <code>&#123; lat, lng &#125;</code>，也就是緯度在前、經度在後。實作時如果沒有轉換，範圍會出現在錯誤的位置。</p>
+<h2 id="在-Google-Maps-上顯示-GeoJSON"><a href="#在-Google-Maps-上顯示-GeoJSON" class="headerlink" title="在 Google Maps 上顯示 GeoJSON"></a>在 Google Maps 上顯示 GeoJSON</h2><p>如果只是要把 GeoJSON 顯示在 Google Maps 上，可以使用 Google Maps JavaScript API 的 Data Layer。Data Layer 可以直接讀取 GeoJSON，並將其中的地理物件畫在地圖上。</p>
+<p>以下是一個簡化範例：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;map&quot;</span> <span class="attr">style</span>=<span class="string">&quot;height: 500px;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">	<span class="keyword">const</span> geofenceGeoJson = &#123;</span></span><br><span class="line"><span class="language-javascript">		<span class="attr">type</span>: <span class="string">&quot;FeatureCollection&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">		<span class="attr">features</span>: [</span></span><br><span class="line"><span class="language-javascript">			&#123;</span></span><br><span class="line"><span class="language-javascript">				<span class="attr">type</span>: <span class="string">&quot;Feature&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">				<span class="attr">properties</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">					<span class="attr">name</span>: <span class="string">&quot;demo-geofence&quot;</span></span></span><br><span class="line"><span class="language-javascript">				&#125;,</span></span><br><span class="line"><span class="language-javascript">				<span class="attr">geometry</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">					<span class="attr">coordinates</span>: [</span></span><br><span class="line"><span class="language-javascript">						[</span></span><br><span class="line"><span class="language-javascript">							[<span class="number">121.562712</span>, <span class="number">25.033968</span>],</span></span><br><span class="line"><span class="language-javascript">							[<span class="number">121.565148</span>, <span class="number">25.033968</span>],</span></span><br><span class="line"><span class="language-javascript">							[<span class="number">121.565148</span>, <span class="number">25.031856</span>],</span></span><br><span class="line"><span class="language-javascript">							[<span class="number">121.562712</span>, <span class="number">25.031856</span>],</span></span><br><span class="line"><span class="language-javascript">							[<span class="number">121.562712</span>, <span class="number">25.033968</span>]</span></span><br><span class="line"><span class="language-javascript">						]</span></span><br><span class="line"><span class="language-javascript">					],</span></span><br><span class="line"><span class="language-javascript">					<span class="attr">type</span>: <span class="string">&quot;Polygon&quot;</span></span></span><br><span class="line"><span class="language-javascript">				&#125;</span></span><br><span class="line"><span class="language-javascript">			&#125;</span></span><br><span class="line"><span class="language-javascript">		]</span></span><br><span class="line"><span class="language-javascript">	&#125;;</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">	<span class="keyword">function</span> <span class="title function_">initMap</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">		<span class="keyword">const</span> map = <span class="keyword">new</span> google.<span class="property">maps</span>.<span class="title class_">Map</span>(<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;map&quot;</span>), &#123;</span></span><br><span class="line"><span class="language-javascript">			<span class="attr">center</span>: &#123; <span class="attr">lat</span>: <span class="number">25.032912</span>, <span class="attr">lng</span>: <span class="number">121.56393</span> &#125;,</span></span><br><span class="line"><span class="language-javascript">			<span class="attr">zoom</span>: <span class="number">16</span></span></span><br><span class="line"><span class="language-javascript">		&#125;);</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">		map.<span class="property">data</span>.<span class="title function_">addGeoJson</span>(geofenceGeoJson);</span></span><br><span class="line"><span class="language-javascript">		map.<span class="property">data</span>.<span class="title function_">setStyle</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">			<span class="attr">fillColor</span>: <span class="string">&quot;#4285f4&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">			<span class="attr">fillOpacity</span>: <span class="number">0.25</span>,</span></span><br><span class="line"><span class="language-javascript">			<span class="attr">strokeColor</span>: <span class="string">&quot;#1a73e8&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">			<span class="attr">strokeWeight</span>: <span class="number">2</span></span></span><br><span class="line"><span class="language-javascript">		&#125;);</span></span><br><span class="line"><span class="language-javascript">	&#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span></span></span><br><span class="line"><span class="tag">	<span class="attr">async</span></span></span><br><span class="line"><span class="tag">	<span class="attr">defer</span></span></span><br><span class="line"><span class="tag">	<span class="attr">src</span>=<span class="string">&quot;https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&amp;callback=initMap&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>這種方式適合用來顯示範圍，特別是當 GeoJSON 可能包含多個 Feature，或是你希望保留 GeoJSON 原始結構時會很方便。</p>
+<h2 id="判斷座標是否在地理柵欄內"><a href="#判斷座標是否在地理柵欄內" class="headerlink" title="判斷座標是否在地理柵欄內"></a>判斷座標是否在地理柵欄內</h2><p>如果要做「某個座標是否位於地理柵欄內」的判斷，可以使用 Google Maps Geometry Library 提供的 <code>google.maps.geometry.poly.containsLocation()</code>。</p>
+<p>由於 <code>containsLocation()</code> 需要的是 Google Maps 的 <code>Polygon</code> 物件，因此要先把 GeoJSON 的 <code>[lng, lat]</code> 座標轉換成 <code>&#123; lat, lng &#125;</code>。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;map&quot;</span> <span class="attr">style</span>=<span class="string">&quot;height: 500px;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">	<span class="keyword">const</span> geofenceGeoJson = &#123;</span></span><br><span class="line"><span class="language-javascript">		<span class="attr">type</span>: <span class="string">&quot;Feature&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">		<span class="attr">properties</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">			<span class="attr">name</span>: <span class="string">&quot;demo-geofence&quot;</span></span></span><br><span class="line"><span class="language-javascript">		&#125;,</span></span><br><span class="line"><span class="language-javascript">		<span class="attr">geometry</span>: &#123;</span></span><br><span class="line"><span class="language-javascript">			<span class="attr">type</span>: <span class="string">&quot;Polygon&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">			<span class="attr">coordinates</span>: [</span></span><br><span class="line"><span class="language-javascript">				[</span></span><br><span class="line"><span class="language-javascript">					[<span class="number">121.562712</span>, <span class="number">25.033968</span>],</span></span><br><span class="line"><span class="language-javascript">					[<span class="number">121.565148</span>, <span class="number">25.033968</span>],</span></span><br><span class="line"><span class="language-javascript">					[<span class="number">121.565148</span>, <span class="number">25.031856</span>],</span></span><br><span class="line"><span class="language-javascript">					[<span class="number">121.562712</span>, <span class="number">25.031856</span>],</span></span><br><span class="line"><span class="language-javascript">					[<span class="number">121.562712</span>, <span class="number">25.033968</span>]</span></span><br><span class="line"><span class="language-javascript">				]</span></span><br><span class="line"><span class="language-javascript">			]</span></span><br><span class="line"><span class="language-javascript">		&#125;</span></span><br><span class="line"><span class="language-javascript">	&#125;;</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">	<span class="keyword">function</span> <span class="title function_">createPolygonFromGeoJson</span>(<span class="params">feature</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">		<span class="keyword">const</span> paths = feature.<span class="property">geometry</span>.<span class="property">coordinates</span>[<span class="number">0</span>].<span class="title function_">map</span>(<span class="function">(<span class="params">[lng, lat]</span>) =&gt;</span> (&#123;</span></span><br><span class="line"><span class="language-javascript">			lat,</span></span><br><span class="line"><span class="language-javascript">			lng</span></span><br><span class="line"><span class="language-javascript">		&#125;));</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">		<span class="keyword">return</span> <span class="keyword">new</span> google.<span class="property">maps</span>.<span class="title class_">Polygon</span>(&#123; paths &#125;);</span></span><br><span class="line"><span class="language-javascript">	&#125;</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">	<span class="keyword">function</span> <span class="title function_">initMap</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">		<span class="keyword">const</span> map = <span class="keyword">new</span> google.<span class="property">maps</span>.<span class="title class_">Map</span>(<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;map&quot;</span>), &#123;</span></span><br><span class="line"><span class="language-javascript">			<span class="attr">center</span>: &#123; <span class="attr">lat</span>: <span class="number">25.032912</span>, <span class="attr">lng</span>: <span class="number">121.56393</span> &#125;,</span></span><br><span class="line"><span class="language-javascript">			<span class="attr">zoom</span>: <span class="number">16</span></span></span><br><span class="line"><span class="language-javascript">		&#125;);</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">		<span class="keyword">const</span> geofencePolygon = <span class="title function_">createPolygonFromGeoJson</span>(geofenceGeoJson);</span></span><br><span class="line"><span class="language-javascript">		geofencePolygon.<span class="title function_">setMap</span>(map);</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">		<span class="keyword">const</span> userLocation = <span class="keyword">new</span> google.<span class="property">maps</span>.<span class="title class_">LatLng</span>(<span class="number">25.032912</span>, <span class="number">121.56393</span>);</span></span><br><span class="line"><span class="language-javascript">		<span class="keyword">const</span> isInside = google.<span class="property">maps</span>.<span class="property">geometry</span>.<span class="property">poly</span>.<span class="title function_">containsLocation</span>(</span></span><br><span class="line"><span class="language-javascript">			userLocation,</span></span><br><span class="line"><span class="language-javascript">			geofencePolygon</span></span><br><span class="line"><span class="language-javascript">		);</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">		<span class="variable language_">console</span>.<span class="title function_">log</span>(isInside ? <span class="string">&quot;位於地理柵欄內&quot;</span> : <span class="string">&quot;位於地理柵欄外&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">	&#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span></span></span><br><span class="line"><span class="tag">	<span class="attr">async</span></span></span><br><span class="line"><span class="tag">	<span class="attr">defer</span></span></span><br><span class="line"><span class="tag">	<span class="attr">src</span>=<span class="string">&quot;https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&amp;libraries=geometry&amp;callback=initMap&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>這段程式碼的流程可以拆成三個部分：</p>
+<ol>
+<li>從 GeoJSON 取出 Polygon 的座標</li>
+<li>將 <code>[lng, lat]</code> 轉換成 <code>&#123; lat, lng &#125;</code></li>
+<li>使用 <code>containsLocation()</code> 判斷指定座標是否在 Polygon 內</li>
+</ol>
+<p>這樣就能把 <code>geojson.io</code> 繪製出的範圍，轉成實際可用的 Google Maps 地理柵欄。</p>
+<h2 id="實際演示結果"><a href="#實際演示結果" class="headerlink" title="實際演示結果"></a>實際演示結果</h2><p>實際執行後，Google Maps 會在地圖上顯示從 GeoJSON 轉換而來的多邊形範圍。範例中的藍色半透明區塊就是地理柵欄，代表我們在 <code>geojson.io</code> 中繪製並匯出的 Polygon。</p>
+<p>在這個演示中，程式會建立一個測試座標 <code>userLocation</code>，再透過 <code>containsLocation()</code> 判斷它是否落在多邊形內。如果座標位於範圍內，Console 會輸出「位於地理柵欄內」；如果座標落在範圍外，則會輸出「位於地理柵欄外」。</p>
+<p>透過這個結果可以確認兩件事：第一，GeoJSON 的座標已經正確轉換成 Google Maps 可使用的 <code>&#123; lat, lng &#125;</code> 格式；第二，地理柵欄不只是畫在地圖上的視覺範圍，也能進一步用來執行位置判斷邏輯。</p>
+<img src="/2026/05/10/google-map-geofencing/google_map_geofencing_3.jpg" class="">
+
+<h2 id="實務開發時需要注意的細節"><a href="#實務開發時需要注意的細節" class="headerlink" title="實務開發時需要注意的細節"></a>實務開發時需要注意的細節</h2><p>在實作地理柵欄時，除了能不能畫出範圍之外，還有幾個細節需要特別注意。</p>
+<p>首先是座標順序。GeoJSON 使用 <code>[lng, lat]</code>，Google Maps 常用 <code>&#123; lat, lng &#125;</code>，這是最容易踩到的問題。只要地圖上的多邊形位置明顯跑掉，第一件事通常就是檢查座標順序是否轉錯。</p>
+<p>其次是多邊形是否封閉。GeoJSON 的 Polygon 通常會讓第一個座標與最後一個座標相同，用來表示封閉範圍。使用 <code>geojson.io</code> 繪製時通常會自動處理，但如果後續有手動編輯 JSON，就要確認座標沒有被刪掉。</p>
+<p>另外，如果地理柵欄資料會存在後端或資料庫，建議保留原始 GeoJSON 格式。這樣之後不論要顯示在地圖上、提供 API，或是轉換給其他 GIS 工具使用，都會比較彈性。</p>
+<p>最後，如果範圍比較複雜，例如包含多個區域或洞口，GeoJSON 可能會出現 MultiPolygon 或 Polygon holes。這類資料在顯示上通常沒有太大問題，但如果要做位置判斷，就需要確認轉換邏輯有完整支援對應結構。</p>
+<h2 id="遊戲畫面效果"><a href="#遊戲畫面效果" class="headerlink" title="遊戲畫面效果"></a>遊戲畫面效果</h2><p>套用到遊戲情境後，地理柵欄可以轉換成畫面上的區域觸發效果。當玩家目前位置進入指定範圍時，遊戲可以即時改變 UI 狀態，例如顯示「已進入任務區域」、開啟互動按鈕，或觸發特定事件。</p>
+<p>以下畫面可以看到，地圖上的地理範圍不只是開發時的輔助標記，也能成為遊戲流程的一部分。玩家移動到範圍內後，系統會依照位置判斷結果更新畫面狀態，讓地圖位置與遊戲互動產生連動。</p>
+<p>這種設計很適合用在實境遊戲或活動任務中。例如玩家需要抵達指定地點才能開始挑戰，或是只有在特定區域內才會出現任務提示。透過 GeoJSON 管理區域範圍，再由 Google Maps 負責位置判斷，就能把真實地理空間轉換成遊戲中的互動條件。</p>
+<img src="/2026/05/10/google-map-geofencing/google_map_geofencing_4.jpg" class="">
+
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>使用 <code>geojson.io</code> 建立 Google Maps 地理柵欄，可以讓範圍繪製變得更直覺，也能避免手動輸入大量座標造成的錯誤。整體流程可以整理成以下幾步：</p>
+<ol>
+<li>在 <code>geojson.io</code> 上找到目標區域</li>
+<li>使用 Polygon 工具畫出地理柵欄</li>
+<li>匯出或複製 GeoJSON</li>
+<li>在 Google Maps 中顯示 GeoJSON</li>
+<li>將 GeoJSON 座標轉換成 Google Maps Polygon</li>
+<li>使用 Geometry Library 判斷座標是否位於範圍內</li>
+</ol>
+<p>對於需要快速製作地圖互動原型、活動區域判斷或位置觸發功能的專案來說，這是一個簡單又實用的工作流程。只要掌握 GeoJSON 與 Google Maps 座標格式的差異，就能順利把視覺化繪製出的地理範圍轉換成實際可執行的程式邏輯。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <div class="post-recent-posts" style="display:none">
+      <div class="post-recent-posts-title">
+        <i class="fa fa-history fa-fw"></i> 近期文章
+      </div>
+      <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/05/10/google-map-geofencing/" title="使用 geojson.io 在 Google Maps 上建立地理柵欄">
+            <div class="post-recent-card-banner post-recent-card-cat--gamelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">使用 geojson.io 在 Google Maps 上建立地理柵欄</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-05-10</span><span class="post-recent-card-cat">gamelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/05/06/pixel-battle-record-01/" title="使用 VS Code 與 AI 協作開發遊戲的一個月心得">
+            <div class="post-recent-card-banner post-recent-card-cat--gamelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">使用 VS Code 與 AI 協作開發遊戲的一個月心得</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-05-06</span><span class="post-recent-card-cat">gamelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/04/29/google-map-custom-style/" title="客製化 Google Map 樣式完整教學">
+            <div class="post-recent-card-banner post-recent-card-cat--gamelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">客製化 Google Map 樣式完整教學</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-04-29</span><span class="post-recent-card-cat">gamelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/04/23/google-map-api-create/" title="從零開始導入 Google Maps API">
+            <div class="post-recent-card-banner post-recent-card-cat--gamelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">從零開始導入 Google Maps API</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-04-23</span><span class="post-recent-card-cat">gamelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/04/22/uv-install/" title="uv 安裝指南">
+            <div class="post-recent-card-banner post-recent-card-cat--python">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">uv 安裝指南</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-04-22</span><span class="post-recent-card-cat">python</span>
+            </div>
+          </a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function showRecentPosts() {
+          var block = document.querySelector('.post-recent-posts');
+          if (!block) return;
+
+          // 重置狀態
+          block.classList.remove('animated', 'fadeIn');
+          block.style.display = 'none';
+
+          var comments = document.querySelector('.comments');
+          if (comments) {
+            comments.parentNode.insertBefore(block, comments);
+          }
+
+          function reveal() {
+            block.style.display = '';
+            block.offsetHeight; // force reflow
+            block.classList.add('animated', 'fadeIn');
+          }
+
+          if (!comments) {
+            reveal();
+          } else {
+            // 觀察 .comments 被 NexT motion 加上 animated class 的時機
+            var observer = new MutationObserver(function () {
+              if (comments.classList.contains('animated')) {
+                observer.disconnect();
+                reveal();
+              }
+            });
+            observer.observe(comments, { attributes: true, attributeFilter: ['class'] });
+            // 若 motion 已跑完（comments 已有 animated），也直接顯示
+            if (comments.classList.contains('animated')) {
+              observer.disconnect();
+              reveal();
+            }
+          }
+        }
+
+        // 初次載入
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', showRecentPosts, { once: true });
+        } else {
+          showRecentPosts();
+        }
+
+        // PJAX：pjax:success 時 NexT motion 剛啟動（async），.comments 尚未有 animated
+        document.addEventListener('pjax:success', showRecentPosts);
+      })();
+    </script>
+
+          <div class="post-tags">
+              <a href="/tags/googlemap/" rel="tag"># googlemap</a>
+              <a href="/tags/gamedev/" rel="tag"># gamedev</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/05/06/pixel-battle-record-01/" rel="prev" title="使用 VS Code 與 AI 協作開發遊戲的一個月心得">
+                  <i class="fa fa-angle-left"></i> 使用 VS Code 與 AI 協作開發遊戲的一個月心得
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"6af9003f354427efc363405594886a94"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+</body>
+</html>
