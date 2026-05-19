@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="VS Code Custom Agent 使用指南簡介什麼是 Custom Agent？Custom Agent 是 VS Code 中 GitHub Copilot Chat 的自訂代理設定。它可以讓你針對不同開發任務，預先定義 AI 應該扮演的角色、可使用的工具、模型偏好與工作流程，讓 Copilot 在切換到該 agent 後，以更貼近任務需求的方式回應。 內建 agent 通常適合一般用途">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VS Code Custom Agent 使用指南">
+<meta property="og:url" content="https://pcion123.github.io/2026/05/19/vscode-custom-agent-intro/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="VS Code Custom Agent 使用指南簡介什麼是 Custom Agent？Custom Agent 是 VS Code 中 GitHub Copilot Chat 的自訂代理設定。它可以讓你針對不同開發任務，預先定義 AI 應該扮演的角色、可使用的工具、模型偏好與工作流程，讓 Copilot 在切換到該 agent 後，以更貼近任務需求的方式回應。 內建 agent 通常適合一般用途">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://code.visualstudio.com/assets/docs/copilot/customization/create-custom-agent.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/05/19/vscode-custom-agent-intro/vscode-custom-agent-demo.webp">
+<meta property="article:published_time" content="2026-05-19T15:47:34.000Z">
+<meta property="article:modified_time" content="2026-05-19T15:54:14.444Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="vscode">
+<meta property="article:tag" content="agent">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://code.visualstudio.com/assets/docs/copilot/customization/create-custom-agent.png">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/05/19/vscode-custom-agent-intro/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/05/19/vscode-custom-agent-intro/","path":"2026/05/19/vscode-custom-agent-intro/","title":"VS Code Custom Agent 使用指南"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>VS Code Custom Agent 使用指南 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#VS-Code-Custom-Agent-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97"><span class="nav-number">1.</span> <span class="nav-text">VS Code Custom Agent 使用指南</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B0%A1%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">簡介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-Custom-Agent%EF%BC%9F"><span class="nav-number">1.1.1.</span> <span class="nav-text">什麼是 Custom Agent？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%A9%E5%90%88%E4%BD%BF%E7%94%A8%E6%83%85%E5%A2%83"><span class="nav-number">1.1.2.</span> <span class="nav-text">適合使用情境</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Custom-Agent-%E8%88%87%E5%85%B6%E4%BB%96%E8%87%AA%E8%A8%82%E8%83%BD%E5%8A%9B%E7%9A%84%E5%B7%AE%E7%95%B0"><span class="nav-number">1.2.</span> <span class="nav-text">Custom Agent 與其他自訂能力的差異</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Custom-Agent-%E6%AA%94%E6%A1%88%E4%BD%8D%E7%BD%AE"><span class="nav-number">1.3.</span> <span class="nav-text">Custom Agent 檔案位置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Custom-Agent-%E6%AA%94%E6%A1%88%E7%B5%90%E6%A7%8B"><span class="nav-number">1.4.</span> <span class="nav-text">Custom Agent 檔案結構</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Frontmatter-%E5%B8%B8%E7%94%A8%E6%AC%84%E4%BD%8D"><span class="nav-number">1.4.1.</span> <span class="nav-text">Frontmatter 常用欄位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Body-%E6%92%B0%E5%AF%AB%E6%96%B9%E5%BC%8F"><span class="nav-number">1.4.2.</span> <span class="nav-text">Body 撰寫方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B-Custom-Agent"><span class="nav-number">1.5.</span> <span class="nav-text">建立 Custom Agent</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A%E9%80%8F%E9%81%8E-Agent-Customizations-editor-%E5%BB%BA%E7%AB%8B"><span class="nav-number">1.5.1.</span> <span class="nav-text">方式一：透過 Agent Customizations editor 建立</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%BA%8C%EF%BC%9A%E4%BD%BF%E7%94%A8-create-agent-%E7%94%A2%E7%94%9F"><span class="nav-number">1.5.2.</span> <span class="nav-text">方式二：使用 &#x2F;create-agent 產生</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%89%EF%BC%9A%E5%BE%9E%E6%97%A2%E6%9C%89%E5%B0%8D%E8%A9%B1%E8%90%83%E5%8F%96"><span class="nav-number">1.5.3.</span> <span class="nav-text">方式三：從既有對話萃取</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C%E7%AF%84%E4%BE%8B%EF%BC%9A%E5%BB%BA%E7%AB%8B-Planning-Agent"><span class="nav-number">1.6.</span> <span class="nav-text">實作範例：建立 Planning Agent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Handoffs%EF%BC%9A%E5%BB%BA%E7%AB%8B%E5%A4%9A%E9%9A%8E%E6%AE%B5%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="nav-number">1.7.</span> <span class="nav-text">Handoffs：建立多階段工作流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%A1%E7%90%86%E8%88%87%E5%88%86%E4%BA%AB-Custom-Agent"><span class="nav-number">1.8.</span> <span class="nav-text">管理與分享 Custom Agent</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%AF%E7%A4%BA%E6%88%96%E9%9A%B1%E8%97%8F-agent"><span class="nav-number">1.8.1.</span> <span class="nav-text">顯示或隱藏 agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%98%E9%9A%8A%E5%85%B1%E4%BA%AB"><span class="nav-number">1.8.2.</span> <span class="nav-text">團隊共享</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4-agent"><span class="nav-number">1.8.3.</span> <span class="nav-text">移除 agent</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Copilot-CLI-%E5%AF%A6%E9%9A%9BDemo"><span class="nav-number">1.9.</span> <span class="nav-text">Copilot CLI 實際Demo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85"><span class="nav-number">1.10.</span> <span class="nav-text">注意事項</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Tool-list-priority"><span class="nav-number">1.10.1.</span> <span class="nav-text">Tool list priority</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Custom-Agent-%E8%88%87-Chat-Mode-%E7%9A%84%E9%97%9C%E4%BF%82"><span class="nav-number">1.10.2.</span> <span class="nav-text">Custom Agent 與 Chat Mode 的關係</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7%E5%BB%BA%E8%AD%B0"><span class="nav-number">1.10.3.</span> <span class="nav-text">安全性建議</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C"><span class="nav-number">1.11.</span> <span class="nav-text">常見問題</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E9%96%8B%E5%95%9F-Custom-Agents-%E8%A8%AD%E5%AE%9A%EF%BC%9F"><span class="nav-number">1.11.1.</span> <span class="nav-text">如何快速開啟 Custom Agents 設定？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%9F%A5%E9%81%93%E6%9F%90%E5%80%8B-agent-%E4%BE%86%E8%87%AA%E5%93%AA%E8%A3%A1%EF%BC%9F"><span class="nav-number">1.11.2.</span> <span class="nav-text">如何知道某個 agent 來自哪裡？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Claude-agent-%E6%A0%BC%E5%BC%8F%E4%B9%9F%E8%83%BD%E5%9C%A8-VS-Code-%E4%BD%BF%E7%94%A8%E5%97%8E%EF%BC%9F"><span class="nav-number">1.11.3.</span> <span class="nav-text">Claude agent 格式也能在 VS Code 使用嗎？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">1.12.</span> <span class="nav-text">參考資料</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">47</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/agent/" style="font-size: 12px;" class="tag-cloud-0">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/copilot-cli/" style="font-size: 18px;" class="tag-cloud-3">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 24px;" class="tag-cloud-7">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 21px;" class="tag-cloud-5">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 15px;" class="tag-cloud-2">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 18px;" class="tag-cloud-3">gitlab</a> <a href="/tags/googlemap/" style="font-size: 18px;" class="tag-cloud-3">googlemap</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 21px;" class="tag-cloud-5">java</a> <a href="/tags/jdk/" style="font-size: 15px;" class="tag-cloud-2">jdk</a> <a href="/tags/jenkins/" style="font-size: 21px;" class="tag-cloud-5">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 27px;" class="tag-cloud-8">kubernetes</a> <a href="/tags/linux/" style="font-size: 30px;" class="tag-cloud-10">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 18px;" class="tag-cloud-3">maven</a> <a href="/tags/mcp/" style="font-size: 15px;" class="tag-cloud-2">mcp</a> <a href="/tags/minikube/" style="font-size: 15px;" class="tag-cloud-2">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 15px;" class="tag-cloud-2">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/pm2/" style="font-size: 15px;" class="tag-cloud-2">pm2</a> <a href="/tags/powershell/" style="font-size: 18px;" class="tag-cloud-3">powershell</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/skills/" style="font-size: 15px;" class="tag-cloud-2">skills</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 18px;" class="tag-cloud-3">terminal</a> <a href="/tags/tomcat/" style="font-size: 15px;" class="tag-cloud-2">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 24px;" class="tag-cloud-7">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/vscode/" style="font-size: 27px;" class="tag-cloud-8">vscode</a> <a href="/tags/windows/" style="font-size: 21px;" class="tag-cloud-5">windows</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 18px;" class="tag-cloud-3">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相關文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/03/31/vscode-skill-intro/" rel="bookmark">
+        <time class="popular-posts-time">2026-03-31</time>
+        <br>
+      VS Code Agent Skills 使用指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/04/01/vscode-skill-create/" rel="bookmark">
+        <time class="popular-posts-time">2026-04-01</time>
+        <br>
+      用 `/create-skill` 打造專屬 Copilot 技能
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/03/20/copilot-cli-install/" rel="bookmark">
+        <time class="popular-posts-time">2026-03-20</time>
+        <br>
+      GitHub Copilot CLI 安裝指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/05/06/pixel-battle-record-01/" rel="bookmark">
+        <time class="popular-posts-time">2026-05-06</time>
+        <br>
+      使用 VS Code 與 AI 協作開發遊戲的一個月心得
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/07/30/vscode-copilot-quick/" rel="bookmark">
+        <time class="popular-posts-time">2025-07-30</time>
+        <br>
+      使用vscode+copilot快速建立專案
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/05/19/vscode-custom-agent-intro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="VS Code Custom Agent 使用指南 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          VS Code Custom Agent 使用指南
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-05-19 23:47:34 / 修改時間：23:54:14" itemprop="dateCreated datePublished" datetime="2026-05-19T23:47:34+08:00">2026-05-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/vscodelife/" itemprop="url" rel="index"><span itemprop="name">vscodelife</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="VS-Code-Custom-Agent-使用指南"><a href="#VS-Code-Custom-Agent-使用指南" class="headerlink" title="VS Code Custom Agent 使用指南"></a>VS Code Custom Agent 使用指南</h1><h2 id="簡介"><a href="#簡介" class="headerlink" title="簡介"></a>簡介</h2><h3 id="什麼是-Custom-Agent？"><a href="#什麼是-Custom-Agent？" class="headerlink" title="什麼是 Custom Agent？"></a>什麼是 Custom Agent？</h3><p>Custom Agent 是 VS Code 中 GitHub Copilot Chat 的自訂代理設定。它可以讓你針對不同開發任務，預先定義 AI 應該扮演的角色、可使用的工具、模型偏好與工作流程，讓 Copilot 在切換到該 agent 後，以更貼近任務需求的方式回應。</p>
+<p>內建 agent 通常適合一般用途，但實際開發時，不同任務會需要不同的行為模式。例如規劃階段可能只需要讀取與搜尋工具，避免 AI 直接修改檔案；實作階段則需要編輯工具；Code Review 階段又會更重視安全性、可維護性與測試覆蓋。Custom Agent 的價值就在於把這些設定整理成可重複使用的工作角色。</p>
+<p>Custom Agent 會定義在 <code>.agent.md</code> Markdown 檔案中，可以放在工作區內與團隊共享，也可以放在使用者層級，讓你在不同專案中重複使用。</p>
+<h3 id="適合使用情境"><a href="#適合使用情境" class="headerlink" title="適合使用情境"></a>適合使用情境</h3><ul>
+<li><strong>規劃任務</strong>：建立只具備讀取與搜尋能力的 planning agent，用來整理需求、分析程式碼與產出實作計畫。</li>
+<li><strong>功能開發</strong>：建立 implementation agent，讓 AI 依照專案規範進行程式碼修改與測試。</li>
+<li><strong>程式碼審查</strong>：建立 review agent，專注檢查安全性、可讀性、錯誤處理與測試缺口。</li>
+<li><strong>專案特定流程</strong>：針對團隊內固定流程，例如產生測試、撰寫文件、維護 API 規格，建立可重複使用的 agent。</li>
+<li><strong>多階段工作流</strong>：透過 handoffs 在不同 agent 之間交接，例如從規劃 agent 交給實作 agent，再交給審查 agent。</li>
+</ul>
+<span id="more"></span>
+
+<hr>
+<h2 id="Custom-Agent-與其他自訂能力的差異"><a href="#Custom-Agent-與其他自訂能力的差異" class="headerlink" title="Custom Agent 與其他自訂能力的差異"></a>Custom Agent 與其他自訂能力的差異</h2><p>VS Code Copilot 提供多種自訂方式，容易混在一起使用。簡單來說，可以依照使用目的區分：</p>
+<table>
+<thead>
+<tr>
+<th>類型</th>
+<th>適合情境</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Custom Agent</td>
+<td>需要長期使用的角色設定，包含工具限制、模型偏好或 agent 之間的交接流程</td>
+</tr>
+<tr>
+<td>Prompt File</td>
+<td>一次性或重複使用的提示詞任務，不一定需要限制工具或定義角色</td>
+</tr>
+<tr>
+<td>Instructions</td>
+<td>提供專案或使用者層級的通用行為規範</td>
+</tr>
+<tr>
+<td>Skills</td>
+<td>封裝可攜式能力、腳本、資源與特定工作流程</td>
+</tr>
+</tbody></table>
+<p>如果只是希望 Copilot 在某個專案中遵守固定寫作或程式碼風格，通常會使用 instructions。若你需要的是「切換到特定角色，並讓它只拿到某些工具」，Custom Agent 會更適合。</p>
+<hr>
+<h2 id="Custom-Agent-檔案位置"><a href="#Custom-Agent-檔案位置" class="headerlink" title="Custom Agent 檔案位置"></a>Custom Agent 檔案位置</h2><p>Custom Agent 可以定義在工作區、使用者層級，或由組織提供。常見位置如下：</p>
+<table>
+<thead>
+<tr>
+<th>範圍</th>
+<th>預設位置</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Workspace</td>
+<td><code>.github/agents</code></td>
+<td>放在專案中，適合與團隊共享</td>
+</tr>
+<tr>
+<td>Workspace（Claude 格式）</td>
+<td><code>.claude/agents</code></td>
+<td>支援 Claude sub-agents 格式，也能被 VS Code 偵測</td>
+</tr>
+<tr>
+<td>User profile</td>
+<td><code>~/.copilot/agents</code> 或 VS Code 使用者資料位置</td>
+<td>適合個人跨專案重複使用</td>
+</tr>
+</tbody></table>
+<p>若專案需要其他搜尋位置，可以透過 <code>chat.agentFilesLocations</code> 設定讓 VS Code 額外載入指定資料夾中的 agent 檔案。</p>
+<p>在 monorepo 情境中，也可以啟用 <code>chat.useCustomizationsInParentRepositories</code>，讓 VS Code 從父層 repository 根目錄探索 customizations。</p>
+<hr>
+<h2 id="Custom-Agent-檔案結構"><a href="#Custom-Agent-檔案結構" class="headerlink" title="Custom Agent 檔案結構"></a>Custom Agent 檔案結構</h2><p>Custom Agent 使用 Markdown 撰寫，檔名通常為 <code>.agent.md</code>，內容分成兩個部分：</p>
+<ol>
+<li>YAML frontmatter：設定 agent 名稱、描述、工具、模型與 handoffs 等屬性。</li>
+<li>Markdown body：撰寫 agent 的行為準則、回應風格、工作流程與注意事項。</li>
+</ol>
+<p>基本結構如下：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">name: planning</span><br><span class="line">description: Generate an implementation plan before editing code</span><br><span class="line">tools: [&#x27;search&#x27;, &#x27;web&#x27;]</span><br><span class="line"><span class="section">model: GPT-5.2 (copilot)</span></span><br><span class="line"><span class="section">---</span></span><br><span class="line"></span><br><span class="line"><span class="section"># Planning Agent</span></span><br><span class="line"></span><br><span class="line">You are a planning agent. Collect project context, identify risks, and produce a clear implementation plan before any code changes are made.</span><br></pre></td></tr></table></figure>
+
+<h3 id="Frontmatter-常用欄位"><a href="#Frontmatter-常用欄位" class="headerlink" title="Frontmatter 常用欄位"></a>Frontmatter 常用欄位</h3><table>
+<thead>
+<tr>
+<th>欄位</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>name</code></td>
+<td>Agent 顯示名稱。若未指定，會使用檔名作為名稱</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>Agent 的簡短描述，也會顯示為 Chat 輸入框中的提示文字</td>
+</tr>
+<tr>
+<td><code>argument-hint</code></td>
+<td>顯示在 Chat 輸入框中的提示文字，用來引導使用者如何輸入任務</td>
+</tr>
+<tr>
+<td><code>tools</code></td>
+<td>此 agent 可使用的工具清單，可包含內建工具、tool set、MCP 工具或 extension 提供的工具</td>
+</tr>
+<tr>
+<td><code>agents</code></td>
+<td>允許此 agent 呼叫的 subagents 清單，可使用 <code>*</code> 允許所有 agent，或使用 <code>[]</code> 禁止使用 subagent</td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td>指定執行時使用的模型，也可以設定為模型優先順序清單</td>
+</tr>
+<tr>
+<td><code>user-invocable</code></td>
+<td>控制 agent 是否出現在 Chat 的 agents 下拉選單中，預設為 <code>true</code></td>
+</tr>
+<tr>
+<td><code>disable-model-invocation</code></td>
+<td>控制此 agent 是否能被其他 agent 以 subagent 方式呼叫，預設為 <code>false</code></td>
+</tr>
+<tr>
+<td><code>target</code></td>
+<td>指定 agent 的目標環境，例如 <code>vscode</code> 或 <code>github-copilot</code></td>
+</tr>
+<tr>
+<td><code>mcp-servers</code></td>
+<td>搭配 <code>target: github-copilot</code> 使用，定義 GitHub Copilot 可用的 MCP server 設定</td>
+</tr>
+<tr>
+<td><code>handoffs</code></td>
+<td>定義 agent 完成回應後可交接到哪些下一步 agent</td>
+</tr>
+<tr>
+<td><code>hooks</code></td>
+<td>Preview 功能，可設定只在此 agent 啟用時執行的 hook commands</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>提示</strong>：如果某個工具在目前環境中不可用，VS Code 會忽略該工具設定，不會因此讓整個 agent 無法使用。</p>
+</blockquote>
+<h3 id="Body-撰寫方式"><a href="#Body-撰寫方式" class="headerlink" title="Body 撰寫方式"></a>Body 撰寫方式</h3><p>YAML frontmatter 下方的 Markdown body 是 agent 的實際行為描述。你可以在這裡撰寫角色定位、工作步驟、回應格式、限制條件與注意事項。</p>
+<p>Body 也可以透過 Markdown 連結引用其他檔案，例如共用的 instructions 檔，避免在多個 agent 中重複維護相同規則。</p>
+<p>如果要在 body 中明確提到某個工具，可以使用 <code>#tool:&lt;tool-name&gt;</code> 語法，例如：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">When external documentation is needed, use #tool:web/fetch to retrieve the official source before answering.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="建立-Custom-Agent"><a href="#建立-Custom-Agent" class="headerlink" title="建立 Custom Agent"></a>建立 Custom Agent</h2><h3 id="方式一：透過-Agent-Customizations-editor-建立"><a href="#方式一：透過-Agent-Customizations-editor-建立" class="headerlink" title="方式一：透過 Agent Customizations editor 建立"></a>方式一：透過 Agent Customizations editor 建立</h3><p>VS Code 提供 Agent Customizations editor，可以集中管理 agents、prompt files、instructions 與 skills。</p>
+<ol>
+<li>開啟 Copilot Chat。</li>
+<li>點擊 Configure Chat 圖示，開啟 Agent Customizations editor。</li>
+<li>切換到 <strong>Agents</strong> 頁籤。</li>
+<li>從下拉選單選擇 <strong>New Agent (Workspace)</strong> 或 <strong>New Agent (User)</strong>。</li>
+<li>輸入檔名後，VS Code 會建立新的 <code>.agent.md</code> 檔案。</li>
+<li>在 frontmatter 補上名稱、描述、工具與其他設定，並在 body 撰寫 agent 指令。</li>
+</ol>
+<p><img src="https://code.visualstudio.com/assets/docs/copilot/customization/create-custom-agent.png"></p>
+<p>也可以透過命令面板執行 <strong>Chat: New Custom Agent</strong> 建立新 agent。</p>
+<h3 id="方式二：使用-create-agent-產生"><a href="#方式二：使用-create-agent-產生" class="headerlink" title="方式二：使用 /create-agent 產生"></a>方式二：使用 <code>/create-agent</code> 產生</h3><p>如果還不確定 agent 該怎麼設計，可以在 Agent mode chat 中輸入 <code>/create-agent</code>，再描述你想建立的角色，例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/create-agent 建立一個專門做安全性審查的 agent</span><br></pre></td></tr></table></figure>
+
+<p>Copilot 會根據你的描述詢問必要問題，並產生對應的 <code>.agent.md</code> 檔案，包含適合的工具、指令與 frontmatter。</p>
+<h3 id="方式三：從既有對話萃取"><a href="#方式三：從既有對話萃取" class="headerlink" title="方式三：從既有對話萃取"></a>方式三：從既有對話萃取</h3><p>當你完成一段多輪除錯、重構或審查流程後，也可以請 Copilot 將這類工作整理成 agent。例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make an agent for this kind of task</span><br></pre></td></tr></table></figure>
+
+<p>這種方式適合把已經驗證過的工作流程固定下來，之後遇到類似任務時就能直接切換使用。</p>
+<hr>
+<h2 id="實作範例：建立-Planning-Agent"><a href="#實作範例：建立-Planning-Agent" class="headerlink" title="實作範例：建立 Planning Agent"></a>實作範例：建立 Planning Agent</h2><p>以下範例建立一個 <code>planning.agent.md</code>，專門負責在實作前收集上下文、分析風險並產出計畫。這類 agent 適合限制為讀取與搜尋工具，避免尚未確認方向前就直接修改檔案。</p>
+<p>檔案位置：<code>.github/agents/planning.agent.md</code></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">name: planning</span><br><span class="line">description: Analyze the codebase and create an implementation plan</span><br><span class="line">argument-hint: Describe the feature, bug, or refactor you want to plan</span><br><span class="line">tools: [&#x27;search&#x27;, &#x27;web&#x27;]</span><br><span class="line">handoffs:</span><br><span class="line"><span class="bullet">	-</span> label: Start Implementation</span><br><span class="line"><span class="code">		agent: implementation</span></span><br><span class="line"><span class="code">		prompt: Now implement the plan outlined above.</span></span><br><span class="line"><span class="code">		send: false</span></span><br><span class="line"><span class="code">		model: GPT-5.2 (copilot)</span></span><br><span class="line"><span class="code">---</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="section"># Planning Agent</span></span><br><span class="line"></span><br><span class="line">You are responsible for planning changes before implementation.</span><br><span class="line"></span><br><span class="line"><span class="section">## Workflow</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">1.</span> Understand the user&#x27;s request and identify the affected areas.</span><br><span class="line"><span class="bullet">2.</span> Search the workspace for relevant files, existing patterns, and tests.</span><br><span class="line"><span class="bullet">3.</span> Summarize the current behavior and proposed change.</span><br><span class="line"><span class="bullet">4.</span> List risks, assumptions, and open questions.</span><br><span class="line"><span class="bullet">5.</span> Produce a clear implementation plan without editing files.</span><br><span class="line"></span><br><span class="line"><span class="section">## Constraints</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> Do not modify files.</span><br><span class="line"><span class="bullet">-</span> Prefer existing project conventions over new abstractions.</span><br><span class="line"><span class="bullet">-</span> Keep the plan focused on the user&#x27;s requested change.</span><br></pre></td></tr></table></figure>
+
+<p>這個範例有幾個重點：</p>
+<table>
+<thead>
+<tr>
+<th>設定</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tools: [&#39;search&#39;, &#39;web&#39;]</code></td>
+<td>限制 agent 只使用搜尋與網頁查詢相關工具</td>
+</tr>
+<tr>
+<td><code>handoffs</code></td>
+<td>規劃完成後顯示交接按鈕，讓使用者切換到 implementation agent</td>
+</tr>
+<tr>
+<td><code>send: false</code></td>
+<td>切換 agent 後只預填 prompt，由使用者確認後再送出</td>
+</tr>
+<tr>
+<td>Markdown body</td>
+<td>明確定義工作流程與限制條件</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="Handoffs：建立多階段工作流"><a href="#Handoffs：建立多階段工作流" class="headerlink" title="Handoffs：建立多階段工作流"></a>Handoffs：建立多階段工作流</h2><p>Handoffs 是 Custom Agent 中很實用的設計。它可以在某個 agent 完成回應後，顯示下一步按鈕，讓使用者帶著上下文切換到另一個 agent。</p>
+<p>官方文件中提到幾種常見流程：</p>
+<ul>
+<li><strong>Planning → Implementation</strong>：先由 planning agent 產生計畫，再交給 implementation agent 開始實作。</li>
+<li><strong>Implementation → Review</strong>：完成功能後切換到 review agent，檢查品質與安全性。</li>
+<li><strong>Write Failing Tests → Write Passing Tests</strong>：先產生失敗測試，確認測試符合預期後，再交給另一個 agent 實作讓測試通過。</li>
+</ul>
+<p>handoffs 設定會放在 frontmatter 中，每一個 handoff 可以指定按鈕文字、目標 agent、預填 prompt、是否自動送出，以及要使用的模型。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">handoffs:</span></span><br><span class="line">	<span class="bullet">-</span> <span class="attr">label:</span> <span class="string">Start</span> <span class="string">Implementation</span></span><br><span class="line">		<span class="attr">agent:</span> <span class="string">implementation</span></span><br><span class="line">		<span class="attr">prompt:</span> <span class="string">Now</span> <span class="string">implement</span> <span class="string">the</span> <span class="string">plan</span> <span class="string">outlined</span> <span class="string">above.</span></span><br><span class="line">		<span class="attr">send:</span> <span class="literal">false</span></span><br><span class="line">		<span class="attr">model:</span> <span class="string">GPT-5.2</span> <span class="string">(copilot)</span></span><br></pre></td></tr></table></figure>
+
+<p>如果 <code>send</code> 設為 <code>true</code>，VS Code 會在切換到目標 agent 後自動送出 prompt。若希望保留人工確認步驟，建議維持 <code>false</code>。</p>
+<hr>
+<h2 id="管理與分享-Custom-Agent"><a href="#管理與分享-Custom-Agent" class="headerlink" title="管理與分享 Custom Agent"></a>管理與分享 Custom Agent</h2><h3 id="顯示或隱藏-agent"><a href="#顯示或隱藏-agent" class="headerlink" title="顯示或隱藏 agent"></a>顯示或隱藏 agent</h3><p>當專案或使用者層級累積多個 agents 後，可以自訂 Chat agents 下拉選單中要顯示哪些項目。</p>
+<ol>
+<li>從 agents 下拉選單選擇 <strong>Configure Custom Agents</strong>。</li>
+<li>將滑鼠移到指定 agent 上。</li>
+<li>點擊眼睛圖示顯示或隱藏該 agent。</li>
+</ol>
+<p>這只會影響下拉選單顯示，不一定代表 agent 檔案被刪除。</p>
+<h3 id="團隊共享"><a href="#團隊共享" class="headerlink" title="團隊共享"></a>團隊共享</h3><p>如果要讓整個團隊使用相同 agent，建議把 <code>.agent.md</code> 放在 workspace 的 <code>.github/agents</code> 資料夾中，並提交到 repository。這樣團隊成員開啟專案時，VS Code 就能偵測並載入這些 agents。</p>
+<p>若組織需要跨多個 repository 共用 agents，也可以使用 GitHub organization level 的 custom agents。VS Code 會偵測目前帳號可存取的組織層級 agents，並與內建、個人與 workspace agents 一起顯示在 Chat agents 下拉選單中。若要啟用組織層級 agents 探索，可以設定：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">	<span class="attr">&quot;github.copilot.chat.organizationCustomAgents.enabled&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="移除-agent"><a href="#移除-agent" class="headerlink" title="移除 agent"></a>移除 agent</h3><p>若要完全移除自訂 agent，可以刪除對應的 <code>.agent.md</code> 檔案。也可以在 <strong>Configure Custom Agents</strong> 中將滑鼠移到 agent 上，點擊垃圾桶圖示移除。</p>
+<p>如果 agent 是由 extension 提供，則需要移除提供該 agent 的 extension；若不想移除 extension，也可以只在下拉選單中隱藏它。</p>
+<hr>
+<h2 id="Copilot-CLI-實際Demo"><a href="#Copilot-CLI-實際Demo" class="headerlink" title="Copilot CLI 實際Demo"></a>Copilot CLI 實際Demo</h2><p>以下示範切換到自訂的 <code>article-commentator</code> agent，請 Copilot 針對目前文章提出評論與修改建議。</p>
+<p>啟用這個 agent 後，Copilot 會依照預先定義的角色設定，從文章結構、段落流暢度、標題清楚度，以及技術內容可能存在的風險等面向進行檢視。這類任務通常以閱讀、分析與回饋為主，不需要直接修改檔案，因此特別適合設計成評論型 agent，讓輸出更聚焦於具體可執行的編修建議，而不是直接重寫整篇內容。</p>
+<img src="/2026/05/19/vscode-custom-agent-intro/vscode-custom-agent-demo.webp" class="">
+
+<hr>
+<h2 id="注意事項"><a href="#注意事項" class="headerlink" title="注意事項"></a>注意事項</h2><h3 id="Tool-list-priority"><a href="#Tool-list-priority" class="headerlink" title="Tool list priority"></a>Tool list priority</h3><p>如果 custom agent 和 prompt file 都設定了 <code>tools</code>，prompt file 的工具清單會有較高優先權。也就是說，當你在特定 prompt file 中指定工具時，該 prompt file 的設定可能會覆蓋 agent 本身的工具設定。</p>
+<h3 id="Custom-Agent-與-Chat-Mode-的關係"><a href="#Custom-Agent-與-Chat-Mode-的關係" class="headerlink" title="Custom Agent 與 Chat Mode 的關係"></a>Custom Agent 與 Chat Mode 的關係</h3><p>Custom Agent 以前稱為 custom chat modes，功能概念相同，但現在改以 custom agents 命名，更能表達它是針對特定任務自訂 AI 行為的用途。</p>
+<p>如果你已經有舊的 <code>.chatmode.md</code> 檔案，可以將它重新命名為 <code>.agent.md</code>，並放到對應的 agent 檔案位置，讓 VS Code 以新的 custom agent 格式載入。</p>
+<h3 id="安全性建議"><a href="#安全性建議" class="headerlink" title="安全性建議"></a>安全性建議</h3><p>Custom Agent 可以限制可用工具，這在安全敏感任務中特別重要。例如 planning 或 review 類型的 agent，可以只開放讀取與搜尋工具，避免 AI 在尚未確認前直接修改檔案。</p>
+<p>當你要把 agent 放進 repository 與團隊共享時，建議檢查：</p>
+<ul>
+<li>工具清單是否符合最小權限原則</li>
+<li>指令是否清楚描述 agent 能做與不能做的事情</li>
+<li>是否避免讓不需要修改檔案的 agent 取得編輯工具</li>
+<li>是否需要透過 handoffs 保留人工確認點</li>
+</ul>
+<hr>
+<h2 id="常見問題"><a href="#常見問題" class="headerlink" title="常見問題"></a>常見問題</h2><h3 id="如何快速開啟-Custom-Agents-設定？"><a href="#如何快速開啟-Custom-Agents-設定？" class="headerlink" title="如何快速開啟 Custom Agents 設定？"></a>如何快速開啟 Custom Agents 設定？</h3><p>可以在 Chat 輸入框輸入 <code>/agents</code>，快速開啟 Configure Custom Agents 選單。也可以從命令面板執行 <strong>Chat: Open Customizations</strong>，開啟 Agent Customizations editor。</p>
+<h3 id="如何知道某個-agent-來自哪裡？"><a href="#如何知道某個-agent-來自哪裡？" class="headerlink" title="如何知道某個 agent 來自哪裡？"></a>如何知道某個 agent 來自哪裡？</h3><p>在 Chat 的 agents 下拉選單中選擇 <strong>Configure Custom Agents</strong>，將滑鼠移到目標 agent 上，VS Code 會在 tooltip 中顯示來源位置。</p>
+<p>也可以在 Chat view 中按右鍵並選擇 <strong>Diagnostics</strong>，查看目前載入的 custom agents、prompt files、instruction files 與 skills，以及相關錯誤資訊。</p>
+<h3 id="Claude-agent-格式也能在-VS-Code-使用嗎？"><a href="#Claude-agent-格式也能在-VS-Code-使用嗎？" class="headerlink" title="Claude agent 格式也能在 VS Code 使用嗎？"></a>Claude agent 格式也能在 VS Code 使用嗎？</h3><p>可以。VS Code 會偵測 <code>.claude/agents</code> 資料夾中的 <code>.md</code> 檔案，並支援 Claude sub-agents 格式。Claude 格式的 frontmatter 常見欄位包含 <code>name</code>、<code>description</code>、<code>tools</code> 與 <code>disallowedTools</code>，其中 <code>tools</code> 與 <code>disallowedTools</code> 會使用逗號分隔字串。</p>
+<hr>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/copilot/customization/custom-agents">VS Code 官方文件：Custom agents in VS Code</a></li>
+<li><a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/copilot/customization/custom-instructions">VS Code 官方文件：Customize AI with custom instructions</a></li>
+<li><a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/copilot/customization/prompt-files">VS Code 官方文件：Create reusable prompt files</a></li>
+<li><a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/copilot/agents/agent-tools">VS Code 官方文件：Use tools in chat</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <div class="post-recent-posts" style="display:none">
+      <div class="post-recent-posts-title">
+        <i class="fa fa-history fa-fw"></i> 近期文章
+      </div>
+      <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/05/19/vscode-custom-agent-intro/" title="VS Code Custom Agent 使用指南">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">VS Code Custom Agent 使用指南</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-05-19</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/05/10/google-map-geofencing/" title="使用 geojson.io 在 Google Maps 上建立地理柵欄">
+            <div class="post-recent-card-banner post-recent-card-cat--gamelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">使用 geojson.io 在 Google Maps 上建立地理柵欄</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-05-10</span><span class="post-recent-card-cat">gamelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/05/06/pixel-battle-record-01/" title="使用 VS Code 與 AI 協作開發遊戲的一個月心得">
+            <div class="post-recent-card-banner post-recent-card-cat--gamelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">使用 VS Code 與 AI 協作開發遊戲的一個月心得</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-05-06</span><span class="post-recent-card-cat">gamelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/04/29/google-map-custom-style/" title="客製化 Google Map 樣式完整教學">
+            <div class="post-recent-card-banner post-recent-card-cat--gamelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">客製化 Google Map 樣式完整教學</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-04-29</span><span class="post-recent-card-cat">gamelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/04/23/google-map-api-create/" title="從零開始導入 Google Maps API">
+            <div class="post-recent-card-banner post-recent-card-cat--gamelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">從零開始導入 Google Maps API</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-04-23</span><span class="post-recent-card-cat">gamelife</span>
+            </div>
+          </a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function showRecentPosts() {
+          var block = document.querySelector('.post-recent-posts');
+          if (!block) return;
+
+          // 重置狀態
+          block.classList.remove('animated', 'fadeIn');
+          block.style.display = 'none';
+
+          var comments = document.querySelector('.comments');
+          if (comments) {
+            comments.parentNode.insertBefore(block, comments);
+          }
+
+          function reveal() {
+            block.style.display = '';
+            block.offsetHeight; // force reflow
+            block.classList.add('animated', 'fadeIn');
+          }
+
+          if (!comments) {
+            reveal();
+          } else {
+            // 觀察 .comments 被 NexT motion 加上 animated class 的時機
+            var observer = new MutationObserver(function () {
+              if (comments.classList.contains('animated')) {
+                observer.disconnect();
+                reveal();
+              }
+            });
+            observer.observe(comments, { attributes: true, attributeFilter: ['class'] });
+            // 若 motion 已跑完（comments 已有 animated），也直接顯示
+            if (comments.classList.contains('animated')) {
+              observer.disconnect();
+              reveal();
+            }
+          }
+        }
+
+        // 初次載入
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', showRecentPosts, { once: true });
+        } else {
+          showRecentPosts();
+        }
+
+        // PJAX：pjax:success 時 NexT motion 剛啟動（async），.comments 尚未有 animated
+        document.addEventListener('pjax:success', showRecentPosts);
+      })();
+    </script>
+
+          <div class="post-tags">
+              <a href="/tags/vscode/" rel="tag"># vscode</a>
+              <a href="/tags/agent/" rel="tag"># agent</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/05/10/google-map-geofencing/" rel="prev" title="使用 geojson.io 在 Google Maps 上建立地理柵欄">
+                  <i class="fa fa-angle-left"></i> 使用 geojson.io 在 Google Maps 上建立地理柵欄
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"cdab33982accd37076b0581d6c0e3ed1"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+</body>
+</html>
