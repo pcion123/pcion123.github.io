@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="VS Code 開發 Java 常用快捷鍵介紹簡介VS Code 搭配 Extension Pack for Java 後，已經可以完成 Java 專案開發中常見的編輯、導覽、重構、測試與除錯工作。不過，如果每個動作都依賴滑鼠點選，開發節奏很容易被打斷。熟悉幾組常用快捷鍵，可以讓你在閱讀程式碼、追蹤呼叫關係、修正錯誤與啟動 Debug 時更加順手。 這篇文章整理在 VS Code 上開發 Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VS Code 開發 Java 常用快捷鍵介紹">
+<meta property="og:url" content="https://pcion123.github.io/2026/06/23/vscode-hotkey-intro/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="VS Code 開發 Java 常用快捷鍵介紹簡介VS Code 搭配 Extension Pack for Java 後，已經可以完成 Java 專案開發中常見的編輯、導覽、重構、測試與除錯工作。不過，如果每個動作都依賴滑鼠點選，開發節奏很容易被打斷。熟悉幾組常用快捷鍵，可以讓你在閱讀程式碼、追蹤呼叫關係、修正錯誤與啟動 Debug 時更加順手。 這篇文章整理在 VS Code 上開發 Java">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2026-06-23T15:53:52.000Z">
+<meta property="article:modified_time" content="2026-06-23T15:55:17.461Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="vscode">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/06/23/vscode-hotkey-intro/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/06/23/vscode-hotkey-intro/","path":"2026/06/23/vscode-hotkey-intro/","title":"VS Code 開發 Java 常用快捷鍵介紹"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>VS Code 開發 Java 常用快捷鍵介紹 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#VS-Code-%E9%96%8B%E7%99%BC-Java-%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%8D%B5%E4%BB%8B%E7%B4%B9"><span class="nav-number">1.</span> <span class="nav-text">VS Code 開發 Java 常用快捷鍵介紹</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B0%A1%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">簡介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%96%8B%E5%A7%8B%E5%89%8D%EF%BC%9A%E5%BF%AB%E6%8D%B7%E9%8D%B5%E5%8F%AF%E8%83%BD%E5%9B%A0%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1%E4%B8%8D%E5%90%8C"><span class="nav-number">1.2.</span> <span class="nav-text">開始前：快捷鍵可能因作業系統不同</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A4%8E%E6%93%8D%E4%BD%9C%E5%BF%AB%E6%8D%B7%E9%8D%B5"><span class="nav-number">1.3.</span> <span class="nav-text">基礎操作快捷鍵</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E9%9D%A2%E6%9D%BF"><span class="nav-number">1.3.1.</span> <span class="nav-text">命令面板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AA%94%E6%A1%88%E8%88%87%E8%A6%96%E7%AA%97%E5%88%87%E6%8F%9B"><span class="nav-number">1.3.2.</span> <span class="nav-text">檔案與視窗切換</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-%E7%A8%8B%E5%BC%8F%E7%A2%BC%E5%B0%8E%E8%A6%BD%E5%BF%AB%E6%8D%B7%E9%8D%B5"><span class="nav-number">1.4.</span> <span class="nav-text">Java 程式碼導覽快捷鍵</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E5%BE%80%E5%AE%9A%E7%BE%A9%E8%88%87%E5%8F%83%E8%80%83"><span class="nav-number">1.4.1.</span> <span class="nav-text">前往定義與參考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%A6%E8%99%9F%E6%90%9C%E5%B0%8B"><span class="nav-number">1.4.2.</span> <span class="nav-text">符號搜尋</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-%E7%B7%A8%E8%BC%AF%E8%88%87%E9%87%8D%E6%A7%8B%E5%BF%AB%E6%8D%B7%E9%8D%B5"><span class="nav-number">1.5.</span> <span class="nav-text">Java 編輯與重構快捷鍵</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%99%BA%E6%85%A7%E6%8F%90%E7%A4%BA%E8%88%87%E5%BF%AB%E9%80%9F%E4%BF%AE%E6%AD%A3"><span class="nav-number">1.5.1.</span> <span class="nav-text">智慧提示與快速修正</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%88%87%E8%A8%BB%E8%A7%A3"><span class="nav-number">1.5.2.</span> <span class="nav-text">格式化與註解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E6%B8%B8%E6%A8%99%E8%88%87%E8%A1%8C%E6%93%8D%E4%BD%9C"><span class="nav-number">1.5.3.</span> <span class="nav-text">多游標與行操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-%E9%99%A4%E9%8C%AF%E5%BF%AB%E6%8D%B7%E9%8D%B5"><span class="nav-number">1.6.</span> <span class="nav-text">Java 除錯快捷鍵</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%95%9F%E5%8B%95%E8%88%87%E6%8E%A7%E5%88%B6-Debug"><span class="nav-number">1.6.1.</span> <span class="nav-text">啟動與控制 Debug</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%96%AE%E6%AD%A5%E5%9F%B7%E8%A1%8C"><span class="nav-number">1.6.2.</span> <span class="nav-text">單步執行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%AC%E8%A9%A6%E8%88%87%E5%95%8F%E9%A1%8C%E6%8E%92%E6%9F%A5%E5%BF%AB%E6%8D%B7%E9%8D%B5"><span class="nav-number">1.7.</span> <span class="nav-text">測試與問題排查快捷鍵</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%AC%E8%A9%A6%E7%9B%B8%E9%97%9C%E6%93%8D%E4%BD%9C"><span class="nav-number">1.7.1.</span> <span class="nav-text">測試相關操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%8C%AF%E8%AA%A4%E8%88%87%E8%A8%BA%E6%96%B7%E8%B3%87%E8%A8%8A"><span class="nav-number">1.7.2.</span> <span class="nav-text">錯誤與診斷資訊</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%82%E7%AB%AF%E6%A9%9F%E8%88%87%E5%B7%A5%E4%BD%9C%E5%8D%80%E6%93%8D%E4%BD%9C"><span class="nav-number">1.8.</span> <span class="nav-text">終端機與工作區操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E8%AD%B0%E5%84%AA%E5%85%88%E8%A8%98%E4%BD%8F%E7%9A%84%E5%BF%AB%E6%8D%B7%E9%8D%B5"><span class="nav-number">1.9.</span> <span class="nav-text">建議優先記住的快捷鍵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E8%A8%82%E5%BF%AB%E6%8D%B7%E9%8D%B5"><span class="nav-number">1.10.</span> <span class="nav-text">自訂快捷鍵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AA%9E"><span class="nav-number">1.11.</span> <span class="nav-text">結語</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/agent/" style="font-size: 14.25px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/copilot-cli/" style="font-size: 16.5px;" class="tag-cloud-3">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 25.5px;" class="tag-cloud-8">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 23.25px;" class="tag-cloud-6">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 14.25px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 16.5px;" class="tag-cloud-3">gitlab</a> <a href="/tags/googlemap/" style="font-size: 16.5px;" class="tag-cloud-3">googlemap</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 21px;" class="tag-cloud-5">java</a> <a href="/tags/jdk/" style="font-size: 14.25px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 18.75px;" class="tag-cloud-4">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 27.75px;" class="tag-cloud-9">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 30px;" class="tag-cloud-10">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 16.5px;" class="tag-cloud-3">maven</a> <a href="/tags/mcp/" style="font-size: 14.25px;" class="tag-cloud-1">mcp</a> <a href="/tags/minikube/" style="font-size: 14.25px;" class="tag-cloud-1">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 14.25px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/pm2/" style="font-size: 14.25px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 16.5px;" class="tag-cloud-3">powershell</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/skills/" style="font-size: 14.25px;" class="tag-cloud-1">skills</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 16.5px;" class="tag-cloud-3">terminal</a> <a href="/tags/tomcat/" style="font-size: 14.25px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 25.5px;" class="tag-cloud-8">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/vscode/" style="font-size: 30px;" class="tag-cloud-10">vscode</a> <a href="/tags/windows/" style="font-size: 18.75px;" class="tag-cloud-4">windows</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 16.5px;" class="tag-cloud-3">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相關文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/03/14/vscode-install/" rel="bookmark">
+        <time class="popular-posts-time">2026-03-14</time>
+        <br>
+      VSCode 安裝指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/03/16/vscode-install-java/" rel="bookmark">
+        <time class="popular-posts-time">2026-03-16</time>
+        <br>
+      VSCode 與 Java 環境整合
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/03/21/wsl-install/" rel="bookmark">
+        <time class="popular-posts-time">2026-03-21</time>
+        <br>
+      WSL2 安裝指南
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/06/23/vscode-hotkey-intro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="VS Code 開發 Java 常用快捷鍵介紹 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          VS Code 開發 Java 常用快捷鍵介紹
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-06-23 23:53:52 / 修改時間：23:55:17" itemprop="dateCreated datePublished" datetime="2026-06-23T23:53:52+08:00">2026-06-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/vscodelife/" itemprop="url" rel="index"><span itemprop="name">vscodelife</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="VS-Code-開發-Java-常用快捷鍵介紹"><a href="#VS-Code-開發-Java-常用快捷鍵介紹" class="headerlink" title="VS Code 開發 Java 常用快捷鍵介紹"></a>VS Code 開發 Java 常用快捷鍵介紹</h1><h2 id="簡介"><a href="#簡介" class="headerlink" title="簡介"></a>簡介</h2><p>VS Code 搭配 Extension Pack for Java 後，已經可以完成 Java 專案開發中常見的編輯、導覽、重構、測試與除錯工作。不過，如果每個動作都依賴滑鼠點選，開發節奏很容易被打斷。熟悉幾組常用快捷鍵，可以讓你在閱讀程式碼、追蹤呼叫關係、修正錯誤與啟動 Debug 時更加順手。</p>
+<p>這篇文章整理在 VS Code 上開發 Java 時最常用的快捷鍵，會以實際開發情境分類，方便你依照自己的使用頻率逐步記起來。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="開始前：快捷鍵可能因作業系統不同"><a href="#開始前：快捷鍵可能因作業系統不同" class="headerlink" title="開始前：快捷鍵可能因作業系統不同"></a>開始前：快捷鍵可能因作業系統不同</h2><p>VS Code 的快捷鍵會依照作業系統略有差異。以下表格以 Windows &#x2F; Linux 與 macOS 對照說明：</p>
+<table>
+<thead>
+<tr>
+<th>動作</th>
+<th>Windows &#x2F; Linux</th>
+<th>macOS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>開啟命令面板</td>
+<td><code>Ctrl + Shift + P</code></td>
+<td><code>Cmd + Shift + P</code></td>
+</tr>
+<tr>
+<td>快速開啟檔案</td>
+<td><code>Ctrl + P</code></td>
+<td><code>Cmd + P</code></td>
+</tr>
+<tr>
+<td>開啟鍵盤快捷鍵設定</td>
+<td><code>Ctrl + K Ctrl + S</code></td>
+<td><code>Cmd + K Cmd + S</code></td>
+</tr>
+</tbody></table>
+<p>如果某個快捷鍵在你的環境中沒有作用，可以先開啟 <strong>Keyboard Shortcuts</strong>，搜尋對應命令名稱確認目前綁定。VS Code 也支援自訂快捷鍵，因此可以依照自己的習慣調整。</p>
+<hr>
+<h2 id="基礎操作快捷鍵"><a href="#基礎操作快捷鍵" class="headerlink" title="基礎操作快捷鍵"></a>基礎操作快捷鍵</h2><h3 id="命令面板"><a href="#命令面板" class="headerlink" title="命令面板"></a>命令面板</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>Windows &#x2F; Linux</th>
+<th>macOS</th>
+<th>使用情境</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>開啟命令面板</td>
+<td><code>Ctrl + Shift + P</code></td>
+<td><code>Cmd + Shift + P</code></td>
+<td>搜尋並執行所有 VS Code 命令</td>
+</tr>
+<tr>
+<td>快速開啟檔案</td>
+<td><code>Ctrl + P</code></td>
+<td><code>Cmd + P</code></td>
+<td>在專案中快速切換 Java 檔案</td>
+</tr>
+<tr>
+<td>前往指定行</td>
+<td><code>Ctrl + G</code></td>
+<td><code>Ctrl + G</code></td>
+<td>依照錯誤訊息中的行號快速定位</td>
+</tr>
+</tbody></table>
+<p>命令面板是 VS Code 中最重要的入口之一。當你不確定某個功能在哪裡時，可以先按下 <code>Ctrl + Shift + P</code>，再輸入關鍵字搜尋。例如：</p>
+<ul>
+<li><code>Java: Clean Java Language Server Workspace</code></li>
+<li><code>Java: Configure Java Runtime</code></li>
+<li><code>Preferences: Open Keyboard Shortcuts</code></li>
+<li><code>Developer: Reload Window</code></li>
+</ul>
+<p>對 Java 開發來說，命令面板特別適合處理不常使用、但偶爾會需要的 Java extension 指令。</p>
+<h3 id="檔案與視窗切換"><a href="#檔案與視窗切換" class="headerlink" title="檔案與視窗切換"></a>檔案與視窗切換</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>Windows &#x2F; Linux</th>
+<th>macOS</th>
+<th>使用情境</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>切換側邊欄顯示</td>
+<td><code>Ctrl + B</code></td>
+<td><code>Cmd + B</code></td>
+<td>專注閱讀程式碼或重新顯示檔案總管</td>
+</tr>
+<tr>
+<td>開啟檔案總管</td>
+<td><code>Ctrl + Shift + E</code></td>
+<td><code>Cmd + Shift + E</code></td>
+<td>瀏覽專案目錄</td>
+</tr>
+<tr>
+<td>開啟搜尋</td>
+<td><code>Ctrl + Shift + F</code></td>
+<td><code>Cmd + Shift + F</code></td>
+<td>全專案搜尋 class、method 或字串</td>
+</tr>
+<tr>
+<td>開啟原始碼控制</td>
+<td><code>Ctrl + Shift + G</code></td>
+<td><code>Ctrl + Shift + G</code></td>
+<td>查看 Git 修改內容</td>
+</tr>
+<tr>
+<td>開啟執行與除錯</td>
+<td><code>Ctrl + Shift + D</code></td>
+<td><code>Cmd + Shift + D</code></td>
+<td>切換到 Debug 視圖</td>
+</tr>
+<tr>
+<td>開啟擴充功能</td>
+<td><code>Ctrl + Shift + X</code></td>
+<td><code>Cmd + Shift + X</code></td>
+<td>安裝或管理 Java 相關 extension</td>
+</tr>
+</tbody></table>
+<p>Java 專案通常檔案數量較多，尤其是 Spring Boot 或大型模組化專案。善用 <code>Ctrl + P</code> 與 <code>Ctrl + Shift + F</code>，可以大幅減少在檔案樹中層層展開資料夾的時間。</p>
+<hr>
+<h2 id="Java-程式碼導覽快捷鍵"><a href="#Java-程式碼導覽快捷鍵" class="headerlink" title="Java 程式碼導覽快捷鍵"></a>Java 程式碼導覽快捷鍵</h2><h3 id="前往定義與參考"><a href="#前往定義與參考" class="headerlink" title="前往定義與參考"></a>前往定義與參考</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>Windows &#x2F; Linux</th>
+<th>macOS</th>
+<th>使用情境</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>前往定義</td>
+<td><code>F12</code></td>
+<td><code>F12</code></td>
+<td>跳到 class、method、field 的定義位置</td>
+</tr>
+<tr>
+<td>預覽定義</td>
+<td><code>Alt + F12</code></td>
+<td><code>Option + F12</code></td>
+<td>在目前檔案中以小視窗查看定義</td>
+</tr>
+<tr>
+<td>尋找所有參考</td>
+<td><code>Shift + F12</code></td>
+<td><code>Shift + F12</code></td>
+<td>查看某個 method 或 class 被哪些地方使用</td>
+</tr>
+<tr>
+<td>回到上一個位置</td>
+<td><code>Alt + Left</code></td>
+<td><code>Ctrl + -</code></td>
+<td>從定義位置回到原本閱讀的位置</td>
+</tr>
+<tr>
+<td>前往下一個位置</td>
+<td><code>Alt + Right</code></td>
+<td><code>Ctrl + Shift + -</code></td>
+<td>在導覽歷史中往前移動</td>
+</tr>
+</tbody></table>
+<p>閱讀 Java 程式碼時，最常見的動作就是追蹤 class 與 method 的來源。<code>F12</code> 適合直接跳轉，<code>Alt + F12</code> 則適合快速確認實作內容，但不想離開目前檔案的情境。</p>
+<p>如果你正在分析一個 service method 會被哪些 controller 或其他 service 呼叫，<code>Shift + F12</code> 會非常實用。它可以快速列出所有參考位置，讓你評估修改這段程式碼可能影響的範圍。</p>
+<h3 id="符號搜尋"><a href="#符號搜尋" class="headerlink" title="符號搜尋"></a>符號搜尋</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>Windows &#x2F; Linux</th>
+<th>macOS</th>
+<th>使用情境</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>搜尋目前檔案中的符號</td>
+<td><code>Ctrl + Shift + O</code></td>
+<td><code>Cmd + Shift + O</code></td>
+<td>在同一個 Java 檔案中快速跳到 method 或 field</td>
+</tr>
+<tr>
+<td>搜尋工作區符號</td>
+<td><code>Ctrl + T</code></td>
+<td><code>Cmd + T</code></td>
+<td>依照 class 或 method 名稱在整個專案中搜尋</td>
+</tr>
+<tr>
+<td>顯示 Hover 資訊</td>
+<td><code>Ctrl + K Ctrl + I</code></td>
+<td><code>Cmd + K Cmd + I</code></td>
+<td>查看型別、文件或方法簽章</td>
+</tr>
+</tbody></table>
+<p>當一個 Java 類別很長時，<code>Ctrl + Shift + O</code> 可以讓你直接輸入 method 名稱並跳轉。若你只記得類別名稱的一部分，則可以使用 <code>Ctrl + T</code> 在整個工作區搜尋符號。</p>
+<hr>
+<h2 id="Java-編輯與重構快捷鍵"><a href="#Java-編輯與重構快捷鍵" class="headerlink" title="Java 編輯與重構快捷鍵"></a>Java 編輯與重構快捷鍵</h2><h3 id="智慧提示與快速修正"><a href="#智慧提示與快速修正" class="headerlink" title="智慧提示與快速修正"></a>智慧提示與快速修正</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>Windows &#x2F; Linux</th>
+<th>macOS</th>
+<th>使用情境</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>觸發建議</td>
+<td><code>Ctrl + Space</code></td>
+<td><code>Ctrl + Space</code></td>
+<td>手動叫出 IntelliSense 建議</td>
+</tr>
+<tr>
+<td>快速修正</td>
+<td><code>Ctrl + .</code></td>
+<td><code>Cmd + .</code></td>
+<td>自動補 import、建立 method、修正型別錯誤</td>
+</tr>
+<tr>
+<td>重新命名符號</td>
+<td><code>F2</code></td>
+<td><code>F2</code></td>
+<td>安全地重新命名 class、method、field 或變數</td>
+</tr>
+<tr>
+<td>整理 imports</td>
+<td><code>Shift + Alt + O</code></td>
+<td><code>Shift + Option + O</code></td>
+<td>移除未使用 import，並整理 import 順序</td>
+</tr>
+</tbody></table>
+<p>Java 開發中很常遇到 import 尚未加入、型別名稱拼錯、method 尚未建立等情況。此時可以把游標放在錯誤位置，按下 <code>Ctrl + .</code> 查看 VS Code 提供的快速修正建議。</p>
+<p><code>F2</code> 是重構時很重要的快捷鍵。它會透過語言服務理解 Java 符號，而不是單純做文字取代，因此比手動搜尋取代更安全。例如重新命名 method 時，相關呼叫點也會一起更新。</p>
+<h3 id="格式化與註解"><a href="#格式化與註解" class="headerlink" title="格式化與註解"></a>格式化與註解</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>Windows &#x2F; Linux</th>
+<th>macOS</th>
+<th>使用情境</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>格式化整份文件</td>
+<td><code>Shift + Alt + F</code></td>
+<td><code>Shift + Option + F</code></td>
+<td>依照 formatter 規則整理 Java 檔案</td>
+</tr>
+<tr>
+<td>格式化選取範圍</td>
+<td><code>Ctrl + K Ctrl + F</code></td>
+<td><code>Cmd + K Cmd + F</code></td>
+<td>只格式化選取的程式碼片段</td>
+</tr>
+<tr>
+<td>切換單行註解</td>
+<td><code>Ctrl + /</code></td>
+<td><code>Cmd + /</code></td>
+<td>快速註解或取消註解一行程式碼</td>
+</tr>
+<tr>
+<td>切換區塊註解</td>
+<td><code>Shift + Alt + A</code></td>
+<td><code>Shift + Option + A</code></td>
+<td>註解多行程式碼區塊</td>
+</tr>
+</tbody></table>
+<p>若團隊有統一的 Java formatter 設定，建議養成修改完檔案後執行格式化的習慣。這可以減少不必要的排版差異，讓 code review 更專注在實際邏輯變更。</p>
+<h3 id="多游標與行操作"><a href="#多游標與行操作" class="headerlink" title="多游標與行操作"></a>多游標與行操作</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>Windows &#x2F; Linux</th>
+<th>macOS</th>
+<th>使用情境</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>選取下一個相同文字</td>
+<td><code>Ctrl + D</code></td>
+<td><code>Cmd + D</code></td>
+<td>快速修改多個相同變數名稱或字串</td>
+</tr>
+<tr>
+<td>加入游標</td>
+<td><code>Alt + Click</code></td>
+<td><code>Option + Click</code></td>
+<td>在多個位置同時編輯</td>
+</tr>
+<tr>
+<td>向上或向下移動整行</td>
+<td><code>Alt + Up / Down</code></td>
+<td><code>Option + Up / Down</code></td>
+<td>調整欄位、import 或邏輯順序</td>
+</tr>
+<tr>
+<td>向上或向下複製整行</td>
+<td><code>Shift + Alt + Up / Down</code></td>
+<td><code>Shift + Option + Up / Down</code></td>
+<td>快速複製類似程式碼</td>
+</tr>
+<tr>
+<td>刪除整行</td>
+<td><code>Ctrl + Shift + K</code></td>
+<td><code>Cmd + Shift + K</code></td>
+<td>移除目前所在行</td>
+</tr>
+</tbody></table>
+<p>多游標功能適合處理規律性高的編輯，例如同時修改多個 enum value、測試資料或建構子參數。不過，如果修改的是 Java 符號名稱，仍建議優先使用 <code>F2</code>，避免只改到部分文字而漏掉真正的引用位置。</p>
+<hr>
+<h2 id="Java-除錯快捷鍵"><a href="#Java-除錯快捷鍵" class="headerlink" title="Java 除錯快捷鍵"></a>Java 除錯快捷鍵</h2><h3 id="啟動與控制-Debug"><a href="#啟動與控制-Debug" class="headerlink" title="啟動與控制 Debug"></a>啟動與控制 Debug</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>Windows &#x2F; Linux</th>
+<th>macOS</th>
+<th>使用情境</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>開始除錯或繼續執行</td>
+<td><code>F5</code></td>
+<td><code>F5</code></td>
+<td>啟動 Debug，或在中斷點後繼續執行</td>
+</tr>
+<tr>
+<td>不除錯直接執行</td>
+<td><code>Ctrl + F5</code></td>
+<td><code>Ctrl + F5</code></td>
+<td>直接執行 Java 程式</td>
+</tr>
+<tr>
+<td>停止除錯</td>
+<td><code>Shift + F5</code></td>
+<td><code>Shift + F5</code></td>
+<td>結束目前 Debug session</td>
+</tr>
+<tr>
+<td>重新啟動除錯</td>
+<td><code>Ctrl + Shift + F5</code></td>
+<td><code>Cmd + Shift + F5</code></td>
+<td>重新執行目前 Debug session</td>
+</tr>
+<tr>
+<td>切換中斷點</td>
+<td><code>F9</code></td>
+<td><code>F9</code></td>
+<td>在目前行加入或移除 breakpoint</td>
+</tr>
+</tbody></table>
+<p>在 Java 開發中，Debug 通常會比單純印出 log 更有效率。當你要確認某個條件分支是否進入、變數值是否如預期，或 API 回傳資料是否正確時，可以先在關鍵行按下 <code>F9</code> 加入中斷點，再按 <code>F5</code> 啟動除錯。</p>
+<h3 id="單步執行"><a href="#單步執行" class="headerlink" title="單步執行"></a>單步執行</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>Windows &#x2F; Linux</th>
+<th>macOS</th>
+<th>使用情境</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Step Over</td>
+<td><code>F10</code></td>
+<td><code>F10</code></td>
+<td>執行目前行，但不進入 method 內部</td>
+</tr>
+<tr>
+<td>Step Into</td>
+<td><code>F11</code></td>
+<td><code>F11</code></td>
+<td>進入目前呼叫的 method</td>
+</tr>
+<tr>
+<td>Step Out</td>
+<td><code>Shift + F11</code></td>
+<td><code>Shift + F11</code></td>
+<td>離開目前 method，回到呼叫端</td>
+</tr>
+</tbody></table>
+<p>如果你只想確認目前流程，不需要深入每個 method，可以使用 <code>F10</code>。如果懷疑問題出在某個 method 內部，則使用 <code>F11</code> 進入檢查。當已經看完目前 method 的邏輯，可以按 <code>Shift + F11</code> 回到上一層。</p>
+<hr>
+<h2 id="測試與問題排查快捷鍵"><a href="#測試與問題排查快捷鍵" class="headerlink" title="測試與問題排查快捷鍵"></a>測試與問題排查快捷鍵</h2><h3 id="測試相關操作"><a href="#測試相關操作" class="headerlink" title="測試相關操作"></a>測試相關操作</h3><p>VS Code 的 Java 測試功能通常會搭配 Test Runner for Java。測試方法或測試類別上方會出現 CodeLens，可以直接點選 Run Test 或 Debug Test。</p>
+<p>如果想透過鍵盤操作，可以使用命令面板搜尋測試相關命令，例如：</p>
+<ul>
+<li><code>Test: Run All Tests</code></li>
+<li><code>Test: Debug All Tests</code></li>
+<li><code>Java: Go to Test</code></li>
+</ul>
+<p>這些命令不一定都有預設快捷鍵。若你經常執行特定測試命令，可以在 Keyboard Shortcuts 中搜尋命令名稱，手動綁定自己習慣的按鍵組合。</p>
+<h3 id="錯誤與診斷資訊"><a href="#錯誤與診斷資訊" class="headerlink" title="錯誤與診斷資訊"></a>錯誤與診斷資訊</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>Windows &#x2F; Linux</th>
+<th>macOS</th>
+<th>使用情境</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>開啟 Problems 視圖</td>
+<td><code>Ctrl + Shift + M</code></td>
+<td><code>Cmd + Shift + M</code></td>
+<td>查看編譯錯誤、警告與語法問題</td>
+</tr>
+<tr>
+<td>前往下一個錯誤或警告</td>
+<td><code>F8</code></td>
+<td><code>F8</code></td>
+<td>在問題清單中往下一個項目移動</td>
+</tr>
+<tr>
+<td>前往上一個錯誤或警告</td>
+<td><code>Shift + F8</code></td>
+<td><code>Shift + F8</code></td>
+<td>在問題清單中往上一個項目移動</td>
+</tr>
+</tbody></table>
+<p>Java 專案若有語法錯誤、缺少 import、型別不相容或建置設定問題，通常可以先從 Problems 視圖找到線索。搭配 <code>F8</code> 與 <code>Shift + F8</code>，可以不用離開鍵盤就逐一檢查問題位置。</p>
+<hr>
+<h2 id="終端機與工作區操作"><a href="#終端機與工作區操作" class="headerlink" title="終端機與工作區操作"></a>終端機與工作區操作</h2><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>Windows &#x2F; Linux</th>
+<th>macOS</th>
+<th>使用情境</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>開啟或關閉終端機</td>
+<td><code>Ctrl + `</code></td>
+<td><code>Ctrl + `</code></td>
+<td>執行 Maven、Gradle 或其他 CLI 指令</td>
+</tr>
+<tr>
+<td>切換面板顯示</td>
+<td><code>Ctrl + J</code></td>
+<td><code>Cmd + J</code></td>
+<td>顯示或收合下方面板</td>
+</tr>
+<tr>
+<td>建立新終端機</td>
+<td><code>Ctrl + Shift + `</code></td>
+<td><code>Ctrl + Shift + `</code></td>
+<td>開新終端機執行不同任務</td>
+</tr>
+</tbody></table>
+<p>即使 VS Code 已經提供許多 Java 視覺化操作，實務上仍常需要使用終端機執行建置或測試指令，例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradle <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p>熟悉終端機快捷鍵後，可以在編輯器與 CLI 之間快速切換，對日常開發很有幫助。</p>
+<hr>
+<h2 id="建議優先記住的快捷鍵"><a href="#建議優先記住的快捷鍵" class="headerlink" title="建議優先記住的快捷鍵"></a>建議優先記住的快捷鍵</h2><p>如果一次記太多快捷鍵，反而容易用不上。建議可以先從以下幾組開始：</p>
+<table>
+<thead>
+<tr>
+<th>優先順序</th>
+<th>快捷鍵</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><code>Ctrl + P</code></td>
+<td>快速開啟檔案</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>Ctrl + Shift + P</code></td>
+<td>開啟命令面板</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>F12</code></td>
+<td>前往定義</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>Shift + F12</code></td>
+<td>尋找所有參考</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>Ctrl + .</code></td>
+<td>快速修正</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>F2</code></td>
+<td>重新命名符號</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>Shift + Alt + F</code></td>
+<td>格式化文件</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>F5</code> &#x2F; <code>F9</code></td>
+<td>啟動 Debug 與設定中斷點</td>
+</tr>
+</tbody></table>
+<p>這幾個快捷鍵涵蓋了 Java 開發中最常見的流程：找檔案、看程式碼、修錯誤、重構與除錯。先把它們用熟，再逐步加入多游標、符號搜尋與測試相關操作，會比較容易養成習慣。</p>
+<hr>
+<h2 id="自訂快捷鍵"><a href="#自訂快捷鍵" class="headerlink" title="自訂快捷鍵"></a>自訂快捷鍵</h2><p>每個人的開發習慣不同，有些快捷鍵也可能被作業系統、輸入法或其他應用程式攔截。你可以透過以下方式調整：</p>
+<ol>
+<li>按下 <code>Ctrl + K Ctrl + S</code> 開啟 Keyboard Shortcuts。</li>
+<li>搜尋想調整的命令名稱，例如 <code>Organize Imports</code>、<code>Run All Tests</code> 或 <code>Go to Definition</code>。</li>
+<li>點選鉛筆圖示，輸入新的按鍵組合。</li>
+<li>若出現衝突提示，再依照實際使用頻率決定是否覆蓋。</li>
+</ol>
+<p>對 Java 開發者來說，特別推薦確認 <code>Quick Fix</code>、<code>Organize Imports</code>、<code>Format Document</code>、<code>Run Test</code> 與 <code>Debug Test</code> 這幾類命令是否符合自己的習慣。這些動作通常每天都會使用，調整到順手後能明顯提升開發效率。</p>
+<hr>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>VS Code 的 Java 開發體驗很大一部分來自語言服務與快捷鍵的配合。當你熟悉 <code>F12</code>、<code>Shift + F12</code>、<code>Ctrl + .</code>、<code>F2</code>、<code>F5</code> 這些操作後，閱讀與修改 Java 程式碼會變得更流暢，也能更快掌握專案中的呼叫關係與錯誤來源。</p>
+<p>快捷鍵不需要一次全部背起來。最好的方式是在日常開發中挑出最常重複的動作，先記住對應的幾組按鍵，再慢慢擴充自己的快捷鍵清單。當手指開始自然完成這些操作時，VS Code 就會真正變成更貼近 Java 開發節奏的工具。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <div class="post-recent-posts" style="display:none">
+      <div class="post-recent-posts-title">
+        <i class="fa fa-history fa-fw"></i> 近期文章
+      </div>
+      <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/06/23/vscode-hotkey-intro/" title="VS Code 開發 Java 常用快捷鍵介紹">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">VS Code 開發 Java 常用快捷鍵介紹</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-06-23</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/06/16/blog-agent-record/" title="用 LangChain4j 做了一個自己的 Blog Agent">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">用 LangChain4j 做了一個自己的 Blog Agent</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-06-16</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/06/03/pixel-battle-record-04/" title="Pixel Battle 開發紀錄 04：任務引導、對話系統與方向取捨">
+            <div class="post-recent-card-banner post-recent-card-cat--gamelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Pixel Battle 開發紀錄 04：任務引導、對話系統與方向取捨</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-06-03</span><span class="post-recent-card-cat">gamelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/05/31/pixel-battle-record-03/" title="Pixel Battle 開發紀錄 03：世界觀與前 30 分鐘體驗">
+            <div class="post-recent-card-banner post-recent-card-cat--gamelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Pixel Battle 開發紀錄 03：世界觀與前 30 分鐘體驗</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-05-31</span><span class="post-recent-card-cat">gamelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/05/27/pixel-battle-record-02/" title="Pixel Battle 開發紀錄 02：重新收斂遊戲方向">
+            <div class="post-recent-card-banner post-recent-card-cat--gamelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Pixel Battle 開發紀錄 02：重新收斂遊戲方向</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-05-27</span><span class="post-recent-card-cat">gamelife</span>
+            </div>
+          </a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function showRecentPosts() {
+          var block = document.querySelector('.post-recent-posts');
+          if (!block) return;
+
+          // 重置狀態
+          block.classList.remove('animated', 'fadeIn');
+          block.style.display = 'none';
+
+          var comments = document.querySelector('.comments');
+          if (comments) {
+            comments.parentNode.insertBefore(block, comments);
+          }
+
+          function reveal() {
+            block.style.display = '';
+            block.offsetHeight; // force reflow
+            block.classList.add('animated', 'fadeIn');
+          }
+
+          if (!comments) {
+            reveal();
+          } else {
+            // 觀察 .comments 被 NexT motion 加上 animated class 的時機
+            var observer = new MutationObserver(function () {
+              if (comments.classList.contains('animated')) {
+                observer.disconnect();
+                reveal();
+              }
+            });
+            observer.observe(comments, { attributes: true, attributeFilter: ['class'] });
+            // 若 motion 已跑完（comments 已有 animated），也直接顯示
+            if (comments.classList.contains('animated')) {
+              observer.disconnect();
+              reveal();
+            }
+          }
+        }
+
+        // 初次載入
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', showRecentPosts, { once: true });
+        } else {
+          showRecentPosts();
+        }
+
+        // PJAX：pjax:success 時 NexT motion 剛啟動（async），.comments 尚未有 animated
+        document.addEventListener('pjax:success', showRecentPosts);
+      })();
+    </script>
+
+          <div class="post-tags">
+              <a href="/tags/vscode/" rel="tag"># vscode</a>
+              <a href="/tags/java/" rel="tag"># java</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/06/16/blog-agent-record/" rel="prev" title="用 LangChain4j 做了一個自己的 Blog Agent">
+                  <i class="fa fa-angle-left"></i> 用 LangChain4j 做了一個自己的 Blog Agent
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"1ee8079f794b341de144d1561fb194dd"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+<link rel="stylesheet" href="/css/tinyqqc/tinyqqc-widget.css">
+<script
+  id="tinyqqc-widget-script"
+  src="/js/tinyqqc/tinyqqc-widget.iife.js"
+  data-tinyqqc-widget
+  data-api-base-url="https://tinyqqs-846222163009.asia-east1.run.app/"
+  data-initial-open="false"
+  defer
+></script>
+
+</body>
+</html>
