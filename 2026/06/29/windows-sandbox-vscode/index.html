@@ -30,15 +30,15 @@
 <meta property="og:site_name" content="Pcion&#39;s Blog">
 <meta property="og:description" content="使用 Windows Sandbox 建立可重複的 VS Code 開發驗證環境簡介平常在測試新的開發工具、VS Code 版本、JDK 或終端機設定時，最麻煩的地方通常不是安裝本身，而是安裝後會不會改到主機環境。像是 PATH、右鍵選單、登錄檔、使用者設定與工具版本，只要多試幾次，就可能讓原本穩定的開發機變得難以追蹤。 而這篇文章的起因，則是近期各種套件竊取資訊、惡意更新與供應鏈攻擊事件越來越頻">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://pcion123.github.io/assets/windows-sandbox-vscode.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/06/29/windows-sandbox-vscode/windows-sandbox-vscode.jpg">
 <meta property="article:published_time" content="2026-06-28T16:35:17.000Z">
-<meta property="article:modified_time" content="2026-06-28T16:45:28.860Z">
+<meta property="article:modified_time" content="2026-06-28T17:05:25.829Z">
 <meta property="article:author" content="Jason Lai">
 <meta property="article:tag" content="vscode">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="sandbox">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pcion123.github.io/assets/windows-sandbox-vscode.jpg">
+<meta name="twitter:image" content="https://pcion123.github.io/2026/06/29/windows-sandbox-vscode/windows-sandbox-vscode.jpg">
 
 
 <link rel="canonical" href="https://pcion123.github.io/2026/06/29/windows-sandbox-vscode/">
@@ -307,7 +307,7 @@
       <span class="post-meta-item-text">發表於</span>
       
 
-      <time title="創建時間：2026-06-29 00:35:17 / 修改時間：00:45:28" itemprop="dateCreated datePublished" datetime="2026-06-29T00:35:17+08:00">2026-06-29</time>
+      <time title="創建時間：2026-06-29 00:35:17 / 修改時間：01:05:25" itemprop="dateCreated datePublished" datetime="2026-06-29T00:35:17+08:00">2026-06-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -471,7 +471,8 @@
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[2026-06-26 01:20:42] Starting sandbox application installation</span><br><span class="line">[2026-06-26 01:20:42] Installing 7-Zip</span><br><span class="line">[2026-06-26 01:20:44] Installing PowerShell 7</span><br><span class="line">[2026-06-26 01:22:51] Extracting Windows Terminal</span><br><span class="line">[2026-06-26 01:22:52] Created Windows Terminal desktop shortcut: C:\Users\WDAGUtilityAccount\Desktop\Windows Terminal.lnk</span><br><span class="line">[2026-06-26 01:22:52] Extracting Zulu JDK</span><br><span class="line">[2026-06-26 01:22:55] Installing Visual Studio Code</span><br><span class="line">[2026-06-26 01:23:25] Registered VS Code file and folder context menus</span><br><span class="line">[2026-06-26 01:23:25] Installation completed successfully</span><br></pre></td></tr></table></figure>
 
 <p>依照這份紀錄，初始化大約從 <code>01:20:42</code> 到 <code>01:23:25</code> 完成，整體約三分鐘左右。完成後腳本會顯示「初始化成功」提示視窗，代表 Sandbox 已經可以開始進行 VS Code 開發驗證。</p>
-<p><img src="/assets/windows-sandbox-vscode.jpg" alt="Windows Sandbox 初始化成功畫面"></p>
+<img src="/2026/06/29/windows-sandbox-vscode/windows-sandbox-vscode.jpg" class="" title="Windows Sandbox 初始化成功畫面">
+
 <p>建議啟動後可以依序檢查幾個項目：</p>
 <ul>
 <li>桌面是否出現 Windows Terminal 捷徑</li>
