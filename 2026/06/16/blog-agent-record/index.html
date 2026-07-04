@@ -23,16 +23,16 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="用 LangChain4j 做了一個自己的 Blog Agent最近把一個放在腦中一陣子的小想法做出來了：幫自己的 blog 做一個可以聊天的 agent。 這個念頭其實是從很日常的困擾開始的。文章寫久了之後，自己有時候也會忘記以前到底寫過哪些東西。要找內容時，通常就是翻分類、看標籤、搜關鍵字；這些方式當然都能用，但總覺得少了一點「直接問它」的感覺。既然現在 AI 工具都已經這麼容易接了，那乾脆試">
+    <meta name="description" content="最近把一個放在腦中一陣子的小想法做出來了：幫自己的 blog 做一個可以聊天的 agent。 這個念頭其實是從很日常的困擾開始的。文章寫久了之後，自己有時候也會忘記以前到底寫過哪些東西。要找內容時，通常就是翻分類、看標籤、搜關鍵字；這些方式當然都能用，但總覺得少了一點「直接問它」的感覺。既然現在 AI 工具都已經這麼容易接了，那乾脆試試看，能不能讓自己的 blog 也變成一個可以對話的入口。 所以">
 <meta property="og:type" content="article">
 <meta property="og:title" content="用 LangChain4j 做了一個自己的 Blog Agent">
 <meta property="og:url" content="https://pcion123.github.io/2026/06/16/blog-agent-record/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
-<meta property="og:description" content="用 LangChain4j 做了一個自己的 Blog Agent最近把一個放在腦中一陣子的小想法做出來了：幫自己的 blog 做一個可以聊天的 agent。 這個念頭其實是從很日常的困擾開始的。文章寫久了之後，自己有時候也會忘記以前到底寫過哪些東西。要找內容時，通常就是翻分類、看標籤、搜關鍵字；這些方式當然都能用，但總覺得少了一點「直接問它」的感覺。既然現在 AI 工具都已經這麼容易接了，那乾脆試">
+<meta property="og:description" content="最近把一個放在腦中一陣子的小想法做出來了：幫自己的 blog 做一個可以聊天的 agent。 這個念頭其實是從很日常的困擾開始的。文章寫久了之後，自己有時候也會忘記以前到底寫過哪些東西。要找內容時，通常就是翻分類、看標籤、搜關鍵字；這些方式當然都能用，但總覺得少了一點「直接問它」的感覺。既然現在 AI 工具都已經這麼容易接了，那乾脆試試看，能不能讓自己的 blog 也變成一個可以對話的入口。 所以">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://pcion123.github.io/2026/06/16/blog-agent-record/blog-agent-demo.webp">
 <meta property="article:published_time" content="2026-06-16T12:58:30.000Z">
-<meta property="article:modified_time" content="2026-06-16T13:05:12.368Z">
+<meta property="article:modified_time" content="2026-07-04T15:37:04.333Z">
 <meta property="article:author" content="Jason Lai">
 <meta property="article:tag" content="vscode">
 <meta property="article:tag" content="langchain4j">
@@ -158,7 +158,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+    <div class="sidebar-inner sidebar-overview-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目錄
@@ -171,7 +171,6 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%A8-LangChain4j-%E5%81%9A%E4%BA%86%E4%B8%80%E5%80%8B%E8%87%AA%E5%B7%B1%E7%9A%84-Blog-Agent"><span class="nav-number">1.</span> <span class="nav-text">用 LangChain4j 做了一個自己的 Blog Agent</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -186,7 +185,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-count">64</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -219,7 +218,7 @@
     <h3 class="widget-title">雜七雜八</h3>
     <div id="myCanvasContainer" class="widget tagcloud">
       <canvas width="400" height="400" id="resCanvas" style="width:100%">
-        <a href="/tags/agent/" style="font-size: 14px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/copilot-cli/" style="font-size: 16px;" class="tag-cloud-2">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 24px;" class="tag-cloud-7">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 22px;" class="tag-cloud-6">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 14px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 16px;" class="tag-cloud-2">gitlab</a> <a href="/tags/googlemap/" style="font-size: 16px;" class="tag-cloud-2">googlemap</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 20px;" class="tag-cloud-4">java</a> <a href="/tags/jdk/" style="font-size: 14px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 18px;" class="tag-cloud-3">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 26px;" class="tag-cloud-8">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 28px;" class="tag-cloud-9">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 16px;" class="tag-cloud-2">maven</a> <a href="/tags/mcp/" style="font-size: 14px;" class="tag-cloud-1">mcp</a> <a href="/tags/minikube/" style="font-size: 14px;" class="tag-cloud-1">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 14px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/pm2/" style="font-size: 14px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 16px;" class="tag-cloud-2">powershell</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/skills/" style="font-size: 14px;" class="tag-cloud-1">skills</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 16px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 14px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 24px;" class="tag-cloud-7">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/vscode/" style="font-size: 30px;" class="tag-cloud-10">vscode</a> <a href="/tags/windows/" style="font-size: 18px;" class="tag-cloud-3">windows</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 16px;" class="tag-cloud-2">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+        <a href="/tags/agent/" style="font-size: 14px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/copilot-cli/" style="font-size: 16px;" class="tag-cloud-2">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 26px;" class="tag-cloud-8">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 22px;" class="tag-cloud-6">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 14px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 16px;" class="tag-cloud-2">gitlab</a> <a href="/tags/googlemap/" style="font-size: 16px;" class="tag-cloud-2">googlemap</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 20px;" class="tag-cloud-4">java</a> <a href="/tags/jdk/" style="font-size: 14px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 18px;" class="tag-cloud-3">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 26px;" class="tag-cloud-8">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 28px;" class="tag-cloud-9">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 16px;" class="tag-cloud-2">maven</a> <a href="/tags/mcp/" style="font-size: 14px;" class="tag-cloud-1">mcp</a> <a href="/tags/minikube/" style="font-size: 14px;" class="tag-cloud-1">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 14px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/pm2/" style="font-size: 14px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 16px;" class="tag-cloud-2">powershell</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/skills/" style="font-size: 14px;" class="tag-cloud-1">skills</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 16px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 14px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 24px;" class="tag-cloud-7">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/vscode/" style="font-size: 30px;" class="tag-cloud-10">vscode</a> <a href="/tags/windows/" style="font-size: 18px;" class="tag-cloud-3">windows</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 16px;" class="tag-cloud-2">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
       </canvas>
     </div>
   </div>
@@ -304,9 +303,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
-      
 
-      <time title="創建時間：2026-06-16 20:58:30 / 修改時間：21:05:12" itemprop="dateCreated datePublished" datetime="2026-06-16T20:58:30+08:00">2026-06-16</time>
+      <time title="創建時間：2026-06-16 20:58:30" itemprop="dateCreated datePublished" datetime="2026-06-16T20:58:30+08:00">2026-06-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-04 23:37:04" itemprop="dateModified" datetime="2026-07-04T23:37:04+08:00">2026-07-04</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -327,7 +332,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="用-LangChain4j-做了一個自己的-Blog-Agent"><a href="#用-LangChain4j-做了一個自己的-Blog-Agent" class="headerlink" title="用 LangChain4j 做了一個自己的 Blog Agent"></a>用 LangChain4j 做了一個自己的 Blog Agent</h1><p>最近把一個放在腦中一陣子的小想法做出來了：幫自己的 blog 做一個可以聊天的 agent。</p>
+    <div class="post-body" itemprop="articleBody"><p>最近把一個放在腦中一陣子的小想法做出來了：幫自己的 blog 做一個可以聊天的 agent。</p>
 <p>這個念頭其實是從很日常的困擾開始的。文章寫久了之後，自己有時候也會忘記以前到底寫過哪些東西。要找內容時，通常就是翻分類、看標籤、搜關鍵字；這些方式當然都能用，但總覺得少了一點「直接問它」的感覺。既然現在 AI 工具都已經這麼容易接了，那乾脆試試看，能不能讓自己的 blog 也變成一個可以對話的入口。</p>
 <p>所以這次就用 LangChain4j 快速做了一個 Blog Agent。沒有一開始就想把它做成什麼很完整的產品，比較像是先把腦中的畫面做出來：後端有一個 server side 可以處理 agent 的互動，服務直接丟到 Cloud Run 上跑，然後再寫一個給 Hexo 用的聊天室窗插件，把它接回原本的 blog 頁面。</p>
 <p>做的時候其實滿有那種「先讓它跑起來再說」的感覺。LangChain4j 這邊先把後端流程接起來，Cloud Run 負責讓服務可以被呼叫，Hexo 插件則處理畫面上的聊天入口。每一塊都不算特別巨大，但全部接在一起之後，看到自己的部落格右下角真的出現一個可以互動的聊天室，感覺還是滿微妙的。原本只是靜靜放文章的地方，突然多了一個可以被詢問的介面。</p>
@@ -354,6 +359,16 @@
         <i class="fa fa-history fa-fw"></i> 近期文章
       </div>
       <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/07/04/docker-hot-command/" title="Docker 常用指令">
+            <div class="post-recent-card-banner post-recent-card-cat--docker">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Docker 常用指令</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-07-04</span><span class="post-recent-card-cat">docker</span>
+            </div>
+          </a>
           <a class="post-recent-card" href="/2026/06/29/windows-sandbox-vscode/" title="使用 Windows Sandbox 建立可重複的 VS Code 開發驗證環境">
             <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
               <div class="post-recent-card-overlay">
@@ -392,16 +407,6 @@
             </div>
             <div class="post-recent-card-meta">
               <span class="post-recent-card-date">2026-06-03</span><span class="post-recent-card-cat">gamelife</span>
-            </div>
-          </a>
-          <a class="post-recent-card" href="/2026/05/31/pixel-battle-record-03/" title="Pixel Battle 開發紀錄 03：世界觀與前 30 分鐘體驗">
-            <div class="post-recent-card-banner post-recent-card-cat--gamelife">
-              <div class="post-recent-card-overlay">
-                <span class="post-recent-card-title">Pixel Battle 開發紀錄 03：世界觀與前 30 分鐘體驗</span>
-              </div>
-            </div>
-            <div class="post-recent-card-meta">
-              <span class="post-recent-card-date">2026-05-31</span><span class="post-recent-card-cat">gamelife</span>
             </div>
           </a>
       </div>

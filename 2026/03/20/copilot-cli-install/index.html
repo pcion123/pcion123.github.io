@@ -23,12 +23,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="GitHub Copilot CLI 安裝指南GitHub Copilot CLI 是 GitHub Copilot 的命令列介面工具，讓開發者可以直接在終端機中與 Copilot 互動。它能夠理解你的程式碼庫，協助撰寫程式碼、修復錯誤、建立新功能，甚至執行多步驟的自動化任務。  前置需求 有效的 GitHub Copilot 訂閱方案（所有 Copilot 方案皆支援） Windows 環境需使">
+    <meta name="description" content="GitHub Copilot CLI 是 GitHub Copilot 的命令列介面工具，讓開發者可以直接在終端機中與 Copilot 互動。它能夠理解你的程式碼庫，協助撰寫程式碼、修復錯誤、建立新功能，甚至執行多步驟的自動化任務。  前置需求 有效的 GitHub Copilot 訂閱方案（所有 Copilot 方案皆支援） Windows 環境需使用 PowerShell v6 以上版本 若透">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GitHub Copilot CLI 安裝指南">
 <meta property="og:url" content="https://pcion123.github.io/2026/03/20/copilot-cli-install/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
-<meta property="og:description" content="GitHub Copilot CLI 安裝指南GitHub Copilot CLI 是 GitHub Copilot 的命令列介面工具，讓開發者可以直接在終端機中與 Copilot 互動。它能夠理解你的程式碼庫，協助撰寫程式碼、修復錯誤、建立新功能，甚至執行多步驟的自動化任務。  前置需求 有效的 GitHub Copilot 訂閱方案（所有 Copilot 方案皆支援） Windows 環境需使">
+<meta property="og:description" content="GitHub Copilot CLI 是 GitHub Copilot 的命令列介面工具，讓開發者可以直接在終端機中與 Copilot 互動。它能夠理解你的程式碼庫，協助撰寫程式碼、修復錯誤、建立新功能，甚至執行多步驟的自動化任務。  前置需求 有效的 GitHub Copilot 訂閱方案（所有 Copilot 方案皆支援） Windows 環境需使用 PowerShell v6 以上版本 若透">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://pcion123.github.io/2026/03/20/copilot-cli-install/copilot_install_1.jpg">
 <meta property="og:image" content="https://pcion123.github.io/2026/03/20/copilot-cli-install/copilot_install_13.jpg">
@@ -44,7 +44,7 @@
 <meta property="og:image" content="https://pcion123.github.io/2026/03/20/copilot-cli-install/copilot_install_11.jpg">
 <meta property="og:image" content="https://pcion123.github.io/2026/03/20/copilot-cli-install/copilot_install_12.jpg">
 <meta property="article:published_time" content="2026-03-19T17:10:34.000Z">
-<meta property="article:modified_time" content="2026-03-19T17:17:32.956Z">
+<meta property="article:modified_time" content="2026-07-04T15:37:19.096Z">
 <meta property="article:author" content="Jason Lai">
 <meta property="article:tag" content="copilot cli">
 <meta name="twitter:card" content="summary">
@@ -182,7 +182,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GitHub-Copilot-CLI-%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97"><span class="nav-number">1.</span> <span class="nav-text">GitHub Copilot CLI 安裝指南</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E9%9C%80%E6%B1%82"><span class="nav-number">1.1.</span> <span class="nav-text">前置需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E6%96%B9%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text">安裝方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#WinGet-%E5%AE%89%E8%A3%9D"><span class="nav-number">1.2.1.</span> <span class="nav-text">WinGet 安裝</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A9%97%E8%AD%89%E5%AE%89%E8%A3%9D"><span class="nav-number">1.3.</span> <span class="nav-text">驗證安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E6%AC%A1%E5%95%9F%E5%8B%95%E8%A8%AD%E7%BD%AE"><span class="nav-number">1.4.</span> <span class="nav-text">初次啟動設置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BA%AB%E5%88%86%E9%A9%97%E8%AD%89"><span class="nav-number">1.5.</span> <span class="nav-text">身分驗證</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%92%E5%8B%95%E5%BC%8F%E7%99%BB%E5%85%A5%EF%BC%88%E6%8E%A8%E8%96%A6%EF%BC%89"><span class="nav-number">1.5.1.</span> <span class="nav-text">互動式登入（推薦）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Personal-Access-Token%EF%BC%88%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88%EF%BC%89"><span class="nav-number">1.5.2.</span> <span class="nav-text">使用 Personal Access Token（替代方案）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">1.6.</span> <span class="nav-text">基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%9C%E7%B7%9A%E6%8C%87%E4%BB%A4"><span class="nav-number">1.6.1.</span> <span class="nav-text">常用斜線指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%8D%B5"><span class="nav-number">1.6.2.</span> <span class="nav-text">常用快捷鍵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%A6%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="nav-number">1.6.3.</span> <span class="nav-text">實用技巧</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%B2%E9%9A%8E%E9%85%8D%E7%BD%AE"><span class="nav-number">1.7.</span> <span class="nav-text">進階配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E8%A8%82%E6%8C%87%E7%A4%BA"><span class="nav-number">1.7.1.</span> <span class="nav-text">自訂指示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MCP-Server-%E8%A8%AD%E5%AE%9A"><span class="nav-number">1.7.2.</span> <span class="nav-text">MCP Server 設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A%E6%AA%94"><span class="nav-number">1.7.3.</span> <span class="nav-text">設定檔</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E9%9C%80%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">前置需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E6%96%B9%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">安裝方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#WinGet-%E5%AE%89%E8%A3%9D"><span class="nav-number">2.1.</span> <span class="nav-text">WinGet 安裝</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A9%97%E8%AD%89%E5%AE%89%E8%A3%9D"><span class="nav-number">3.</span> <span class="nav-text">驗證安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E6%AC%A1%E5%95%9F%E5%8B%95%E8%A8%AD%E7%BD%AE"><span class="nav-number">4.</span> <span class="nav-text">初次啟動設置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BA%AB%E5%88%86%E9%A9%97%E8%AD%89"><span class="nav-number">5.</span> <span class="nav-text">身分驗證</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%92%E5%8B%95%E5%BC%8F%E7%99%BB%E5%85%A5%EF%BC%88%E6%8E%A8%E8%96%A6%EF%BC%89"><span class="nav-number">5.1.</span> <span class="nav-text">互動式登入（推薦）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Personal-Access-Token%EF%BC%88%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88%EF%BC%89"><span class="nav-number">5.2.</span> <span class="nav-text">使用 Personal Access Token（替代方案）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">6.</span> <span class="nav-text">基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%9C%E7%B7%9A%E6%8C%87%E4%BB%A4"><span class="nav-number">6.1.</span> <span class="nav-text">常用斜線指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%8D%B5"><span class="nav-number">6.2.</span> <span class="nav-text">常用快捷鍵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%A6%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="nav-number">6.3.</span> <span class="nav-text">實用技巧</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%B2%E9%9A%8E%E9%85%8D%E7%BD%AE"><span class="nav-number">7.</span> <span class="nav-text">進階配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E8%A8%82%E6%8C%87%E7%A4%BA"><span class="nav-number">7.1.</span> <span class="nav-text">自訂指示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MCP-Server-%E8%A8%AD%E5%AE%9A"><span class="nav-number">7.2.</span> <span class="nav-text">MCP Server 設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A%E6%AA%94"><span class="nav-number">7.3.</span> <span class="nav-text">設定檔</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -197,7 +197,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-count">64</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -230,7 +230,7 @@
     <h3 class="widget-title">雜七雜八</h3>
     <div id="myCanvasContainer" class="widget tagcloud">
       <canvas width="400" height="400" id="resCanvas" style="width:100%">
-        <a href="/tags/agent/" style="font-size: 14px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/copilot-cli/" style="font-size: 16px;" class="tag-cloud-2">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 24px;" class="tag-cloud-7">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 22px;" class="tag-cloud-6">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 14px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 16px;" class="tag-cloud-2">gitlab</a> <a href="/tags/googlemap/" style="font-size: 16px;" class="tag-cloud-2">googlemap</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 20px;" class="tag-cloud-4">java</a> <a href="/tags/jdk/" style="font-size: 14px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 18px;" class="tag-cloud-3">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 26px;" class="tag-cloud-8">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 28px;" class="tag-cloud-9">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 16px;" class="tag-cloud-2">maven</a> <a href="/tags/mcp/" style="font-size: 14px;" class="tag-cloud-1">mcp</a> <a href="/tags/minikube/" style="font-size: 14px;" class="tag-cloud-1">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 14px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/pm2/" style="font-size: 14px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 16px;" class="tag-cloud-2">powershell</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/skills/" style="font-size: 14px;" class="tag-cloud-1">skills</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 16px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 14px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 24px;" class="tag-cloud-7">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/vscode/" style="font-size: 30px;" class="tag-cloud-10">vscode</a> <a href="/tags/windows/" style="font-size: 18px;" class="tag-cloud-3">windows</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 16px;" class="tag-cloud-2">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+        <a href="/tags/agent/" style="font-size: 14px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/copilot-cli/" style="font-size: 16px;" class="tag-cloud-2">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 26px;" class="tag-cloud-8">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 22px;" class="tag-cloud-6">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 14px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 16px;" class="tag-cloud-2">gitlab</a> <a href="/tags/googlemap/" style="font-size: 16px;" class="tag-cloud-2">googlemap</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 20px;" class="tag-cloud-4">java</a> <a href="/tags/jdk/" style="font-size: 14px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 18px;" class="tag-cloud-3">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 26px;" class="tag-cloud-8">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 28px;" class="tag-cloud-9">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 16px;" class="tag-cloud-2">maven</a> <a href="/tags/mcp/" style="font-size: 14px;" class="tag-cloud-1">mcp</a> <a href="/tags/minikube/" style="font-size: 14px;" class="tag-cloud-1">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 14px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/pm2/" style="font-size: 14px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 16px;" class="tag-cloud-2">powershell</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/skills/" style="font-size: 14px;" class="tag-cloud-1">skills</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 16px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 14px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 24px;" class="tag-cloud-7">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/vscode/" style="font-size: 30px;" class="tag-cloud-10">vscode</a> <a href="/tags/windows/" style="font-size: 18px;" class="tag-cloud-3">windows</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 16px;" class="tag-cloud-2">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
       </canvas>
     </div>
   </div>
@@ -254,17 +254,17 @@
       </a>
     </li>
     <li class="popular-posts-item">
-      <a class="popular-posts-link" href="/2026/04/01/vscode-skill-create/" rel="bookmark">
-        <time class="popular-posts-time">2026-04-01</time>
-        <br>
-      用 `/create-skill` 打造專屬 Copilot 技能
-      </a>
-    </li>
-    <li class="popular-posts-item">
       <a class="popular-posts-link" href="/2026/05/19/vscode-custom-agent-intro/" rel="bookmark">
         <time class="popular-posts-time">2026-05-19</time>
         <br>
       VS Code Custom Agent 使用指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/04/01/vscode-skill-create/" rel="bookmark">
+        <time class="popular-posts-time">2026-04-01</time>
+        <br>
+      用 `/create-skill` 打造專屬 Copilot 技能
       </a>
     </li>
     <li class="popular-posts-item">
@@ -329,9 +329,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
-      
 
-      <time title="創建時間：2026-03-20 01:10:34 / 修改時間：01:17:32" itemprop="dateCreated datePublished" datetime="2026-03-20T01:10:34+08:00">2026-03-20</time>
+      <time title="創建時間：2026-03-20 01:10:34" itemprop="dateCreated datePublished" datetime="2026-03-20T01:10:34+08:00">2026-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-04 23:37:19" itemprop="dateModified" datetime="2026-07-04T23:37:19+08:00">2026-07-04</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -352,7 +358,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="GitHub-Copilot-CLI-安裝指南"><a href="#GitHub-Copilot-CLI-安裝指南" class="headerlink" title="GitHub Copilot CLI 安裝指南"></a>GitHub Copilot CLI 安裝指南</h1><p><strong>GitHub Copilot CLI</strong> 是 GitHub Copilot 的命令列介面工具，讓開發者可以直接在終端機中與 Copilot 互動。它能夠理解你的程式碼庫，協助撰寫程式碼、修復錯誤、建立新功能，甚至執行多步驟的自動化任務。</p>
+    <div class="post-body" itemprop="articleBody"><p><strong>GitHub Copilot CLI</strong> 是 GitHub Copilot 的命令列介面工具，讓開發者可以直接在終端機中與 Copilot 互動。它能夠理解你的程式碼庫，協助撰寫程式碼、修復錯誤、建立新功能，甚至執行多步驟的自動化任務。</p>
 <hr>
 <h2 id="前置需求"><a href="#前置需求" class="headerlink" title="前置需求"></a>前置需求</h2><ul>
 <li>有效的 <strong>GitHub Copilot 訂閱方案</strong>（所有 Copilot 方案皆支援）</li>
@@ -569,6 +575,16 @@
         <i class="fa fa-history fa-fw"></i> 近期文章
       </div>
       <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/07/04/docker-hot-command/" title="Docker 常用指令">
+            <div class="post-recent-card-banner post-recent-card-cat--docker">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Docker 常用指令</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-07-04</span><span class="post-recent-card-cat">docker</span>
+            </div>
+          </a>
           <a class="post-recent-card" href="/2026/06/29/windows-sandbox-vscode/" title="使用 Windows Sandbox 建立可重複的 VS Code 開發驗證環境">
             <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
               <div class="post-recent-card-overlay">
@@ -607,16 +623,6 @@
             </div>
             <div class="post-recent-card-meta">
               <span class="post-recent-card-date">2026-06-03</span><span class="post-recent-card-cat">gamelife</span>
-            </div>
-          </a>
-          <a class="post-recent-card" href="/2026/05/31/pixel-battle-record-03/" title="Pixel Battle 開發紀錄 03：世界觀與前 30 分鐘體驗">
-            <div class="post-recent-card-banner post-recent-card-cat--gamelife">
-              <div class="post-recent-card-overlay">
-                <span class="post-recent-card-title">Pixel Battle 開發紀錄 03：世界觀與前 30 分鐘體驗</span>
-              </div>
-            </div>
-            <div class="post-recent-card-meta">
-              <span class="post-recent-card-date">2026-05-31</span><span class="post-recent-card-cat">gamelife</span>
             </div>
           </a>
       </div>

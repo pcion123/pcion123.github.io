@@ -23,19 +23,19 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="Pixel Battle 開發紀錄 04：任務引導、對話系統與方向取捨這一輪 Pixel Battle 的開發，主要集中在任務引導與前期體驗的整理。相較於前幾次紀錄裡還在搭建系統骨架，現在遊戲已經做出兩個章節的任務流程，也加入了對話系統。整體來看，玩家進入遊戲後應該會比以前更容易理解自己正在做什麼，也比較能感受到遊戲希望帶出的體驗方向。">
+    <meta name="description" content="這一輪 Pixel Battle 的開發，主要集中在任務引導與前期體驗的整理。相較於前幾次紀錄裡還在搭建系統骨架，現在遊戲已經做出兩個章節的任務流程，也加入了對話系統。整體來看，玩家進入遊戲後應該會比以前更容易理解自己正在做什麼，也比較能感受到遊戲希望帶出的體驗方向。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Pixel Battle 開發紀錄 04：任務引導、對話系統與方向取捨">
 <meta property="og:url" content="https://pcion123.github.io/2026/06/03/pixel-battle-record-04/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
-<meta property="og:description" content="Pixel Battle 開發紀錄 04：任務引導、對話系統與方向取捨這一輪 Pixel Battle 的開發，主要集中在任務引導與前期體驗的整理。相較於前幾次紀錄裡還在搭建系統骨架，現在遊戲已經做出兩個章節的任務流程，也加入了對話系統。整體來看，玩家進入遊戲後應該會比以前更容易理解自己正在做什麼，也比較能感受到遊戲希望帶出的體驗方向。">
+<meta property="og:description" content="這一輪 Pixel Battle 的開發，主要集中在任務引導與前期體驗的整理。相較於前幾次紀錄裡還在搭建系統骨架，現在遊戲已經做出兩個章節的任務流程，也加入了對話系統。整體來看，玩家進入遊戲後應該會比以前更容易理解自己正在做什麼，也比較能感受到遊戲希望帶出的體驗方向。">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://pcion123.github.io/2026/06/03/pixel-battle-record-04/1_create_first.webp">
 <meta property="og:image" content="https://pcion123.github.io/2026/06/03/pixel-battle-record-04/2_light_second.webp">
 <meta property="og:image" content="https://pcion123.github.io/2026/06/03/pixel-battle-record-04/3_battle_third.webp">
 <meta property="og:image" content="https://pcion123.github.io/2026/06/03/pixel-battle-record-04/4_chapter_2.webp">
 <meta property="article:published_time" content="2026-06-03T14:49:34.000Z">
-<meta property="article:modified_time" content="2026-06-03T14:53:11.429Z">
+<meta property="article:modified_time" content="2026-07-04T15:40:12.972Z">
 <meta property="article:author" content="Jason Lai">
 <meta property="article:tag" content="vscode">
 <meta property="article:tag" content="gamedev">
@@ -161,7 +161,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+    <div class="sidebar-inner sidebar-overview-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目錄
@@ -174,7 +174,6 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Pixel-Battle-%E9%96%8B%E7%99%BC%E7%B4%80%E9%8C%84-04%EF%BC%9A%E4%BB%BB%E5%8B%99%E5%BC%95%E5%B0%8E%E3%80%81%E5%B0%8D%E8%A9%B1%E7%B3%BB%E7%B5%B1%E8%88%87%E6%96%B9%E5%90%91%E5%8F%96%E6%8D%A8"><span class="nav-number">1.</span> <span class="nav-text">Pixel Battle 開發紀錄 04：任務引導、對話系統與方向取捨</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -189,7 +188,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-count">64</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -222,7 +221,7 @@
     <h3 class="widget-title">雜七雜八</h3>
     <div id="myCanvasContainer" class="widget tagcloud">
       <canvas width="400" height="400" id="resCanvas" style="width:100%">
-        <a href="/tags/agent/" style="font-size: 14px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/copilot-cli/" style="font-size: 16px;" class="tag-cloud-2">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 24px;" class="tag-cloud-7">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 22px;" class="tag-cloud-6">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 14px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 16px;" class="tag-cloud-2">gitlab</a> <a href="/tags/googlemap/" style="font-size: 16px;" class="tag-cloud-2">googlemap</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 20px;" class="tag-cloud-4">java</a> <a href="/tags/jdk/" style="font-size: 14px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 18px;" class="tag-cloud-3">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 26px;" class="tag-cloud-8">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 28px;" class="tag-cloud-9">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 16px;" class="tag-cloud-2">maven</a> <a href="/tags/mcp/" style="font-size: 14px;" class="tag-cloud-1">mcp</a> <a href="/tags/minikube/" style="font-size: 14px;" class="tag-cloud-1">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 14px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/pm2/" style="font-size: 14px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 16px;" class="tag-cloud-2">powershell</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/skills/" style="font-size: 14px;" class="tag-cloud-1">skills</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 16px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 14px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 24px;" class="tag-cloud-7">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/vscode/" style="font-size: 30px;" class="tag-cloud-10">vscode</a> <a href="/tags/windows/" style="font-size: 18px;" class="tag-cloud-3">windows</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 16px;" class="tag-cloud-2">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+        <a href="/tags/agent/" style="font-size: 14px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/copilot-cli/" style="font-size: 16px;" class="tag-cloud-2">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 26px;" class="tag-cloud-8">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 22px;" class="tag-cloud-6">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 14px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 16px;" class="tag-cloud-2">gitlab</a> <a href="/tags/googlemap/" style="font-size: 16px;" class="tag-cloud-2">googlemap</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 20px;" class="tag-cloud-4">java</a> <a href="/tags/jdk/" style="font-size: 14px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 18px;" class="tag-cloud-3">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 26px;" class="tag-cloud-8">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 28px;" class="tag-cloud-9">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 16px;" class="tag-cloud-2">maven</a> <a href="/tags/mcp/" style="font-size: 14px;" class="tag-cloud-1">mcp</a> <a href="/tags/minikube/" style="font-size: 14px;" class="tag-cloud-1">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 14px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/pm2/" style="font-size: 14px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 16px;" class="tag-cloud-2">powershell</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/skills/" style="font-size: 14px;" class="tag-cloud-1">skills</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 16px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 14px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 24px;" class="tag-cloud-7">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/vscode/" style="font-size: 30px;" class="tag-cloud-10">vscode</a> <a href="/tags/windows/" style="font-size: 18px;" class="tag-cloud-3">windows</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 16px;" class="tag-cloud-2">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
       </canvas>
     </div>
   </div>
@@ -243,13 +242,6 @@
         <time class="popular-posts-time">2026-05-31</time>
         <br>
       Pixel Battle 開發紀錄 03：世界觀與前 30 分鐘體驗
-      </a>
-    </li>
-    <li class="popular-posts-item">
-      <a class="popular-posts-link" href="/2026/05/27/pixel-battle-record-02/" rel="bookmark">
-        <time class="popular-posts-time">2026-05-27</time>
-        <br>
-      Pixel Battle 開發紀錄 02：重新收斂遊戲方向
       </a>
     </li>
   </ul>
@@ -300,9 +292,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
-      
 
-      <time title="創建時間：2026-06-03 22:49:34 / 修改時間：22:53:11" itemprop="dateCreated datePublished" datetime="2026-06-03T22:49:34+08:00">2026-06-03</time>
+      <time title="創建時間：2026-06-03 22:49:34" itemprop="dateCreated datePublished" datetime="2026-06-03T22:49:34+08:00">2026-06-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-04 23:40:12" itemprop="dateModified" datetime="2026-07-04T23:40:12+08:00">2026-07-04</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -323,7 +321,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="Pixel-Battle-開發紀錄-04：任務引導、對話系統與方向取捨"><a href="#Pixel-Battle-開發紀錄-04：任務引導、對話系統與方向取捨" class="headerlink" title="Pixel Battle 開發紀錄 04：任務引導、對話系統與方向取捨"></a>Pixel Battle 開發紀錄 04：任務引導、對話系統與方向取捨</h1><p>這一輪 Pixel Battle 的開發，主要集中在任務引導與前期體驗的整理。相較於前幾次紀錄裡還在搭建系統骨架，現在遊戲已經做出兩個章節的任務流程，也加入了對話系統。整體來看，玩家進入遊戲後應該會比以前更容易理解自己正在做什麼，也比較能感受到遊戲希望帶出的體驗方向。</p>
+    <div class="post-body" itemprop="articleBody"><p>這一輪 Pixel Battle 的開發，主要集中在任務引導與前期體驗的整理。相較於前幾次紀錄裡還在搭建系統骨架，現在遊戲已經做出兩個章節的任務流程，也加入了對話系統。整體來看，玩家進入遊戲後應該會比以前更容易理解自己正在做什麼，也比較能感受到遊戲希望帶出的體驗方向。</p>
 <span id="more"></span>
 
 <img src="/2026/06/03/pixel-battle-record-04/1_create_first.webp" class="" title="冒險者註冊與新手引導">
@@ -354,6 +352,16 @@
         <i class="fa fa-history fa-fw"></i> 近期文章
       </div>
       <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/07/04/docker-hot-command/" title="Docker 常用指令">
+            <div class="post-recent-card-banner post-recent-card-cat--docker">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Docker 常用指令</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-07-04</span><span class="post-recent-card-cat">docker</span>
+            </div>
+          </a>
           <a class="post-recent-card" href="/2026/06/29/windows-sandbox-vscode/" title="使用 Windows Sandbox 建立可重複的 VS Code 開發驗證環境">
             <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
               <div class="post-recent-card-overlay">
@@ -392,16 +400,6 @@
             </div>
             <div class="post-recent-card-meta">
               <span class="post-recent-card-date">2026-06-03</span><span class="post-recent-card-cat">gamelife</span>
-            </div>
-          </a>
-          <a class="post-recent-card" href="/2026/05/31/pixel-battle-record-03/" title="Pixel Battle 開發紀錄 03：世界觀與前 30 分鐘體驗">
-            <div class="post-recent-card-banner post-recent-card-cat--gamelife">
-              <div class="post-recent-card-overlay">
-                <span class="post-recent-card-title">Pixel Battle 開發紀錄 03：世界觀與前 30 分鐘體驗</span>
-              </div>
-            </div>
-            <div class="post-recent-card-meta">
-              <span class="post-recent-card-date">2026-05-31</span><span class="post-recent-card-cat">gamelife</span>
             </div>
           </a>
       </div>

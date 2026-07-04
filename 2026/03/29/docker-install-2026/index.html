@@ -23,12 +23,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="Docker 安裝指南文章目標本篇依據 Docker 官方文件整理，帶你在 Ubuntu 上安裝 Docker Engine（含 Docker CLI、Buildx、Compose Plugin），並完成基本驗證。 本教學情境以 Windows 的 WSL2（Ubuntu 發行版）作為安裝載體。  適用環境 Windows 11（建議）或 Windows 10 + WSL2 Ubuntu 24.0">
+    <meta name="description" content="文章目標本篇依據 Docker 官方文件整理，帶你在 Ubuntu 上安裝 Docker Engine（含 Docker CLI、Buildx、Compose Plugin），並完成基本驗證。 本教學情境以 Windows 的 WSL2（Ubuntu 發行版）作為安裝載體。  適用環境 Windows 11（建議）或 Windows 10 + WSL2 Ubuntu 24.04 LTS、22.04">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker 安裝指南">
 <meta property="og:url" content="https://pcion123.github.io/2026/03/29/docker-install-2026/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
-<meta property="og:description" content="Docker 安裝指南文章目標本篇依據 Docker 官方文件整理，帶你在 Ubuntu 上安裝 Docker Engine（含 Docker CLI、Buildx、Compose Plugin），並完成基本驗證。 本教學情境以 Windows 的 WSL2（Ubuntu 發行版）作為安裝載體。  適用環境 Windows 11（建議）或 Windows 10 + WSL2 Ubuntu 24.0">
+<meta property="og:description" content="文章目標本篇依據 Docker 官方文件整理，帶你在 Ubuntu 上安裝 Docker Engine（含 Docker CLI、Buildx、Compose Plugin），並完成基本驗證。 本教學情境以 Windows 的 WSL2（Ubuntu 發行版）作為安裝載體。  適用環境 Windows 11（建議）或 Windows 10 + WSL2 Ubuntu 24.04 LTS、22.04">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://pcion123.github.io/2026/03/29/docker-install-2026/docker_install_1.jpg">
 <meta property="og:image" content="https://pcion123.github.io/2026/03/29/docker-install-2026/docker_install_2.jpg">
@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://pcion123.github.io/2026/03/29/docker-install-2026/docker_install_11.jpg">
 <meta property="og:image" content="https://pcion123.github.io/2026/03/29/docker-install-2026/docker_install_10.jpg">
 <meta property="article:published_time" content="2026-03-29T06:28:15.000Z">
-<meta property="article:modified_time" content="2026-03-29T06:34:01.716Z">
+<meta property="article:modified_time" content="2026-07-04T15:38:05.135Z">
 <meta property="article:author" content="Jason Lai">
 <meta property="article:tag" content="docker">
 <meta property="article:tag" content="wsl">
@@ -175,7 +175,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-%E5%AE%89%E8%A3%9D%E6%8C%87%E5%8D%97"><span class="nav-number">1.</span> <span class="nav-text">Docker 安裝指南</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E7%AB%A0%E7%9B%AE%E6%A8%99"><span class="nav-number">1.1.</span> <span class="nav-text">文章目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%A9%E7%94%A8%E7%92%B0%E5%A2%83"><span class="nav-number">1.2.</span> <span class="nav-text">適用環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E5%89%8D%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85"><span class="nav-number">1.3.</span> <span class="nav-text">安裝前注意事項</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E9%98%B2%E7%81%AB%E7%89%86%E8%88%87%E5%B0%81%E5%8C%85%E8%A6%8F%E5%89%87"><span class="nav-number">1.3.1.</span> <span class="nav-text">1. 防火牆與封包規則</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%85%88%E7%A7%BB%E9%99%A4%E8%A1%9D%E7%AA%81%E8%88%8A%E5%A5%97%E4%BB%B6"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. 先移除衝突舊套件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-APT-Repository-%E5%AE%89%E8%A3%9D%EF%BC%88%E6%8E%A8%E8%96%A6%EF%BC%89"><span class="nav-number">1.4.</span> <span class="nav-text">使用 APT Repository 安裝（推薦）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-1%EF%BC%9A%E8%A8%AD%E5%AE%9A-Docker-%E5%AE%98%E6%96%B9%E5%A5%97%E4%BB%B6%E5%BA%AB"><span class="nav-number">1.4.1.</span> <span class="nav-text">步驟 1：設定 Docker 官方套件庫</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-2%EF%BC%9A%E5%AE%89%E8%A3%9D-Docker-%E5%A5%97%E4%BB%B6"><span class="nav-number">1.4.2.</span> <span class="nav-text">步驟 2：安裝 Docker 套件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-3%EF%BC%9A%E7%A2%BA%E8%AA%8D%E6%9C%8D%E5%8B%99%E7%8B%80%E6%85%8B"><span class="nav-number">1.4.3.</span> <span class="nav-text">步驟 3：確認服務狀態</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-4%EF%BC%9A%E9%A9%97%E8%AD%89%E5%AE%89%E8%A3%9D"><span class="nav-number">1.4.4.</span> <span class="nav-text">步驟 4：驗證安裝</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E5%BE%8C%E5%B8%B8%E7%94%A8%E6%AA%A2%E6%9F%A5"><span class="nav-number">1.5.</span> <span class="nav-text">安裝後常用檢查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%93%E9%9D%9E-root-%E4%BD%BF%E7%94%A8%E8%80%85%E5%8F%AF%E5%9F%B7%E8%A1%8C-Docker%EF%BC%88%E9%81%B8%E7%94%A8%EF%BC%89"><span class="nav-number">1.6.</span> <span class="nav-text">讓非 root 使用者可執行 Docker（選用）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%87%E7%B4%9A-Docker"><span class="nav-number">1.7.</span> <span class="nav-text">升級 Docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4-Docker%EF%BC%88%E9%9C%80%E8%A6%81%E6%99%82%EF%BC%89"><span class="nav-number">1.8.</span> <span class="nav-text">移除 Docker（需要時）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%A7%BB%E9%99%A4%E7%A8%8B%E5%BC%8F%E5%A5%97%E4%BB%B6"><span class="nav-number">1.8.1.</span> <span class="nav-text">1. 移除程式套件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%88%AA%E9%99%A4%E8%B3%87%E6%96%99%EF%BC%88%E6%9C%83%E7%A7%BB%E9%99%A4%E6%89%80%E6%9C%89%E5%AE%B9%E5%99%A8%E3%80%81%E6%98%A0%E5%83%8F%E6%AA%94%E3%80%81Volume%EF%BC%89"><span class="nav-number">1.8.2.</span> <span class="nav-text">2. 刪除資料（會移除所有容器、映像檔、Volume）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%A7%BB%E9%99%A4%E4%BE%86%E6%BA%90%E8%88%87%E9%87%91%E9%91%B0"><span class="nav-number">1.8.3.</span> <span class="nav-text">3. 移除來源與金鑰</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C"><span class="nav-number">1.9.</span> <span class="nav-text">常見問題</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-docker-permission-denied"><span class="nav-number">1.9.1.</span> <span class="nav-text">1. docker: permission denied</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%89%BE%E4%B8%8D%E5%88%B0%E5%A5%97%E4%BB%B6-docker-ce"><span class="nav-number">1.9.2.</span> <span class="nav-text">2. 找不到套件 docker-ce</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">1.10.</span> <span class="nav-text">參考資料</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E7%AB%A0%E7%9B%AE%E6%A8%99"><span class="nav-number">1.</span> <span class="nav-text">文章目標</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%A9%E7%94%A8%E7%92%B0%E5%A2%83"><span class="nav-number">2.</span> <span class="nav-text">適用環境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E5%89%8D%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85"><span class="nav-number">3.</span> <span class="nav-text">安裝前注意事項</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E9%98%B2%E7%81%AB%E7%89%86%E8%88%87%E5%B0%81%E5%8C%85%E8%A6%8F%E5%89%87"><span class="nav-number">3.1.</span> <span class="nav-text">1. 防火牆與封包規則</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%85%88%E7%A7%BB%E9%99%A4%E8%A1%9D%E7%AA%81%E8%88%8A%E5%A5%97%E4%BB%B6"><span class="nav-number">3.2.</span> <span class="nav-text">2. 先移除衝突舊套件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-APT-Repository-%E5%AE%89%E8%A3%9D%EF%BC%88%E6%8E%A8%E8%96%A6%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">使用 APT Repository 安裝（推薦）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-1%EF%BC%9A%E8%A8%AD%E5%AE%9A-Docker-%E5%AE%98%E6%96%B9%E5%A5%97%E4%BB%B6%E5%BA%AB"><span class="nav-number">4.1.</span> <span class="nav-text">步驟 1：設定 Docker 官方套件庫</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-2%EF%BC%9A%E5%AE%89%E8%A3%9D-Docker-%E5%A5%97%E4%BB%B6"><span class="nav-number">4.2.</span> <span class="nav-text">步驟 2：安裝 Docker 套件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-3%EF%BC%9A%E7%A2%BA%E8%AA%8D%E6%9C%8D%E5%8B%99%E7%8B%80%E6%85%8B"><span class="nav-number">4.3.</span> <span class="nav-text">步驟 3：確認服務狀態</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-4%EF%BC%9A%E9%A9%97%E8%AD%89%E5%AE%89%E8%A3%9D"><span class="nav-number">4.4.</span> <span class="nav-text">步驟 4：驗證安裝</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E5%BE%8C%E5%B8%B8%E7%94%A8%E6%AA%A2%E6%9F%A5"><span class="nav-number">5.</span> <span class="nav-text">安裝後常用檢查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%93%E9%9D%9E-root-%E4%BD%BF%E7%94%A8%E8%80%85%E5%8F%AF%E5%9F%B7%E8%A1%8C-Docker%EF%BC%88%E9%81%B8%E7%94%A8%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">讓非 root 使用者可執行 Docker（選用）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%87%E7%B4%9A-Docker"><span class="nav-number">7.</span> <span class="nav-text">升級 Docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4-Docker%EF%BC%88%E9%9C%80%E8%A6%81%E6%99%82%EF%BC%89"><span class="nav-number">8.</span> <span class="nav-text">移除 Docker（需要時）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%A7%BB%E9%99%A4%E7%A8%8B%E5%BC%8F%E5%A5%97%E4%BB%B6"><span class="nav-number">8.1.</span> <span class="nav-text">1. 移除程式套件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%88%AA%E9%99%A4%E8%B3%87%E6%96%99%EF%BC%88%E6%9C%83%E7%A7%BB%E9%99%A4%E6%89%80%E6%9C%89%E5%AE%B9%E5%99%A8%E3%80%81%E6%98%A0%E5%83%8F%E6%AA%94%E3%80%81Volume%EF%BC%89"><span class="nav-number">8.2.</span> <span class="nav-text">2. 刪除資料（會移除所有容器、映像檔、Volume）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%A7%BB%E9%99%A4%E4%BE%86%E6%BA%90%E8%88%87%E9%87%91%E9%91%B0"><span class="nav-number">8.3.</span> <span class="nav-text">3. 移除來源與金鑰</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C"><span class="nav-number">9.</span> <span class="nav-text">常見問題</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-docker-permission-denied"><span class="nav-number">9.1.</span> <span class="nav-text">1. docker: permission denied</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%89%BE%E4%B8%8D%E5%88%B0%E5%A5%97%E4%BB%B6-docker-ce"><span class="nav-number">9.2.</span> <span class="nav-text">2. 找不到套件 docker-ce</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">10.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -190,7 +190,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-count">64</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -223,7 +223,7 @@
     <h3 class="widget-title">雜七雜八</h3>
     <div id="myCanvasContainer" class="widget tagcloud">
       <canvas width="400" height="400" id="resCanvas" style="width:100%">
-        <a href="/tags/agent/" style="font-size: 14px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/copilot-cli/" style="font-size: 16px;" class="tag-cloud-2">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 24px;" class="tag-cloud-7">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 22px;" class="tag-cloud-6">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 14px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 16px;" class="tag-cloud-2">gitlab</a> <a href="/tags/googlemap/" style="font-size: 16px;" class="tag-cloud-2">googlemap</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 20px;" class="tag-cloud-4">java</a> <a href="/tags/jdk/" style="font-size: 14px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 18px;" class="tag-cloud-3">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 26px;" class="tag-cloud-8">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 28px;" class="tag-cloud-9">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 16px;" class="tag-cloud-2">maven</a> <a href="/tags/mcp/" style="font-size: 14px;" class="tag-cloud-1">mcp</a> <a href="/tags/minikube/" style="font-size: 14px;" class="tag-cloud-1">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 14px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/pm2/" style="font-size: 14px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 16px;" class="tag-cloud-2">powershell</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/skills/" style="font-size: 14px;" class="tag-cloud-1">skills</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 16px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 14px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 24px;" class="tag-cloud-7">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/vscode/" style="font-size: 30px;" class="tag-cloud-10">vscode</a> <a href="/tags/windows/" style="font-size: 18px;" class="tag-cloud-3">windows</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 16px;" class="tag-cloud-2">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+        <a href="/tags/agent/" style="font-size: 14px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/copilot-cli/" style="font-size: 16px;" class="tag-cloud-2">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 26px;" class="tag-cloud-8">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 22px;" class="tag-cloud-6">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 14px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 16px;" class="tag-cloud-2">gitlab</a> <a href="/tags/googlemap/" style="font-size: 16px;" class="tag-cloud-2">googlemap</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 20px;" class="tag-cloud-4">java</a> <a href="/tags/jdk/" style="font-size: 14px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 18px;" class="tag-cloud-3">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 26px;" class="tag-cloud-8">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 28px;" class="tag-cloud-9">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 16px;" class="tag-cloud-2">maven</a> <a href="/tags/mcp/" style="font-size: 14px;" class="tag-cloud-1">mcp</a> <a href="/tags/minikube/" style="font-size: 14px;" class="tag-cloud-1">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 14px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/pm2/" style="font-size: 14px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 16px;" class="tag-cloud-2">powershell</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/skills/" style="font-size: 14px;" class="tag-cloud-1">skills</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 16px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 14px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 24px;" class="tag-cloud-7">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/vscode/" style="font-size: 30px;" class="tag-cloud-10">vscode</a> <a href="/tags/windows/" style="font-size: 18px;" class="tag-cloud-3">windows</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 16px;" class="tag-cloud-2">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
       </canvas>
     </div>
   </div>
@@ -239,6 +239,13 @@
     相關文章
   </div>
   <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/07/04/docker-hot-command/" rel="bookmark">
+        <time class="popular-posts-time">2026-07-04</time>
+        <br>
+      Docker 常用指令
+      </a>
+    </li>
     <li class="popular-posts-item">
       <a class="popular-posts-link" href="/2025/11/16/docker-intro/" rel="bookmark">
         <time class="popular-posts-time">2025-11-16</time>
@@ -265,13 +272,6 @@
         <time class="popular-posts-time">2025-10-11</time>
         <br>
       Docker Hub PAT 申請指南
-      </a>
-    </li>
-    <li class="popular-posts-item">
-      <a class="popular-posts-link" href="/2026/03/21/wsl-install/" rel="bookmark">
-        <time class="popular-posts-time">2026-03-21</time>
-        <br>
-      WSL2 安裝指南
       </a>
     </li>
   </ul>
@@ -322,9 +322,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
-      
 
-      <time title="創建時間：2026-03-29 14:28:15 / 修改時間：14:34:01" itemprop="dateCreated datePublished" datetime="2026-03-29T14:28:15+08:00">2026-03-29</time>
+      <time title="創建時間：2026-03-29 14:28:15" itemprop="dateCreated datePublished" datetime="2026-03-29T14:28:15+08:00">2026-03-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-04 23:38:05" itemprop="dateModified" datetime="2026-07-04T23:38:05+08:00">2026-07-04</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -345,7 +351,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="Docker-安裝指南"><a href="#Docker-安裝指南" class="headerlink" title="Docker 安裝指南"></a>Docker 安裝指南</h1><h2 id="文章目標"><a href="#文章目標" class="headerlink" title="文章目標"></a>文章目標</h2><p>本篇依據 Docker 官方文件整理，帶你在 Ubuntu 上安裝 Docker Engine（含 Docker CLI、Buildx、Compose Plugin），並完成基本驗證。</p>
+    <div class="post-body" itemprop="articleBody"><h2 id="文章目標"><a href="#文章目標" class="headerlink" title="文章目標"></a>文章目標</h2><p>本篇依據 Docker 官方文件整理，帶你在 Ubuntu 上安裝 Docker Engine（含 Docker CLI、Buildx、Compose Plugin），並完成基本驗證。</p>
 <p>本教學情境以 Windows 的 WSL2（Ubuntu 發行版）作為安裝載體。</p>
 <hr>
 <h2 id="適用環境"><a href="#適用環境" class="headerlink" title="適用環境"></a>適用環境</h2><ul>
@@ -439,6 +445,16 @@
         <i class="fa fa-history fa-fw"></i> 近期文章
       </div>
       <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/07/04/docker-hot-command/" title="Docker 常用指令">
+            <div class="post-recent-card-banner post-recent-card-cat--docker">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Docker 常用指令</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-07-04</span><span class="post-recent-card-cat">docker</span>
+            </div>
+          </a>
           <a class="post-recent-card" href="/2026/06/29/windows-sandbox-vscode/" title="使用 Windows Sandbox 建立可重複的 VS Code 開發驗證環境">
             <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
               <div class="post-recent-card-overlay">
@@ -477,16 +493,6 @@
             </div>
             <div class="post-recent-card-meta">
               <span class="post-recent-card-date">2026-06-03</span><span class="post-recent-card-cat">gamelife</span>
-            </div>
-          </a>
-          <a class="post-recent-card" href="/2026/05/31/pixel-battle-record-03/" title="Pixel Battle 開發紀錄 03：世界觀與前 30 分鐘體驗">
-            <div class="post-recent-card-banner post-recent-card-cat--gamelife">
-              <div class="post-recent-card-overlay">
-                <span class="post-recent-card-title">Pixel Battle 開發紀錄 03：世界觀與前 30 分鐘體驗</span>
-              </div>
-            </div>
-            <div class="post-recent-card-meta">
-              <span class="post-recent-card-date">2026-05-31</span><span class="post-recent-card-cat">gamelife</span>
             </div>
           </a>
       </div>

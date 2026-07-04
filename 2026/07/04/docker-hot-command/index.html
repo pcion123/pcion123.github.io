@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Docker 是容器化技術的核心工具，掌握其常用指令對於日常開發和運維工作至關重要。本指南將介紹最實用的 Docker 指令，並提供詳細的使用說明和範例。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker 常用指令">
+<meta property="og:url" content="https://pcion123.github.io/2026/07/04/docker-hot-command/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="Docker 是容器化技術的核心工具，掌握其常用指令對於日常開發和運維工作至關重要。本指南將介紹最實用的 Docker 指令，並提供詳細的使用說明和範例。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/04/docker-hot-command/docker_images.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/04/docker-hot-command/docker_pull_image.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/04/docker-hot-command/docker_build_01.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/04/docker-hot-command/docker_build_02.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/04/docker-hot-command/docker_push.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/04/docker-hot-command/docker_rmi.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/04/docker-hot-command/docker_run.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/04/docker-hot-command/docker_ps.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/04/docker-hot-command/docker_kill.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/04/docker-hot-command/docker_exec.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/04/docker-hot-command/docker_rm.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/04/docker-hot-command/docker_logs.png">
+<meta property="article:published_time" content="2026-07-04T15:25:18.000Z">
+<meta property="article:modified_time" content="2026-07-04T15:36:26.434Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2026/07/04/docker-hot-command/docker_images.png">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/07/04/docker-hot-command/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/07/04/docker-hot-command/","path":"2026/07/04/docker-hot-command/","title":"Docker 常用指令"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Docker 常用指令 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%98%A0%E5%83%8F%E6%AA%94%E7%AE%A1%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">映像檔管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AA%A2%E8%A6%96%E6%98%A0%E5%83%8F%E6%AA%94"><span class="nav-number">1.1.</span> <span class="nav-text">檢視映像檔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%9C%E5%B0%8B%E5%92%8C%E4%B8%8B%E8%BC%89%E6%98%A0%E5%83%8F%E6%AA%94"><span class="nav-number">1.2.</span> <span class="nav-text">搜尋和下載映像檔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E6%A7%8B%E6%98%A0%E5%83%8F%E6%AA%94"><span class="nav-number">1.3.</span> <span class="nav-text">建構映像檔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%99%E8%A8%98%E5%92%8C%E6%8E%A8%E9%80%81%E6%98%A0%E5%83%8F%E6%AA%94"><span class="nav-number">1.4.</span> <span class="nav-text">標記和推送映像檔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%AA%E9%99%A4%E6%98%A0%E5%83%8F%E6%AA%94"><span class="nav-number">1.5.</span> <span class="nav-text">刪除映像檔</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">容器管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%8B%E8%A1%8C%E5%AE%B9%E5%99%A8"><span class="nav-number">2.1.</span> <span class="nav-text">運行容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AA%A2%E8%A6%96%E5%AE%B9%E5%99%A8"><span class="nav-number">2.2.</span> <span class="nav-text">檢視容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E6%93%8D%E4%BD%9C"><span class="nav-number">2.3.</span> <span class="nav-text">容器操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%B2%E5%85%A5%E5%AE%B9%E5%99%A8"><span class="nav-number">2.4.</span> <span class="nav-text">進入容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%AA%E9%99%A4%E5%AE%B9%E5%99%A8"><span class="nav-number">2.5.</span> <span class="nav-text">刪除容器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A5%E8%AA%8C%E5%92%8C%E7%9B%A3%E6%8E%A7"><span class="nav-number">3.</span> <span class="nav-text">日誌和監控</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%97%A5%E8%AA%8C"><span class="nav-number">3.1.</span> <span class="nav-text">查看日誌</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%A3%E6%8E%A7%E5%92%8C%E8%A8%BA%E6%96%B7"><span class="nav-number">3.2.</span> <span class="nav-text">監控和診斷</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B6%B2%E8%B7%AF%E7%AE%A1%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text">網路管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B6%B2%E8%B7%AF%E6%93%8D%E4%BD%9C"><span class="nav-number">4.1.</span> <span class="nav-text">網路操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B6%B2%E8%B7%AF%E4%BD%BF%E7%94%A8%E7%AF%84%E4%BE%8B"><span class="nav-number">4.2.</span> <span class="nav-text">網路使用範例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E5%8D%B7%E7%AE%A1%E7%90%86"><span class="nav-number">5.</span> <span class="nav-text">資料卷管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E5%8D%B7%E6%93%8D%E4%BD%9C"><span class="nav-number">5.1.</span> <span class="nav-text">資料卷操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%B3%87%E6%96%99%E5%8D%B7"><span class="nav-number">5.2.</span> <span class="nav-text">使用資料卷</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%B5%B1%E7%AE%A1%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text">系統管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%B5%B1%E8%B3%87%E8%A8%8A"><span class="nav-number">6.1.</span> <span class="nav-text">系統資訊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%B5%B1%E6%B8%85%E7%90%86"><span class="nav-number">6.2.</span> <span class="nav-text">系統清理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E7%9B%A3%E6%8E%A7"><span class="nav-number">6.3.</span> <span class="nav-text">事件監控</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E7%94%A8%E7%B5%84%E5%90%88%E6%8C%87%E4%BB%A4"><span class="nav-number">7.</span> <span class="nav-text">實用組合指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%B9%E6%AC%A1%E6%93%8D%E4%BD%9C"><span class="nav-number">7.1.</span> <span class="nav-text">批次操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BC%B8%E5%87%BA"><span class="nav-number">7.2.</span> <span class="nav-text">格式化輸出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E5%AF%A6%E8%B8%90"><span class="nav-number">8.</span> <span class="nav-text">最佳實踐</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">8.1.</span> <span class="nav-text">安全性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B3%87%E6%BA%90%E9%99%90%E5%88%B6"><span class="nav-number">8.2.</span> <span class="nav-text">資源限制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E8%AA%8C%E7%AE%A1%E7%90%86"><span class="nav-number">8.3.</span> <span class="nav-text">日誌管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4"><span class="nav-number">9.</span> <span class="nav-text">故障排除</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C%E8%A8%BA%E6%96%B7"><span class="nav-number">9.1.</span> <span class="nav-text">常見問題診斷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%A4%E9%8C%AF%E6%8A%80%E5%B7%A7"><span class="nav-number">9.2.</span> <span class="nav-text">除錯技巧</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E5%8F%83%E8%80%83%E8%A1%A8"><span class="nav-number">10.</span> <span class="nav-text">快速參考表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%8C%87%E4%BB%A4%E5%B0%8D%E7%85%A7"><span class="nav-number">10.1.</span> <span class="nav-text">基本指令對照</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%8F%83%E6%95%B8"><span class="nav-number">10.2.</span> <span class="nav-text">常用參數</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">49</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/agent/" style="font-size: 14px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/copilot-cli/" style="font-size: 16px;" class="tag-cloud-2">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 26px;" class="tag-cloud-8">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 22px;" class="tag-cloud-6">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 14px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 16px;" class="tag-cloud-2">gitlab</a> <a href="/tags/googlemap/" style="font-size: 16px;" class="tag-cloud-2">googlemap</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 20px;" class="tag-cloud-4">java</a> <a href="/tags/jdk/" style="font-size: 14px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 18px;" class="tag-cloud-3">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 26px;" class="tag-cloud-8">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 28px;" class="tag-cloud-9">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 16px;" class="tag-cloud-2">maven</a> <a href="/tags/mcp/" style="font-size: 14px;" class="tag-cloud-1">mcp</a> <a href="/tags/minikube/" style="font-size: 14px;" class="tag-cloud-1">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 14px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/pm2/" style="font-size: 14px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 16px;" class="tag-cloud-2">powershell</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/skills/" style="font-size: 14px;" class="tag-cloud-1">skills</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 16px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 14px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 24px;" class="tag-cloud-7">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/vscode/" style="font-size: 30px;" class="tag-cloud-10">vscode</a> <a href="/tags/windows/" style="font-size: 18px;" class="tag-cloud-3">windows</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 16px;" class="tag-cloud-2">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相關文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/03/29/docker-install-2026/" rel="bookmark">
+        <time class="popular-posts-time">2026-03-29</time>
+        <br>
+      Docker 安裝指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/11/16/docker-intro/" rel="bookmark">
+        <time class="popular-posts-time">2025-11-16</time>
+        <br>
+      Docker 基本介紹
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/10/11/kubernetes-image-pull/" rel="bookmark">
+        <time class="popular-posts-time">2025-10-11</time>
+        <br>
+      Kubernetes Image 拉取指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/11/29/docker-compose-intro/" rel="bookmark">
+        <time class="popular-posts-time">2025-11-29</time>
+        <br>
+      Docker Compose 編寫指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/10/11/docker-hub-pat-guide/" rel="bookmark">
+        <time class="popular-posts-time">2025-10-11</time>
+        <br>
+      Docker Hub PAT 申請指南
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/07/04/docker-hot-command/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Docker 常用指令 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Docker 常用指令
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-07-04 23:25:18 / 修改時間：23:36:26" itemprop="dateCreated datePublished" datetime="2026-07-04T23:25:18+08:00">2026-07-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>Docker 是容器化技術的核心工具，掌握其常用指令對於日常開發和運維工作至關重要。本指南將介紹最實用的 Docker 指令，並提供詳細的使用說明和範例。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="映像檔管理"><a href="#映像檔管理" class="headerlink" title="映像檔管理"></a>映像檔管理</h2><h3 id="檢視映像檔"><a href="#檢視映像檔" class="headerlink" title="檢視映像檔"></a>檢視映像檔</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列出所有本地映像檔</span></span><br><span class="line">docker images</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出特定映像檔</span></span><br><span class="line">docker images nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 顯示映像檔詳細資訊</span></span><br><span class="line">docker image inspect nginx:latest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看映像檔層級歷史</span></span><br><span class="line">docker <span class="built_in">history</span> nginx:latest</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/04/docker-hot-command/docker_images.png" class="">
+
+<h3 id="搜尋和下載映像檔"><a href="#搜尋和下載映像檔" class="headerlink" title="搜尋和下載映像檔"></a>搜尋和下載映像檔</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 搜尋 Docker Hub 上的映像檔</span></span><br><span class="line">docker search nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下載映像檔</span></span><br><span class="line">docker pull nginx:latest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下載特定版本</span></span><br><span class="line">docker pull nginx:1.21</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下載所有標籤版本</span></span><br><span class="line">docker pull nginx --all-tags</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/04/docker-hot-command/docker_pull_image.png" class="">
+<h3 id="建構映像檔"><a href="#建構映像檔" class="headerlink" title="建構映像檔"></a>建構映像檔</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 從 Dockerfile 建構映像檔</span></span><br><span class="line">docker build -t myapp:latest .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定 Dockerfile 路徑</span></span><br><span class="line">docker build -f /path/to/Dockerfile -t myapp:latest .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 傳遞建構參數</span></span><br><span class="line">docker build --build-arg VERSION=1.0 -t myapp:latest .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不使用快取建構</span></span><br><span class="line">docker build --no-cache -t myapp:latest .</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/04/docker-hot-command/docker_build_01.png" class="">
+<img src="/2026/07/04/docker-hot-command/docker_build_02.png" class="">
+
+<h3 id="標記和推送映像檔"><a href="#標記和推送映像檔" class="headerlink" title="標記和推送映像檔"></a>標記和推送映像檔</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 為映像檔加上標籤</span></span><br><span class="line">docker tag myapp:latest registry.example.com/myapp:v1.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送映像檔到註冊中心</span></span><br><span class="line">docker push registry.example.com/myapp:v1.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 登入註冊中心</span></span><br><span class="line">docker login registry.example.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 登出</span></span><br><span class="line">docker <span class="built_in">logout</span> registry.example.com</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/04/docker-hot-command/docker_push.png" class="">
+
+<h3 id="刪除映像檔"><a href="#刪除映像檔" class="headerlink" title="刪除映像檔"></a>刪除映像檔</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 刪除特定映像檔</span></span><br><span class="line">docker rmi nginx:latest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 強制刪除映像檔</span></span><br><span class="line">docker rmi -f nginx:latest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刪除所有懸空映像檔（dangling images）</span></span><br><span class="line">docker image prune</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刪除所有未使用的映像檔</span></span><br><span class="line">docker image prune -a</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/04/docker-hot-command/docker_rmi.png" class="">
+
+<hr>
+<h2 id="容器管理"><a href="#容器管理" class="headerlink" title="容器管理"></a>容器管理</h2><h3 id="運行容器"><a href="#運行容器" class="headerlink" title="運行容器"></a>運行容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 基本運行</span></span><br><span class="line">docker run nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 背景運行</span></span><br><span class="line">docker run -d nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定容器名稱</span></span><br><span class="line">docker run --name my-nginx -d nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 端口映射</span></span><br><span class="line">docker run -p 8080:80 -d nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 環境變數</span></span><br><span class="line">docker run -e ENV=production -d nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 掛載資料卷</span></span><br><span class="line">docker run -v /host/path:/container/path -d nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 臨時運行（停止後自動刪除）</span></span><br><span class="line">docker run --<span class="built_in">rm</span> nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 互動式運行</span></span><br><span class="line">docker run -it ubuntu bash</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/04/docker-hot-command/docker_run.png" class="">
+
+<h3 id="檢視容器"><a href="#檢視容器" class="headerlink" title="檢視容器"></a>檢視容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列出運行中的容器</span></span><br><span class="line">docker ps</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出所有容器（包括停止的）</span></span><br><span class="line">docker ps -a</span><br><span class="line"></span><br><span class="line"><span class="comment"># 顯示容器詳細資訊</span></span><br><span class="line">docker inspect container_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看容器統計資訊</span></span><br><span class="line">docker stats</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看特定容器統計</span></span><br><span class="line">docker stats container_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看容器程序</span></span><br><span class="line">docker top container_name</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/04/docker-hot-command/docker_ps.png" class="">
+
+<h3 id="容器操作"><a href="#容器操作" class="headerlink" title="容器操作"></a>容器操作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 啟動停止的容器</span></span><br><span class="line">docker start container_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止運行中的容器</span></span><br><span class="line">docker stop container_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重啟容器</span></span><br><span class="line">docker restart container_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 暫停容器</span></span><br><span class="line">docker pause container_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 恢復暫停的容器</span></span><br><span class="line">docker unpause container_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 強制終止容器</span></span><br><span class="line">docker <span class="built_in">kill</span> container_name</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/04/docker-hot-command/docker_kill.png" class="">
+
+<h3 id="進入容器"><a href="#進入容器" class="headerlink" title="進入容器"></a>進入容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在運行中的容器執行命令</span></span><br><span class="line">docker <span class="built_in">exec</span> -it container_name bash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 執行特定命令</span></span><br><span class="line">docker <span class="built_in">exec</span> container_name <span class="built_in">ls</span> -la</span><br><span class="line"></span><br><span class="line"><span class="comment"># 以 root 身份進入容器</span></span><br><span class="line">docker <span class="built_in">exec</span> -u root -it container_name bash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 附加到容器的主程序</span></span><br><span class="line">docker attach container_name</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/04/docker-hot-command/docker_exec.png" class="">
+
+<h3 id="刪除容器"><a href="#刪除容器" class="headerlink" title="刪除容器"></a>刪除容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 刪除停止的容器</span></span><br><span class="line">docker <span class="built_in">rm</span> container_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 強制刪除運行中的容器</span></span><br><span class="line">docker <span class="built_in">rm</span> -f container_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刪除所有停止的容器</span></span><br><span class="line">docker container prune</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止並刪除所有容器</span></span><br><span class="line">docker stop $(docker ps -q) &amp;&amp; docker <span class="built_in">rm</span> $(docker ps -aq)</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/04/docker-hot-command/docker_rm.png" class="">
+
+<hr>
+<h2 id="日誌和監控"><a href="#日誌和監控" class="headerlink" title="日誌和監控"></a>日誌和監控</h2><h3 id="查看日誌"><a href="#查看日誌" class="headerlink" title="查看日誌"></a>查看日誌</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看容器日誌</span></span><br><span class="line">docker logs container_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 實時跟蹤日誌</span></span><br><span class="line">docker logs -f container_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看最近的日誌</span></span><br><span class="line">docker logs --<span class="built_in">tail</span> 100 container_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 顯示日誌時間戳</span></span><br><span class="line">docker logs -t container_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看特定時間範圍的日誌</span></span><br><span class="line">docker logs --since 2023-01-01 container_name</span><br><span class="line">docker logs --<span class="keyword">until</span> 2023-12-31 container_name</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/04/docker-hot-command/docker_logs.png" class="">
+
+<h3 id="監控和診斷"><a href="#監控和診斷" class="headerlink" title="監控和診斷"></a>監控和診斷</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看容器資源使用情況</span></span><br><span class="line">docker stats container_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看容器內程序</span></span><br><span class="line">docker top container_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢查容器變更</span></span><br><span class="line">docker diff container_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看端口映射</span></span><br><span class="line">docker port container_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢查容器健康狀態</span></span><br><span class="line">docker inspect --format=<span class="string">&#x27;&#123;&#123;.State.Health.Status&#125;&#125;&#x27;</span> container_name</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="網路管理"><a href="#網路管理" class="headerlink" title="網路管理"></a>網路管理</h2><h3 id="網路操作"><a href="#網路操作" class="headerlink" title="網路操作"></a>網路操作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列出所有網路</span></span><br><span class="line">docker network <span class="built_in">ls</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢視網路詳細資訊</span></span><br><span class="line">docker network inspect bridge</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立自定義網路</span></span><br><span class="line">docker network create my-network</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立特定類型的網路</span></span><br><span class="line">docker network create --driver bridge my-bridge-network</span><br><span class="line"></span><br><span class="line"><span class="comment"># 將容器連接到網路</span></span><br><span class="line">docker network connect my-network container_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 從網路中斷開容器</span></span><br><span class="line">docker network disconnect my-network container_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刪除網路</span></span><br><span class="line">docker network <span class="built_in">rm</span> my-network</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清理未使用的網路</span></span><br><span class="line">docker network prune</span><br></pre></td></tr></table></figure>
+
+<h3 id="網路使用範例"><a href="#網路使用範例" class="headerlink" title="網路使用範例"></a>網路使用範例</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在自定義網路中運行容器</span></span><br><span class="line">docker run -d --network my-network --name web nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 運行時指定 IP 位址</span></span><br><span class="line">docker run -d --network my-network --ip 172.18.0.10 --name web nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 公開所有端口</span></span><br><span class="line">docker run -d -P nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看容器 IP 位址</span></span><br><span class="line">docker inspect --format=<span class="string">&#x27;&#123;&#123;.NetworkSettings.IPAddress&#125;&#125;&#x27;</span> container_name</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="資料卷管理"><a href="#資料卷管理" class="headerlink" title="資料卷管理"></a>資料卷管理</h2><h3 id="資料卷操作"><a href="#資料卷操作" class="headerlink" title="資料卷操作"></a>資料卷操作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列出所有資料卷</span></span><br><span class="line">docker volume <span class="built_in">ls</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立資料卷</span></span><br><span class="line">docker volume create my-volume</span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢視資料卷詳細資訊</span></span><br><span class="line">docker volume inspect my-volume</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刪除資料卷</span></span><br><span class="line">docker volume <span class="built_in">rm</span> my-volume</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清理未使用的資料卷</span></span><br><span class="line">docker volume prune</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用資料卷"><a href="#使用資料卷" class="headerlink" title="使用資料卷"></a>使用資料卷</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用命名資料卷</span></span><br><span class="line">docker run -v my-volume:/app/data nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用綁定掛載</span></span><br><span class="line">docker run -v /host/path:/container/path nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 唯讀掛載</span></span><br><span class="line">docker run -v /host/path:/container/path:ro nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立匿名資料卷</span></span><br><span class="line">docker run -v /container/path nginx</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="系統管理"><a href="#系統管理" class="headerlink" title="系統管理"></a>系統管理</h2><h3 id="系統資訊"><a href="#系統資訊" class="headerlink" title="系統資訊"></a>系統資訊</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看 Docker 版本</span></span><br><span class="line">docker --version</span><br><span class="line">docker version</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看系統資訊</span></span><br><span class="line">docker info</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看磁盤使用情況</span></span><br><span class="line">docker system <span class="built_in">df</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 詳細的磁盤使用情況</span></span><br><span class="line">docker system <span class="built_in">df</span> -v</span><br></pre></td></tr></table></figure>
+
+<h3 id="系統清理"><a href="#系統清理" class="headerlink" title="系統清理"></a>系統清理</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 清理所有未使用的資源</span></span><br><span class="line">docker system prune</span><br><span class="line"></span><br><span class="line"><span class="comment"># 包括未使用的映像檔</span></span><br><span class="line">docker system prune -a</span><br><span class="line"></span><br><span class="line"><span class="comment"># 強制清理（不提示確認）</span></span><br><span class="line">docker system prune -f</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清理特定類型的資源</span></span><br><span class="line">docker container prune  <span class="comment"># 停止的容器</span></span><br><span class="line">docker image prune      <span class="comment"># 懸空映像檔</span></span><br><span class="line">docker network prune    <span class="comment"># 未使用的網路</span></span><br><span class="line">docker volume prune     <span class="comment"># 未使用的資料卷</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="事件監控"><a href="#事件監控" class="headerlink" title="事件監控"></a>事件監控</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 監控 Docker 事件</span></span><br><span class="line">docker events</span><br><span class="line"></span><br><span class="line"><span class="comment"># 過濾特定事件</span></span><br><span class="line">docker events --filter container=my-container</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看歷史事件</span></span><br><span class="line">docker events --since 2023-01-01</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="實用組合指令"><a href="#實用組合指令" class="headerlink" title="實用組合指令"></a>實用組合指令</h2><h3 id="批次操作"><a href="#批次操作" class="headerlink" title="批次操作"></a>批次操作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 停止所有運行中的容器</span></span><br><span class="line">docker stop $(docker ps -q)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刪除所有容器</span></span><br><span class="line">docker <span class="built_in">rm</span> $(docker ps -aq)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刪除所有映像檔</span></span><br><span class="line">docker rmi $(docker images -q)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 刪除所有懸空映像檔</span></span><br><span class="line">docker rmi $(docker images -f <span class="string">&quot;dangling=true&quot;</span> -q)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 按條件刪除容器</span></span><br><span class="line">docker <span class="built_in">rm</span> $(docker ps -a -f status=exited -q)</span><br></pre></td></tr></table></figure>
+
+<h3 id="格式化輸出"><a href="#格式化輸出" class="headerlink" title="格式化輸出"></a>格式化輸出</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 自定義輸出格式</span></span><br><span class="line">docker ps --format <span class="string">&quot;table &#123;&#123;.Names&#125;&#125;\t&#123;&#123;.Status&#125;&#125;\t&#123;&#123;.Ports&#125;&#125;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 只顯示容器 ID</span></span><br><span class="line">docker ps -q</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只顯示容器名稱</span></span><br><span class="line">docker ps --format <span class="string">&quot;&#123;&#123;.Names&#125;&#125;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢視映像檔大小</span></span><br><span class="line">docker images --format <span class="string">&quot;table &#123;&#123;.Repository&#125;&#125;\t&#123;&#123;.Tag&#125;&#125;\t&#123;&#123;.Size&#125;&#125;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="最佳實踐"><a href="#最佳實踐" class="headerlink" title="最佳實踐"></a>最佳實踐</h2><h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 以非 root 使用者運行</span></span><br><span class="line">docker run --user 1000:1000 nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 限制容器權限</span></span><br><span class="line">docker run --cap-drop ALL --cap-add NET_BIND_SERVICE nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用唯讀檔案系統</span></span><br><span class="line">docker run --read-only nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 設定安全配置</span></span><br><span class="line">docker run --security-opt no-new-privileges nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="資源限制"><a href="#資源限制" class="headerlink" title="資源限制"></a>資源限制</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 限制記憶體使用</span></span><br><span class="line">docker run -m 512m nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 限制 CPU 使用</span></span><br><span class="line">docker run --cpus=<span class="string">&quot;1.5&quot;</span> nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 限制 CPU 核心</span></span><br><span class="line">docker run --cpuset-cpus=<span class="string">&quot;0,1&quot;</span> nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 組合資源限制</span></span><br><span class="line">docker run -m 512m --cpus=<span class="string">&quot;1.0&quot;</span> nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="日誌管理"><a href="#日誌管理" class="headerlink" title="日誌管理"></a>日誌管理</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 設定日誌驅動</span></span><br><span class="line">docker run --log-driver json-file --log-opt max-size=10m nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 禁用日誌</span></span><br><span class="line">docker run --log-driver none nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 設定日誌輪替</span></span><br><span class="line">docker run --log-opt max-size=10m --log-opt max-file=3 nginx</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="故障排除"><a href="#故障排除" class="headerlink" title="故障排除"></a>故障排除</h2><h3 id="常見問題診斷"><a href="#常見問題診斷" class="headerlink" title="常見問題診斷"></a>常見問題診斷</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 檢查容器為何退出</span></span><br><span class="line">docker logs container_name</span><br><span class="line">docker inspect container_name | grep -A 5 State</span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢查映像檔層級</span></span><br><span class="line">docker <span class="built_in">history</span> image_name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢查容器內部</span></span><br><span class="line">docker <span class="built_in">exec</span> -it container_name /bin/sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 複製檔案到/從容器</span></span><br><span class="line">docker <span class="built_in">cp</span> container_name:/path/to/file /host/path</span><br><span class="line">docker <span class="built_in">cp</span> /host/path container_name:/path/to/file</span><br></pre></td></tr></table></figure>
+
+<h3 id="除錯技巧"><a href="#除錯技巧" class="headerlink" title="除錯技巧"></a>除錯技巧</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在失敗的容器基礎上啟動新容器進行除錯</span></span><br><span class="line">docker commit failed_container debug_image</span><br><span class="line">docker run -it debug_image /bin/bash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢查網路連接</span></span><br><span class="line">docker <span class="built_in">exec</span> container_name ping google.com</span><br><span class="line">docker <span class="built_in">exec</span> container_name nslookup google.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 檢查端口監聽</span></span><br><span class="line">docker <span class="built_in">exec</span> container_name netstat -tlnp</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="快速參考表"><a href="#快速參考表" class="headerlink" title="快速參考表"></a>快速參考表</h2><h3 id="基本指令對照"><a href="#基本指令對照" class="headerlink" title="基本指令對照"></a>基本指令對照</h3><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>指令</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>運行容器</td>
+<td><code>docker run</code></td>
+<td>創建並啟動新容器</td>
+</tr>
+<tr>
+<td>列出容器</td>
+<td><code>docker ps</code></td>
+<td>顯示運行中的容器</td>
+</tr>
+<tr>
+<td>停止容器</td>
+<td><code>docker stop</code></td>
+<td>優雅停止容器</td>
+</tr>
+<tr>
+<td>刪除容器</td>
+<td><code>docker rm</code></td>
+<td>刪除停止的容器</td>
+</tr>
+<tr>
+<td>列出映像檔</td>
+<td><code>docker images</code></td>
+<td>顯示本地映像檔</td>
+</tr>
+<tr>
+<td>刪除映像檔</td>
+<td><code>docker rmi</code></td>
+<td>刪除映像檔</td>
+</tr>
+<tr>
+<td>查看日誌</td>
+<td><code>docker logs</code></td>
+<td>查看容器日誌</td>
+</tr>
+<tr>
+<td>進入容器</td>
+<td><code>docker exec</code></td>
+<td>在運行中容器執行命令</td>
+</tr>
+</tbody></table>
+<h3 id="常用參數"><a href="#常用參數" class="headerlink" title="常用參數"></a>常用參數</h3><table>
+<thead>
+<tr>
+<th>參數</th>
+<th>功能</th>
+<th>範例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-d</code></td>
+<td>背景運行</td>
+<td><code>docker run -d nginx</code></td>
+</tr>
+<tr>
+<td><code>-it</code></td>
+<td>互動式終端</td>
+<td><code>docker run -it ubuntu bash</code></td>
+</tr>
+<tr>
+<td><code>-p</code></td>
+<td>端口映射</td>
+<td><code>docker run -p 8080:80 nginx</code></td>
+</tr>
+<tr>
+<td><code>-v</code></td>
+<td>資料卷掛載</td>
+<td><code>docker run -v /data:/app nginx</code></td>
+</tr>
+<tr>
+<td><code>-e</code></td>
+<td>環境變數</td>
+<td><code>docker run -e NODE_ENV=prod node</code></td>
+</tr>
+<tr>
+<td><code>--name</code></td>
+<td>指定容器名稱</td>
+<td><code>docker run --name web nginx</code></td>
+</tr>
+<tr>
+<td><code>--rm</code></td>
+<td>停止後自動刪除</td>
+<td><code>docker run --rm nginx</code></td>
+</tr>
+<tr>
+<td><code>-f</code></td>
+<td>強制執行</td>
+<td><code>docker rm -f container</code></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>提示</strong><br>使用 <code>docker --help</code> 或 <code>docker COMMAND --help</code> 可以隨時查看指令的詳細說明</p>
+</blockquote>
+<blockquote>
+<p><strong>重要</strong><br>在生產環境中，建議始終指定映像檔標籤，避免使用 <code>latest</code> 標籤</p>
+</blockquote>
+<blockquote>
+<p><strong>警告</strong><br>使用 <code>docker system prune -a</code> 會刪除所有未使用的映像檔，請謹慎使用</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <div class="post-recent-posts" style="display:none">
+      <div class="post-recent-posts-title">
+        <i class="fa fa-history fa-fw"></i> 近期文章
+      </div>
+      <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/07/04/docker-hot-command/" title="Docker 常用指令">
+            <div class="post-recent-card-banner post-recent-card-cat--docker">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Docker 常用指令</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-07-04</span><span class="post-recent-card-cat">docker</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/06/29/windows-sandbox-vscode/" title="使用 Windows Sandbox 建立可重複的 VS Code 開發驗證環境">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">使用 Windows Sandbox 建立可重複的 VS Code 開發驗證環境</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-06-29</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/06/23/vscode-hotkey-intro/" title="VS Code 開發 Java 常用快捷鍵介紹">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">VS Code 開發 Java 常用快捷鍵介紹</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-06-23</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/06/16/blog-agent-record/" title="用 LangChain4j 做了一個自己的 Blog Agent">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">用 LangChain4j 做了一個自己的 Blog Agent</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-06-16</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/06/03/pixel-battle-record-04/" title="Pixel Battle 開發紀錄 04：任務引導、對話系統與方向取捨">
+            <div class="post-recent-card-banner post-recent-card-cat--gamelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Pixel Battle 開發紀錄 04：任務引導、對話系統與方向取捨</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-06-03</span><span class="post-recent-card-cat">gamelife</span>
+            </div>
+          </a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function showRecentPosts() {
+          var block = document.querySelector('.post-recent-posts');
+          if (!block) return;
+
+          // 重置狀態
+          block.classList.remove('animated', 'fadeIn');
+          block.style.display = 'none';
+
+          var comments = document.querySelector('.comments');
+          if (comments) {
+            comments.parentNode.insertBefore(block, comments);
+          }
+
+          function reveal() {
+            block.style.display = '';
+            block.offsetHeight; // force reflow
+            block.classList.add('animated', 'fadeIn');
+          }
+
+          if (!comments) {
+            reveal();
+          } else {
+            // 觀察 .comments 被 NexT motion 加上 animated class 的時機
+            var observer = new MutationObserver(function () {
+              if (comments.classList.contains('animated')) {
+                observer.disconnect();
+                reveal();
+              }
+            });
+            observer.observe(comments, { attributes: true, attributeFilter: ['class'] });
+            // 若 motion 已跑完（comments 已有 animated），也直接顯示
+            if (comments.classList.contains('animated')) {
+              observer.disconnect();
+              reveal();
+            }
+          }
+        }
+
+        // 初次載入
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', showRecentPosts, { once: true });
+        } else {
+          showRecentPosts();
+        }
+
+        // PJAX：pjax:success 時 NexT motion 剛啟動（async），.comments 尚未有 animated
+        document.addEventListener('pjax:success', showRecentPosts);
+      })();
+    </script>
+
+          <div class="post-tags">
+              <a href="/tags/docker/" rel="tag"># docker</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/06/29/windows-sandbox-vscode/" rel="prev" title="使用 Windows Sandbox 建立可重複的 VS Code 開發驗證環境">
+                  <i class="fa fa-angle-left"></i> 使用 Windows Sandbox 建立可重複的 VS Code 開發驗證環境
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"de16a504735e1a6288d735609fd6dc4b"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+<link rel="stylesheet" href="/css/tinyqqc/tinyqqc-widget.css">
+<script
+  id="tinyqqc-widget-script"
+  src="/js/tinyqqc/tinyqqc-widget.iife.js"
+  data-tinyqqc-widget
+  data-api-base-url="https://tinyqqs-846222163009.asia-east1.run.app/"
+  data-initial-open="false"
+  defer
+></script>
+
+</body>
+</html>
