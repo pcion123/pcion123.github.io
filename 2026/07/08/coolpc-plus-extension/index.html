@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Chrome Extension 最迷人的地方，是它可以在不改動網站原始碼的情況下，替既有網頁補上一層新的操作體驗。這篇文章會以 coolpc-plus 這個專案為範例，拆解一個 Chrome Extension 如何在原價屋估價頁注入側邊欄、讀取頁面零件清單、呼叫 AI Provider，最後把推薦零件反映回原本的頁面。 這個專案不需要打包流程，也沒有複雜的前端框架。整體使用 Chrome Ex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="從 CoolPC Plus 學會編寫 Chrome Extension：打造一個 AI 配單助手">
+<meta property="og:url" content="https://pcion123.github.io/2026/07/08/coolpc-plus-extension/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="Chrome Extension 最迷人的地方，是它可以在不改動網站原始碼的情況下，替既有網頁補上一層新的操作體驗。這篇文章會以 coolpc-plus 這個專案為範例，拆解一個 Chrome Extension 如何在原價屋估價頁注入側邊欄、讀取頁面零件清單、呼叫 AI Provider，最後把推薦零件反映回原本的頁面。 這個專案不需要打包流程，也沒有複雜的前端框架。整體使用 Chrome Ex">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/08/coolpc-plus-extension/coolpc-extension-demo.webp">
+<meta property="article:published_time" content="2026-07-08T15:58:42.000Z">
+<meta property="article:modified_time" content="2026-07-08T16:01:38.840Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="vscode">
+<meta property="article:tag" content="chrome-extension">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2026/07/08/coolpc-plus-extension/coolpc-extension-demo.webp">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/07/08/coolpc-plus-extension/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/07/08/coolpc-plus-extension/","path":"2026/07/08/coolpc-plus-extension/","title":"從 CoolPC Plus 學會編寫 Chrome Extension：打造一個 AI 配單助手"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>從 CoolPC Plus 學會編寫 Chrome Extension：打造一個 AI 配單助手 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%99%E5%80%8B%E6%8F%92%E4%BB%B6%E8%A6%81%E8%A7%A3%E6%B1%BA%E4%BB%80%E9%BA%BC%E5%95%8F%E9%A1%8C"><span class="nav-number">1.</span> <span class="nav-text">這個插件要解決什麼問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%88%E6%A1%88%E7%B5%90%E6%A7%8B"><span class="nav-number">2.</span> <span class="nav-text">專案結構</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E7%94%A8-manifest-json-%E5%AE%9A%E7%BE%A9%E6%8F%92%E4%BB%B6%E5%85%A5%E5%8F%A3"><span class="nav-number">3.</span> <span class="nav-text">第一步：用 manifest.json 定義插件入口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E7%94%A8-content-script-%E6%B3%A8%E5%85%A5%E5%81%B4%E9%82%8A%E6%AC%84"><span class="nav-number">4.</span> <span class="nav-text">第二步：用 content script 注入側邊欄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E5%BE%9E%E9%A0%81%E9%9D%A2%E6%93%B7%E5%8F%96%E5%8F%AF%E7%94%A8%E9%9B%B6%E4%BB%B6"><span class="nav-number">5.</span> <span class="nav-text">第三步：從頁面擷取可用零件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5%EF%BC%9A%E5%BB%BA%E7%AB%8B%E7%A9%A9%E5%AE%9A%E7%9A%84-AI-Prompt"><span class="nav-number">6.</span> <span class="nav-text">第四步：建立穩定的 AI Prompt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E6%AD%A5%EF%BC%9A%E7%94%A8-background-service-worker-%E5%91%BC%E5%8F%AB%E5%A4%96%E9%83%A8-API"><span class="nav-number">7.</span> <span class="nav-text">第五步：用 background service worker 呼叫外部 API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E6%AD%A5%EF%BC%9A%E6%94%AF%E6%8F%B4-Chrome-%E5%85%A7%E5%BB%BA-AI"><span class="nav-number">8.</span> <span class="nav-text">第六步：支援 Chrome 內建 AI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%83%E6%AD%A5%EF%BC%9A%E8%A7%A3%E6%9E%90-AI-%E5%9B%9E%E8%A6%86%E4%B8%A6%E9%AB%98%E4%BA%AE%E9%A0%81%E9%9D%A2"><span class="nav-number">9.</span> <span class="nav-text">第七步：解析 AI 回覆並高亮頁面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%85%AB%E6%AD%A5%EF%BC%9A%E8%99%95%E7%90%86%E9%A0%81%E9%9D%A2%E5%8E%9F%E6%9C%AC%E7%9A%84%E9%87%8D%E7%BD%AE%E8%A1%8C%E7%82%BA"><span class="nav-number">10.</span> <span class="nav-text">第八步：處理頁面原本的重置行為</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B9%9D%E6%AD%A5%EF%BC%9A%E7%94%A8-popup-%E5%84%B2%E5%AD%98%E8%A8%AD%E5%AE%9A"><span class="nav-number">11.</span> <span class="nav-text">第九步：用 popup 儲存設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%8D%81%E6%AD%A5%EF%BC%9A%E6%9C%AC%E6%A9%9F%E8%BC%89%E5%85%A5%E8%88%87%E6%B8%AC%E8%A9%A6%E6%8F%92%E4%BB%B6"><span class="nav-number">12.</span> <span class="nav-text">第十步：本機載入與測試插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%9E%E9%80%99%E5%80%8B%E5%B0%88%E6%A1%88%E5%8F%AF%E4%BB%A5%E5%AD%B8%E5%88%B0%E4%BB%80%E9%BA%BC"><span class="nav-number">13.</span> <span class="nav-text">從這個專案可以學到什麼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AA%9E"><span class="nav-number">14.</span> <span class="nav-text">結語</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">65</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/agent/" style="font-size: 14px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/chrome-extension/" style="font-size: 12px;" class="tag-cloud-0">chrome-extension</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/copilot-cli/" style="font-size: 16px;" class="tag-cloud-2">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 26px;" class="tag-cloud-8">docker</a> <a href="/tags/elasticsearch/" style="font-size: 12px;" class="tag-cloud-0">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 22px;" class="tag-cloud-6">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 14px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 16px;" class="tag-cloud-2">gitlab</a> <a href="/tags/googlemap/" style="font-size: 16px;" class="tag-cloud-2">googlemap</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 20px;" class="tag-cloud-4">java</a> <a href="/tags/jdk/" style="font-size: 14px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 18px;" class="tag-cloud-3">jenkins</a> <a href="/tags/kibana/" style="font-size: 12px;" class="tag-cloud-0">kibana</a> <a href="/tags/kubernetes/" style="font-size: 26px;" class="tag-cloud-8">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 28px;" class="tag-cloud-9">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 16px;" class="tag-cloud-2">maven</a> <a href="/tags/mcp/" style="font-size: 14px;" class="tag-cloud-1">mcp</a> <a href="/tags/minikube/" style="font-size: 14px;" class="tag-cloud-1">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 14px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/pm2/" style="font-size: 14px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 16px;" class="tag-cloud-2">powershell</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/skills/" style="font-size: 14px;" class="tag-cloud-1">skills</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 16px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 14px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 24px;" class="tag-cloud-7">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/vscode/" style="font-size: 30px;" class="tag-cloud-10">vscode</a> <a href="/tags/windows/" style="font-size: 18px;" class="tag-cloud-3">windows</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 16px;" class="tag-cloud-2">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相關文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/03/30/chrome-devtools-mcp-install/" rel="bookmark">
+        <time class="popular-posts-time">2026-03-30</time>
+        <br>
+      Chrome DevTools MCP 安裝指南與使用
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/07/08/coolpc-plus-extension/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="從 CoolPC Plus 學會編寫 Chrome Extension：打造一個 AI 配單助手 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          從 CoolPC Plus 學會編寫 Chrome Extension：打造一個 AI 配單助手
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2026-07-08 23:58:42" itemprop="dateCreated datePublished" datetime="2026-07-08T23:58:42+08:00">2026-07-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-07-09 00:01:38" itemprop="dateModified" datetime="2026-07-09T00:01:38+08:00">2026-07-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/vscodelife/" itemprop="url" rel="index"><span itemprop="name">vscodelife</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>Chrome Extension 最迷人的地方，是它可以在不改動網站原始碼的情況下，替既有網頁補上一層新的操作體驗。這篇文章會以 <a target="_blank" rel="noopener" href="https://github.com/pcion123/coolpc-plus">coolpc-plus</a> 這個專案為範例，拆解一個 Chrome Extension 如何在原價屋估價頁注入側邊欄、讀取頁面零件清單、呼叫 AI Provider，最後把推薦零件反映回原本的頁面。</p>
+<p>這個專案不需要打包流程，也沒有複雜的前端框架。整體使用 Chrome Extension Manifest V3、原生 JavaScript、HTML 與 CSS 完成，因此很適合拿來理解 Chrome 插件的基本架構。</p>
+<span id="more"></span>
+
+<hr>
+<img src="/2026/07/08/coolpc-plus-extension/coolpc-extension-demo.webp" class="" title="CoolPC AI 配單助手 Demo">
+
+<h2 id="這個插件要解決什麼問題"><a href="#這個插件要解決什麼問題" class="headerlink" title="這個插件要解決什麼問題"></a>這個插件要解決什麼問題</h2><p>CoolPC Plus 的目標很明確：使用者打開 <a target="_blank" rel="noopener" href="https://www.coolpc.com.tw/evaluate.php">原價屋線上估價</a> 頁面後，插件會在右側加入「CoolPC AI 配單助手」側邊欄。使用者輸入預算、主要用途與補充需求後，插件會讀取頁面上已公開顯示的零件選項，整理成 prompt 交給 AI 分析，再把推薦結果顯示在側邊欄中。</p>
+<p>更重要的是，它不是只輸出文字建議而已。AI 回覆中會帶有一段 JSON，內容包含 CoolPC 頁面上的 <code>selectName</code> 與 <code>optionValue</code>。插件解析後，會自動選取推薦零件，並在原本的估價表格上高亮標示。</p>
+<p>整個流程可以拆成五個步驟：</p>
+<ol>
+<li>使用 <code>manifest.json</code> 宣告插件權限、作用頁面與注入腳本</li>
+<li>使用 content script 在 CoolPC 頁面建立側邊欄 UI</li>
+<li>從頁面 <code>&lt;select&gt;</code> 元素擷取零件清單與價格</li>
+<li>透過 background service worker 中繼呼叫外部 LLM API</li>
+<li>解析 AI 回覆，將推薦零件套回頁面並高亮顯示</li>
+</ol>
+<h2 id="專案結構"><a href="#專案結構" class="headerlink" title="專案結構"></a>專案結構</h2><p>專案的 README 已經整理出主要目錄。對 Chrome Extension 來說，最重要的是 <code>manifest.json</code>、<code>content/</code>、<code>background/</code> 與 <code>popup/</code> 這幾個部分。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">coolpc_explorer/</span><br><span class="line">├── manifest.json</span><br><span class="line">├── background/</span><br><span class="line">│   └── service-worker.js</span><br><span class="line">├── content/</span><br><span class="line">│   ├── content.js</span><br><span class="line">│   ├── main-world-interceptor.js</span><br><span class="line">│   └── sidebar.css</span><br><span class="line">├── popup/</span><br><span class="line">│   ├── index.html</span><br><span class="line">│   └── popup.js</span><br><span class="line">├── shared/</span><br><span class="line">│   └── llm-client.js</span><br><span class="line">└── icons/</span><br></pre></td></tr></table></figure>
+
+<p>如果你是第一次寫 Chrome Extension，可以先把它想成三個執行環境：</p>
+<ul>
+<li><code>content script</code>：跑在指定網頁上，負責讀取與操作頁面 DOM</li>
+<li><code>background service worker</code>：跑在插件背景環境中，適合處理 API 請求、事件中繼與跨來源限制</li>
+<li><code>popup page</code>：點擊瀏覽器工具列上的插件圖示時出現的設定頁</li>
+</ul>
+<p>CoolPC Plus 剛好把這三個角色都用到了，因此很適合當作完整範例。</p>
+<h2 id="第一步：用-manifest-json-定義插件入口"><a href="#第一步：用-manifest-json-定義插件入口" class="headerlink" title="第一步：用 manifest.json 定義插件入口"></a>第一步：用 manifest.json 定義插件入口</h2><p>Chrome Extension 的入口是 <code>manifest.json</code>。這個檔案會告訴 Chrome：插件名稱是什麼、要在哪些頁面啟用、需要哪些權限、背景腳本在哪裡，以及點擊插件圖示時要開啟哪個 popup。</p>
+<p>CoolPC Plus 使用的是 Manifest V3：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">	<span class="attr">&quot;manifest_version&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Coolpc Explorer&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.1.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;AI 電腦組裝顧問 — 在 CoolPC 頁面右側顯示 AI 推薦零件&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;permissions&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;storage&quot;</span><span class="punctuation">,</span> <span class="string">&quot;scripting&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;host_permissions&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">		<span class="string">&quot;*://www.coolpc.com.tw/*&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="string">&quot;https://api.openai.com/*&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="string">&quot;https://generativelanguage.googleapis.com/*&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="string">&quot;https://api.anthropic.com/*&quot;</span></span><br><span class="line">	<span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;background&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">		<span class="attr">&quot;service_worker&quot;</span><span class="punctuation">:</span> <span class="string">&quot;background/service-worker.js&quot;</span></span><br><span class="line">	<span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;content_scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">		<span class="punctuation">&#123;</span></span><br><span class="line">			<span class="attr">&quot;matches&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;*://www.coolpc.com.tw/evaluate.php*&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">			<span class="attr">&quot;js&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;content/content.js&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">			<span class="attr">&quot;css&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;content/sidebar.css&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">			<span class="attr">&quot;run_at&quot;</span><span class="punctuation">:</span> <span class="string">&quot;document_idle&quot;</span></span><br><span class="line">		<span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="punctuation">&#123;</span></span><br><span class="line">			<span class="attr">&quot;matches&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;*://www.coolpc.com.tw/evaluate.php*&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">			<span class="attr">&quot;js&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;content/main-world-interceptor.js&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">			<span class="attr">&quot;run_at&quot;</span><span class="punctuation">:</span> <span class="string">&quot;document_idle&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="attr">&quot;world&quot;</span><span class="punctuation">:</span> <span class="string">&quot;MAIN&quot;</span></span><br><span class="line">		<span class="punctuation">&#125;</span></span><br><span class="line">	<span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;action&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">		<span class="attr">&quot;default_popup&quot;</span><span class="punctuation">:</span> <span class="string">&quot;popup/index.html&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;default_title&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Coolpc AI 顧問&quot;</span></span><br><span class="line">	<span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>這裡有幾個關鍵設定。</p>
+<p><code>permissions</code> 中的 <code>storage</code> 讓插件可以使用 <code>chrome.storage.sync</code> 儲存設定，例如主題、AI Provider、模型、預算與 API Key。<code>scripting</code> 則是 Chrome Extension 常見的腳本權限。</p>
+<p><code>host_permissions</code> 決定插件可以存取哪些網域。CoolPC Plus 需要讀取 CoolPC 頁面，也需要呼叫 OpenAI、Gemini 與 Claude API，所以這些網域都必須列進來。</p>
+<p><code>content_scripts</code> 宣告了兩段腳本。第一段是主要功能，會在 CoolPC 估價頁載入 <code>content/content.js</code> 與 <code>content/sidebar.css</code>。第二段比較特別，它把 <code>content/main-world-interceptor.js</code> 放在 <code>world: &quot;MAIN&quot;</code> 執行，用來攔截頁面原本的 <code>Clear()</code> 與 <code>FReset()</code> 函式。</p>
+<h2 id="第二步：用-content-script-注入側邊欄"><a href="#第二步：用-content-script-注入側邊欄" class="headerlink" title="第二步：用 content script 注入側邊欄"></a>第二步：用 content script 注入側邊欄</h2><p><code>content/content.js</code> 是整個插件的核心。它被載入到 CoolPC 估價頁後，會建立右側 sidebar、綁定按鈕事件、讀取使用者設定，並負責後續的零件擷取與 AI 回覆處理。</p>
+<p>在初始化階段，程式會呼叫 <code>createSidebar()</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">createSidebar</span>(<span class="params"></span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="variable constant_">SIDEBAR_ID</span>)) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">const</span> sidebar = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;div&#x27;</span>);</span><br><span class="line">	sidebar.<span class="property">id</span> = <span class="variable constant_">SIDEBAR_ID</span>;</span><br><span class="line">	sidebar.<span class="property">dataset</span>.<span class="property">theme</span> = <span class="variable constant_">DEFAULT_THEME</span>;</span><br><span class="line">	sidebar.<span class="property">innerHTML</span> = <span class="title function_">getSidebarHTML</span>();</span><br><span class="line">	<span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(sidebar);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">const</span> toggle = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;button&#x27;</span>);</span><br><span class="line">	toggle.<span class="property">id</span> = <span class="variable constant_">TOGGLE_ID</span>;</span><br><span class="line">	toggle.<span class="property">title</span> = <span class="string">&#x27;開啟 / 關閉 CoolPC AI 配單助手&#x27;</span>;</span><br><span class="line">	<span class="keyword">const</span> toggleSpan = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;span&#x27;</span>);</span><br><span class="line">	toggleSpan.<span class="property">textContent</span> = <span class="string">&#x27;關閉&#x27;</span>;</span><br><span class="line">	toggle.<span class="title function_">appendChild</span>(toggleSpan);</span><br><span class="line">	<span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(toggle);</span><br><span class="line"></span><br><span class="line">	<span class="variable language_">document</span>.<span class="property">body</span>.<span class="property">style</span>.<span class="property">marginRight</span> = <span class="string">&#x27;320px&#x27;</span>;</span><br><span class="line">	<span class="variable language_">document</span>.<span class="property">body</span>.<span class="property">style</span>.<span class="property">transition</span> = <span class="string">&#x27;margin-right 0.3s&#x27;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="title function_">bindEvents</span>();</span><br><span class="line">	<span class="title function_">setSettingsControlsEnabled</span>(<span class="literal">false</span>);</span><br><span class="line">	<span class="title function_">loadSettings</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這段程式做了三件事。</p>
+<p>第一，它用 <code>document.createElement()</code> 建立 sidebar，並將 <code>getSidebarHTML()</code> 產生的表單介面塞進去。第二，它額外建立一顆開關按鈕，讓使用者可以收合側邊欄。第三，它調整 <code>document.body.style.marginRight</code>，避免右側 sidebar 直接蓋住原本頁面內容。</p>
+<p>這是一個很典型的 content script 寫法：不需要控制原網站的原始碼，只要在頁面載入後注入自己的 DOM 與 CSS，就能疊加新的功能。</p>
+<h2 id="第三步：從頁面擷取可用零件"><a href="#第三步：從頁面擷取可用零件" class="headerlink" title="第三步：從頁面擷取可用零件"></a>第三步：從頁面擷取可用零件</h2><p>AI 要推薦零件，前提是它必須知道頁面上有哪些選項。CoolPC Plus 沒有去抓非公開資料，而是直接讀取使用者眼前頁面中的 <code>&lt;select&gt;</code> 選單。</p>
+<p>核心函式是 <code>extractPartsData()</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">extractPartsData</span>(<span class="params"></span>) &#123;</span><br><span class="line">	<span class="keyword">const</span> parts = [];</span><br><span class="line"></span><br><span class="line">	<span class="keyword">const</span> selects = <span class="variable language_">document</span>.<span class="title function_">querySelectorAll</span>(<span class="string">&#x27;select[name^=&quot;n&quot;]&#x27;</span>);</span><br><span class="line">	selects.<span class="title function_">forEach</span>(<span class="function"><span class="params">select</span> =&gt;</span> &#123;</span><br><span class="line">		<span class="keyword">const</span> name = select.<span class="title function_">getAttribute</span>(<span class="string">&#x27;name&#x27;</span>);</span><br><span class="line">		<span class="keyword">if</span> (!name) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">const</span> row = select.<span class="title function_">closest</span>(<span class="string">&#x27;tr&#x27;</span>);</span><br><span class="line">		<span class="keyword">if</span> (!row) <span class="keyword">return</span>;</span><br><span class="line">		<span class="keyword">const</span> categoryName = <span class="title function_">getSelectCategoryName</span>(select, name);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">const</span> options = [];</span><br><span class="line">		select.<span class="title function_">querySelectorAll</span>(<span class="string">&#x27;option&#x27;</span>).<span class="title function_">forEach</span>(<span class="function"><span class="params">opt</span> =&gt;</span> &#123;</span><br><span class="line">			<span class="keyword">const</span> val = <span class="built_in">parseInt</span>(opt.<span class="property">value</span>, <span class="number">10</span>);</span><br><span class="line">			<span class="keyword">if</span> (!val || opt.<span class="property">disabled</span>) <span class="keyword">return</span>;</span><br><span class="line">			<span class="keyword">const</span> text = opt.<span class="property">textContent</span>.<span class="title function_">trim</span>();</span><br><span class="line"></span><br><span class="line">			<span class="keyword">const</span> priceMatch = text.<span class="title function_">match</span>(<span class="regexp">/\$\s*([\d,]+)/</span>);</span><br><span class="line">			<span class="keyword">const</span> price = priceMatch ? <span class="built_in">parseInt</span>(priceMatch[<span class="number">1</span>].<span class="title function_">replace</span>(<span class="regexp">/,/g</span>, <span class="string">&#x27;&#x27;</span>), <span class="number">10</span>) : <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">			options.<span class="title function_">push</span>(&#123; <span class="attr">value</span>: val, text, price &#125;);</span><br><span class="line">		&#125;);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (options.<span class="property">length</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			parts.<span class="title function_">push</span>(&#123; <span class="attr">selectName</span>: name, categoryName, options &#125;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> parts;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這裡的設計很值得學。程式不依賴後端 API，而是以目前頁面 DOM 作為資料來源。它尋找所有 <code>name</code> 以 <code>n</code> 開頭的 <code>&lt;select&gt;</code>，例如 CPU、主機板、記憶體、SSD、顯示卡等分類，再逐一讀取其中的 <code>&lt;option&gt;</code>。</p>
+<p>每個 option 會被整理成三個欄位：</p>
+<ul>
+<li><code>value</code>：CoolPC 頁面中該選項的值</li>
+<li><code>text</code>：使用者看到的零件名稱與描述</li>
+<li><code>price</code>：從文字中解析出來的價格</li>
+</ul>
+<p>後續 AI 回覆時，只要提供同一組 <code>selectName</code> 與 <code>optionValue</code>，插件就可以把推薦結果對應回頁面上的實際選項。</p>
+<h2 id="第四步：建立穩定的-AI-Prompt"><a href="#第四步：建立穩定的-AI-Prompt" class="headerlink" title="第四步：建立穩定的 AI Prompt"></a>第四步：建立穩定的 AI Prompt</h2><p>很多 AI 功能失敗的原因，不是模型不會回答，而是程式沒有給它足夠明確的輸出格式。CoolPC Plus 在 content script 裡定義了固定的 system prompt，要求 AI 必須用繁體中文回答，並且最後只能輸出一段 JSON code block。</p>
+<p>專案要求 AI 回覆包含這些區塊：</p>
+<ul>
+<li>配置摘要</li>
+<li>推薦配置</li>
+<li>選擇理由</li>
+<li>注意事項</li>
+<li>最後一段 JSON 結構，用於自動高亮頁面上的推薦零件</li>
+</ul>
+<p>JSON 格式大致如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">	<span class="attr">&quot;recommendations&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">		<span class="punctuation">&#123;</span> <span class="attr">&quot;selectName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;n4&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;optionValue&quot;</span><span class="punctuation">:</span> <span class="number">25</span><span class="punctuation">,</span> <span class="attr">&quot;reason&quot;</span><span class="punctuation">:</span> <span class="string">&quot;符合多工與預算需求&quot;</span> <span class="punctuation">&#125;</span></span><br><span class="line">	<span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;totalEstimate&quot;</span><span class="punctuation">:</span> <span class="number">25000</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;summary&quot;</span><span class="punctuation">:</span> <span class="string">&quot;整體配置說明&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>這個設計讓 AI 回覆同時具備「給人閱讀」與「給程式解析」兩種用途。Markdown 文字可以顯示在 sidebar，而 JSON 則交給程式做後續自動化操作。</p>
+<p>在建立 user prompt 時，程式會把使用者需求與可選零件清單一起組合起來：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> userPrompt = <span class="string">`[使用者需求]</span></span><br><span class="line"><span class="string">- 預算上限：NT$<span class="subst">$&#123;budget || <span class="string">&#x27;未指定&#x27;</span>&#125;</span></span></span><br><span class="line"><span class="string">- 主要用途：<span class="subst">$&#123;usageText&#125;</span></span></span><br><span class="line"><span class="string">- 補充說明：<span class="subst">$&#123;notes || <span class="string">&#x27;無&#x27;</span>&#125;</span></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[配單任務]</span></span><br><span class="line"><span class="string">請依照 system prompt 的固定格式輸出一套最適合的配置。優先控制在預算內；若為了需求必須超出預算，請在「注意事項」明確說明原因。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[可選零件清單]</span></span><br><span class="line"><span class="string"><span class="subst">$&#123;partsText&#125;</span>`</span>;</span><br></pre></td></tr></table></figure>
+
+<p>這裡還有一個實用細節：程式會先依預算過濾過高價格的單品，並且每個分類最多取前 100 筆。這樣可以避免 prompt 過長，也能降低 AI 推薦完全不符合預算的機率。</p>
+<h2 id="第五步：用-background-service-worker-呼叫外部-API"><a href="#第五步：用-background-service-worker-呼叫外部-API" class="headerlink" title="第五步：用 background service worker 呼叫外部 API"></a>第五步：用 background service worker 呼叫外部 API</h2><p>content script 雖然可以操作頁面 DOM，但直接呼叫外部 API 時容易遇到 CORS 與權限問題。因此 CoolPC Plus 把 OpenAI、Gemini 與 Claude 的 API 呼叫集中放在 <code>background/service-worker.js</code>。</p>
+<p>content script 會用 <code>chrome.runtime.sendMessage()</code> 傳送請求：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> response = <span class="keyword">await</span> chrome.<span class="property">runtime</span>.<span class="title function_">sendMessage</span>(&#123;</span><br><span class="line">	<span class="attr">type</span>: <span class="string">&#x27;LLM_REQUEST&#x27;</span>,</span><br><span class="line">	<span class="attr">payload</span>: &#123;</span><br><span class="line">		provider,</span><br><span class="line">		apiKey,</span><br><span class="line">		model,</span><br><span class="line">		<span class="attr">messages</span>: [</span><br><span class="line">			&#123; <span class="attr">role</span>: <span class="string">&#x27;system&#x27;</span>, <span class="attr">content</span>: systemPrompt &#125;,</span><br><span class="line">			&#123; <span class="attr">role</span>: <span class="string">&#x27;user&#x27;</span>, <span class="attr">content</span>: userPrompt &#125;,</span><br><span class="line">		],</span><br><span class="line">		<span class="attr">maxTokens</span>: <span class="number">16384</span>,</span><br><span class="line">	&#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>background service worker 收到後，依照 provider 分派到不同函式：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">chrome.<span class="property">runtime</span>.<span class="property">onMessage</span>.<span class="title function_">addListener</span>(<span class="function">(<span class="params">message, sender, sendResponse</span>) =&gt;</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> (message.<span class="property">type</span> === <span class="string">&#x27;LLM_REQUEST&#x27;</span>) &#123;</span><br><span class="line">		<span class="title function_">handleLLMRequest</span>(message.<span class="property">payload</span>)</span><br><span class="line">			.<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> <span class="title function_">sendResponse</span>(&#123; <span class="attr">success</span>: <span class="literal">true</span>, data &#125;))</span><br><span class="line">			.<span class="title function_">catch</span>(<span class="function"><span class="params">err</span> =&gt;</span> <span class="title function_">sendResponse</span>(&#123; <span class="attr">success</span>: <span class="literal">false</span>, <span class="attr">error</span>: err.<span class="property">message</span> &#125;));</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">handleLLMRequest</span>(<span class="params">&#123; provider, apiKey, model, messages, maxTokens &#125;</span>) &#123;</span><br><span class="line">	<span class="keyword">switch</span> (provider) &#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">&#x27;openai&#x27;</span>:</span><br><span class="line">			<span class="keyword">return</span> <span class="title function_">callOpenAI</span>(apiKey, model, messages, maxTokens);</span><br><span class="line">		<span class="keyword">case</span> <span class="string">&#x27;gemini&#x27;</span>:</span><br><span class="line">			<span class="keyword">return</span> <span class="title function_">callGemini</span>(apiKey, model, messages, maxTokens);</span><br><span class="line">		<span class="keyword">case</span> <span class="string">&#x27;claude&#x27;</span>:</span><br><span class="line">			<span class="keyword">return</span> <span class="title function_">callClaude</span>(apiKey, model, messages, maxTokens);</span><br><span class="line">		<span class="attr">default</span>:</span><br><span class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`不支援的 Provider: <span class="subst">$&#123;provider&#125;</span>`</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>return true</code> 是這段程式的關鍵。Chrome 的 message listener 預設是同步回應，如果要在非同步 API 請求完成後才呼叫 <code>sendResponse()</code>，就必須回傳 <code>true</code>，讓 message channel 保持開啟。</p>
+<p>這也是 Manifest V3 很常見的架構：content script 專心處理頁面，background service worker 專心處理外部服務與插件層級的工作。</p>
+<h2 id="第六步：支援-Chrome-內建-AI"><a href="#第六步：支援-Chrome-內建-AI" class="headerlink" title="第六步：支援 Chrome 內建 AI"></a>第六步：支援 Chrome 內建 AI</h2><p>除了外部 API，CoolPC Plus 也支援 Chrome 內建 AI，也就是 Gemini Nano。這種模式不需要 API Key，但需要使用者的瀏覽器版本與實驗功能支援。</p>
+<p>專案在 content script 中直接檢查可用 API：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> api = self.<span class="property">LanguageModel</span> ?? <span class="variable language_">window</span>.<span class="property">LanguageModel</span> ?? self.<span class="property">ai</span>?.<span class="property">languageModel</span> ?? <span class="variable language_">window</span>.<span class="property">ai</span>?.<span class="property">languageModel</span> ?? <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+
+<p>這段寫法同時相容 Chrome 136+ 的 <code>LanguageModel</code>，以及 Chrome 127 到 135 的 <code>window.ai.languageModel</code>。如果 API 不存在，程式會提示使用者確認 Chrome 版本與 flags 設定。</p>
+<p>若 API 可用，插件會建立 session，送出 prompt，最後記得銷毀 session：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> session = <span class="keyword">await</span> api.<span class="title function_">create</span>(&#123; systemPrompt &#125;);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">await</span> session.<span class="title function_">prompt</span>(userPrompt);</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">	session.<span class="title function_">destroy</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這裡的好處是可以保留同一套 UI 與 prompt 流程，只是在 provider 選擇 <code>chrome-ai</code> 時改走本機模型。</p>
+<h2 id="第七步：解析-AI-回覆並高亮頁面"><a href="#第七步：解析-AI-回覆並高亮頁面" class="headerlink" title="第七步：解析 AI 回覆並高亮頁面"></a>第七步：解析 AI 回覆並高亮頁面</h2><p>AI 回覆完成後，<code>processLLMResponse()</code> 會先找出最後的 JSON code block：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> jsonMatch = rawContent.<span class="title function_">match</span>(<span class="regexp">/```json\s*([\s\S]*?)```/</span>);</span><br><span class="line"><span class="keyword">if</span> (jsonMatch) &#123;</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		<span class="keyword">const</span> parsed = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(jsonMatch[<span class="number">1</span>]);</span><br><span class="line">		recommendations = parsed.<span class="property">recommendations</span> || [];</span><br><span class="line">		summary = parsed.<span class="property">summary</span> || <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">	&#125; <span class="keyword">catch</span> (_) &#123; <span class="comment">/* JSON 解析失敗則只顯示文字 */</span> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著程式會移除 JSON，只把 Markdown 內容顯示在 sidebar：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> textContent = rawContent.<span class="title function_">replace</span>(<span class="regexp">/```json[\s\S]*?```/g</span>, <span class="string">&#x27;&#x27;</span>).<span class="title function_">trim</span>();</span><br><span class="line">resultContent.<span class="property">innerHTML</span> = <span class="title function_">formatMarkdown</span>(textContent);</span><br></pre></td></tr></table></figure>
+
+<p>如果 JSON 中有推薦項目，插件會呼叫 <code>applyRecommendedParts()</code> 與 <code>showRecommendationHighlights()</code>。前者負責真的選取 <code>&lt;select&gt;</code>，後者負責視覺標示。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">applyRecommendedParts</span>(<span class="params">recommendations</span>) &#123;</span><br><span class="line">	recommendations.<span class="title function_">forEach</span>(<span class="function"><span class="params">rec</span> =&gt;</span> &#123;</span><br><span class="line">		<span class="keyword">const</span> select = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">`select[name=&quot;<span class="subst">$&#123;rec.selectName&#125;</span>&quot;]`</span>);</span><br><span class="line">		<span class="keyword">if</span> (!select) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">const</span> option = select.<span class="title function_">querySelector</span>(<span class="string">`option[value=&quot;<span class="subst">$&#123;rec.optionValue&#125;</span>&quot;]`</span>);</span><br><span class="line">		<span class="keyword">if</span> (option) &#123;</span><br><span class="line">			select.<span class="property">value</span> = rec.<span class="property">optionValue</span>;</span><br><span class="line">			select.<span class="title function_">dispatchEvent</span>(<span class="keyword">new</span> <span class="title class_">Event</span>(<span class="string">&#x27;change&#x27;</span>, &#123; <span class="attr">bubbles</span>: <span class="literal">true</span> &#125;));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這裡一定要觸發 <code>change</code> 事件，因為 CoolPC 原頁面可能會在選項改變時重新計價。如果只改 <code>select.value</code>，畫面看起來選到了，但原網站自己的計算邏輯未必會同步執行。</p>
+<h2 id="第八步：處理頁面原本的重置行為"><a href="#第八步：處理頁面原本的重置行為" class="headerlink" title="第八步：處理頁面原本的重置行為"></a>第八步：處理頁面原本的重置行為</h2><p>CoolPC 頁面本身有清除與重置功能。當使用者執行這些操作時，插件也應該清掉自己的高亮狀態，否則頁面資料已經重置，AI 標記卻還留在畫面上，體驗會很混亂。</p>
+<p>這就是 <code>content/main-world-interceptor.js</code> 的用途。它在 main world 執行，包住頁面原本的 <code>Clear()</code> 與 <code>FReset()</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="variable language_">window</span>.<span class="property">__aiAdvisorInjected</span>) <span class="keyword">return</span>;</span><br><span class="line">	<span class="variable language_">window</span>.<span class="property">__aiAdvisorInjected</span> = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">const</span> _origClear = <span class="variable language_">window</span>.<span class="property">Clear</span>;</span><br><span class="line">	<span class="variable language_">window</span>.<span class="property">Clear</span> = <span class="keyword">function</span> (<span class="params">...args</span>) &#123;</span><br><span class="line">		<span class="variable language_">document</span>.<span class="title function_">dispatchEvent</span>(<span class="keyword">new</span> <span class="title class_">CustomEvent</span>(<span class="string">&#x27;ai-advisor-clear&#x27;</span>));</span><br><span class="line">		<span class="keyword">return</span> _origClear?.<span class="title function_">apply</span>(<span class="variable language_">this</span>, args);</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">const</span> _origFReset = <span class="variable language_">window</span>.<span class="property">FReset</span>;</span><br><span class="line">	<span class="variable language_">window</span>.<span class="property">FReset</span> = <span class="keyword">function</span> (<span class="params">...args</span>) &#123;</span><br><span class="line">		<span class="variable language_">document</span>.<span class="title function_">dispatchEvent</span>(<span class="keyword">new</span> <span class="title class_">CustomEvent</span>(<span class="string">&#x27;ai-advisor-clear&#x27;</span>));</span><br><span class="line">		<span class="keyword">return</span> _origFReset?.<span class="title function_">apply</span>(<span class="variable language_">this</span>, args);</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<p>content script 再監聽這個事件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">document</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;ai-advisor-clear&#x27;</span>, clearHighlights);</span><br></pre></td></tr></table></figure>
+
+<p>這個做法很漂亮，因為 content script 預設跑在 isolated world，和頁面自己的 JavaScript 執行環境不同。若要攔截頁面上的全域函式，就需要透過 <code>world: &quot;MAIN&quot;</code> 的腳本進入頁面主世界，再用 <code>CustomEvent</code> 通知 isolated world 的 content script。</p>
+<h2 id="第九步：用-popup-儲存設定"><a href="#第九步：用-popup-儲存設定" class="headerlink" title="第九步：用 popup 儲存設定"></a>第九步：用 popup 儲存設定</h2><p>Chrome Extension 常見的另一個入口是 popup。CoolPC Plus 的 <code>popup/index.html</code> 與 <code>popup/popup.js</code> 提供設定介面，讓使用者選擇主題、AI Provider、模型與 API Key。</p>
+<p>設定會被存在 <code>chrome.storage.sync</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">chrome.<span class="property">storage</span>.<span class="property">sync</span>.<span class="title function_">set</span>(&#123; [<span class="variable constant_">STORAGE_KEY</span>]: settings &#125;, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">	statusEl.<span class="property">textContent</span> = <span class="string">&#x27;設定已儲存&#x27;</span>;</span><br><span class="line">	statusEl.<span class="property">className</span> = <span class="string">&#x27;status&#x27;</span>;</span><br><span class="line">	<span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123; statusEl.<span class="property">textContent</span> = <span class="string">&#x27;&#x27;</span>; &#125;, <span class="number">2000</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>content script 載入 sidebar 時，也會從同一個 <code>STORAGE_KEY</code> 讀取設定。因此 popup 和 sidebar 可以共享狀態，使用者在 popup 改了 provider 或主題，回到 CoolPC 頁面時就能同步套用。</p>
+<p>這裡也有一個安全與體驗上的取捨。專案提供「記住 API Key」選項；如果使用者勾選，API Key 會寫入瀏覽器同步儲存空間。如果不想保存，就取消勾選，插件只在當下使用輸入值。</p>
+<h2 id="第十步：本機載入與測試插件"><a href="#第十步：本機載入與測試插件" class="headerlink" title="第十步：本機載入與測試插件"></a>第十步：本機載入與測試插件</h2><p>CoolPC Plus 目前不需要額外 build step，因此開發流程非常直接。</p>
+<ol>
+<li>下載或 clone 專案</li>
+<li>開啟 Chrome 的 <code>chrome://extensions/</code></li>
+<li>開啟右上角「開發人員模式」</li>
+<li>點選「載入未封裝項目」</li>
+<li>選擇專案資料夾</li>
+<li>前往 <code>https://www.coolpc.com.tw/evaluate.php</code></li>
+<li>在右側 sidebar 輸入預算、用途與補充說明</li>
+<li>選擇 AI Provider、模型與 API Key</li>
+<li>點選「分析並推薦零件」</li>
+</ol>
+<p>修改程式後，只要回到 <code>chrome://extensions/</code> 重新載入擴充功能，再刷新 CoolPC 頁面即可看到變更。</p>
+<p>專案也提供幾個簡單的語法檢查指令：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">node <span class="literal">--check</span> content/content.js</span><br><span class="line">node <span class="literal">--check</span> popup/popup.js</span><br><span class="line">node <span class="literal">--check</span> background/service<span class="literal">-worker</span>.js</span><br><span class="line">git <span class="built_in">diff</span> <span class="literal">--check</span></span><br></pre></td></tr></table></figure>
+
+<p>因為這個專案沒有打包器與型別檢查，<code>node --check</code> 至少可以先確認 JavaScript 語法沒有錯。<code>git diff --check</code> 則可以檢查是否有多餘空白或格式問題。</p>
+<h2 id="從這個專案可以學到什麼"><a href="#從這個專案可以學到什麼" class="headerlink" title="從這個專案可以學到什麼"></a>從這個專案可以學到什麼</h2><p>CoolPC Plus 雖然是一個具體情境的工具，但它涵蓋了 Chrome Extension 開發中非常實用的幾個觀念。</p>
+<p>第一，<code>manifest.json</code> 是插件的控制中心。要在哪個網頁啟用、要讀取哪些外部網域、要載入哪些 content scripts，都必須在這裡說清楚。</p>
+<p>第二，content script 很適合做「頁面增強」。它可以注入 DOM、讀取表單、改變樣式，也能把頁面上的既有資料整理成自己的應用資料。</p>
+<p>第三，background service worker 適合當中繼層。當功能需要呼叫外部 API、處理權限或封裝共用邏輯時，把它放在 background 會比全部塞在 content script 更清楚。</p>
+<p>第四，AI 功能要能落地，不能只依賴自然語言。CoolPC Plus 用 Markdown 給使用者閱讀，再用 JSON 給程式解析，這種「文字說明 + 結構化資料」的輸出設計，是很多 AI 工具都可以參考的模式。</p>
+<p>第五，寫插件時要尊重原網站的狀態。像是選取零件後觸發 <code>change</code> 事件、頁面重置時同步清掉高亮，這些細節都會直接影響使用者是否覺得工具可靠。</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>如果你想學 Chrome Extension，CoolPC Plus 是一個很好的實戰範例。它沒有過重的技術棧，卻完整示範了 Manifest V3、content script、background service worker、popup、<code>chrome.storage.sync</code>、跨來源 API 呼叫與頁面 DOM 操作。</p>
+<p>更重要的是，這個專案不是為了展示插件 API 而寫的玩具範例，而是從真實使用情境出發：使用者在估價頁上挑零件，插件就在同一個頁面補上 AI 分析、推薦與高亮。這也是 Chrome Extension 最有價值的地方：它能在既有網頁流程中，補上一個剛好需要的輔助層。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <div class="post-recent-posts" style="display:none">
+      <div class="post-recent-posts-title">
+        <i class="fa fa-history fa-fw"></i> 近期文章
+      </div>
+      <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/07/08/coolpc-plus-extension/" title="從 CoolPC Plus 學會編寫 Chrome Extension：打造一個 AI 配單助手">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">從 CoolPC Plus 學會編寫 Chrome Extension：打造一個 AI 配單助手</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-07-08</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/07/04/docker-hot-command/" title="Docker 常用指令">
+            <div class="post-recent-card-banner post-recent-card-cat--docker">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Docker 常用指令</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-07-04</span><span class="post-recent-card-cat">docker</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/06/29/windows-sandbox-vscode/" title="使用 Windows Sandbox 建立可重複的 VS Code 開發驗證環境">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">使用 Windows Sandbox 建立可重複的 VS Code 開發驗證環境</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-06-29</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/06/23/vscode-hotkey-intro/" title="VS Code 開發 Java 常用快捷鍵介紹">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">VS Code 開發 Java 常用快捷鍵介紹</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-06-23</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/06/16/blog-agent-record/" title="用 LangChain4j 做了一個自己的 Blog Agent">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">用 LangChain4j 做了一個自己的 Blog Agent</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-06-16</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function showRecentPosts() {
+          var block = document.querySelector('.post-recent-posts');
+          if (!block) return;
+
+          // 重置狀態
+          block.classList.remove('animated', 'fadeIn');
+          block.style.display = 'none';
+
+          var comments = document.querySelector('.comments');
+          if (comments) {
+            comments.parentNode.insertBefore(block, comments);
+          }
+
+          function reveal() {
+            block.style.display = '';
+            block.offsetHeight; // force reflow
+            block.classList.add('animated', 'fadeIn');
+          }
+
+          if (!comments) {
+            reveal();
+          } else {
+            // 觀察 .comments 被 NexT motion 加上 animated class 的時機
+            var observer = new MutationObserver(function () {
+              if (comments.classList.contains('animated')) {
+                observer.disconnect();
+                reveal();
+              }
+            });
+            observer.observe(comments, { attributes: true, attributeFilter: ['class'] });
+            // 若 motion 已跑完（comments 已有 animated），也直接顯示
+            if (comments.classList.contains('animated')) {
+              observer.disconnect();
+              reveal();
+            }
+          }
+        }
+
+        // 初次載入
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', showRecentPosts, { once: true });
+        } else {
+          showRecentPosts();
+        }
+
+        // PJAX：pjax:success 時 NexT motion 剛啟動（async），.comments 尚未有 animated
+        document.addEventListener('pjax:success', showRecentPosts);
+      })();
+    </script>
+
+          <div class="post-tags">
+              <a href="/tags/vscode/" rel="tag"># vscode</a>
+              <a href="/tags/chrome-extension/" rel="tag"># chrome-extension</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/07/04/docker-hot-command/" rel="prev" title="Docker 常用指令">
+                  <i class="fa fa-angle-left"></i> Docker 常用指令
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"e3e1a015eef2ad4b9e8fcb8218e8f122"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+<link rel="stylesheet" href="/css/tinyqqc/tinyqqc-widget.css">
+<script
+  id="tinyqqc-widget-script"
+  src="/js/tinyqqc/tinyqqc-widget.iife.js"
+  data-tinyqqc-widget
+  data-api-base-url="https://tinyqqs-846222163009.asia-east1.run.app/"
+  data-initial-open="false"
+  defer
+></script>
+
+</body>
+</html>
