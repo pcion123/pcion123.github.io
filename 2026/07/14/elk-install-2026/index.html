@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="這篇文章記錄如何在 Ubuntu 26.04 環境中安裝 Elasticsearch 與 Kibana，並完成基本的服務啟動、記憶體限制、設定檔調整，以及後續登入 Kibana 所需的密碼與 enrollment token 取得流程。 本文使用 Elastic 官方 APT 儲存庫安裝套件，版本來源為 packages&#x2F;9.x&#x2F;apt。安裝完成後，Elasticsearch 會啟用內建安全功能，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 Ubuntu 26.04 安裝 Elasticsearch 與 Kibana">
+<meta property="og:url" content="https://pcion123.github.io/2026/07/14/elk-install-2026/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="這篇文章記錄如何在 Ubuntu 26.04 環境中安裝 Elasticsearch 與 Kibana，並完成基本的服務啟動、記憶體限制、設定檔調整，以及後續登入 Kibana 所需的密碼與 enrollment token 取得流程。 本文使用 Elastic 官方 APT 儲存庫安裝套件，版本來源為 packages&#x2F;9.x&#x2F;apt。安裝完成後，Elasticsearch 會啟用內建安全功能，">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/14/elk-install-2026/elk_install_1.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/14/elk-install-2026/elk_install_2.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/14/elk-install-2026/elk_install_3.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/14/elk-install-2026/elk_install_6.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/14/elk-install-2026/elk_install_9.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/14/elk-install-2026/elk_install_7.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/14/elk-install-2026/elk_install_11.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/14/elk-install-2026/elk_install_12.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/14/elk-install-2026/elk_install_13.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/14/elk-install-2026/elk_install_14.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/14/elk-install-2026/elk_install_10.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/14/elk-install-2026/elk_install_15.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/14/elk-install-2026/elk_install_16.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/14/elk-install-2026/elk_install_17.jpg">
+<meta property="article:published_time" content="2026-07-14T15:42:53.000Z">
+<meta property="article:modified_time" content="2026-07-14T15:53:50.828Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="elasticsearch">
+<meta property="article:tag" content="kibana">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2026/07/14/elk-install-2026/elk_install_1.jpg">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/07/14/elk-install-2026/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/07/14/elk-install-2026/","path":"2026/07/14/elk-install-2026/","title":"在 Ubuntu 26.04 安裝 Elasticsearch 與 Kibana"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>在 Ubuntu 26.04 安裝 Elasticsearch 與 Kibana | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E5%BF%85%E8%A6%81%E5%A5%97%E4%BB%B6%E8%88%87%E5%8C%AF%E5%85%A5-PGP-%E9%87%91%E9%91%B0"><span class="nav-number">1.</span> <span class="nav-text">安裝必要套件與匯入 PGP 金鑰</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%85%A5-APT-%E5%84%B2%E5%AD%98%E5%BA%AB"><span class="nav-number">2.</span> <span class="nav-text">加入 APT 儲存庫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Elasticsearch-%E8%88%87-Kibana"><span class="nav-number">3.</span> <span class="nav-text">安裝 Elasticsearch 與 Kibana</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%95%9F%E5%8B%95-Elasticsearch-%E8%88%87-Kibana-%E6%9C%8D%E5%8B%99"><span class="nav-number">4.</span> <span class="nav-text">啟動 Elasticsearch 與 Kibana 服務</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%90%E5%88%B6-Elasticsearch-%E7%9A%84%E8%A8%98%E6%86%B6%E9%AB%94%E4%BD%BF%E7%94%A8%E9%87%8F"><span class="nav-number">5.</span> <span class="nav-text">限制 Elasticsearch 的記憶體使用量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AA%BF%E6%95%B4%E8%A8%AD%E5%AE%9A"><span class="nav-number">6.</span> <span class="nav-text">調整設定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Elasticsearch-%E8%A8%AD%E5%AE%9A"><span class="nav-number">6.1.</span> <span class="nav-text">Elasticsearch 設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kibana-%E8%A8%AD%E5%AE%9A"><span class="nav-number">6.2.</span> <span class="nav-text">Kibana 設定</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A-Elasticsearch-%E5%AF%86%E7%A2%BC"><span class="nav-number">7.</span> <span class="nav-text">設定 Elasticsearch 密碼</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A9%97%E8%AD%89-Elasticsearch-%E7%8B%80%E6%85%8B"><span class="nav-number">8.</span> <span class="nav-text">驗證 Elasticsearch 狀態</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-Kibana"><span class="nav-number">9.</span> <span class="nav-text">初始化 Kibana</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%96%E5%BE%97-Kibana-enrollment-token"><span class="nav-number">9.1.</span> <span class="nav-text">取得 Kibana enrollment token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BC%B8%E5%85%A5-enrollment-token"><span class="nav-number">9.2.</span> <span class="nav-text">輸入 enrollment token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%96%E5%BE%97%E4%B8%A6%E8%BC%B8%E5%85%A5%E9%A9%97%E8%AD%89%E7%A2%BC"><span class="nav-number">9.3.</span> <span class="nav-text">取得並輸入驗證碼</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8C%E6%88%90%E5%88%9D%E5%A7%8B%E5%8C%96%E4%B8%A6%E7%99%BB%E5%85%A5-Kibana"><span class="nav-number">9.4.</span> <span class="nav-text">完成初始化並登入 Kibana</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">10.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/agent/" style="font-size: 14px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/chrome-extension/" style="font-size: 12px;" class="tag-cloud-0">chrome-extension</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/copilot-cli/" style="font-size: 16px;" class="tag-cloud-2">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 26px;" class="tag-cloud-8">docker</a> <a href="/tags/elasticsearch/" style="font-size: 14px;" class="tag-cloud-1">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 22px;" class="tag-cloud-6">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 14px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 16px;" class="tag-cloud-2">gitlab</a> <a href="/tags/googlemap/" style="font-size: 16px;" class="tag-cloud-2">googlemap</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 20px;" class="tag-cloud-4">java</a> <a href="/tags/jdk/" style="font-size: 14px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 18px;" class="tag-cloud-3">jenkins</a> <a href="/tags/kibana/" style="font-size: 14px;" class="tag-cloud-1">kibana</a> <a href="/tags/kubernetes/" style="font-size: 26px;" class="tag-cloud-8">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 28px;" class="tag-cloud-9">linux</a> <a href="/tags/logstash/" style="font-size: 12px;" class="tag-cloud-0">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 16px;" class="tag-cloud-2">maven</a> <a href="/tags/mcp/" style="font-size: 14px;" class="tag-cloud-1">mcp</a> <a href="/tags/minikube/" style="font-size: 14px;" class="tag-cloud-1">minikube</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 14px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/pm2/" style="font-size: 14px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 16px;" class="tag-cloud-2">powershell</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/skills/" style="font-size: 14px;" class="tag-cloud-1">skills</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 16px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 14px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 24px;" class="tag-cloud-7">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/vscode/" style="font-size: 30px;" class="tag-cloud-10">vscode</a> <a href="/tags/windows/" style="font-size: 18px;" class="tag-cloud-3">windows</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 16px;" class="tag-cloud-2">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相關文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/10/11/docker-hub-pat-guide/" rel="bookmark">
+        <time class="popular-posts-time">2025-10-11</time>
+        <br>
+      Docker Hub PAT 申請指南
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/07/14/elk-install-2026/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="在 Ubuntu 26.04 安裝 Elasticsearch 與 Kibana | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在 Ubuntu 26.04 安裝 Elasticsearch 與 Kibana
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-07-14 23:42:53 / 修改時間：23:53:50" itemprop="dateCreated datePublished" datetime="2026-07-14T23:42:53+08:00">2026-07-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/elasticsearch/" itemprop="url" rel="index"><span itemprop="name">elasticsearch</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>這篇文章記錄如何在 Ubuntu 26.04 環境中安裝 Elasticsearch 與 Kibana，並完成基本的服務啟動、記憶體限制、設定檔調整，以及後續登入 Kibana 所需的密碼與 enrollment token 取得流程。</p>
+<p>本文使用 Elastic 官方 APT 儲存庫安裝套件，版本來源為 <code>packages/9.x/apt</code>。安裝完成後，Elasticsearch 會啟用內建安全功能，因此後續需要透過重設密碼與建立 enrollment token 來完成 Kibana 的連線設定。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="安裝必要套件與匯入-PGP-金鑰"><a href="#安裝必要套件與匯入-PGP-金鑰" class="headerlink" title="安裝必要套件與匯入 PGP 金鑰"></a>安裝必要套件與匯入 PGP 金鑰</h2><p>首先更新本地套件清單，並安裝新增 APT 儲存庫時會用到的必要工具。接著下載 Elastic 官方 PGP 金鑰，並轉成 keyring 格式存放在系統路徑中，供後續套件來源驗證使用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 更新本地套件清單並安裝必備工具</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install apt-transport-https gnupg wget -y</span><br><span class="line"></span><br><span class="line"># 下載 Elasticsearch PGP 金鑰並存為 keyring</span><br><span class="line">wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/14/elk-install-2026/elk_install_1.jpg" class="" title="安裝必要套件與匯入 PGP 金鑰">
+
+<h2 id="加入-APT-儲存庫"><a href="#加入-APT-儲存庫" class="headerlink" title="加入 APT 儲存庫"></a>加入 APT 儲存庫</h2><p>接著將 Elastic 9.x 的 APT 儲存庫加入系統來源清單。這裡會指定前面匯入的 keyring，讓 apt 在安裝套件時能驗證來源。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/9.x/apt stable main&quot; | sudo tee /etc/apt/sources.list.d/elastic-9.x.list</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/14/elk-install-2026/elk_install_2.jpg" class="" title="加入 Elastic APT 儲存庫">
+
+
+<h2 id="安裝-Elasticsearch-與-Kibana"><a href="#安裝-Elasticsearch-與-Kibana" class="headerlink" title="安裝 Elasticsearch 與 Kibana"></a>安裝 Elasticsearch 與 Kibana</h2><p>儲存庫加入完成後，再次更新套件清單，接著安裝 Elasticsearch 與 Kibana。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install elasticsearch kibana -y</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/14/elk-install-2026/elk_install_3.jpg" class="" title="安裝 Elasticsearch 與 Kibana 套件">
+
+<h2 id="啟動-Elasticsearch-與-Kibana-服務"><a href="#啟動-Elasticsearch-與-Kibana-服務" class="headerlink" title="啟動 Elasticsearch 與 Kibana 服務"></a>啟動 Elasticsearch 與 Kibana 服務</h2><p>套件安裝完成後，先重新載入 systemd 設定，然後將 Elasticsearch 與 Kibana 設定為開機自動啟動，並立即啟動服務。若需要觀察 Elasticsearch 啟動狀態，可以使用 <code>journalctl</code> 查看服務日誌。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line"></span><br><span class="line">sudo systemctl enable elasticsearch.service</span><br><span class="line">sudo systemctl start elasticsearch.service</span><br><span class="line"></span><br><span class="line">sudo journalctl -u elasticsearch.service -f</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/14/elk-install-2026/elk_install_6.jpg" class="" title="啟動 Elasticsearch 服務">
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line"></span><br><span class="line">sudo systemctl enable kibana.service</span><br><span class="line">sudo systemctl start kibana.service</span><br><span class="line"></span><br><span class="line">sudo journalctl -u kibana.service -f</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/14/elk-install-2026/elk_install_9.jpg" class="" title="啟動 Kibana 服務">
+
+<h2 id="限制-Elasticsearch-的記憶體使用量"><a href="#限制-Elasticsearch-的記憶體使用量" class="headerlink" title="限制 Elasticsearch 的記憶體使用量"></a>限制 Elasticsearch 的記憶體使用量</h2><p>Elasticsearch 預設會依照系統環境配置 JVM heap。若是在測試機或資源有限的環境中，可以透過 <code>jvm.options.d</code> 目錄新增設定檔，限制 Elasticsearch 的記憶體使用量。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/elasticsearch/jvm.options.d/heap.options</span><br><span class="line"></span><br><span class="line">-Xms1g</span><br><span class="line">-Xmx1g</span><br></pre></td></tr></table></figure>
+
+<h2 id="調整設定"><a href="#調整設定" class="headerlink" title="調整設定"></a>調整設定</h2><p>安裝完成後，Elasticsearch 與 Kibana 的主要設定檔分別位於以下路徑。若需要開放外部連線、調整節點名稱或設定 Kibana 監聽位址，可以從這兩個檔案開始修改。</p>
+<h3 id="Elasticsearch-設定"><a href="#Elasticsearch-設定" class="headerlink" title="Elasticsearch 設定"></a>Elasticsearch 設定</h3><blockquote>
+<p>設定檔路徑:<br>&#x2F;etc&#x2F;elasticsearch&#x2F;elasticsearch.yml</p>
+</blockquote>
+<p>主要是設定 Elasticsearch 的各項參數，例如叢集名稱、節點名稱、資料路徑、日誌路徑、網路設定等。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line"># ======================== Elasticsearch Configuration =========================</span><br><span class="line">#</span><br><span class="line"># NOTE: Elasticsearch comes with reasonable defaults for most settings.</span><br><span class="line">#       Before you set out to tweak and tune the configuration, make sure you</span><br><span class="line">#       understand what are you trying to accomplish and the consequences.</span><br><span class="line">#</span><br><span class="line"># The primary way of configuring a node is via this file. This template lists</span><br><span class="line"># the most important settings you may want to configure for a production cluster.</span><br><span class="line">#</span><br><span class="line"># Please consult the documentation for further information on configuration options:</span><br><span class="line"># https://www.elastic.co/guide/en/elasticsearch/reference/index.html</span><br><span class="line">#</span><br><span class="line"># ---------------------------------- Cluster -----------------------------------</span><br><span class="line">#</span><br><span class="line"># Use a descriptive name for your cluster:</span><br><span class="line">#</span><br><span class="line">cluster.name: elastic-demo</span><br><span class="line">#</span><br><span class="line"># ------------------------------------ Node ------------------------------------</span><br><span class="line">#</span><br><span class="line"># Use a descriptive name for the node:</span><br><span class="line">#</span><br><span class="line">node.name: node-1</span><br><span class="line">#</span><br><span class="line"># Add custom attributes to the node:</span><br><span class="line">#</span><br><span class="line">#node.attr.rack: r1</span><br><span class="line">#</span><br><span class="line"># ----------------------------------- Paths ------------------------------------</span><br><span class="line">#</span><br><span class="line"># Path to directory where to store the data (separate multiple locations by comma):</span><br><span class="line">#</span><br><span class="line">path.data: /var/lib/elasticsearch</span><br><span class="line">#</span><br><span class="line"># Path to log files:</span><br><span class="line">#</span><br><span class="line">path.logs: /var/log/elasticsearch</span><br><span class="line">#</span><br><span class="line"># ----------------------------------- Memory -----------------------------------</span><br><span class="line">#</span><br><span class="line"># Lock the memory on startup:</span><br><span class="line">#</span><br><span class="line">#bootstrap.memory_lock: true</span><br><span class="line">#</span><br><span class="line"># Make sure that the heap size is set to about half the memory available</span><br><span class="line"># on the system and that the owner of the process is allowed to use this</span><br><span class="line"># limit.</span><br><span class="line">#</span><br><span class="line"># Elasticsearch performs poorly when the system is swapping the memory.</span><br><span class="line">#</span><br><span class="line"># ---------------------------------- Network -----------------------------------</span><br><span class="line">#</span><br><span class="line"># By default Elasticsearch is only accessible on localhost. Set a different</span><br><span class="line"># address here to expose this node on the network:</span><br><span class="line">#</span><br><span class="line">network.host: 0.0.0.0</span><br><span class="line">#</span><br><span class="line"># By default Elasticsearch listens for HTTP traffic on the first free port it</span><br><span class="line"># finds starting at 9200. Set a specific HTTP port here:</span><br><span class="line">#</span><br><span class="line">http.port: 9200</span><br><span class="line">#</span><br><span class="line"># For more information, consult the network module documentation.</span><br><span class="line">#</span><br><span class="line"># --------------------------------- Discovery ----------------------------------</span><br><span class="line">#</span><br><span class="line"># Pass an initial list of hosts to perform discovery when this node is started:</span><br><span class="line"># The default list of hosts is [&quot;127.0.0.1&quot;, &quot;[::1]&quot;]</span><br><span class="line">#</span><br><span class="line">#discovery.seed_hosts: [&quot;host1&quot;, &quot;host2&quot;]</span><br><span class="line">#</span><br><span class="line"># Bootstrap the cluster using an initial set of master-eligible nodes:</span><br><span class="line">#</span><br><span class="line">#cluster.initial_master_nodes: [&quot;node-1&quot;, &quot;node-2&quot;]</span><br><span class="line">#</span><br><span class="line"># For more information, consult the discovery and cluster formation module documentation.</span><br><span class="line">#</span><br><span class="line"># ---------------------------------- Various -----------------------------------</span><br><span class="line">#</span><br><span class="line"># Allow wildcard deletion of indices:</span><br><span class="line">#</span><br><span class="line">#action.destructive_requires_name: false</span><br><span class="line"></span><br><span class="line">#----------------------- BEGIN SECURITY AUTO CONFIGURATION -----------------------</span><br><span class="line">#</span><br><span class="line"># The following settings, TLS certificates, and keys have been automatically</span><br><span class="line"># generated to configure Elasticsearch security features on 20-06-2026 06:50:40</span><br><span class="line">#</span><br><span class="line"># --------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line"># Enable security features</span><br><span class="line">xpack.security.enabled: true</span><br><span class="line"></span><br><span class="line">xpack.security.enrollment.enabled: true</span><br><span class="line"></span><br><span class="line"># Enable encryption for HTTP API client connections, such as Kibana, Logstash, and Agents</span><br><span class="line">xpack.security.http.ssl:</span><br><span class="line">	enabled: true</span><br><span class="line">	keystore.path: certs/http.p12</span><br><span class="line"></span><br><span class="line"># Enable encryption and mutual authentication between cluster nodes</span><br><span class="line">xpack.security.transport.ssl:</span><br><span class="line">	enabled: true</span><br><span class="line">	verification_mode: certificate</span><br><span class="line">	keystore.path: certs/transport.p12</span><br><span class="line">	truststore.path: certs/transport.p12</span><br><span class="line"># Create a new cluster with the current node only</span><br><span class="line"># Additional nodes can still join the cluster later</span><br><span class="line">cluster.initial_master_nodes: [&quot;node-1&quot;]</span><br><span class="line"></span><br><span class="line"># Allow HTTP API connections from anywhere</span><br><span class="line"># Connections are encrypted and require user authentication</span><br><span class="line">http.host: 0.0.0.0</span><br><span class="line"></span><br><span class="line"># Allow other nodes to join the cluster from anywhere</span><br><span class="line"># Connections are encrypted and mutually authenticated</span><br><span class="line">transport.host: 0.0.0.0</span><br><span class="line"></span><br><span class="line">#----------------------- END SECURITY AUTO CONFIGURATION -------------------------</span><br></pre></td></tr></table></figure>
+
+<h3 id="Kibana-設定"><a href="#Kibana-設定" class="headerlink" title="Kibana 設定"></a>Kibana 設定</h3><blockquote>
+<p>設定檔路徑:<br>&#x2F;etc&#x2F;kibana&#x2F;kibana.yml</p>
+</blockquote>
+<p>主要是設定 Kibana 的各項參數，例如監聽位址、連線 Elasticsearch 的位置、日誌路徑等。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br></pre></td><td class="code"><pre><span class="line"># For more configuration options see the configuration guide for Kibana in</span><br><span class="line"># https://www.elastic.co/guide/index.html</span><br><span class="line"></span><br><span class="line"># =================== System: Kibana Server ===================</span><br><span class="line"># Kibana is served by a back end server. This setting specifies the port to use.</span><br><span class="line">server.port: 5601</span><br><span class="line"></span><br><span class="line"># Specifies the address to which the Kibana server will bind. IP addresses and host names are both valid values.</span><br><span class="line"># The default is &#x27;localhost&#x27;, which usually means remote machines will not be able to connect.</span><br><span class="line"># To allow connections from remote users, set this parameter to a non-loopback address.</span><br><span class="line">server.host: &quot;0.0.0.0&quot;</span><br><span class="line"></span><br><span class="line"># Enables you to specify a path to mount Kibana at if you are running behind a proxy.</span><br><span class="line"># Use the `server.rewriteBasePath` setting to tell Kibana if it should remove the basePath</span><br><span class="line"># from requests it receives, and to prevent a deprecation warning at startup.</span><br><span class="line"># This setting cannot end in a slash.</span><br><span class="line">#server.basePath: &quot;&quot;</span><br><span class="line"></span><br><span class="line"># Specifies whether Kibana should rewrite requests that are prefixed with</span><br><span class="line"># `server.basePath` or require that they are rewritten by your reverse proxy.</span><br><span class="line"># Defaults to `false`.</span><br><span class="line">#server.rewriteBasePath: false</span><br><span class="line"></span><br><span class="line"># Specifies the public URL at which Kibana is available for end users. If</span><br><span class="line"># `server.basePath` is configured this URL should end with the same basePath.</span><br><span class="line">#server.publicBaseUrl: &quot;&quot;</span><br><span class="line"></span><br><span class="line"># The maximum payload size in bytes for incoming server requests.</span><br><span class="line">#server.maxPayload: 1048576</span><br><span class="line"></span><br><span class="line"># The Kibana server&#x27;s name. This is used for display purposes.</span><br><span class="line">server.name: &quot;kibana-demo&quot;</span><br><span class="line"></span><br><span class="line"># Block requests to specific routes (exact path match, evaluated before auth).</span><br><span class="line"># server.excludeRoutes: [&quot;/api/status&quot;]</span><br><span class="line"></span><br><span class="line"># =================== System: Kibana Server (Optional) ===================</span><br><span class="line"># Enables SSL and paths to the PEM-format SSL certificate and SSL key files, respectively.</span><br><span class="line"># These settings enable SSL for outgoing requests from the Kibana server to the browser.</span><br><span class="line">#server.ssl.enabled: false</span><br><span class="line">#server.ssl.certificate: /path/to/your/server.crt</span><br><span class="line">#server.ssl.key: /path/to/your/server.key</span><br><span class="line"></span><br><span class="line"># =================== System: Elasticsearch ===================</span><br><span class="line"># The URLs of the Elasticsearch instances to use for all your queries.</span><br><span class="line">#elasticsearch.hosts: [&quot;https://127.0.0.1:9200&quot;]</span><br><span class="line"></span><br><span class="line"># If your Elasticsearch is protected with basic authentication, these settings provide</span><br><span class="line"># the username and password that the Kibana server uses to perform maintenance on the Kibana</span><br><span class="line"># index at startup. Your Kibana users still need to authenticate with Elasticsearch, which</span><br><span class="line"># is proxied through the Kibana server.</span><br><span class="line">#elasticsearch.username: &quot;kibana_system&quot;</span><br><span class="line">#elasticsearch.password: &quot;pass&quot;</span><br><span class="line"></span><br><span class="line"># Kibana can also authenticate to Elasticsearch via &quot;service account tokens&quot;.</span><br><span class="line"># Service account tokens are Bearer style tokens that replace the traditional username/password based configuration.</span><br><span class="line"># Use this token instead of a username/password.</span><br><span class="line"># elasticsearch.serviceAccountToken: &quot;my_token&quot;</span><br><span class="line"></span><br><span class="line"># Time in milliseconds to wait for responses from the back end or Elasticsearch. This value</span><br><span class="line"># must be a positive integer.</span><br><span class="line">#elasticsearch.requestTimeout: 30000</span><br><span class="line"></span><br><span class="line"># The maximum number of sockets that can be used for communications with elasticsearch.</span><br><span class="line"># Defaults to `800`.</span><br><span class="line">#elasticsearch.maxSockets: 1024</span><br><span class="line"></span><br><span class="line"># Specifies whether Kibana should use compression for communications with elasticsearch</span><br><span class="line"># Defaults to `false`.</span><br><span class="line">#elasticsearch.compression: false</span><br><span class="line"></span><br><span class="line"># List of Kibana client-side headers to send to Elasticsearch. To send *no* client-side</span><br><span class="line"># headers, set this value to [] (an empty list).</span><br><span class="line">#elasticsearch.requestHeadersWhitelist: [ authorization ]</span><br><span class="line"></span><br><span class="line"># Header names and values that are sent to Elasticsearch. Any custom headers cannot be overwritten</span><br><span class="line"># by client-side headers, regardless of the elasticsearch.requestHeadersWhitelist configuration.</span><br><span class="line">#elasticsearch.customHeaders: &#123;&#125;</span><br><span class="line"></span><br><span class="line"># Time in milliseconds for Elasticsearch to wait for responses from shards. Set to 0 to disable.</span><br><span class="line">#elasticsearch.shardTimeout: 30000</span><br><span class="line"></span><br><span class="line"># =================== System: Elasticsearch (Optional) ===================</span><br><span class="line"># These files are used to verify the identity of Kibana to Elasticsearch and are required when</span><br><span class="line"># xpack.security.http.ssl.client_authentication in Elasticsearch is set to required.</span><br><span class="line">#elasticsearch.ssl.certificate: /path/to/your/client.crt</span><br><span class="line">#elasticsearch.ssl.key: /path/to/your/client.key</span><br><span class="line"></span><br><span class="line"># Enables you to specify a path to the PEM file for the certificate</span><br><span class="line"># authority for your Elasticsearch instance.</span><br><span class="line">#elasticsearch.ssl.certificateAuthorities: [ &quot;/path/to/your/CA.pem&quot; ]</span><br><span class="line"></span><br><span class="line"># To disregard the validity of SSL certificates, change this setting&#x27;s value to &#x27;none&#x27;.</span><br><span class="line">#elasticsearch.ssl.verificationMode: full</span><br><span class="line"></span><br><span class="line"># =================== System: Logging ===================</span><br><span class="line"># Set the value of this setting to off to suppress all logging output, or to debug to log everything. Defaults to &#x27;info&#x27;</span><br><span class="line">#logging.root.level: debug</span><br><span class="line"></span><br><span class="line"># Enables you to specify a file where Kibana stores log output.</span><br><span class="line">logging:</span><br><span class="line">	appenders:</span><br><span class="line">		file:</span><br><span class="line">			type: file</span><br><span class="line">			fileName: /var/log/kibana/kibana.log</span><br><span class="line">			layout:</span><br><span class="line">				type: json</span><br><span class="line">	root:</span><br><span class="line">		appenders:</span><br><span class="line">			- default</span><br><span class="line">			- file</span><br><span class="line">#  policy:</span><br><span class="line">#    type: size-limit</span><br><span class="line">#    size: 256mb</span><br><span class="line">#  strategy:</span><br><span class="line">#    type: numeric</span><br><span class="line">#    max: 10</span><br><span class="line">#  layout:</span><br><span class="line">#    type: json</span><br><span class="line"></span><br><span class="line"># Logs queries sent to Elasticsearch.</span><br><span class="line">#logging.loggers:</span><br><span class="line">#  - name: elasticsearch.query</span><br><span class="line">#    level: debug</span><br><span class="line"></span><br><span class="line"># Logs http responses.</span><br><span class="line">#logging.loggers:</span><br><span class="line">#  - name: http.server.response</span><br><span class="line">#    level: debug</span><br><span class="line"></span><br><span class="line"># Logs system usage information.</span><br><span class="line">#logging.loggers:</span><br><span class="line">#  - name: metrics.ops</span><br><span class="line">#    level: debug</span><br><span class="line"></span><br><span class="line"># Enables debug logging on the browser (dev console)</span><br><span class="line">#logging.browser.root:</span><br><span class="line">#  level: debug</span><br><span class="line"></span><br><span class="line"># =================== System: Other ===================</span><br><span class="line"># The path where Kibana stores persistent data not saved in Elasticsearch. Defaults to data</span><br><span class="line">#path.data: data</span><br><span class="line"></span><br><span class="line"># Specifies the path where Kibana creates the process ID file.</span><br><span class="line">pid.file: /run/kibana/kibana.pid</span><br><span class="line"></span><br><span class="line"># Set the interval in milliseconds to sample system and process performance</span><br><span class="line"># metrics. Minimum is 100ms. Defaults to 5000ms.</span><br><span class="line">#ops.interval: 5000</span><br><span class="line"></span><br><span class="line"># Specifies locale to be used for all localizable strings, dates and number formats.</span><br><span class="line"># Supported languages are the following: English (default) &quot;en&quot;, Chinese &quot;zh-CN&quot;, Japanese &quot;ja-JP&quot;, French &quot;fr-FR&quot;, German &quot;de-DE&quot;.</span><br><span class="line">#i18n.locale: &quot;en&quot;</span><br><span class="line"></span><br><span class="line"># =================== Frequently used (Optional)===================</span><br><span class="line"></span><br><span class="line"># =================== Saved Objects: Migrations ===================</span><br><span class="line"># Saved object migrations run at startup. If you run into migration-related issues, you might need to adjust these settings.</span><br><span class="line"></span><br><span class="line"># The number of documents migrated at a time.</span><br><span class="line"># If Kibana can&#x27;t start up or upgrade due to an Elasticsearch `circuit_breaking_exception`,</span><br><span class="line"># use a smaller batchSize value to reduce the memory pressure. Defaults to 1000 objects per batch.</span><br><span class="line">#migrations.batchSize: 1000</span><br><span class="line"></span><br><span class="line"># The maximum payload size for indexing batches of upgraded saved objects.</span><br><span class="line"># To avoid migrations failing due to a 413 Request Entity Too Large response from Elasticsearch.</span><br><span class="line"># This value should be lower than or equal to your Elasticsearch cluster’s `http.max_content_length`</span><br><span class="line"># configuration option. Default: 100mb</span><br><span class="line">#migrations.maxBatchSizeBytes: 100mb</span><br><span class="line"></span><br><span class="line"># The number of times to retry temporary migration failures. Increase the setting</span><br><span class="line"># if migrations fail frequently with a message such as `Unable to complete the [...] step after</span><br><span class="line"># 15 attempts, terminating`. Defaults to 15</span><br><span class="line">#migrations.retryAttempts: 15</span><br><span class="line"></span><br><span class="line"># =================== Search Autocomplete ===================</span><br><span class="line"># Time in milliseconds to wait for autocomplete suggestions from Elasticsearch.</span><br><span class="line"># This value must be a whole number greater than zero. Defaults to 1000ms</span><br><span class="line"># unifiedSearch.autocomplete.valueSuggestions.timeout: 1000</span><br><span class="line"></span><br><span class="line"># Maximum number of documents loaded by each shard to generate autocomplete suggestions.</span><br><span class="line"># This value must be a whole number greater than zero. Defaults to 100_000</span><br><span class="line">#unifiedSearch.autocomplete.valueSuggestions.terminateAfter: 100000</span><br></pre></td></tr></table></figure>
+
+<h2 id="設定-Elasticsearch-密碼"><a href="#設定-Elasticsearch-密碼" class="headerlink" title="設定 Elasticsearch 密碼"></a>設定 Elasticsearch 密碼</h2><p>Elasticsearch 安裝後會啟用安全功能，因此需要重設 <code>elastic</code> 使用者密碼。若要手動指定密碼，可以使用互動模式執行重設指令。</p>
+<blockquote>
+<p>隨機生成密碼</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /usr/share/elasticsearch/bin/elasticsearch-reset-password -u elastic</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>互動式生成密碼</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /usr/share/elasticsearch/bin/elasticsearch-reset-password -u elastic -i</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/14/elk-install-2026/elk_install_7.jpg" class="" title="設定 Elasticsearch 密碼">
+
+<h2 id="驗證-Elasticsearch-狀態"><a href="#驗證-Elasticsearch-狀態" class="headerlink" title="驗證 Elasticsearch 狀態"></a>驗證 Elasticsearch 狀態</h2><p>啟動 Elasticsearch 後，可以透過瀏覽器檢查狀態，確認服務是否正常運作。</p>
+<pre><code>&#123;% asset_img elk_install_8.jpg "驗證 Elasticsearch 狀態" %&#125;
+</code></pre>
+<h2 id="初始化-Kibana"><a href="#初始化-Kibana" class="headerlink" title="初始化 Kibana"></a>初始化 Kibana</h2><h3 id="取得-Kibana-enrollment-token"><a href="#取得-Kibana-enrollment-token" class="headerlink" title="取得 Kibana enrollment token"></a>取得 Kibana enrollment token</h3><p>完成 Elasticsearch 密碼設定後，接著建立 Kibana 初始化所需的 enrollment token。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/14/elk-install-2026/elk_install_11.jpg" class="" title="建立 Kibana enrollment token">
+
+<h3 id="輸入-enrollment-token"><a href="#輸入-enrollment-token" class="headerlink" title="輸入 enrollment token"></a>輸入 enrollment token</h3><p>開啟瀏覽器，輸入 <code>http://&lt;Kibana IP&gt;:5601</code> 進入 Kibana 初始化畫面，選擇使用 enrollment token 方式登入，並輸入前面建立的 token。</p>
+<img src="/2026/07/14/elk-install-2026/elk_install_12.jpg" class="" title="開啟 Kibana 初始化畫面">
+
+<img src="/2026/07/14/elk-install-2026/elk_install_13.jpg" class="" title="輸入 enrollment token">
+
+<h3 id="取得並輸入驗證碼"><a href="#取得並輸入驗證碼" class="headerlink" title="取得並輸入驗證碼"></a>取得並輸入驗證碼</h3><p>接著需要輸入 Kibana 驗證碼。驗證碼可以從 Kibana 服務日誌中取得。</p>
+<img src="/2026/07/14/elk-install-2026/elk_install_14.jpg" class="" title="輸入驗證碼">
+
+<blockquote>
+<p>查看 Kibana 服務日誌的指令如下，請在另一個終端機執行，並觀察日誌輸出。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo journalctl -u kibana.service -f</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/14/elk-install-2026/elk_install_10.jpg" class="" title="查看日誌">
+
+<h3 id="完成初始化並登入-Kibana"><a href="#完成初始化並登入-Kibana" class="headerlink" title="完成初始化並登入 Kibana"></a>完成初始化並登入 Kibana</h3><p>提交 enrollment token 與驗證碼後，等待 Kibana 完成初始化設定。</p>
+<img src="/2026/07/14/elk-install-2026/elk_install_15.jpg" class="" title="Kibana 初始化畫面">
+
+<p>初始化完成後，重新登入 Kibana，並使用 <code>elastic</code> 使用者與前面設定的密碼登入。</p>
+<img src="/2026/07/14/elk-install-2026/elk_install_16.jpg" class="" title="Kibana 登入畫面">
+
+<p>完成登入後，即可進入 Kibana 管理介面，開始使用 Elasticsearch 與 Kibana 的各項功能。</p>
+<img src="/2026/07/14/elk-install-2026/elk_install_17.jpg" class="" title="Kibana 管理介面">
+
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.elastic.co/docs/deploy-manage/deploy/self-managed/install-elasticsearch-with-debian-package">Install Elasticsearch with Debian package</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.elastic.co/docs/deploy-manage/deploy/self-managed/install-kibana-with-debian-package#deb-repo">Install Kibana with Debian package</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <div class="post-recent-posts" style="display:none">
+      <div class="post-recent-posts-title">
+        <i class="fa fa-history fa-fw"></i> 近期文章
+      </div>
+      <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/07/14/elk-install-2026/" title="在 Ubuntu 26.04 安裝 Elasticsearch 與 Kibana">
+            <div class="post-recent-card-banner post-recent-card-cat--elasticsearch">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">在 Ubuntu 26.04 安裝 Elasticsearch 與 Kibana</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-07-14</span><span class="post-recent-card-cat">elasticsearch</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/07/08/coolpc-plus-extension/" title="從 CoolPC Plus 學會編寫 Chrome Extension：打造一個 AI 配單助手">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">從 CoolPC Plus 學會編寫 Chrome Extension：打造一個 AI 配單助手</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-07-08</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/07/04/docker-hot-command/" title="Docker 常用指令">
+            <div class="post-recent-card-banner post-recent-card-cat--docker">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Docker 常用指令</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-07-04</span><span class="post-recent-card-cat">docker</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/06/29/windows-sandbox-vscode/" title="使用 Windows Sandbox 建立可重複的 VS Code 開發驗證環境">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">使用 Windows Sandbox 建立可重複的 VS Code 開發驗證環境</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-06-29</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/06/23/vscode-hotkey-intro/" title="VS Code 開發 Java 常用快捷鍵介紹">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">VS Code 開發 Java 常用快捷鍵介紹</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-06-23</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function showRecentPosts() {
+          var block = document.querySelector('.post-recent-posts');
+          if (!block) return;
+
+          // 重置狀態
+          block.classList.remove('animated', 'fadeIn');
+          block.style.display = 'none';
+
+          var comments = document.querySelector('.comments');
+          if (comments) {
+            comments.parentNode.insertBefore(block, comments);
+          }
+
+          function reveal() {
+            block.style.display = '';
+            block.offsetHeight; // force reflow
+            block.classList.add('animated', 'fadeIn');
+          }
+
+          if (!comments) {
+            reveal();
+          } else {
+            // 觀察 .comments 被 NexT motion 加上 animated class 的時機
+            var observer = new MutationObserver(function () {
+              if (comments.classList.contains('animated')) {
+                observer.disconnect();
+                reveal();
+              }
+            });
+            observer.observe(comments, { attributes: true, attributeFilter: ['class'] });
+            // 若 motion 已跑完（comments 已有 animated），也直接顯示
+            if (comments.classList.contains('animated')) {
+              observer.disconnect();
+              reveal();
+            }
+          }
+        }
+
+        // 初次載入
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', showRecentPosts, { once: true });
+        } else {
+          showRecentPosts();
+        }
+
+        // PJAX：pjax:success 時 NexT motion 剛啟動（async），.comments 尚未有 animated
+        document.addEventListener('pjax:success', showRecentPosts);
+      })();
+    </script>
+
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/elasticsearch/" rel="tag"># elasticsearch</a>
+              <a href="/tags/kibana/" rel="tag"># kibana</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/07/08/coolpc-plus-extension/" rel="prev" title="從 CoolPC Plus 學會編寫 Chrome Extension：打造一個 AI 配單助手">
+                  <i class="fa fa-angle-left"></i> 從 CoolPC Plus 學會編寫 Chrome Extension：打造一個 AI 配單助手
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"1f69438d75c13164948ad06702238b91"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+<link rel="stylesheet" href="/css/tinyqqc/tinyqqc-widget.css">
+<script
+  id="tinyqqc-widget-script"
+  src="/js/tinyqqc/tinyqqc-widget.iife.js"
+  data-tinyqqc-widget
+  data-api-base-url="https://tinyqqs-846222163009.asia-east1.run.app/"
+  data-initial-open="false"
+  defer
+></script>
+
+</body>
+</html>
