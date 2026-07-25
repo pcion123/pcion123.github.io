@@ -1335,7 +1335,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #eeff8b;
+    background: #94ff46;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -3213,11 +3213,13 @@ header.header {
   }
 }
 .category-all-page .category-list-item {
+  --category-accent-rgb: 135, 206, 250;
   margin: 0;
   padding: 14px 16px;
   background: var(--card-bg-color, #1f1f1f);
+  background: linear-gradient(135deg, rgba(var(--category-accent-rgb), 0.18), rgba(255,255,255,0.03) 58%), var(--card-bg-color, #1f1f1f);
   border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.25), inset 0 0 0 1px rgba(var(--category-accent-rgb), 0.20);
   transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
   position: relative;
   display: flex;
@@ -3226,8 +3228,8 @@ header.header {
 }
 .category-all-page .category-list-item:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 22px rgba(0,0,0,0.45);
-  background: rgba(255,255,255,0.03);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(var(--category-accent-rgb), 0.38);
+  background: linear-gradient(135deg, rgba(var(--category-accent-rgb), 0.26), rgba(255,255,255,0.04) 62%), var(--card-bg-color, #1f1f1f);
 }
 .category-all-page > .category-all > .category-list > .category-list-item > .category-list-link {
   display: flex;
@@ -3250,7 +3252,7 @@ header.header {
   height: 1.65em;
   margin-right: 12px;
   border-radius: 6px;
-  background: rgba(255,255,255,0.08) center/contain no-repeat;
+  background: rgba(var(--category-accent-rgb), 0.14) center/contain no-repeat;
 }
 .category-all-page > .category-all > .category-list > .category-list-item > .category-list-link:hover {
   color: var(--link-color, #87cefa);
@@ -3269,10 +3271,69 @@ header.header {
   font-size: 0.78em;
   font-weight: 600;
   color: #ccc;
-  background: transparent;
-  border: 1.5px solid rgba(255,255,255,0.25);
+  background: rgba(var(--category-accent-rgb), 0.08);
+  border: 1.5px solid rgba(var(--category-accent-rgb), 0.38);
   border-radius: 14px;
   line-height: 1;
+}
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/docker/"]),
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/docker/docker-hub/"]) {
+  --category-accent-rgb: 0, 170, 218;
+}
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/elasticsearch/"]),
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/elasticsearch/elasticsearch/"]) {
+  --category-accent-rgb: 0, 191, 179;
+}
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/gamelife/"]) {
+  --category-accent-rgb: 251, 112, 169;
+}
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/gitlab/"]) {
+  --category-accent-rgb: 226, 67, 41;
+}
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/java/"]) {
+  --category-accent-rgb: 0, 116, 189;
+}
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/jenkins/"]) {
+  --category-accent-rgb: 211, 56, 51;
+}
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/kubernetes/"]) {
+  --category-accent-rgb: 72, 107, 179;
+}
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/linux/"]) {
+  --category-accent-rgb: 255, 204, 5;
+}
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/maven/"]) {
+  --category-accent-rgb: 201, 32, 55;
+}
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/nginx/"]) {
+  --category-accent-rgb: 0, 150, 57;
+}
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/nodejs/"]) {
+  --category-accent-rgb: 131, 205, 41;
+}
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/opentelemetry/"]) {
+  --category-accent-rgb: 245, 168, 0;
+}
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/pm2/"]) {
+  --category-accent-rgb: 79, 168, 71;
+}
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/python/"]) {
+  --category-accent-rgb: 55, 118, 171;
+}
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/telegram/"]) {
+  --category-accent-rgb: 34, 158, 217;
+}
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/tomcat/"]) {
+  --category-accent-rgb: 255, 220, 118;
+}
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/unity/"]) {
+  --category-accent-rgb: 77, 77, 77;
+}
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/vscodelife/"]) {
+  --category-accent-rgb: 0, 122, 204;
+}
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/windows/"]) {
+  --category-accent-rgb: 0, 173, 239;
 }
 .category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/docker/"]::before,
 .category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/docker/docker-hub/"]::before {
