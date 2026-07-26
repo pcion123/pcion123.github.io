@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="簡介在開發 Java 應用程式時，很多問題只有在特定環境才會出現。例如應用程式部署在遠端 Linux 主機、Docker container、Kubernetes Pod，或是某個測試環境中，單靠本機重現不一定能完整模擬實際狀況。這時候，遠端 Debug 就會變得很有用。 Java 本身提供 JDWP（Java Debug Wire Protocol）作為除錯器與 JVM 之間的溝通協議。只要啟動">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 VS Code 遠端 Debug Java 應用程式">
+<meta property="og:url" content="https://pcion123.github.io/2026/07/26/vscode-remote-debug-java/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="簡介在開發 Java 應用程式時，很多問題只有在特定環境才會出現。例如應用程式部署在遠端 Linux 主機、Docker container、Kubernetes Pod，或是某個測試環境中，單靠本機重現不一定能完整模擬實際狀況。這時候，遠端 Debug 就會變得很有用。 Java 本身提供 JDWP（Java Debug Wire Protocol）作為除錯器與 JVM 之間的溝通協議。只要啟動">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2026-07-26T15:38:56.000Z">
+<meta property="article:modified_time" content="2026-07-26T15:40:43.555Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="vscode">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/07/26/vscode-remote-debug-java/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/07/26/vscode-remote-debug-java/","path":"2026/07/26/vscode-remote-debug-java/","title":"使用 VS Code 遠端 Debug Java 應用程式"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用 VS Code 遠端 Debug Java 應用程式 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B0%A1%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">簡介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%A0%E7%AB%AF-Debug-%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">2.</span> <span class="nav-text">遠端 Debug 的基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E6%BA%96%E5%82%99"><span class="nav-number">3.</span> <span class="nav-text">前置準備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%95%9F%E5%8B%95-Java-%E6%87%89%E7%94%A8%E7%A8%8B%E5%BC%8F%E4%B8%A6%E9%96%8B%E5%95%9F-JDWP"><span class="nav-number">4.</span> <span class="nav-text">啟動 Java 應用程式並開啟 JDWP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK-8-%E7%9A%84-address-%E5%AF%AB%E6%B3%95"><span class="nav-number">4.1.</span> <span class="nav-text">JDK 8 的 address 寫法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Boot-%E5%95%9F%E5%8B%95%E7%AF%84%E4%BE%8B"><span class="nav-number">5.</span> <span class="nav-text">Spring Boot 啟動範例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A-VS-Code-launch-json"><span class="nav-number">6.</span> <span class="nav-text">設定 VS Code launch.json</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-SSH-Tunnel-%E9%80%A3%E7%B7%9A%E5%88%B0%E9%81%A0%E7%AB%AF-JDWP"><span class="nav-number">7.</span> <span class="nav-text">使用 SSH Tunnel 連線到遠端 JDWP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-%E7%92%B0%E5%A2%83%E4%B8%AD%E7%9A%84%E9%81%A0%E7%AB%AF-Debug"><span class="nav-number">8.</span> <span class="nav-text">Docker 環境中的遠端 Debug</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kubernetes-%E7%92%B0%E5%A2%83%E4%B8%AD%E7%9A%84%E9%81%A0%E7%AB%AF-Debug"><span class="nav-number">9.</span> <span class="nav-text">Kubernetes 環境中的遠端 Debug</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A%E4%B8%AD%E6%96%B7%E9%BB%9E%E8%88%87%E9%96%8B%E5%A7%8B%E9%99%A4%E9%8C%AF"><span class="nav-number">10.</span> <span class="nav-text">設定中斷點與開始除錯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C%E6%8E%92%E6%9F%A5"><span class="nav-number">11.</span> <span class="nav-text">常見問題排查</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#VS-Code-%E7%84%A1%E6%B3%95%E9%80%A3%E7%B7%9A%E5%88%B0-debug-port"><span class="nav-number">11.1.</span> <span class="nav-text">VS Code 無法連線到 debug port</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Address-already-in-use"><span class="nav-number">11.2.</span> <span class="nav-text">Address already in use</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E6%96%B7%E9%BB%9E%E9%A1%AF%E7%A4%BA%E6%9C%AA%E7%B6%81%E5%AE%9A"><span class="nav-number">11.3.</span> <span class="nav-text">中斷點顯示未綁定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#suspend-y-%E5%BE%8C%E6%87%89%E7%94%A8%E7%A8%8B%E5%BC%8F%E7%9C%8B%E8%B5%B7%E4%BE%86%E6%B2%92%E6%9C%89%E5%95%9F%E5%8B%95"><span class="nav-number">11.4.</span> <span class="nav-text">suspend&#x3D;y 後應用程式看起來沒有啟動</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85"><span class="nav-number">12.</span> <span class="nav-text">安全性注意事項</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B8%BD%E7%B5%90"><span class="nav-number">13.</span> <span class="nav-text">總結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E9%9A%9B-Demo"><span class="nav-number">14.</span> <span class="nav-text">實際 Demo</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">69</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">53</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/agent/" style="font-size: 14.25px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/chrome-extension/" style="font-size: 12px;" class="tag-cloud-0">chrome-extension</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/copilot-cli/" style="font-size: 16.5px;" class="tag-cloud-3">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 25.5px;" class="tag-cloud-8">docker</a> <a href="/tags/elasticsearch/" style="font-size: 16.5px;" class="tag-cloud-3">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 21px;" class="tag-cloud-5">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 14.25px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 16.5px;" class="tag-cloud-3">gitlab</a> <a href="/tags/googlemap/" style="font-size: 16.5px;" class="tag-cloud-3">googlemap</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 23.25px;" class="tag-cloud-6">java</a> <a href="/tags/jdk/" style="font-size: 14.25px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 18.75px;" class="tag-cloud-4">jenkins</a> <a href="/tags/kibana/" style="font-size: 16.5px;" class="tag-cloud-3">kibana</a> <a href="/tags/kubernetes/" style="font-size: 25.5px;" class="tag-cloud-8">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 27.75px;" class="tag-cloud-9">linux</a> <a href="/tags/logstash/" style="font-size: 14.25px;" class="tag-cloud-1">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 16.5px;" class="tag-cloud-3">maven</a> <a href="/tags/mcp/" style="font-size: 14.25px;" class="tag-cloud-1">mcp</a> <a href="/tags/minikube/" style="font-size: 14.25px;" class="tag-cloud-1">minikube</a> <a href="/tags/monitor/" style="font-size: 12px;" class="tag-cloud-0">monitor</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 14.25px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/opentelemetry/" style="font-size: 12px;" class="tag-cloud-0">opentelemetry</a> <a href="/tags/pm2/" style="font-size: 14.25px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 16.5px;" class="tag-cloud-3">powershell</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/skills/" style="font-size: 14.25px;" class="tag-cloud-1">skills</a> <a href="/tags/spring-boot/" style="font-size: 12px;" class="tag-cloud-0">spring-boot</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 16.5px;" class="tag-cloud-3">terminal</a> <a href="/tags/tomcat/" style="font-size: 14.25px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 23.25px;" class="tag-cloud-6">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/vscode/" style="font-size: 30px;" class="tag-cloud-10">vscode</a> <a href="/tags/windows/" style="font-size: 18.75px;" class="tag-cloud-4">windows</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 16.5px;" class="tag-cloud-3">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相關文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/06/23/vscode-hotkey-intro/" rel="bookmark">
+        <time class="popular-posts-time">2026-06-23</time>
+        <br>
+      VS Code 開發 Java 常用快捷鍵介紹
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/03/16/vscode-install-java/" rel="bookmark">
+        <time class="popular-posts-time">2026-03-16</time>
+        <br>
+      VSCode 與 Java 環境整合
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/07/04/docker-hot-command/" rel="bookmark">
+        <time class="popular-posts-time">2026-07-04</time>
+        <br>
+      Docker 常用指令
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/03/29/docker-install-2026/" rel="bookmark">
+        <time class="popular-posts-time">2026-03-29</time>
+        <br>
+      Docker 安裝指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/11/16/docker-intro/" rel="bookmark">
+        <time class="popular-posts-time">2025-11-16</time>
+        <br>
+      Docker 基本介紹
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/07/26/vscode-remote-debug-java/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用 VS Code 遠端 Debug Java 應用程式 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 VS Code 遠端 Debug Java 應用程式
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-07-26 23:38:56 / 修改時間：23:40:43" itemprop="dateCreated datePublished" datetime="2026-07-26T23:38:56+08:00">2026-07-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/vscodelife/" itemprop="url" rel="index"><span itemprop="name">vscodelife</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="簡介"><a href="#簡介" class="headerlink" title="簡介"></a>簡介</h2><p>在開發 Java 應用程式時，很多問題只有在特定環境才會出現。例如應用程式部署在遠端 Linux 主機、Docker container、Kubernetes Pod，或是某個測試環境中，單靠本機重現不一定能完整模擬實際狀況。這時候，遠端 Debug 就會變得很有用。</p>
+<p>Java 本身提供 JDWP（Java Debug Wire Protocol）作為除錯器與 JVM 之間的溝通協議。只要啟動 Java 應用程式時開啟 JDWP debug port，VS Code 就可以透過 Debugger for Java 連線到該 JVM，像在本機除錯一樣設定中斷點、查看變數、逐步執行程式碼。</p>
+<p>這篇文章會介紹如何使用 VS Code 連線到遠端 Java 應用程式進行 Debug，並說明 JDWP 啟動參數、VS Code <code>launch.json</code> 設定，以及常見連線問題的排查方式。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="遠端-Debug-的基本概念"><a href="#遠端-Debug-的基本概念" class="headerlink" title="遠端 Debug 的基本概念"></a>遠端 Debug 的基本概念</h2><p>遠端 Debug 的流程可以簡化成三個步驟：</p>
+<ol>
+<li>Java 應用程式啟動時開啟 JDWP debug port。</li>
+<li>VS Code 使用 attach 模式連線到該 debug port。</li>
+<li>VS Code 本機原始碼與遠端執行中的 class 對應後，就可以進行中斷點除錯。</li>
+</ol>
+<p>需要注意的是，VS Code 並不是直接連到 HTTP API port，而是連到 JVM 開出來的 JDWP port。例如 Spring Boot 應用程式可能使用 <code>8080</code> 提供 API，但 Debug 連線通常會使用另一個 port，例如 <code>5005</code>。</p>
+<hr>
+<h2 id="前置準備"><a href="#前置準備" class="headerlink" title="前置準備"></a>前置準備</h2><p>開始之前，請先確認本機 VS Code 已安裝 Java 除錯相關 extension。最簡單的方式是安裝：</p>
+<ul>
+<li>Extension Pack for Java</li>
+<li>Debugger for Java</li>
+</ul>
+<p>如果你已經能在 VS Code 中正常開啟 Java 專案、看到語法提示並執行本機 Debug，通常就代表基本環境已經準備完成。</p>
+<p>遠端環境則需要滿足以下條件：</p>
+<ul>
+<li>遠端 Java 應用程式使用 JDWP 參數啟動。</li>
+<li>本機可以連線到遠端 debug port。</li>
+<li>本機 VS Code 中的原始碼版本，應盡量與遠端正在執行的版本一致。</li>
+</ul>
+<p>第三點很重要。Debug 時 VS Code 會用本機原始碼顯示中斷點位置，如果遠端部署的程式版本與本機不同，可能會出現中斷點無法命中、行號對不起來，或變數內容看起來不符合預期的情況。</p>
+<hr>
+<h2 id="啟動-Java-應用程式並開啟-JDWP"><a href="#啟動-Java-應用程式並開啟-JDWP" class="headerlink" title="啟動 Java 應用程式並開啟 JDWP"></a>啟動 Java 應用程式並開啟 JDWP</h2><p>JDWP 可以透過 JVM 參數啟用。常見設定如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -agentlib:jdwp=transport=dt_socket,server=y,<span class="built_in">suspend</span>=n,address=*:5005 -jar app.jar</span><br></pre></td></tr></table></figure>
+
+<p>這段參數的意思如下：</p>
+<table>
+<thead>
+<tr>
+<th>參數</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>transport=dt_socket</code></td>
+<td>使用 socket 方式建立 debug 連線</td>
+</tr>
+<tr>
+<td><code>server=y</code></td>
+<td>JVM 作為 debug server，等待除錯器連入</td>
+</tr>
+<tr>
+<td><code>suspend=n</code></td>
+<td>應用程式啟動後不等待 debugger，直接繼續執行</td>
+</tr>
+<tr>
+<td><code>address=*:5005</code></td>
+<td>在 <code>5005</code> port 等待 debugger 連線</td>
+</tr>
+</tbody></table>
+<p>如果希望應用程式在啟動時先停住，等 VS Code 連上後才開始執行，可以把 <code>suspend=n</code> 改成 <code>suspend=y</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -agentlib:jdwp=transport=dt_socket,server=y,<span class="built_in">suspend</span>=y,address=*:5005 -jar app.jar</span><br></pre></td></tr></table></figure>
+
+<p>這種方式很適合除錯應用程式啟動階段的問題，例如 Spring Bean 初始化失敗、設定檔載入錯誤，或啟動流程中的條件判斷。</p>
+<h3 id="JDK-8-的-address-寫法"><a href="#JDK-8-的-address-寫法" class="headerlink" title="JDK 8 的 address 寫法"></a>JDK 8 的 address 寫法</h3><p>如果遠端環境使用的是 JDK 8，JDWP 的 <code>address</code> 寫法通常會是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -agentlib:jdwp=transport=dt_socket,server=y,<span class="built_in">suspend</span>=n,address=5005 -jar app.jar</span><br></pre></td></tr></table></figure>
+
+<p>JDK 9 之後比較常使用 <code>address=*:5005</code> 來明確表示監聽所有網路介面。若你在不同 JDK 版本遇到 JDWP 參數無法啟動，可以先確認目前 Java 版本，再調整 <code>address</code> 的寫法。</p>
+<hr>
+<h2 id="Spring-Boot-啟動範例"><a href="#Spring-Boot-啟動範例" class="headerlink" title="Spring Boot 啟動範例"></a>Spring Boot 啟動範例</h2><p>如果是直接執行 Spring Boot jar，可以這樣啟動：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -agentlib:jdwp=transport=dt_socket,server=y,<span class="built_in">suspend</span>=n,address=*:5005 -jar target/demo-0.0.1-SNAPSHOT.jar</span><br></pre></td></tr></table></figure>
+
+<p>如果是透過 Maven 啟動，可以使用 <code>MAVEN_OPTS</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MAVEN_OPTS=<span class="string">&quot;-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005&quot;</span> mvn spring-boot:run</span><br></pre></td></tr></table></figure>
+
+<p>如果是透過 Gradle 啟動，可以使用 <code>JAVA_TOOL_OPTIONS</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JAVA_TOOL_OPTIONS=<span class="string">&quot;-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005&quot;</span> ./gradlew bootRun</span><br></pre></td></tr></table></figure>
+
+<p>在 Windows PowerShell 中，環境變數設定方式會不一樣：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$env:JAVA_TOOL_OPTIONS</span>=<span class="string">&quot;-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005&quot;</span></span><br><span class="line">java <span class="literal">-jar</span> .\target\demo<span class="literal">-0</span>.<span class="number">0.1</span><span class="literal">-SNAPSHOT</span>.jar</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="設定-VS-Code-launch-json"><a href="#設定-VS-Code-launch-json" class="headerlink" title="設定 VS Code launch.json"></a>設定 VS Code launch.json</h2><p>接著在 VS Code 中建立或修改 <code>.vscode/launch.json</code>。遠端 Debug 會使用 <code>attach</code> 模式，代表 Java 應用程式已經在遠端啟動，VS Code 只是連線到那個 JVM。</p>
+<p>基本設定如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">	<span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.2.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;configurations&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">		<span class="punctuation">&#123;</span></span><br><span class="line">			<span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;java&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Attach to Remote Java&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="attr">&quot;request&quot;</span><span class="punctuation">:</span> <span class="string">&quot;attach&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="attr">&quot;hostName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;127.0.0.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="attr">&quot;port&quot;</span><span class="punctuation">:</span> <span class="number">5005</span></span><br><span class="line">		<span class="punctuation">&#125;</span></span><br><span class="line">	<span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果本機可以直接連到遠端主機的 <code>5005</code> port，<code>hostName</code> 可以改成遠端主機 IP 或網域名稱：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">	<span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;java&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Attach to Remote Java Server&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;request&quot;</span><span class="punctuation">:</span> <span class="string">&quot;attach&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;hostName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;192.168.1.100&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;port&quot;</span><span class="punctuation">:</span> <span class="number">5005</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>設定完成後，開啟 VS Code 左側的 Run and Debug 視圖，選擇剛剛建立的設定，按下 <code>F5</code> 就可以開始 attach。</p>
+<hr>
+<h2 id="使用-SSH-Tunnel-連線到遠端-JDWP"><a href="#使用-SSH-Tunnel-連線到遠端-JDWP" class="headerlink" title="使用 SSH Tunnel 連線到遠端 JDWP"></a>使用 SSH Tunnel 連線到遠端 JDWP</h2><p>實務上不建議把 JDWP port 直接暴露在公開網路。比較安全的方式是透過 SSH tunnel，把遠端的 <code>5005</code> port 轉到本機：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -L 5005:127.0.0.1:5005 user@remote-server</span><br></pre></td></tr></table></figure>
+
+<p>這個指令會把本機 <code>127.0.0.1:5005</code> 轉發到遠端主機的 <code>127.0.0.1:5005</code>。完成後，VS Code 的 <code>launch.json</code> 可以維持：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">	<span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;java&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Attach through SSH Tunnel&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;request&quot;</span><span class="punctuation">:</span> <span class="string">&quot;attach&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;hostName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;127.0.0.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;port&quot;</span><span class="punctuation">:</span> <span class="number">5005</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>這樣 VS Code 看起來是在連本機 port，但實際上會透過 SSH tunnel 連到遠端 JVM。</p>
+<hr>
+<h2 id="Docker-環境中的遠端-Debug"><a href="#Docker-環境中的遠端-Debug" class="headerlink" title="Docker 環境中的遠端 Debug"></a>Docker 環境中的遠端 Debug</h2><p>如果 Java 應用程式跑在 Docker container 中，需要同時處理兩件事：</p>
+<ol>
+<li>Container 內的 JVM 開啟 JDWP port。</li>
+<li>Docker 將該 port 映射到 host。</li>
+</ol>
+<p>例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker run --<span class="built_in">rm</span> \</span><br><span class="line">	-p 8080:8080 \</span><br><span class="line">	-p 5005:5005 \</span><br><span class="line">	my-java-app</span><br></pre></td></tr></table></figure>
+
+<p>應用程式啟動時仍需要帶上 JDWP 參數：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -agentlib:jdwp=transport=dt_socket,server=y,<span class="built_in">suspend</span>=n,address=*:5005 -jar app.jar</span><br></pre></td></tr></table></figure>
+
+<p>如果使用 <code>docker-compose.yml</code>，可以在 service 中加入 port 映射與環境變數：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">services:</span></span><br><span class="line">	<span class="attr">app:</span></span><br><span class="line">		<span class="attr">image:</span> <span class="string">my-java-app</span></span><br><span class="line">		<span class="attr">ports:</span></span><br><span class="line">			<span class="bullet">-</span> <span class="string">&quot;8080:8080&quot;</span></span><br><span class="line">			<span class="bullet">-</span> <span class="string">&quot;5005:5005&quot;</span></span><br><span class="line">		<span class="attr">environment:</span></span><br><span class="line">			<span class="attr">JAVA_TOOL_OPTIONS:</span> <span class="string">&quot;-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>完成後，VS Code 同樣連到 <code>127.0.0.1:5005</code> 即可。</p>
+<hr>
+<h2 id="Kubernetes-環境中的遠端-Debug"><a href="#Kubernetes-環境中的遠端-Debug" class="headerlink" title="Kubernetes 環境中的遠端 Debug"></a>Kubernetes 環境中的遠端 Debug</h2><p>如果 Java 應用程式部署在 Kubernetes，可以先讓 Pod 內的 JVM 開啟 JDWP port，再使用 <code>kubectl port-forward</code> 將 port 轉到本機。</p>
+<p>假設 Pod 內的 Java 應用程式已經監聽 <code>5005</code>，可以執行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl port-forward pod/my-java-app-xxxxx 5005:5005</span><br></pre></td></tr></table></figure>
+
+<p>如果是透過 Deployment，可以使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl port-forward deployment/my-java-app 5005:5005</span><br></pre></td></tr></table></figure>
+
+<p>接著在 VS Code 中使用 <code>127.0.0.1:5005</code> attach。這種方式不需要把 JDWP port 暴露成 Service，適合短時間排查測試環境中的問題。</p>
+<hr>
+<h2 id="設定中斷點與開始除錯"><a href="#設定中斷點與開始除錯" class="headerlink" title="設定中斷點與開始除錯"></a>設定中斷點與開始除錯</h2><p>VS Code attach 成功後，就可以在本機程式碼中設定中斷點。常用操作如下：</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>快捷鍵</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>設定或取消中斷點</td>
+<td><code>F9</code></td>
+<td>在目前行切換 breakpoint</td>
+</tr>
+<tr>
+<td>繼續執行</td>
+<td><code>F5</code></td>
+<td>執行到下一個中斷點</td>
+</tr>
+<tr>
+<td>Step Over</td>
+<td><code>F10</code></td>
+<td>執行目前行，不進入 method</td>
+</tr>
+<tr>
+<td>Step Into</td>
+<td><code>F11</code></td>
+<td>進入目前呼叫的 method</td>
+</tr>
+<tr>
+<td>Step Out</td>
+<td><code>Shift + F11</code></td>
+<td>離開目前 method</td>
+</tr>
+</tbody></table>
+<p>如果中斷點沒有被命中，可以先確認以下幾件事：</p>
+<ul>
+<li>目前請求是否真的有執行到該段程式。</li>
+<li>本機原始碼版本是否與遠端部署版本一致。</li>
+<li>遠端應用程式是否有重新部署到包含該段程式的版本。</li>
+<li>中斷點是否設定在可執行的程式碼行上。</li>
+</ul>
+<hr>
+<h2 id="常見問題排查"><a href="#常見問題排查" class="headerlink" title="常見問題排查"></a>常見問題排查</h2><h3 id="VS-Code-無法連線到-debug-port"><a href="#VS-Code-無法連線到-debug-port" class="headerlink" title="VS Code 無法連線到 debug port"></a>VS Code 無法連線到 debug port</h3><p>如果 attach 時出現連線失敗，通常可以從網路與 port 狀態開始查：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -vz 127.0.0.1 5005</span><br></pre></td></tr></table></figure>
+
+<p>或在 Windows PowerShell 中使用：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Test-NetConnection</span> <span class="number">127.0</span>.<span class="number">0.1</span> <span class="literal">-Port</span> <span class="number">5005</span></span><br></pre></td></tr></table></figure>
+
+<p>如果 port 無法連線，請確認 Java 應用程式是否真的有帶 JDWP 參數啟動，以及防火牆、Docker port mapping、SSH tunnel 或 <code>kubectl port-forward</code> 是否設定正確。</p>
+<h3 id="Address-already-in-use"><a href="#Address-already-in-use" class="headerlink" title="Address already in use"></a>Address already in use</h3><p>如果啟動 Java 應用程式時出現 <code>Address already in use</code>，代表 <code>5005</code> 已經被其他程序使用。可以換一個 debug port，例如 <code>5006</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -agentlib:jdwp=transport=dt_socket,server=y,<span class="built_in">suspend</span>=n,address=*:5006 -jar app.jar</span><br></pre></td></tr></table></figure>
+
+<p>同時也要把 VS Code 的 <code>launch.json</code> 改成相同 port。</p>
+<h3 id="中斷點顯示未綁定"><a href="#中斷點顯示未綁定" class="headerlink" title="中斷點顯示未綁定"></a>中斷點顯示未綁定</h3><p>中斷點未綁定通常和 class 尚未載入、原始碼版本不一致，或編譯後的 class 與本機檔案對應不上有關。可以先觸發相關功能讓 class 被載入，再確認遠端應用程式使用的 jar、image 或部署版本是否正確。</p>
+<h3 id="suspend-y-後應用程式看起來沒有啟動"><a href="#suspend-y-後應用程式看起來沒有啟動" class="headerlink" title="suspend&#x3D;y 後應用程式看起來沒有啟動"></a>suspend&#x3D;y 後應用程式看起來沒有啟動</h3><p>當 <code>suspend=y</code> 時，JVM 會在 main class 執行前等待 debugger 連線。因此應用程式看起來像是卡住，其實是在等 VS Code attach。只要 VS Code 連線成功，應用程式就會繼續啟動。</p>
+<hr>
+<h2 id="安全性注意事項"><a href="#安全性注意事項" class="headerlink" title="安全性注意事項"></a>安全性注意事項</h2><p>JDWP port 不應該暴露在未受信任的網路中。只要有人可以連到該 debug port，就可能控制 JVM 執行流程、讀取記憶體中的資料，甚至造成應用程式停止。</p>
+<p>建議遵守以下原則：</p>
+<ul>
+<li>不要在正式環境長時間開啟 JDWP。</li>
+<li>不要把 JDWP port 直接暴露到公開網路。</li>
+<li>優先使用 SSH tunnel 或 <code>kubectl port-forward</code> 進行短時間除錯。</li>
+<li>Debug 結束後，移除 JDWP 啟動參數並重新部署應用程式。</li>
+</ul>
+<p>遠端 Debug 很方便，但它也等於開了一個高權限的操作入口。使用時務必控制連線來源與開啟時間。</p>
+<hr>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>VS Code 搭配 Debugger for Java，可以透過 JDWP attach 到遠端 Java 應用程式進行除錯。整個流程的關鍵在於：啟動 JVM 時開啟 JDWP、確保本機能連到 debug port，並讓本機原始碼與遠端執行版本保持一致。</p>
+<p>在一般遠端主機上，可以使用 SSH tunnel 保護 JDWP 連線；在 Docker 或 Kubernetes 環境中，則可以透過 port mapping 或 <code>kubectl port-forward</code> 將 debug port 暫時轉到本機。只要掌握這些設定，就能在 VS Code 中用熟悉的中斷點、變數檢查與單步執行功能，排查遠端 Java 應用程式中的問題。</p>
+<hr>
+<h2 id="實際-Demo"><a href="#實際-Demo" class="headerlink" title="實際 Demo"></a>實際 Demo</h2><p>如果想看完整操作流程，可以參考以下影片 Demo：</p>
+<div class="video-container"><iframe src="https://www.youtube.com/embed/9M8HMgEGwek" frameborder="0" loading="lazy" allowfullscreen></iframe></div>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <div class="post-recent-posts" style="display:none">
+      <div class="post-recent-posts-title">
+        <i class="fa fa-history fa-fw"></i> 近期文章
+      </div>
+      <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/07/26/vscode-remote-debug-java/" title="使用 VS Code 遠端 Debug Java 應用程式">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">使用 VS Code 遠端 Debug Java 應用程式</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-07-26</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/07/25/logstash-spring-boot/" title="將 Spring Boot Log 透過 Logstash 導入 Elasticsearch">
+            <div class="post-recent-card-banner post-recent-card-cat--elasticsearch">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">將 Spring Boot Log 透過 Logstash 導入 Elasticsearch</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-07-25</span><span class="post-recent-card-cat">elasticsearch</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/07/20/jaeger-install/" title="Jaeger 安裝指南">
+            <div class="post-recent-card-banner post-recent-card-cat--opentelemetry">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Jaeger 安裝指南</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-07-20</span><span class="post-recent-card-cat">opentelemetry</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/07/14/elk-install-2026/" title="在 Ubuntu 26.04 安裝 Elasticsearch 與 Kibana">
+            <div class="post-recent-card-banner post-recent-card-cat--elasticsearch">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">在 Ubuntu 26.04 安裝 Elasticsearch 與 Kibana</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-07-14</span><span class="post-recent-card-cat">elasticsearch</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/07/08/coolpc-plus-extension/" title="從 CoolPC Plus 學會編寫 Chrome Extension：打造一個 AI 配單助手">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">從 CoolPC Plus 學會編寫 Chrome Extension：打造一個 AI 配單助手</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-07-08</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function showRecentPosts() {
+          var block = document.querySelector('.post-recent-posts');
+          if (!block) return;
+
+          // 重置狀態
+          block.classList.remove('animated', 'fadeIn');
+          block.style.display = 'none';
+
+          var comments = document.querySelector('.comments');
+          if (comments) {
+            comments.parentNode.insertBefore(block, comments);
+          }
+
+          function reveal() {
+            block.style.display = '';
+            block.offsetHeight; // force reflow
+            block.classList.add('animated', 'fadeIn');
+          }
+
+          if (!comments) {
+            reveal();
+          } else {
+            // 觀察 .comments 被 NexT motion 加上 animated class 的時機
+            var observer = new MutationObserver(function () {
+              if (comments.classList.contains('animated')) {
+                observer.disconnect();
+                reveal();
+              }
+            });
+            observer.observe(comments, { attributes: true, attributeFilter: ['class'] });
+            // 若 motion 已跑完（comments 已有 animated），也直接顯示
+            if (comments.classList.contains('animated')) {
+              observer.disconnect();
+              reveal();
+            }
+          }
+        }
+
+        // 初次載入
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', showRecentPosts, { once: true });
+        } else {
+          showRecentPosts();
+        }
+
+        // PJAX：pjax:success 時 NexT motion 剛啟動（async），.comments 尚未有 animated
+        document.addEventListener('pjax:success', showRecentPosts);
+      })();
+    </script>
+
+          <div class="post-tags">
+              <a href="/tags/vscode/" rel="tag"># vscode</a>
+              <a href="/tags/java/" rel="tag"># java</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/07/25/logstash-spring-boot/" rel="prev" title="將 Spring Boot Log 透過 Logstash 導入 Elasticsearch">
+                  <i class="fa fa-angle-left"></i> 將 Spring Boot Log 透過 Logstash 導入 Elasticsearch
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"54d9053acebdc4f74d90cb4721f6edb8"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+<link rel="stylesheet" href="/css/tinyqqc/tinyqqc-widget.css">
+<script
+  id="tinyqqc-widget-script"
+  src="/js/tinyqqc/tinyqqc-widget.iife.js"
+  data-tinyqqc-widget
+  data-api-base-url="https://tinyqqs-846222163009.asia-east1.run.app/"
+  data-initial-open="false"
+  defer
+></script>
+
+</body>
+</html>
