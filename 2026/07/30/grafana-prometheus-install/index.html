@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="這篇文章記錄如何在 Linux 環境中安裝 Prometheus、Grafana 與 Node Exporter，並透過 Grafana 匯入 Node Exporter Dashboard，建立一套基本的主機監控環境。 整體流程會先完成 Prometheus 的服務安裝，再安裝 Grafana 作為視覺化介面，接著部署 Node Exporter 讓 Prometheus 能夠收集主機 Metr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Grafana + Prometheus + Node Exporter 安裝與監控 Dashboard 建置">
+<meta property="og:url" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="這篇文章記錄如何在 Linux 環境中安裝 Prometheus、Grafana 與 Node Exporter，並透過 Grafana 匯入 Node Exporter Dashboard，建立一套基本的主機監控環境。 整體流程會先完成 Prometheus 的服務安裝，再安裝 Grafana 作為視覺化介面，接著部署 Node Exporter 讓 Prometheus 能夠收集主機 Metr">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_4.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_3.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_6.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_1.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_2.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_7.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_8.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_9.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_10.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_11.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_12.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_13.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_14.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_20.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_22.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_23.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_24.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_25.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_15.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_16.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_17.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_18.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_19.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_26.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_27.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_28.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_29.jpg">
+<meta property="article:published_time" content="2026-07-29T16:04:26.000Z">
+<meta property="article:modified_time" content="2026-07-29T16:17:39.295Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="grafana">
+<meta property="article:tag" content="prometheus">
+<meta property="article:tag" content="monitoring">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_4.jpg">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/07/30/grafana-prometheus-install/","path":"2026/07/30/grafana-prometheus-install/","title":"Grafana + Prometheus + Node Exporter 安裝與監控 Dashboard 建置"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Grafana + Prometheus + Node Exporter 安裝與監控 Dashboard 建置 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-prometheus"><span class="nav-number">1.</span> <span class="nav-text">安裝 prometheus</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-grafana"><span class="nav-number">2.</span> <span class="nav-text">安裝 grafana</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-node-exporter"><span class="nav-number">3.</span> <span class="nav-text">安裝 node_exporter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A-Dashboard"><span class="nav-number">4.</span> <span class="nav-text">設定 Dashboard</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">70</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">56</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/agent/" style="font-size: 14.25px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/chrome-extension/" style="font-size: 12px;" class="tag-cloud-0">chrome-extension</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/copilot-cli/" style="font-size: 16.5px;" class="tag-cloud-3">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 25.5px;" class="tag-cloud-8">docker</a> <a href="/tags/elasticsearch/" style="font-size: 16.5px;" class="tag-cloud-3">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 21px;" class="tag-cloud-5">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 14.25px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 16.5px;" class="tag-cloud-3">gitlab</a> <a href="/tags/googlemap/" style="font-size: 16.5px;" class="tag-cloud-3">googlemap</a> <a href="/tags/grafana/" style="font-size: 12px;" class="tag-cloud-0">grafana</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 23.25px;" class="tag-cloud-6">java</a> <a href="/tags/jdk/" style="font-size: 14.25px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 18.75px;" class="tag-cloud-4">jenkins</a> <a href="/tags/kibana/" style="font-size: 16.5px;" class="tag-cloud-3">kibana</a> <a href="/tags/kubernetes/" style="font-size: 25.5px;" class="tag-cloud-8">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 27.75px;" class="tag-cloud-9">linux</a> <a href="/tags/logstash/" style="font-size: 14.25px;" class="tag-cloud-1">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 16.5px;" class="tag-cloud-3">maven</a> <a href="/tags/mcp/" style="font-size: 14.25px;" class="tag-cloud-1">mcp</a> <a href="/tags/minikube/" style="font-size: 14.25px;" class="tag-cloud-1">minikube</a> <a href="/tags/monitor/" style="font-size: 12px;" class="tag-cloud-0">monitor</a> <a href="/tags/monitoring/" style="font-size: 12px;" class="tag-cloud-0">monitoring</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 14.25px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/opentelemetry/" style="font-size: 12px;" class="tag-cloud-0">opentelemetry</a> <a href="/tags/pm2/" style="font-size: 14.25px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 16.5px;" class="tag-cloud-3">powershell</a> <a href="/tags/prometheus/" style="font-size: 12px;" class="tag-cloud-0">prometheus</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/skills/" style="font-size: 14.25px;" class="tag-cloud-1">skills</a> <a href="/tags/spring-boot/" style="font-size: 12px;" class="tag-cloud-0">spring-boot</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 16.5px;" class="tag-cloud-3">terminal</a> <a href="/tags/tomcat/" style="font-size: 14.25px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 23.25px;" class="tag-cloud-6">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/vscode/" style="font-size: 30px;" class="tag-cloud-10">vscode</a> <a href="/tags/windows/" style="font-size: 18.75px;" class="tag-cloud-4">windows</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 16.5px;" class="tag-cloud-3">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/07/30/grafana-prometheus-install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Grafana + Prometheus + Node Exporter 安裝與監控 Dashboard 建置 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Grafana + Prometheus + Node Exporter 安裝與監控 Dashboard 建置
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-07-30 00:04:26 / 修改時間：00:17:39" itemprop="dateCreated datePublished" datetime="2026-07-30T00:04:26+08:00">2026-07-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/grafana/" itemprop="url" rel="index"><span itemprop="name">grafana</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>這篇文章記錄如何在 Linux 環境中安裝 Prometheus、Grafana 與 Node Exporter，並透過 Grafana 匯入 Node Exporter Dashboard，建立一套基本的主機監控環境。</p>
+<p>整體流程會先完成 Prometheus 的服務安裝，再安裝 Grafana 作為視覺化介面，接著部署 Node Exporter 讓 Prometheus 能夠收集主機 Metrics，最後在 Grafana 中設定資料來源並匯入 Dashboard。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="安裝-prometheus"><a href="#安裝-prometheus" class="headerlink" title="安裝 prometheus"></a>安裝 prometheus</h2><p>首先建立 Prometheus 專用的系統使用者，並準備設定檔與資料儲存目錄。這個使用者不需要登入系統，也不需要家目錄，主要用途是讓 Prometheus 服務能以獨立權限執行。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 建立 prometheus 使用者 (不建立家目錄，且禁止登入)</span><br><span class="line">sudo useradd --no-create-home --shell /bin/false prometheus</span><br><span class="line"></span><br><span class="line"># 建立設定檔與資料儲存用的目錄</span><br><span class="line">sudo mkdir /etc/prometheus</span><br><span class="line">sudo mkdir /var/lib/prometheus</span><br><span class="line"></span><br><span class="line"># 設定目錄擁有者為 prometheus</span><br><span class="line">sudo chown prometheus:prometheus /etc/prometheus</span><br><span class="line">sudo chown prometheus:prometheus /var/lib/prometheus</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_4.jpg" class="" title="建立 Prometheus 使用者與目錄">
+
+<p>接著從 Prometheus 官方 GitHub Release 下載 Linux AMD64 版本，並解壓縮安裝檔。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 使用 wget 下載 (請將網址替換為官網最新的 linux-amd64 連結)</span><br><span class="line"># 這裡以 3.13.0 為例：</span><br><span class="line">wget https://github.com/prometheus/prometheus/releases/download/v3.13.0/prometheus-3.13.0.linux-amd64.tar.gz</span><br><span class="line"></span><br><span class="line"># 解壓縮</span><br><span class="line">tar xvfz prometheus-3.13.0.linux-amd64.tar.gz</span><br><span class="line"></span><br><span class="line"># 進入解壓縮後的資料夾</span><br><span class="line">cd prometheus-3.13.0.linux-amd64.tar.gz</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_3.jpg" class="" title="下載並解壓縮 Prometheus">
+
+<p>解壓縮完成後，將 Prometheus 與 promtool 執行檔複製到 <code>/usr/local/bin/</code>，再將預設設定檔放到 <code>/etc/prometheus/</code> 底下，並設定檔案擁有者。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 1. 移動執行檔並設定擁有者</span><br><span class="line">sudo cp prometheus promtool /usr/local/bin/</span><br><span class="line">sudo chown prometheus:prometheus /usr/local/bin/prometheus /usr/local/bin/promtool</span><br><span class="line"></span><br><span class="line"># 2. 移動預設設定檔與網頁介面所需的模板</span><br><span class="line">sudo cp prometheus.yml /etc/prometheus/</span><br><span class="line"></span><br><span class="line"># 3. 設定 /etc/prometheus 底下所有檔案的擁有者</span><br><span class="line">sudo chown -R prometheus:prometheus /etc/prometheus/</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_6.jpg" class="" title="移動 Prometheus 執行檔與設定檔">
+
+<p>接著建立 Prometheus 的 systemd service，讓 Prometheus 可以透過 systemctl 管理。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/systemd/system/prometheus.service</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Prometheus</span><br><span class="line">Wants=network-online.target</span><br><span class="line">After=network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">User=prometheus</span><br><span class="line">Group=prometheus</span><br><span class="line">Type=simple</span><br><span class="line">ExecStart=/usr/local/bin/prometheus \</span><br><span class="line">		--config.file /etc/prometheus/prometheus.yml \</span><br><span class="line">		--storage.tsdb.path /var/lib/prometheus/ \</span><br><span class="line">		--web.console.templates=/etc/prometheus/consoles \</span><br><span class="line">		--web.console.libraries=/etc/prometheus/console_libraries \</span><br><span class="line">		--web.listen-address=&quot;0.0.0.0:9090&quot;</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>建立服務檔後，重新載入 systemd 設定，啟動 Prometheus 並設定開機自動啟動。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 重新載入 systemd 設定</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line"></span><br><span class="line"># 啟動並設定開機自啟動</span><br><span class="line">sudo systemctl start prometheus</span><br><span class="line">sudo systemctl enable prometheus</span><br><span class="line"></span><br><span class="line"># 檢查運行狀態 (應該要看到 active (running))</span><br><span class="line">sudo systemctl status prometheus</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_1.jpg" class="" title="確認 Prometheus 服務狀態">
+
+<p>服務啟動後，開啟瀏覽器進入 <code>http://127.0.0.1:9090</code>，確認 Prometheus 是否正常運作。</p>
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_2.jpg" class="" title="Prometheus Web UI">
+
+<h2 id="安裝-grafana"><a href="#安裝-grafana" class="headerlink" title="安裝 grafana"></a>安裝 grafana</h2><p>Prometheus 負責收集與儲存監控資料，而 Grafana 則用來建立視覺化 Dashboard。這裡使用 Grafana 官方提供的 <code>.deb</code> 套件進行安裝。</p>
+<p>Grafana 下載頁面通常會提供 <code>Enterprise</code> 與 <code>OSS</code> 兩種版本。<code>OSS</code> 是開源版本，已包含建立 Dashboard、設定資料來源、查詢 Prometheus 與基本告警等常用功能；<code>Enterprise</code> 則包含 OSS 的功能，並可在授權後啟用企業級功能與外掛，例如進階權限控管、企業資料來源外掛、報表與官方支援等。若只是建立本文這類 Prometheus 與 Node Exporter 的主機監控環境，使用 <code>OSS</code> 版本即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 安裝 Grafana 執行所需的相依套件</span><br><span class="line">sudo apt-get install -y adduser libfontconfig1 musl</span><br><span class="line"></span><br><span class="line"># 從 Grafana 官方下載指定版本的 deb 安裝套件</span><br><span class="line">wget https://dl.grafana.com/grafana/release/13.1.0/grafana_13.1.0_28013217238_linux_amd64.deb</span><br><span class="line"></span><br><span class="line"># 使用 dpkg 安裝 Grafana</span><br><span class="line">sudo dpkg -i grafana_13.1.0_28013217238_linux_amd64.deb</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_7.jpg" class="" title="安裝 Grafana 相依套件">
+
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_8.jpg" class="" title="下載 Grafana deb 套件">
+
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_9.jpg" class="" title="安裝 Grafana">
+
+<p>安裝完成後，修改 Grafana 設定檔 <code>/etc/grafana/grafana.ini</code>，讓 Grafana Server 綁定到 <code>0.0.0.0</code>，並使用預設的 <code>3000</code> 連接埠。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/grafana/grafana.ini</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[server]</span><br><span class="line"># The ip address to bind to, empty will bind to all interfaces</span><br><span class="line">http_addr = 0.0.0.0</span><br><span class="line"></span><br><span class="line"># The http port  to use</span><br><span class="line">http_port = 3000</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_10.jpg" class="" title="修改 Grafana 設定">
+
+<p>接著重新載入 systemd 設定，啟動 Grafana Server 並設定開機自動啟動。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 重新載入 systemd 設定</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line"></span><br><span class="line"># 啟動並設定開機自啟動</span><br><span class="line">sudo systemctl start grafana-server</span><br><span class="line">sudo systemctl enable grafana-server</span><br><span class="line"></span><br><span class="line"># 檢查運行狀態 (應該要看到 active (running))</span><br><span class="line">sudo systemctl status grafana-server</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_11.jpg" class="" title="確認 Grafana 服務狀態">
+
+<p>開啟瀏覽器進入 <code>http://127.0.0.1:3000</code>，確認 Grafana 是否正常運作。</p>
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_12.jpg" class="" title="Grafana 登入頁">
+
+<p>Grafana 預設帳號與密碼皆為 <code>admin</code>，首次登入後會要求重新設定密碼。</p>
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_13.jpg" class="" title="Grafana 首次登入變更密碼">
+
+<p>完成登入後，就可以進入 Grafana 主畫面。</p>
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_14.jpg" class="" title="Grafana 建置完成">
+
+<h2 id="安裝-node-exporter"><a href="#安裝-node-exporter" class="headerlink" title="安裝 node_exporter"></a>安裝 node_exporter</h2><p>Node Exporter 會提供主機 CPU、記憶體、磁碟、網路等系統 Metrics，讓 Prometheus 可以定期抓取並儲存。首先下載 Node Exporter 的 Linux AMD64 版本並解壓縮。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 使用 wget 下載 (請將網址替換為官網最新的 linux-amd64 連結)</span><br><span class="line"># 這裡以 1.11.1 為例：</span><br><span class="line">wget https://github.com/prometheus/node_exporter/releases/download/v1.11.1/node_exporter-1.11.1.linux-amd64.tar.gz</span><br><span class="line"></span><br><span class="line"># 解壓縮</span><br><span class="line">tar xvfz node_exporter-1.11.1.linux-amd64.tar.gz</span><br><span class="line"></span><br><span class="line"># 進入解壓縮後的資料夾</span><br><span class="line">cd node_exporter-1.11.1.linux-amd64.tar.gz</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_20.jpg" class="" title="下載並解壓縮 Node Exporter">
+
+<p>接著建立 Node Exporter 專用使用者。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 建立 node_exporter 使用者 (不建立家目錄，且禁止登入)</span><br><span class="line">sudo useradd --no-create-home --shell /bin/false node_exporter</span><br></pre></td></tr></table></figure>
+
+<p>將 Node Exporter 執行檔複製到 <code>/usr/local/bin/</code>，並設定擁有者。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 移動執行檔</span><br><span class="line">sudo cp node_exporter /usr/local/bin/</span><br><span class="line"></span><br><span class="line"># 設定擁有者</span><br><span class="line">sudo chown node_exporter:node_exporter /usr/local/bin/node_exporter</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_22.jpg" class="" title="移動 Node Exporter 執行檔">
+
+<p>建立 Node Exporter 的 systemd service。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/systemd/system/node_exporter.service</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Node Exporter</span><br><span class="line">Wants=network-online.target</span><br><span class="line">After=network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">User=node_exporter</span><br><span class="line">Group=node_exporter</span><br><span class="line">Type=simple</span><br><span class="line">ExecStart=/usr/local/bin/node_exporter</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>建立服務檔後，重新載入 systemd 設定，啟動 Node Exporter 並設定開機自動啟動。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 重新載入 systemd 設定</span><br><span class="line">sudo systemctl daemon-reload</span><br><span class="line"></span><br><span class="line"># 啟動並設定開機自啟動</span><br><span class="line">sudo systemctl start node_exporter</span><br><span class="line">sudo systemctl enable node_exporter</span><br><span class="line"></span><br><span class="line"># 檢查運行狀態 (應該要看到 active (running))</span><br><span class="line">sudo systemctl status node_exporter</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_23.jpg" class="" title="確認 Node Exporter 服務狀態">
+
+<p>接著回到 Prometheus 設定檔，新增 Node Exporter 的 scrape target，讓 Prometheus 可以抓取 <code>localhost:9100</code> 提供的 Metrics。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 修改prometheus設定</span><br><span class="line">sudo nano /etc/prometheus/prometheus.yml</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">scrape_configs:</span><br><span class="line">	- job_name: &quot;prometheus&quot;</span><br><span class="line">		static_configs:</span><br><span class="line">			- targets: [&quot;localhost:9090&quot;]</span><br><span class="line"></span><br><span class="line">	- job_name: &quot;node_exporter&quot;</span><br><span class="line">		static_configs:</span><br><span class="line">			- targets: [&quot;localhost:9100&quot;]</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_24.jpg" class="" title="修改 Prometheus scrape 設定">
+
+<p>最後可以透過 curl 驗證 Node Exporter 是否正常輸出 Metrics。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://127.0.0.1:9100/metrics</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_25.jpg" class="" title="驗證 Node Exporter Metrics">
+
+<h2 id="設定-Dashboard"><a href="#設定-Dashboard" class="headerlink" title="設定 Dashboard"></a>設定 Dashboard</h2><p>Prometheus 與 Node Exporter 都完成後，就可以在 Grafana 中設定 Prometheus 資料來源，並匯入 Node Exporter Dashboard。</p>
+<p>先新增 Prometheus 來源。</p>
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_15.jpg" class="" title="新增 Prometheus 來源">
+
+<p>添加 datasource。</p>
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_16.jpg" class="" title="添加 datasource">
+
+<p>設定 Prometheus 位置。</p>
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_17.jpg" class="" title="設定 Prometheus 位置">
+
+<p>儲存並確認 datasource 是否有添加成功。</p>
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_18.jpg" class="" title="儲存 datasource">
+
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_19.jpg" class="" title="確認 datasource 成功">
+
+<p>接著下載 Node Exporter 的 Dashboard 樣版設定。這裡使用的是 Grafana Labs 上常見的 <code>1860</code> 樣板，也就是 <strong>Node Exporter Full</strong>。這個 Dashboard 主要搭配 Prometheus 與 Node Exporter 使用，可以直接呈現主機的 CPU、Memory、Disk、Filesystem、Network、Load Average 等系統監控資訊。</p>
+<p>匯入時可以使用 Dashboard ID <code>1860</code>，也可以從頁面下載 JSON 後再匯入。若前面已經完成 Prometheus datasource 設定，匯入時只要選擇對應的 Prometheus 資料來源，就能讓 Dashboard 讀取 Node Exporter 收集到的 metrics。</p>
+<p><code>https://grafana.com/grafana/dashboards/1860-node-exporter-full/</code></p>
+<p>新增 Dashboard。</p>
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_26.jpg" class="" title="新增 Dashboard">
+
+<p>匯入 Dashboard。</p>
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_27.jpg" class="" title="匯入 Dashboard">
+
+<p>設定 Dashboard。</p>
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_28.jpg" class="" title="設定 Dashboard">
+
+<p>Dashboard 設定完成後，就可以在 Grafana 中查看 Node Exporter 收集到的主機監控資料。</p>
+<img src="/2026/07/30/grafana-prometheus-install/grafana_prometheus_install_29.jpg" class="" title="Dashboard 設定完成">
+
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://grafana.com/grafana/download?edition=oss">Grafana OSS Download</a></li>
+<li><a target="_blank" rel="noopener" href="https://prometheus.io/download/">Prometheus Download</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <div class="post-recent-posts" style="display:none">
+      <div class="post-recent-posts-title">
+        <i class="fa fa-history fa-fw"></i> 近期文章
+      </div>
+      <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/07/30/grafana-prometheus-install/" title="Grafana + Prometheus + Node Exporter 安裝與監控 Dashboard 建置">
+            <div class="post-recent-card-banner post-recent-card-cat--grafana">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Grafana + Prometheus + Node Exporter 安裝與監控 Dashboard 建置</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-07-30</span><span class="post-recent-card-cat">grafana</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/07/26/vscode-remote-debug-java/" title="使用 VS Code 遠端 Debug Java 應用程式">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">使用 VS Code 遠端 Debug Java 應用程式</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-07-26</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/07/25/logstash-spring-boot/" title="將 Spring Boot Log 透過 Logstash 導入 Elasticsearch">
+            <div class="post-recent-card-banner post-recent-card-cat--elasticsearch">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">將 Spring Boot Log 透過 Logstash 導入 Elasticsearch</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-07-25</span><span class="post-recent-card-cat">elasticsearch</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/07/20/jaeger-install/" title="Jaeger 安裝指南">
+            <div class="post-recent-card-banner post-recent-card-cat--opentelemetry">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Jaeger 安裝指南</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-07-20</span><span class="post-recent-card-cat">opentelemetry</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/07/14/elk-install-2026/" title="在 Ubuntu 26.04 安裝 Elasticsearch 與 Kibana">
+            <div class="post-recent-card-banner post-recent-card-cat--elasticsearch">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">在 Ubuntu 26.04 安裝 Elasticsearch 與 Kibana</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-07-14</span><span class="post-recent-card-cat">elasticsearch</span>
+            </div>
+          </a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function showRecentPosts() {
+          var block = document.querySelector('.post-recent-posts');
+          if (!block) return;
+
+          // 重置狀態
+          block.classList.remove('animated', 'fadeIn');
+          block.style.display = 'none';
+
+          var comments = document.querySelector('.comments');
+          if (comments) {
+            comments.parentNode.insertBefore(block, comments);
+          }
+
+          function reveal() {
+            block.style.display = '';
+            block.offsetHeight; // force reflow
+            block.classList.add('animated', 'fadeIn');
+          }
+
+          if (!comments) {
+            reveal();
+          } else {
+            // 觀察 .comments 被 NexT motion 加上 animated class 的時機
+            var observer = new MutationObserver(function () {
+              if (comments.classList.contains('animated')) {
+                observer.disconnect();
+                reveal();
+              }
+            });
+            observer.observe(comments, { attributes: true, attributeFilter: ['class'] });
+            // 若 motion 已跑完（comments 已有 animated），也直接顯示
+            if (comments.classList.contains('animated')) {
+              observer.disconnect();
+              reveal();
+            }
+          }
+        }
+
+        // 初次載入
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', showRecentPosts, { once: true });
+        } else {
+          showRecentPosts();
+        }
+
+        // PJAX：pjax:success 時 NexT motion 剛啟動（async），.comments 尚未有 animated
+        document.addEventListener('pjax:success', showRecentPosts);
+      })();
+    </script>
+
+          <div class="post-tags">
+              <a href="/tags/grafana/" rel="tag"># grafana</a>
+              <a href="/tags/prometheus/" rel="tag"># prometheus</a>
+              <a href="/tags/monitoring/" rel="tag"># monitoring</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/07/26/vscode-remote-debug-java/" rel="prev" title="使用 VS Code 遠端 Debug Java 應用程式">
+                  <i class="fa fa-angle-left"></i> 使用 VS Code 遠端 Debug Java 應用程式
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"161f5a016573863ae4512c48bdd1661e"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+<link rel="stylesheet" href="/css/tinyqqc/tinyqqc-widget.css">
+<script
+  id="tinyqqc-widget-script"
+  src="/js/tinyqqc/tinyqqc-widget.iife.js"
+  data-tinyqqc-widget
+  data-api-base-url="https://tinyqqs-846222163009.asia-east1.run.app/"
+  data-initial-open="false"
+  defer
+></script>
+
+</body>
+</html>

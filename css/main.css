@@ -1335,7 +1335,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #e49e00;
+    background: #9ebf70;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -3287,6 +3287,9 @@ header.header {
 .category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/gamelife/"]) {
   --category-accent-rgb: 251, 112, 169;
 }
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/grafana/"]) {
+  --category-accent-rgb: 242, 101, 34;
+}
 .category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/gitlab/"]) {
   --category-accent-rgb: 226, 67, 41;
 }
@@ -3392,6 +3395,9 @@ header.header {
 }
 .category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/gamelife/"]::before {
   background-image: url("/brands/gamelife.svg");
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/grafana/"]::before {
+  background-image: url("/brands/grafana.svg");
 }
 .category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/vscodelife/"]::before {
   background-image: url("/brands/vscodelife.svg");
