@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Git 是目前最常見的版本控制工具，無論是個人專案、團隊協作，或是 CI&#x2F;CD 流程，幾乎都會透過 Git 來管理程式碼版本。若團隊使用 GitLab 作為 Git repository 平台，開發者除了要先在本機安裝 Git，也需要準備好 GitLab 的存取權限，才能順利 clone 專案。 本文會示範如何在 Ubuntu 環境安裝 Git，並使用 GitLab 的 Personal">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 Ubuntu 安裝 Git 並從 GitLab Clone Repository">
+<meta property="og:url" content="https://pcion123.github.io/2026/08/06/git-install/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="Git 是目前最常見的版本控制工具，無論是個人專案、團隊協作，或是 CI&#x2F;CD 流程，幾乎都會透過 Git 來管理程式碼版本。若團隊使用 GitLab 作為 Git repository 平台，開發者除了要先在本機安裝 Git，也需要準備好 GitLab 的存取權限，才能順利 clone 專案。 本文會示範如何在 Ubuntu 環境安裝 Git，並使用 GitLab 的 Personal">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/06/git-install/git_install_1.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/06/git-install/git_install_2.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/06/git-install/git_install_3.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/06/git-install/git_install_4.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/06/git-install/git_install_5.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/06/git-install/git_install_6.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/06/git-install/git_install_7.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/06/git-install/git_install_8.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/06/git-install/git_install_9.jpg">
+<meta property="article:published_time" content="2026-08-06T02:38:02.000Z">
+<meta property="article:modified_time" content="2026-08-06T02:43:56.716Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="gitlab">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2026/08/06/git-install/git_install_1.jpg">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/08/06/git-install/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/08/06/git-install/","path":"2026/08/06/git-install/","title":"在 Ubuntu 安裝 Git 並從 GitLab Clone Repository"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>在 Ubuntu 安裝 Git 並從 GitLab Clone Repository | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E9%9C%80%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">前置需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-Git"><span class="nav-number">2.</span> <span class="nav-text">安裝 Git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A-Git-%E4%BD%BF%E7%94%A8%E8%80%85%E8%B3%87%E8%A8%8A"><span class="nav-number">3.</span> <span class="nav-text">設定 Git 使用者資訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%B2%E5%85%A5-GitLab-Personal-Access-Tokens-%E9%A0%81%E9%9D%A2"><span class="nav-number">4.</span> <span class="nav-text">進入 GitLab Personal Access Tokens 頁面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B-Personal-Access-Token"><span class="nav-number">5.</span> <span class="nav-text">建立 Personal Access Token</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-HTTPS-Clone-GitLab-Repository"><span class="nav-number">6.</span> <span class="nav-text">使用 HTTPS Clone GitLab Repository</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AA%A2%E6%9F%A5-Clone-%E7%B5%90%E6%9E%9C"><span class="nav-number">7.</span> <span class="nav-text">檢查 Clone 結果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%84%B2%E5%AD%98-HTTPS-%E8%AA%8D%E8%AD%89%E8%B3%87%E8%A8%8A"><span class="nav-number">8.</span> <span class="nav-text">儲存 HTTPS 認證資訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C"><span class="nav-number">9.</span> <span class="nav-text">常見問題</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#clone-%E6%99%82%E5%87%BA%E7%8F%BE-Authentication-failed"><span class="nav-number">9.1.</span> <span class="nav-text">clone 時出現 Authentication failed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%BE%E4%B8%8D%E5%88%B0-GitLab-%E7%B6%B2%E5%9D%80"><span class="nav-number">9.2.</span> <span class="nav-text">找不到 GitLab 網址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E6%83%B3%E4%BD%BF%E7%94%A8-HTTPS-token"><span class="nav-number">9.3.</span> <span class="nav-text">不想使用 HTTPS token</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%B5%90"><span class="nav-number">10.</span> <span class="nav-text">小結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">76</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/agent/" style="font-size: 13.64px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/chrome-extension/" style="font-size: 12px;" class="tag-cloud-0">chrome-extension</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/container-registry/" style="font-size: 12px;" class="tag-cloud-0">container-registry</a> <a href="/tags/copilot-cli/" style="font-size: 15.27px;" class="tag-cloud-2">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 26.73px;" class="tag-cloud-8">docker</a> <a href="/tags/elasticsearch/" style="font-size: 15.27px;" class="tag-cloud-2">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 21.82px;" class="tag-cloud-5">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 13.64px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 20.18px;" class="tag-cloud-5">gitlab</a> <a href="/tags/googlemap/" style="font-size: 15.27px;" class="tag-cloud-2">googlemap</a> <a href="/tags/grafana/" style="font-size: 15.27px;" class="tag-cloud-2">grafana</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 21.82px;" class="tag-cloud-5">java</a> <a href="/tags/jdk/" style="font-size: 13.64px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 16.91px;" class="tag-cloud-3">jenkins</a> <a href="/tags/kibana/" style="font-size: 15.27px;" class="tag-cloud-2">kibana</a> <a href="/tags/kubernetes/" style="font-size: 25.09px;" class="tag-cloud-7">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 28.36px;" class="tag-cloud-9">linux</a> <a href="/tags/logstash/" style="font-size: 13.64px;" class="tag-cloud-1">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 15.27px;" class="tag-cloud-2">maven</a> <a href="/tags/mcp/" style="font-size: 13.64px;" class="tag-cloud-1">mcp</a> <a href="/tags/minikube/" style="font-size: 13.64px;" class="tag-cloud-1">minikube</a> <a href="/tags/monitoring/" style="font-size: 16.91px;" class="tag-cloud-3">monitoring</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.64px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/opentelemetry/" style="font-size: 13.64px;" class="tag-cloud-1">opentelemetry</a> <a href="/tags/pm2/" style="font-size: 13.64px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 15.27px;" class="tag-cloud-2">powershell</a> <a href="/tags/prometheus/" style="font-size: 15.27px;" class="tag-cloud-2">prometheus</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/skills/" style="font-size: 13.64px;" class="tag-cloud-1">skills</a> <a href="/tags/spring-boot/" style="font-size: 16.91px;" class="tag-cloud-3">spring-boot</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 15.27px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 13.64px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 23.45px;" class="tag-cloud-6">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/vscode/" style="font-size: 30px;" class="tag-cloud-10">vscode</a> <a href="/tags/windows/" style="font-size: 18.55px;" class="tag-cloud-4">windows</a> <a href="/tags/windows-terminal/" style="font-size: 12px;" class="tag-cloud-0">windows-terminal</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 15.27px;" class="tag-cloud-2">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相關文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/04/gitlab-install-2026/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-04</time>
+        <br>
+      在 Ubuntu 上安裝 GitLab Community Edition
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/05/gitlab-container-registry-setting/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-05</time>
+        <br>
+      開啟 GitLab Container Registry 功能
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/10/11/docker-hub-pat-guide/" rel="bookmark">
+        <time class="popular-posts-time">2025-10-11</time>
+        <br>
+      Docker Hub PAT 申請指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/03/20/copilot-cli-install/" rel="bookmark">
+        <time class="popular-posts-time">2026-03-20</time>
+        <br>
+      GitHub Copilot CLI 安裝指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/07/14/elk-install-2026/" rel="bookmark">
+        <time class="popular-posts-time">2026-07-14</time>
+        <br>
+      在 Ubuntu 26.04 安裝 Elasticsearch 與 Kibana
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/08/06/git-install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="在 Ubuntu 安裝 Git 並從 GitLab Clone Repository | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在 Ubuntu 安裝 Git 並從 GitLab Clone Repository
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-08-06 10:38:02 / 修改時間：10:43:56" itemprop="dateCreated datePublished" datetime="2026-08-06T10:38:02+08:00">2026-08-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/gitlab/" itemprop="url" rel="index"><span itemprop="name">gitlab</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>Git 是目前最常見的版本控制工具，無論是個人專案、團隊協作，或是 CI&#x2F;CD 流程，幾乎都會透過 Git 來管理程式碼版本。若團隊使用 GitLab 作為 Git repository 平台，開發者除了要先在本機安裝 Git，也需要準備好 GitLab 的存取權限，才能順利 clone 專案。</p>
+<p>本文會示範如何在 Ubuntu 環境安裝 Git，並使用 GitLab 的 Personal Access Token 透過 HTTPS clone repository。範例會以 <code>https://inner.gitlab.dev/pcion123/docker-test.git</code> 作為 repository URL，實際操作時請替換成自己的 GitLab 網址、帳號與專案路徑。</p>
+<h2 id="前置需求"><a href="#前置需求" class="headerlink" title="前置需求"></a>前置需求</h2><p>開始前，請先確認已具備以下條件：</p>
+<ul>
+<li>一台可以使用終端機操作的 Ubuntu 主機</li>
+<li>具備 <code>sudo</code> 權限的使用者帳號</li>
+<li>可以連線到 GitLab 服務的網路環境</li>
+<li>已經擁有 GitLab 帳號，且有目標 repository 的讀取權限</li>
+</ul>
+<p>如果 GitLab 是公司內部或實驗環境自架的服務，也要先確認主機能解析 GitLab 的網域名稱。例如本文範例使用 <code>inner.gitlab.dev</code>，因此 Ubuntu 主機必須能正確連到這個位址。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="安裝-Git"><a href="#安裝-Git" class="headerlink" title="安裝 Git"></a>安裝 Git</h2><p>Ubuntu 可以直接透過 APT 套件管理工具安裝 Git。先更新套件索引：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br></pre></td></tr></table></figure>
+
+<p>接著安裝 Git：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install -y git</span><br></pre></td></tr></table></figure>
+
+<p>安裝完成後，可以使用以下指令確認版本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git version</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/08/06/git-install/git_install_1.jpg" class="" title="確認 Git 版本">
+
+<p>只要終端機能顯示 Git 版本，就代表 Git 已經可以正常使用。圖中的版本是 <code>git version 2.53.0</code>，實際版本會依照 Ubuntu 版本與套件來源而不同。</p>
+<h2 id="設定-Git-使用者資訊"><a href="#設定-Git-使用者資訊" class="headerlink" title="設定 Git 使用者資訊"></a>設定 Git 使用者資訊</h2><p>第一次使用 Git 前，建議先設定 commit 會使用的名稱與 Email。這些資訊會寫入 Git commit 紀錄，方便團隊在 GitLab 上追蹤每次變更是由誰提交。</p>
+<p>設定使用者名稱：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;你的名稱&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>設定 Email：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.email <span class="string">&quot;you@example.com&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>設定完成後，可以用以下指令檢查目前的全域設定：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global --list</span><br></pre></td></tr></table></figure>
+
+<p>這裡的 Email 建議使用 GitLab 帳號綁定的 Email，後續在 GitLab 上查看 commit 時會比較容易對應到正確使用者。</p>
+<h2 id="進入-GitLab-Personal-Access-Tokens-頁面"><a href="#進入-GitLab-Personal-Access-Tokens-頁面" class="headerlink" title="進入 GitLab Personal Access Tokens 頁面"></a>進入 GitLab Personal Access Tokens 頁面</h2><p>如果要使用 HTTPS clone 私有 repository，GitLab 通常不建議直接使用帳號密碼，而是使用 Personal Access Token 作為密碼。這樣可以針對 token 設定期限與權限範圍，也能在外洩或不再使用時單獨撤銷。</p>
+<p>登入 GitLab 後，點選右上角的使用者頭像，開啟選單後進入 <code>Preferences</code>。</p>
+<img src="/2026/08/06/git-install/git_install_2.jpg" class="" title="進入 GitLab Preferences">
+
+<p>進入 Preferences 後，在左側選單找到 <code>Access</code>，再選擇 <code>Personal access tokens</code>。</p>
+<img src="/2026/08/06/git-install/git_install_3.jpg" class="" title="進入 Personal access tokens">
+
+<p>在 Personal access tokens 頁面中，點選 <code>Generate token</code>。如果畫面中提供 <code>Fine-grained token</code> 與 <code>Legacy token</code>，可以依照 GitLab 版本與團隊政策選擇適合的 token 類型。本文範例使用 <code>Legacy token</code> 示範。</p>
+<img src="/2026/08/06/git-install/git_install_4.jpg" class="" title="選擇 Legacy token">
+
+<h2 id="建立-Personal-Access-Token"><a href="#建立-Personal-Access-Token" class="headerlink" title="建立 Personal Access Token"></a>建立 Personal Access Token</h2><p>建立 token 時，需要填寫 token 名稱、描述與到期日，並選擇需要的權限範圍。若只是要 clone repository，通常至少需要 repository 讀取權限；如果之後也要 push 程式碼，則需要寫入 repository 的權限。</p>
+<p>範例畫面中填入 token 名稱 <code>docker-test</code>，並勾選以下 scopes：</p>
+<ul>
+<li><code>read_repository</code></li>
+<li><code>write_repository</code></li>
+<li><code>api</code></li>
+</ul>
+<img src="/2026/08/06/git-install/git_install_5.jpg" class="" title="設定 token 權限">
+
+<p>設定完成後，點選 <code>Generate token</code> 建立 token。</p>
+<p>GitLab 產生 token 後，畫面只會顯示一次。請立刻複製並妥善保存，離開頁面後通常無法再次查看完整 token。</p>
+<img src="/2026/08/06/git-install/git_install_6.jpg" class="" title="複製新建立的 token">
+
+<p>Personal Access Token 等同於可以存取 GitLab repository 的密碼，請不要貼在文件、聊天室、Issue、程式碼或公開截圖中。如果 token 不慎外洩，應立即到 GitLab 撤銷該 token，並重新產生新的 token。</p>
+<h2 id="使用-HTTPS-Clone-GitLab-Repository"><a href="#使用-HTTPS-Clone-GitLab-Repository" class="headerlink" title="使用 HTTPS Clone GitLab Repository"></a>使用 HTTPS Clone GitLab Repository</h2><p>取得 token 後，就可以回到 Ubuntu 終端機 clone repository。先複製 GitLab 專案頁面提供的 HTTPS clone URL，接著執行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://inner.gitlab.dev/pcion123/docker-test.git</span><br></pre></td></tr></table></figure>
+
+<p>執行後，Git 會要求輸入 GitLab 使用者名稱與密碼。使用者名稱輸入 GitLab 帳號，例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Username for &#x27;https://inner.gitlab.dev&#x27;: pcion123</span><br></pre></td></tr></table></figure>
+
+<p>密碼欄位請貼上剛剛建立的 Personal Access Token，而不是 GitLab 帳號密碼。終端機通常不會顯示貼上的 token，這是正常現象。</p>
+<img src="/2026/08/06/git-install/git_install_7.jpg" class="" title="使用 token clone repository">
+
+<p>看到 <code>Receiving objects</code> 與 <code>Resolving deltas</code> 都完成後，就代表 repository 已成功下載到本機。</p>
+<h2 id="檢查-Clone-結果"><a href="#檢查-Clone-結果" class="headerlink" title="檢查 Clone 結果"></a>檢查 Clone 結果</h2><p>clone 完成後，可以使用 <code>ls</code> 確認目前目錄中多了一個專案資料夾：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span></span><br></pre></td></tr></table></figure>
+
+<p>接著進入專案資料夾：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> docker-test/</span><br></pre></td></tr></table></figure>
+
+<p>再列出專案內容：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span></span><br></pre></td></tr></table></figure>
+
+<img src="/2026/08/06/git-install/git_install_8.jpg" class="" title="檢查 clone 後的專案內容">
+
+<p>如果可以看到 repository 裡的檔案，例如 <code>README.md</code>、<code>pom.xml</code>、<code>src</code> 等內容，就代表 clone 成功，可以開始進行後續開發。</p>
+<h2 id="儲存-HTTPS-認證資訊"><a href="#儲存-HTTPS-認證資訊" class="headerlink" title="儲存 HTTPS 認證資訊"></a>儲存 HTTPS 認證資訊</h2><p>如果不想每次執行 <code>git pull</code> 或 <code>git push</code> 都重新輸入帳號與 token，可以設定 Git credential helper。最簡單的方式是使用 <code>store</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global credential.helper store</span><br></pre></td></tr></table></figure>
+
+<p>設定後，下一次使用 HTTPS 存取 GitLab 並完成登入時，Git 會把認證資訊儲存在本機使用者目錄下的憑證檔中。之後再次操作同一個 GitLab 網址時，就不需要重複輸入。</p>
+<img src="/2026/08/06/git-install/git_install_9.jpg" class="" title="設定 credential helper">
+
+<p>需要注意的是，<code>credential.helper store</code> 會以明文形式儲存憑證，因此比較適合個人測試機、實驗環境或受控的開發機。如果是在共用主機或安全要求較高的環境，建議改用系統提供的安全憑證管理工具，或改採 SSH key 方式連線。</p>
+<h2 id="常見問題"><a href="#常見問題" class="headerlink" title="常見問題"></a>常見問題</h2><h3 id="clone-時出現-Authentication-failed"><a href="#clone-時出現-Authentication-failed" class="headerlink" title="clone 時出現 Authentication failed"></a>clone 時出現 Authentication failed</h3><p>如果 clone 時出現認證失敗，通常可以檢查以下幾點：</p>
+<ul>
+<li>GitLab 使用者名稱是否輸入正確</li>
+<li>密碼欄位是否貼上 Personal Access Token，而不是 GitLab 帳號密碼</li>
+<li>token 是否已過期或被撤銷</li>
+<li>token 是否具備 <code>read_repository</code> 權限</li>
+<li>使用者是否有該 repository 的存取權限</li>
+</ul>
+<h3 id="找不到-GitLab-網址"><a href="#找不到-GitLab-網址" class="headerlink" title="找不到 GitLab 網址"></a>找不到 GitLab 網址</h3><p>如果終端機無法連到 GitLab，例如出現 DNS 解析失敗或連線逾時，請先確認 Ubuntu 主機能否連線到 GitLab：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping inner.gitlab.dev</span><br></pre></td></tr></table></figure>
+
+<p>若 GitLab 是內部服務，可能需要檢查 DNS、VPN、防火牆或 <code>/etc/hosts</code> 設定。</p>
+<h3 id="不想使用-HTTPS-token"><a href="#不想使用-HTTPS-token" class="headerlink" title="不想使用 HTTPS token"></a>不想使用 HTTPS token</h3><p>GitLab 也支援透過 SSH key clone repository。SSH 的好處是不用每次輸入 token，也不需要把 Personal Access Token 存在本機 Git credential 中。不過第一次使用前，需要先產生 SSH key，並把 public key 加到 GitLab 帳號中。</p>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>本文完成了 Ubuntu 安裝 Git、設定 Git 使用者資訊、建立 GitLab Personal Access Token，以及使用 HTTPS clone GitLab repository 的基本流程。對剛開始使用 GitLab 的環境來說，HTTPS 搭配 Personal Access Token 是很直覺的入門方式；等流程熟悉後，再依照團隊安全政策選擇是否改用 SSH key 或更細緻的 token 權限設定。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <div class="post-recent-posts" style="display:none">
+      <div class="post-recent-posts-title">
+        <i class="fa fa-history fa-fw"></i> 近期文章
+      </div>
+      <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/08/06/git-install/" title="在 Ubuntu 安裝 Git 並從 GitLab Clone Repository">
+            <div class="post-recent-card-banner post-recent-card-cat--gitlab">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">在 Ubuntu 安裝 Git 並從 GitLab Clone Repository</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-06</span><span class="post-recent-card-cat">gitlab</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/05/gitlab-container-registry-setting/" title="開啟 GitLab Container Registry 功能">
+            <div class="post-recent-card-banner post-recent-card-cat--gitlab">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">開啟 GitLab Container Registry 功能</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-05</span><span class="post-recent-card-cat">gitlab</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/04/gitlab-install-2026/" title="在 Ubuntu 上安裝 GitLab Community Edition">
+            <div class="post-recent-card-banner post-recent-card-cat--gitlab">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">在 Ubuntu 上安裝 GitLab Community Edition</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-04</span><span class="post-recent-card-cat">gitlab</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/03/windows-terminal-split/" title="Windows Terminal 畫面分割功能介紹">
+            <div class="post-recent-card-banner post-recent-card-cat--windows">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Windows Terminal 畫面分割功能介紹</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-03</span><span class="post-recent-card-cat">windows</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/02/opentelemetry-collector-spring-boot-monitor/" title="使用 OpenTelemetry Collector 蒐集 Spring Boot 應用數據">
+            <div class="post-recent-card-banner post-recent-card-cat--opentelemetry">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">使用 OpenTelemetry Collector 蒐集 Spring Boot 應用數據</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-02</span><span class="post-recent-card-cat">opentelemetry</span>
+            </div>
+          </a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function showRecentPosts() {
+          var block = document.querySelector('.post-recent-posts');
+          if (!block) return;
+
+          // 重置狀態
+          block.classList.remove('animated', 'fadeIn');
+          block.style.display = 'none';
+
+          var comments = document.querySelector('.comments');
+          if (comments) {
+            comments.parentNode.insertBefore(block, comments);
+          }
+
+          function reveal() {
+            block.style.display = '';
+            block.offsetHeight; // force reflow
+            block.classList.add('animated', 'fadeIn');
+          }
+
+          if (!comments) {
+            reveal();
+          } else {
+            // 觀察 .comments 被 NexT motion 加上 animated class 的時機
+            var observer = new MutationObserver(function () {
+              if (comments.classList.contains('animated')) {
+                observer.disconnect();
+                reveal();
+              }
+            });
+            observer.observe(comments, { attributes: true, attributeFilter: ['class'] });
+            // 若 motion 已跑完（comments 已有 animated），也直接顯示
+            if (comments.classList.contains('animated')) {
+              observer.disconnect();
+              reveal();
+            }
+          }
+        }
+
+        // 初次載入
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', showRecentPosts, { once: true });
+        } else {
+          showRecentPosts();
+        }
+
+        // PJAX：pjax:success 時 NexT motion 剛啟動（async），.comments 尚未有 animated
+        document.addEventListener('pjax:success', showRecentPosts);
+      })();
+    </script>
+
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/gitlab/" rel="tag"># gitlab</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/08/05/gitlab-container-registry-setting/" rel="prev" title="開啟 GitLab Container Registry 功能">
+                  <i class="fa fa-angle-left"></i> 開啟 GitLab Container Registry 功能
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"dc9ea87dac65417f23c1d80bd1df515a"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+<link rel="stylesheet" href="/css/tinyqqc/tinyqqc-widget.css">
+<script
+  id="tinyqqc-widget-script"
+  src="/js/tinyqqc/tinyqqc-widget.iife.js"
+  data-tinyqqc-widget
+  data-api-base-url="https://tinyqqs-846222163009.asia-east1.run.app/"
+  data-initial-open="false"
+  defer
+></script>
+
+</body>
+</html>
