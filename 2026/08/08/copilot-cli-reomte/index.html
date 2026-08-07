@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="簡介GitHub Copilot CLI 除了可以在本機終端機中使用，也支援 Remote Control 功能，讓你從 GitHub.com 或 GitHub Mobile 查看正在執行的 CLI session，並在需要時遠端回覆提示、批准權限要求，或繼續下達新的指令。 這個功能很適合用在需要長時間執行的開發任務。例如你讓 Copilot CLI 在本機分析專案、修改程式、跑測試，但人暫時離開">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 Copilot CLI Remote Control 進行遠端開發">
+<meta property="og:url" content="https://pcion123.github.io/2026/08/08/copilot-cli-reomte/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="簡介GitHub Copilot CLI 除了可以在本機終端機中使用，也支援 Remote Control 功能，讓你從 GitHub.com 或 GitHub Mobile 查看正在執行的 CLI session，並在需要時遠端回覆提示、批准權限要求，或繼續下達新的指令。 這個功能很適合用在需要長時間執行的開發任務。例如你讓 Copilot CLI 在本機分析專案、修改程式、跑測試，但人暫時離開">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/08/copilot-cli-reomte/copilot-cli-remote-demo.webp">
+<meta property="article:published_time" content="2026-08-07T17:36:35.000Z">
+<meta property="article:modified_time" content="2026-08-07T17:40:08.077Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="copilot cli">
+<meta property="article:tag" content="remote-tunnel">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2026/08/08/copilot-cli-reomte/copilot-cli-remote-demo.webp">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/08/08/copilot-cli-reomte/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/08/08/copilot-cli-reomte/","path":"2026/08/08/copilot-cli-reomte/","title":"使用 Copilot CLI Remote Control 進行遠端開發"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用 Copilot CLI Remote Control 進行遠端開發 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B0%A1%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">簡介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Remote-Control-%E9%81%A9%E5%90%88%E4%BB%80%E9%BA%BC%E6%83%85%E5%A2%83%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">Remote Control 適合什麼情境？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%89%8D%E6%8F%90"><span class="nav-number">3.</span> <span class="nav-text">使用前提</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%95%9F%E7%94%A8-Remote-Control"><span class="nav-number">4.</span> <span class="nav-text">啟用 Remote Control</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A%E5%9C%A8%E4%BA%92%E5%8B%95%E5%BC%8F-session-%E4%B8%AD%E5%95%9F%E7%94%A8"><span class="nav-number">4.1.</span> <span class="nav-text">方式一：在互動式 session 中啟用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%BA%8C%EF%BC%9A%E5%95%9F%E5%8B%95-Copilot-CLI-%E6%99%82%E7%9B%B4%E6%8E%A5%E9%96%8B%E5%95%9F"><span class="nav-number">4.2.</span> <span class="nav-text">方式二：啟動 Copilot CLI 時直接開啟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%89%EF%BC%9A%E8%A8%AD%E5%AE%9A%E7%82%BA%E9%A0%90%E8%A8%AD%E5%95%9F%E7%94%A8"><span class="nav-number">4.3.</span> <span class="nav-text">方式三：設定為預設啟用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%9E-GitHub-com-%E9%81%A0%E7%AB%AF%E6%93%8D%E4%BD%9C-session"><span class="nav-number">5.</span> <span class="nav-text">從 GitHub.com 遠端操作 session</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%9E-GitHub-Mobile-%E9%81%A0%E7%AB%AF%E6%93%8D%E4%BD%9C-session"><span class="nav-number">6.</span> <span class="nav-text">從 GitHub Mobile 遠端操作 session</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%A0%E7%AB%AF%E5%8F%AF%E4%BB%A5%E5%81%9A%E5%93%AA%E4%BA%9B%E4%BA%8B%EF%BC%9F"><span class="nav-number">7.</span> <span class="nav-text">遠端可以做哪些事？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%B2%E6%AD%A2%E6%9C%AC%E6%A9%9F%E7%9D%A1%E7%9C%A0"><span class="nav-number">8.</span> <span class="nav-text">防止本機睡眠</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AD%E6%96%B7%E5%BE%8C%E5%A6%82%E4%BD%95%E6%81%A2%E5%BE%A9%EF%BC%9F"><span class="nav-number">9.</span> <span class="nav-text">中斷後如何恢復？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7%E8%88%87%E9%9A%B1%E7%A7%81%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85"><span class="nav-number">10.</span> <span class="nav-text">安全性與隱私注意事項</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E9%9A%9B%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B%E7%AF%84%E4%BE%8B"><span class="nav-number">11.</span> <span class="nav-text">實際使用流程範例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Remote-Control-%E8%88%87-Session-Syncing-%E7%9A%84%E5%B7%AE%E7%95%B0"><span class="nav-number">12.</span> <span class="nav-text">Remote Control 與 Session Syncing 的差異</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C"><span class="nav-number">13.</span> <span class="nav-text">常見問題</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E6%88%91%E5%95%9F%E7%94%A8%E5%BE%8C%E7%9C%8B%E4%B8%8D%E5%88%B0%E9%81%A0%E7%AB%AF-session%EF%BC%9F"><span class="nav-number">13.1.</span> <span class="nav-text">為什麼我啟用後看不到遠端 session？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%A0%E7%AB%AF%E6%93%8D%E4%BD%9C%E6%99%82%EF%BC%8C%E6%9C%AC%E6%A9%9F%E7%B5%82%E7%AB%AF%E6%A9%9F%E9%82%84%E8%83%BD%E8%BC%B8%E5%85%A5%E5%97%8E%EF%BC%9F"><span class="nav-number">13.2.</span> <span class="nav-text">遠端操作時，本機終端機還能輸入嗎？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E4%BB%A5%E5%BE%9E%E9%81%A0%E7%AB%AF%E5%9F%B7%E8%A1%8C-slash-command-%E5%97%8E%EF%BC%9F"><span class="nav-number">13.3.</span> <span class="nav-text">可以從遠端執行 slash command 嗎？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Remote-Control-%E6%9C%83%E8%AE%93%E5%88%A5%E4%BA%BA%E7%9C%8B%E5%88%B0%E6%88%91%E7%9A%84-session-%E5%97%8E%EF%BC%9F"><span class="nav-number">13.4.</span> <span class="nav-text">Remote Control 會讓別人看到我的 session 嗎？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%B5%90"><span class="nav-number">14.</span> <span class="nav-text">小結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">15.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/agent/" style="font-size: 13.64px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/chrome-extension/" style="font-size: 12px;" class="tag-cloud-0">chrome-extension</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/container-registry/" style="font-size: 12px;" class="tag-cloud-0">container-registry</a> <a href="/tags/copilot-cli/" style="font-size: 16.91px;" class="tag-cloud-3">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 26.73px;" class="tag-cloud-8">docker</a> <a href="/tags/elasticsearch/" style="font-size: 15.27px;" class="tag-cloud-2">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 21.82px;" class="tag-cloud-5">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 13.64px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 20.18px;" class="tag-cloud-5">gitlab</a> <a href="/tags/googlemap/" style="font-size: 15.27px;" class="tag-cloud-2">googlemap</a> <a href="/tags/grafana/" style="font-size: 15.27px;" class="tag-cloud-2">grafana</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 21.82px;" class="tag-cloud-5">java</a> <a href="/tags/jdk/" style="font-size: 13.64px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 16.91px;" class="tag-cloud-3">jenkins</a> <a href="/tags/kibana/" style="font-size: 15.27px;" class="tag-cloud-2">kibana</a> <a href="/tags/kubernetes/" style="font-size: 25.09px;" class="tag-cloud-7">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 28.36px;" class="tag-cloud-9">linux</a> <a href="/tags/logstash/" style="font-size: 13.64px;" class="tag-cloud-1">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 15.27px;" class="tag-cloud-2">maven</a> <a href="/tags/mcp/" style="font-size: 13.64px;" class="tag-cloud-1">mcp</a> <a href="/tags/minikube/" style="font-size: 13.64px;" class="tag-cloud-1">minikube</a> <a href="/tags/monitoring/" style="font-size: 16.91px;" class="tag-cloud-3">monitoring</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.64px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/opentelemetry/" style="font-size: 13.64px;" class="tag-cloud-1">opentelemetry</a> <a href="/tags/pm2/" style="font-size: 13.64px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 15.27px;" class="tag-cloud-2">powershell</a> <a href="/tags/prometheus/" style="font-size: 15.27px;" class="tag-cloud-2">prometheus</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/remote-tunnel/" style="font-size: 13.64px;" class="tag-cloud-1">remote-tunnel</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/skills/" style="font-size: 13.64px;" class="tag-cloud-1">skills</a> <a href="/tags/spring-boot/" style="font-size: 16.91px;" class="tag-cloud-3">spring-boot</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 15.27px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 13.64px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 23.45px;" class="tag-cloud-6">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/vscode/" style="font-size: 30px;" class="tag-cloud-10">vscode</a> <a href="/tags/windows/" style="font-size: 18.55px;" class="tag-cloud-4">windows</a> <a href="/tags/windows-terminal/" style="font-size: 12px;" class="tag-cloud-0">windows-terminal</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 15.27px;" class="tag-cloud-2">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相關文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/03/20/copilot-cli-install/" rel="bookmark">
+        <time class="popular-posts-time">2026-03-20</time>
+        <br>
+      GitHub Copilot CLI 安裝指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/03/31/vscode-skill-intro/" rel="bookmark">
+        <time class="popular-posts-time">2026-03-31</time>
+        <br>
+      VS Code Agent Skills 使用指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/07/vscode-remote-tunnel/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-07</time>
+        <br>
+      使用 VS Code Remote Tunnel 進行遠端開發
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/04/01/vscode-skill-create/" rel="bookmark">
+        <time class="popular-posts-time">2026-04-01</time>
+        <br>
+      用 `/create-skill` 打造專屬 Copilot 技能
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/10/04/kubernetes-controller-intro/" rel="bookmark">
+        <time class="popular-posts-time">2025-10-04</time>
+        <br>
+      Kubernetes 控制元件介紹
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/08/08/copilot-cli-reomte/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用 Copilot CLI Remote Control 進行遠端開發 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 Copilot CLI Remote Control 進行遠端開發
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-08-08 01:36:35 / 修改時間：01:40:08" itemprop="dateCreated datePublished" datetime="2026-08-08T01:36:35+08:00">2026-08-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/vscodelife/" itemprop="url" rel="index"><span itemprop="name">vscodelife</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="簡介"><a href="#簡介" class="headerlink" title="簡介"></a>簡介</h2><p>GitHub Copilot CLI 除了可以在本機終端機中使用，也支援 Remote Control 功能，讓你從 GitHub.com 或 GitHub Mobile 查看正在執行的 CLI session，並在需要時遠端回覆提示、批准權限要求，或繼續下達新的指令。</p>
+<p>這個功能很適合用在需要長時間執行的開發任務。例如你讓 Copilot CLI 在本機分析專案、修改程式、跑測試，但人暫時離開座位時，仍然可以透過手機確認進度。如果 Copilot CLI 在過程中需要你批准檔案存取、URL 存取或工具執行權限，也可以直接從遠端介面回覆，不必特地回到原本那台電腦前面。</p>
+<p>不過要先釐清一件事：Remote Control 不是把開發環境搬到雲端，也不是讓 GitHub 直接接管你的電腦。Copilot CLI session 仍然在你啟動它的本機上執行，所有 shell command、檔案讀寫與工具呼叫也都發生在本機。遠端介面只是提供一個可以監看與控制該 session 的入口。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="Remote-Control-適合什麼情境？"><a href="#Remote-Control-適合什麼情境？" class="headerlink" title="Remote Control 適合什麼情境？"></a>Remote Control 適合什麼情境？</h2><p>Copilot CLI 的 Remote Control 最適合用在「任務在本機跑，但你不一定會一直坐在本機前」的情境。常見例子包含：</p>
+<ul>
+<li><strong>長時間修改或分析專案</strong>：讓 Copilot CLI 處理重構、文件整理、測試修復等任務時，可以遠端查看進度。</li>
+<li><strong>需要即時回覆權限要求</strong>：當 Copilot CLI 要讀取檔案、執行工具或存取 URL 時，你可以從手機批准或拒絕。</li>
+<li><strong>離開座位後仍想追蹤狀態</strong>：例如去開會、通勤或臨時處理其他事情時，仍能透過 GitHub Mobile 查看 session。</li>
+<li><strong>想從另一台電腦接續操作</strong>：只要本機 session 還在執行，就可以從瀏覽器打開 GitHub.com 繼續輸入提示。</li>
+</ul>
+<p>這讓 Copilot CLI 比較像是一個在本機工作的開發代理人，而 Remote Control 則是它的遠端操作面板。</p>
+<hr>
+<h2 id="使用前提"><a href="#使用前提" class="headerlink" title="使用前提"></a>使用前提</h2><p>在啟用 Remote Control 前，需要先確認幾個條件。</p>
+<table>
+<thead>
+<tr>
+<th>條件</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>本機 session 必須在線</td>
+<td>Copilot CLI 必須在一台有網路連線的機器上持續執行。如果電腦睡眠或斷線，就無法遠端控制。</td>
+</tr>
+<tr>
+<td>必須是互動式 session</td>
+<td>Remote Control 只支援互動式 Copilot CLI session，不適用於使用 <code>--prompt</code> 這類程式化方式執行的情境。</td>
+</tr>
+<tr>
+<td>工作目錄需要是 GitHub repository</td>
+<td>官方文件提到，工作目錄必須包含 hosted on GitHub.com 的 Git repository；否則 CLI 會顯示 <code>Remote session disabled: not in a GitHub repository.</code>。</td>
+</tr>
+<tr>
+<td>需要相同 GitHub 帳號</td>
+<td>遠端查看與操作 session 時，必須使用啟動該 Copilot CLI session 的同一個 GitHub 帳號登入。</td>
+</tr>
+<tr>
+<td>組織政策必須允許</td>
+<td>如果你的 Copilot seat 來自組織或企業，管理者需要將 <code>Store local sessions in the Cloud</code> 政策設定為 <code>View and control</code>。</td>
+</tr>
+</tbody></table>
+<p>如果是在個人帳號中使用，通常比較容易直接啟用；但在公司或組織環境中，最常遇到的阻礙會是管理政策尚未開啟。</p>
+<hr>
+<h2 id="啟用-Remote-Control"><a href="#啟用-Remote-Control" class="headerlink" title="啟用 Remote Control"></a>啟用 Remote Control</h2><p>官方文件提供幾種啟用方式，可以依照自己的使用習慣選擇。</p>
+<h3 id="方式一：在互動式-session-中啟用"><a href="#方式一：在互動式-session-中啟用" class="headerlink" title="方式一：在互動式 session 中啟用"></a>方式一：在互動式 session 中啟用</h3><p>如果你已經在 Copilot CLI session 裡，可以直接輸入 <code>/remote on</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/remote on</span><br></pre></td></tr></table></figure>
+
+<p>啟用後，Copilot CLI 會連線到 GitHub.com，並在終端機中顯示遠端存取 session 的資訊。你可以使用它提供的連結，或透過 GitHub Mobile 開啟同一個 session。</p>
+<p>如果只輸入 <code>/remote</code>，可以查看目前 Remote Control 狀態，或重新顯示遠端存取資訊：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/remote</span><br></pre></td></tr></table></figure>
+
+<p>如果想關閉目前 session 的遠端控制，則輸入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/remote off</span><br></pre></td></tr></table></figure>
+
+<h3 id="方式二：啟動-Copilot-CLI-時直接開啟"><a href="#方式二：啟動-Copilot-CLI-時直接開啟" class="headerlink" title="方式二：啟動 Copilot CLI 時直接開啟"></a>方式二：啟動 Copilot CLI 時直接開啟</h3><p>如果你一開始就知道這個 session 可能需要遠端操作，可以在啟動時加上 <code>--remote</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copilot --remote</span><br></pre></td></tr></table></figure>
+
+<p>這樣 Copilot CLI 一進入互動式 session，就會自動啟用 Remote Control，並顯示遠端存取資訊。</p>
+<h3 id="方式三：設定為預設啟用"><a href="#方式三：設定為預設啟用" class="headerlink" title="方式三：設定為預設啟用"></a>方式三：設定為預設啟用</h3><p>如果你希望每次互動式 Copilot CLI session 都預設可以遠端控制，可以在 <code>~/.copilot/settings.json</code> 加上設定：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">	<span class="attr">&quot;remoteSessions&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>之後啟動 Copilot CLI 時，Remote Control 就會預設啟用。如果某次 session 不想開放遠端控制，可以改用 <code>--no-remote</code> 覆蓋設定：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copilot --no-remote</span><br></pre></td></tr></table></figure>
+
+<p>官方文件也提醒，命令列選項 <code>--remote</code> 與 <code>--no-remote</code> 的優先權會高於 settings file 中的設定。</p>
+<hr>
+<h2 id="從-GitHub-com-遠端操作-session"><a href="#從-GitHub-com-遠端操作-session" class="headerlink" title="從 GitHub.com 遠端操作 session"></a>從 GitHub.com 遠端操作 session</h2><p>啟用 Remote Control 後，Copilot CLI 會在終端機中顯示 GitHub.com 的 session 連結。只要用同一個 GitHub 帳號登入，就可以從瀏覽器開啟。</p>
+<img src="/2026/08/08/copilot-cli-reomte/copilot-cli-remote-demo.webp" class="" title="Copilot CLI Remote Control 遠端 session 畫面">
+
+<p>如果沒有保留連結，也可以從 GitHub.com 的 recent agent sessions 找到該 session。官方文件提到，如果 session 是從某個 GitHub repository 的本機副本啟動，也可以在該 repository 的 <strong>Agents</strong> 分頁中找到。</p>
+<p>進入遠端介面後，你可以看到 Copilot CLI session 的輸出，也可以在需要時輸入新的提示。這對長時間任務特別有用，因為你不必一直盯著終端機，只要在瀏覽器中確認目前狀態即可。</p>
+<hr>
+<h2 id="從-GitHub-Mobile-遠端操作-session"><a href="#從-GitHub-Mobile-遠端操作-session" class="headerlink" title="從 GitHub Mobile 遠端操作 session"></a>從 GitHub Mobile 遠端操作 session</h2><p>如果主要想從手機追蹤進度，可以使用 GitHub Mobile。Remote Control 啟用後，Copilot CLI session 會出現在 GitHub Mobile 的 Agent sessions 中。</p>
+<p>也可以在 Copilot CLI session 中輸入 <code>/remote</code> 重新顯示遠端存取資訊，並透過 QR code 快速打開手機端 session。官方文件提到，在輸入欄位為空時，可以使用 <kbd>Ctrl</kbd>+<kbd>E</kbd> 展開或收合 QR code 顯示。</p>
+<p>這個流程很適合臨時離開電腦時使用。例如你在本機要求 Copilot CLI 修正一批測試，接著帶著手機離開座位。當 Copilot CLI 需要你確認是否執行某個 command，或詢問下一步要怎麼處理時，就可以直接在 GitHub Mobile 回覆。</p>
+<hr>
+<h2 id="遠端可以做哪些事？"><a href="#遠端可以做哪些事？" class="headerlink" title="遠端可以做哪些事？"></a>遠端可以做哪些事？</h2><p>從 GitHub.com 或 GitHub Mobile 連進 Copilot CLI session 後，可以進行以下操作：</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>查看 session 輸出</td>
+<td>即時追蹤 Copilot CLI 目前正在做什麼。</td>
+</tr>
+<tr>
+<td>回覆權限要求</td>
+<td>核准或拒絕工具、檔案路徑與 URL 的權限要求。</td>
+</tr>
+<tr>
+<td>回答問題</td>
+<td>當 Copilot CLI 需要更多資訊或要你做決策時，可以遠端回覆。</td>
+</tr>
+<tr>
+<td>核准或拒絕計畫</td>
+<td>如果 Copilot CLI 在 plan mode 中提出計畫，可以從遠端介面回應。</td>
+</tr>
+<tr>
+<td>輸入新的提示</td>
+<td>可以像在本機終端機一樣，繼續對 session 下達新的指令。</td>
+</tr>
+<tr>
+<td>切換模式</td>
+<td>例如在互動模式與 plan mode 之間切換。</td>
+</tr>
+<tr>
+<td>結束目前操作</td>
+<td>可以取消 Copilot CLI 正在執行的工作。</td>
+</tr>
+</tbody></table>
+<p>需要注意的是，本機終端機與遠端介面會同時保持可操作狀態。當 Copilot CLI 提出提示或權限要求時，哪一邊先回覆，就會以哪一邊的回覆為準。</p>
+<p>另外，官方文件也提到，目前遠端介面不支援 slash commands，例如 <code>/allow-all</code> 這類指令不能直接從遠端介面使用。</p>
+<hr>
+<h2 id="防止本機睡眠"><a href="#防止本機睡眠" class="headerlink" title="防止本機睡眠"></a>防止本機睡眠</h2><p>Remote Control 的前提是本機 session 持續在線。如果電腦進入睡眠或網路中斷，遠端介面就暫時無法控制該 session。</p>
+<p>如果你準備離開座位，但希望 Copilot CLI 繼續工作，可以在互動式 session 中使用 <code>/keep-alive</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/keep-alive on</span><br></pre></td></tr></table></figure>
+
+<p><code>/keep-alive</code> 支援多種選項：</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/keep-alive on</code></td>
+<td>session 執行期間防止本機睡眠。</td>
+</tr>
+<tr>
+<td><code>/keep-alive off</code></td>
+<td>恢復一般睡眠設定。</td>
+</tr>
+<tr>
+<td><code>/keep-alive busy</code></td>
+<td>只在 Copilot CLI 正在執行任務時防止睡眠；若正在等待你的回覆，也不會讓機器睡眠。</td>
+</tr>
+<tr>
+<td><code>/keep-alive 30m</code></td>
+<td>防止睡眠 30 分鐘。</td>
+</tr>
+<tr>
+<td><code>/keep-alive 8h</code></td>
+<td>防止睡眠 8 小時。</td>
+</tr>
+<tr>
+<td><code>/keep-alive 1d</code></td>
+<td>防止睡眠 1 天。</td>
+</tr>
+</tbody></table>
+<p>如果只輸入 <code>/keep-alive</code>，則會顯示目前 keep-alive 狀態。</p>
+<hr>
+<h2 id="中斷後如何恢復？"><a href="#中斷後如何恢復？" class="headerlink" title="中斷後如何恢復？"></a>中斷後如何恢復？</h2><p>如果本機暫時斷線或網路不穩，Remote Control 會在連線恢復後重新可用。只要本機 session 還在，遠端介面就能繼續連上。</p>
+<p>如果是之後要接續先前的 Copilot CLI session，可以使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copilot --<span class="built_in">continue</span></span><br></pre></td></tr></table></figure>
+
+<p>或：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copilot --resume</span><br></pre></td></tr></table></figure>
+
+<p>官方文件指出，當你 resume 或 continue 一個曾經啟用 Remote Control 的 CLI session 時，Remote Control 會自動重新啟用。</p>
+<hr>
+<h2 id="安全性與隱私注意事項"><a href="#安全性與隱私注意事項" class="headerlink" title="安全性與隱私注意事項"></a>安全性與隱私注意事項</h2><p>Remote Control 雖然方便，但仍然要理解它背後的資料流動方式。</p>
+<p>根據官方說明，啟用 Remote Control 後，conversation messages、tool execution events 與 permission requests 等 session events 會從本機傳送到 GitHub。遠端輸入的指令則會由 Copilot CLI 從 GitHub 輪詢後注入本機 session。</p>
+<p>但這不代表 GitHub.com 取得了直接操作你電腦的完整權限。CLI 仍然在本機執行，所有 shell command、檔案操作與工具執行都還是在原本啟動 session 的機器上發生。遠端介面能做的事情，是在該 Copilot CLI session 的範圍內查看與回覆。</p>
+<p>此外，遠端 session 只能由啟動該 session 的同一個 GitHub 帳號存取，其他 GitHub 使用者無法查看或操作你的 session。</p>
+<hr>
+<h2 id="實際使用流程範例"><a href="#實際使用流程範例" class="headerlink" title="實際使用流程範例"></a>實際使用流程範例</h2><p>假設我準備讓 Copilot CLI 幫忙檢查一個專案，並希望離開座位後還能從手機追蹤進度，可以這樣操作：</p>
+<ol>
+<li>先切到 GitHub repository 的工作目錄。</li>
+<li>使用 <code>copilot --remote</code> 啟動互動式 session。</li>
+<li>在 session 中輸入要 Copilot CLI 處理的任務，例如檢查測試失敗原因、整理文件或修改某個功能。</li>
+<li>視情況輸入 <code>/keep-alive busy</code> 或 <code>/keep-alive on</code>，避免本機在任務進行時睡眠。</li>
+<li>使用 Copilot CLI 顯示的連結或 QR code，從 GitHub.com 或 GitHub Mobile 開啟 session。</li>
+<li>離開座位後，從遠端介面查看輸出，並回覆 Copilot CLI 的問題或權限要求。</li>
+<li>回到本機後，可以直接在原本終端機中繼續操作同一個 session。</li>
+</ol>
+<p>整個過程中，真正執行開發工作的仍是本機 Copilot CLI。遠端介面負責讓你在不同裝置上掌握進度，並在關鍵節點做出回應。</p>
+<hr>
+<h2 id="Remote-Control-與-Session-Syncing-的差異"><a href="#Remote-Control-與-Session-Syncing-的差異" class="headerlink" title="Remote Control 與 Session Syncing 的差異"></a>Remote Control 與 Session Syncing 的差異</h2><p>官方文件特別提醒，Remote Control 和 session syncing 不一樣。</p>
+<p>session syncing 主要是讓 Copilot CLI session 同步到 GitHub 帳號，並在 GitHub.com 或 GitHub Mobile 中以 view-only 方式查看。這代表你可以回顧 session，但不能真正控制它。</p>
+<p>Remote Control 則是在同步之外，允許你遠端回覆提示、批准權限、輸入新的 prompt，甚至取消目前操作。也就是說，如果你只是想看紀錄，session syncing 就足夠；如果你想從另一台裝置繼續操作正在執行的 Copilot CLI session，就需要啟用 Remote Control。</p>
+<hr>
+<h2 id="常見問題"><a href="#常見問題" class="headerlink" title="常見問題"></a>常見問題</h2><h3 id="為什麼我啟用後看不到遠端-session？"><a href="#為什麼我啟用後看不到遠端-session？" class="headerlink" title="為什麼我啟用後看不到遠端 session？"></a>為什麼我啟用後看不到遠端 session？</h3><p>可以先檢查幾個方向：</p>
+<ul>
+<li>目前工作目錄是否是 hosted on GitHub.com 的 Git repository。</li>
+<li>本機 Copilot CLI session 是否仍在執行，且機器沒有睡眠或斷線。</li>
+<li>GitHub.com 或 GitHub Mobile 是否使用同一個 GitHub 帳號登入。</li>
+<li>如果 Copilot seat 來自組織，管理者是否已允許 <code>Store local sessions in the Cloud</code> 的 <code>View and control</code> 政策。</li>
+</ul>
+<h3 id="遠端操作時，本機終端機還能輸入嗎？"><a href="#遠端操作時，本機終端機還能輸入嗎？" class="headerlink" title="遠端操作時，本機終端機還能輸入嗎？"></a>遠端操作時，本機終端機還能輸入嗎？</h3><p>可以。本機終端機與遠端介面會同時保持作用中。若 Copilot CLI 正在等待回覆，哪一端先回覆，就會使用哪一端的答案。</p>
+<h3 id="可以從遠端執行-slash-command-嗎？"><a href="#可以從遠端執行-slash-command-嗎？" class="headerlink" title="可以從遠端執行 slash command 嗎？"></a>可以從遠端執行 slash command 嗎？</h3><p>目前不行。官方文件提到，遠端介面暫時不支援 slash commands，例如 <code>/allow-all</code>。如果要使用這類指令，仍需要回到本機終端機操作。</p>
+<h3 id="Remote-Control-會讓別人看到我的-session-嗎？"><a href="#Remote-Control-會讓別人看到我的-session-嗎？" class="headerlink" title="Remote Control 會讓別人看到我的 session 嗎？"></a>Remote Control 會讓別人看到我的 session 嗎？</h3><p>不會。官方文件說明，遠端 session 只能由啟動該 session 的同一個 GitHub 帳號存取。其他 GitHub 使用者無法查看或控制你的 Copilot CLI session。</p>
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>Copilot CLI Remote Control 的價值在於讓本機開發任務不再被單一裝置綁住。你可以在電腦上啟動 Copilot CLI，讓它分析專案、修改程式或處理測試，再透過 GitHub.com 或 GitHub Mobile 追蹤進度與回覆提示。</p>
+<p>使用時最重要的是理解它的邊界：Remote Control 控制的是「正在本機執行的 Copilot CLI session」，不是一個雲端開發環境。只要本機保持在線、session 持續執行，而且帳號與組織政策符合條件，就能把 Copilot CLI 變成更彈性的遠端開發助手。</p>
+<hr>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-remote-control">About remote control of GitHub Copilot CLI sessions</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/steer-remotely">Steering a GitHub Copilot CLI session from another device</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <div class="post-recent-posts" style="display:none">
+      <div class="post-recent-posts-title">
+        <i class="fa fa-history fa-fw"></i> 近期文章
+      </div>
+      <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/08/08/copilot-cli-reomte/" title="使用 Copilot CLI Remote Control 進行遠端開發">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">使用 Copilot CLI Remote Control 進行遠端開發</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-08</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/07/vscode-remote-tunnel/" title="使用 VS Code Remote Tunnel 進行遠端開發">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">使用 VS Code Remote Tunnel 進行遠端開發</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-07</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/06/git-install/" title="在 Ubuntu 安裝 Git 並從 GitLab Clone Repository">
+            <div class="post-recent-card-banner post-recent-card-cat--gitlab">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">在 Ubuntu 安裝 Git 並從 GitLab Clone Repository</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-06</span><span class="post-recent-card-cat">gitlab</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/05/gitlab-container-registry-setting/" title="開啟 GitLab Container Registry 功能">
+            <div class="post-recent-card-banner post-recent-card-cat--gitlab">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">開啟 GitLab Container Registry 功能</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-05</span><span class="post-recent-card-cat">gitlab</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/04/gitlab-install-2026/" title="在 Ubuntu 上安裝 GitLab Community Edition">
+            <div class="post-recent-card-banner post-recent-card-cat--gitlab">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">在 Ubuntu 上安裝 GitLab Community Edition</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-04</span><span class="post-recent-card-cat">gitlab</span>
+            </div>
+          </a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function showRecentPosts() {
+          var block = document.querySelector('.post-recent-posts');
+          if (!block) return;
+
+          // 重置狀態
+          block.classList.remove('animated', 'fadeIn');
+          block.style.display = 'none';
+
+          var comments = document.querySelector('.comments');
+          if (comments) {
+            comments.parentNode.insertBefore(block, comments);
+          }
+
+          function reveal() {
+            block.style.display = '';
+            block.offsetHeight; // force reflow
+            block.classList.add('animated', 'fadeIn');
+          }
+
+          if (!comments) {
+            reveal();
+          } else {
+            // 觀察 .comments 被 NexT motion 加上 animated class 的時機
+            var observer = new MutationObserver(function () {
+              if (comments.classList.contains('animated')) {
+                observer.disconnect();
+                reveal();
+              }
+            });
+            observer.observe(comments, { attributes: true, attributeFilter: ['class'] });
+            // 若 motion 已跑完（comments 已有 animated），也直接顯示
+            if (comments.classList.contains('animated')) {
+              observer.disconnect();
+              reveal();
+            }
+          }
+        }
+
+        // 初次載入
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', showRecentPosts, { once: true });
+        } else {
+          showRecentPosts();
+        }
+
+        // PJAX：pjax:success 時 NexT motion 剛啟動（async），.comments 尚未有 animated
+        document.addEventListener('pjax:success', showRecentPosts);
+      })();
+    </script>
+
+          <div class="post-tags">
+              <a href="/tags/copilot-cli/" rel="tag"># copilot cli</a>
+              <a href="/tags/remote-tunnel/" rel="tag"># remote-tunnel</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/08/07/vscode-remote-tunnel/" rel="prev" title="使用 VS Code Remote Tunnel 進行遠端開發">
+                  <i class="fa fa-angle-left"></i> 使用 VS Code Remote Tunnel 進行遠端開發
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"df9ee89f0a6b0f5e9285746aa6197144"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+<link rel="stylesheet" href="/css/tinyqqc/tinyqqc-widget.css">
+<script
+  id="tinyqqc-widget-script"
+  src="/js/tinyqqc/tinyqqc-widget.iife.js"
+  data-tinyqqc-widget
+  data-api-base-url="https://tinyqqs-846222163009.asia-east1.run.app/"
+  data-initial-open="false"
+  defer
+></script>
+
+</body>
+</html>
