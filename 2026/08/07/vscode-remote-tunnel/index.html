@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="簡介VS Code Remote Tunnel 是 VS Code Remote Development 生態系中的一種遠端開發方式。它可以讓我們透過安全通道連線到另一台機器，例如家中的桌機、公司內網中的工作站、雲端 VM，或沒有完整桌面環境的 Linux 主機，並直接在 VS Code 中操作遠端檔案、終端機、擴充套件與開發環境。 和常見的 SSH 遠端開發相比，Remote Tunnel 的最">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 VS Code Remote Tunnel 進行遠端開發">
+<meta property="og:url" content="https://pcion123.github.io/2026/08/07/vscode-remote-tunnel/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="簡介VS Code Remote Tunnel 是 VS Code Remote Development 生態系中的一種遠端開發方式。它可以讓我們透過安全通道連線到另一台機器，例如家中的桌機、公司內網中的工作站、雲端 VM，或沒有完整桌面環境的 Linux 主機，並直接在 VS Code 中操作遠端檔案、終端機、擴充套件與開發環境。 和常見的 SSH 遠端開發相比，Remote Tunnel 的最">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/07/vscode-remote-tunnel/vscode-remote-tunnel-demo1.webp">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/07/vscode-remote-tunnel/vscode-remote-tunnel-demo2.webp">
+<meta property="article:published_time" content="2026-08-07T02:26:39.000Z">
+<meta property="article:modified_time" content="2026-08-07T02:29:35.916Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="vscode">
+<meta property="article:tag" content="remote-tunnel">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2026/08/07/vscode-remote-tunnel/vscode-remote-tunnel-demo1.webp">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/08/07/vscode-remote-tunnel/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/08/07/vscode-remote-tunnel/","path":"2026/08/07/vscode-remote-tunnel/","title":"使用 VS Code Remote Tunnel 進行遠端開發"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用 VS Code Remote Tunnel 進行遠端開發 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B0%A1%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">簡介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%A9%E5%90%88%E4%BD%BF%E7%94%A8-Remote-Tunnel-%E7%9A%84%E6%83%85%E5%A2%83"><span class="nav-number">2.</span> <span class="nav-text">適合使用 Remote Tunnel 的情境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Remote-Tunnel-%E7%9A%84%E9%81%8B%E4%BD%9C%E6%A6%82%E5%BF%B5"><span class="nav-number">3.</span> <span class="nav-text">Remote Tunnel 的運作概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A%E4%BD%BF%E7%94%A8-code-CLI-%E5%BB%BA%E7%AB%8B-Tunnel"><span class="nav-number">4.</span> <span class="nav-text">方式一：使用 code CLI 建立 Tunnel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%BA%8C%EF%BC%9A%E9%80%8F%E9%81%8E-VS-Code-%E4%BB%8B%E9%9D%A2%E5%95%9F%E7%94%A8-Tunnel"><span class="nav-number">5.</span> <span class="nav-text">方式二：透過 VS Code 介面啟用 Tunnel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%9E%E5%8F%A6%E4%B8%80%E5%8F%B0%E6%A9%9F%E5%99%A8%E9%80%A3%E7%B7%9A%E5%88%B0-Tunnel"><span class="nav-number">6.</span> <span class="nav-text">從另一台機器連線到 Tunnel</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-vscode-dev"><span class="nav-number">6.1.</span> <span class="nav-text">使用 vscode.dev</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-VS-Code-Desktop"><span class="nav-number">6.2.</span> <span class="nav-text">使用 VS Code Desktop</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E6%95%B4%E7%90%86"><span class="nav-number">7.</span> <span class="nav-text">常用指令整理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7%E8%88%87%E9%99%90%E5%88%B6"><span class="nav-number">8.</span> <span class="nav-text">安全性與限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Remote-Tunnel-%E8%88%87%E5%85%B6%E4%BB%96%E9%81%A0%E7%AB%AF%E9%96%8B%E7%99%BC%E6%96%B9%E5%BC%8F%E7%9A%84%E6%AF%94%E8%BC%83"><span class="nav-number">9.</span> <span class="nav-text">Remote Tunnel 與其他遠端開發方式的比較</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E5%8B%99%E4%BD%BF%E7%94%A8%E5%BB%BA%E8%AD%B0"><span class="nav-number">10.</span> <span class="nav-text">實務使用建議</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%85%88%E7%A2%BA%E8%AA%8D%E9%81%A0%E7%AB%AF%E4%B8%BB%E6%A9%9F%E7%9A%84%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83"><span class="nav-number">10.1.</span> <span class="nav-text">1. 先確認遠端主機的開發環境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%B0%87%E5%A4%A7%E5%9E%8B%E5%BB%BA%E7%BD%AE%E7%95%99%E5%9C%A8%E9%81%A0%E7%AB%AF%E5%9F%B7%E8%A1%8C"><span class="nav-number">10.2.</span> <span class="nav-text">2. 將大型建置留在遠端執行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%B3%A8%E6%84%8F%E6%93%B4%E5%85%85%E5%A5%97%E4%BB%B6%E5%AE%89%E8%A3%9D%E4%BD%8D%E7%BD%AE"><span class="nav-number">10.3.</span> <span class="nav-text">3. 注意擴充套件安裝位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%B8%8D%E4%BD%BF%E7%94%A8%E6%99%82%E9%97%9C%E9%96%89-Tunnel"><span class="nav-number">10.4.</span> <span class="nav-text">4. 不使用時關閉 Tunnel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E9%95%B7%E6%99%82%E9%96%93%E4%BD%BF%E7%94%A8%E6%99%82%E6%94%B9%E7%94%A8%E6%9C%8D%E5%8B%99%E6%A8%A1%E5%BC%8F"><span class="nav-number">10.5.</span> <span class="nav-text">5. 長時間使用時改用服務模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%B5%90"><span class="nav-number">11.</span> <span class="nav-text">小結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">77</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/agent/" style="font-size: 13.64px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/chrome-extension/" style="font-size: 12px;" class="tag-cloud-0">chrome-extension</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/container-registry/" style="font-size: 12px;" class="tag-cloud-0">container-registry</a> <a href="/tags/copilot-cli/" style="font-size: 15.27px;" class="tag-cloud-2">copilot cli</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 26.73px;" class="tag-cloud-8">docker</a> <a href="/tags/elasticsearch/" style="font-size: 15.27px;" class="tag-cloud-2">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 21.82px;" class="tag-cloud-5">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 13.64px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 20.18px;" class="tag-cloud-5">gitlab</a> <a href="/tags/googlemap/" style="font-size: 15.27px;" class="tag-cloud-2">googlemap</a> <a href="/tags/grafana/" style="font-size: 15.27px;" class="tag-cloud-2">grafana</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 21.82px;" class="tag-cloud-5">java</a> <a href="/tags/jdk/" style="font-size: 13.64px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 16.91px;" class="tag-cloud-3">jenkins</a> <a href="/tags/kibana/" style="font-size: 15.27px;" class="tag-cloud-2">kibana</a> <a href="/tags/kubernetes/" style="font-size: 25.09px;" class="tag-cloud-7">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 28.36px;" class="tag-cloud-9">linux</a> <a href="/tags/logstash/" style="font-size: 13.64px;" class="tag-cloud-1">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 15.27px;" class="tag-cloud-2">maven</a> <a href="/tags/mcp/" style="font-size: 13.64px;" class="tag-cloud-1">mcp</a> <a href="/tags/minikube/" style="font-size: 13.64px;" class="tag-cloud-1">minikube</a> <a href="/tags/monitoring/" style="font-size: 16.91px;" class="tag-cloud-3">monitoring</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.64px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/opentelemetry/" style="font-size: 13.64px;" class="tag-cloud-1">opentelemetry</a> <a href="/tags/pm2/" style="font-size: 13.64px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 15.27px;" class="tag-cloud-2">powershell</a> <a href="/tags/prometheus/" style="font-size: 15.27px;" class="tag-cloud-2">prometheus</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/remote-tunnel/" style="font-size: 12px;" class="tag-cloud-0">remote-tunnel</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/skills/" style="font-size: 13.64px;" class="tag-cloud-1">skills</a> <a href="/tags/spring-boot/" style="font-size: 16.91px;" class="tag-cloud-3">spring-boot</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 15.27px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 13.64px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 23.45px;" class="tag-cloud-6">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/vscode/" style="font-size: 30px;" class="tag-cloud-10">vscode</a> <a href="/tags/windows/" style="font-size: 18.55px;" class="tag-cloud-4">windows</a> <a href="/tags/windows-terminal/" style="font-size: 12px;" class="tag-cloud-0">windows-terminal</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 15.27px;" class="tag-cloud-2">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相關文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/07/26/vscode-remote-debug-java/" rel="bookmark">
+        <time class="popular-posts-time">2026-07-26</time>
+        <br>
+      使用 VS Code 遠端 Debug Java 應用程式
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2018/03/01/hello-world/" rel="bookmark">
+        <time class="popular-posts-time">2018-03-01</time>
+        <br>
+      Hello World
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/03/14/vscode-install/" rel="bookmark">
+        <time class="popular-posts-time">2026-03-14</time>
+        <br>
+      VSCode 安裝指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/07/30/vscode-copilot-quick/" rel="bookmark">
+        <time class="popular-posts-time">2025-07-30</time>
+        <br>
+      使用vscode+copilot快速建立專案
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/08/07/vscode-remote-tunnel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用 VS Code Remote Tunnel 進行遠端開發 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 VS Code Remote Tunnel 進行遠端開發
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-08-07 10:26:39 / 修改時間：10:29:35" itemprop="dateCreated datePublished" datetime="2026-08-07T10:26:39+08:00">2026-08-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/vscodelife/" itemprop="url" rel="index"><span itemprop="name">vscodelife</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="簡介"><a href="#簡介" class="headerlink" title="簡介"></a>簡介</h2><p>VS Code Remote Tunnel 是 VS Code Remote Development 生態系中的一種遠端開發方式。它可以讓我們透過安全通道連線到另一台機器，例如家中的桌機、公司內網中的工作站、雲端 VM，或沒有完整桌面環境的 Linux 主機，並直接在 VS Code 中操作遠端檔案、終端機、擴充套件與開發環境。</p>
+<p>和常見的 SSH 遠端開發相比，Remote Tunnel 的最大特色是不需要先設定 SSH Server，也通常不需要調整防火牆或路由器連接埠。遠端機器只要能主動連到外部服務，就可以透過 VS Code 建立 Tunnel；開發端則可以使用 VS Code Desktop、安裝 Remote - Tunnels 擴充套件的 VS Code，或直接透過瀏覽器開啟 vscode.dev 進行連線。</p>
+<p>官方文件說明，Remote Tunnel 背後會在遠端機器上啟動 VS Code Server，讓 VS Code 的編輯、終端機、偵錯與擴充套件能力可以在遠端環境中執行。這代表原始碼不一定需要下載到本機，實際建置與執行也可以留在遠端主機上完成。</p>
+<p>官方參考文件：<a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/remote/tunnels">Developing with Remote Tunnels</a></p>
+<span id="more"></span>
+
+<hr>
+<h2 id="適合使用-Remote-Tunnel-的情境"><a href="#適合使用-Remote-Tunnel-的情境" class="headerlink" title="適合使用 Remote Tunnel 的情境"></a>適合使用 Remote Tunnel 的情境</h2><p>Remote Tunnel 很適合用在「遠端機器能連外，但不方便被外部直接連入」的場景。例如家用網路後方的桌機、公司內部工作站、臨時雲端主機，或需要在外出時接回固定開發環境的情境。</p>
+<p>常見使用情境包含：</p>
+<ul>
+<li><strong>外出時連回自己的開發桌機</strong>：程式碼、SDK、資料庫與測試環境都留在桌機上，筆電只負責連線與編輯。</li>
+<li><strong>臨時使用雲端 VM 開發</strong>：在 VM 上安裝工具鏈與執行環境，再透過 Remote Tunnel 從本機 VS Code 連進去。</li>
+<li><strong>沒有公網 IP 或不想開 SSH Port</strong>：遠端機器只需要主動建立 Tunnel，不需要讓外部直接連入。</li>
+<li><strong>使用瀏覽器開發</strong>：在不方便安裝 VS Code Desktop 的裝置上，可以透過 vscode.dev 連到遠端環境。</li>
+<li><strong>搭配 Dev Containers</strong>：連到遠端主機後，再開啟遠端主機上的容器環境進行開發。</li>
+</ul>
+<p>如果你的團隊已經有完整 SSH 管理、跳板機與金鑰控管，Remote - SSH 仍然是很好的選擇。但如果只是想快速把某台機器變成可連線的開發主機，Remote Tunnel 的設定成本會低很多。</p>
+<hr>
+<h2 id="Remote-Tunnel-的運作概念"><a href="#Remote-Tunnel-的運作概念" class="headerlink" title="Remote Tunnel 的運作概念"></a>Remote Tunnel 的運作概念</h2><p>Remote Tunnel 的架構可以拆成三個角色：</p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>遠端主機</td>
+<td>實際存放原始碼、工具鏈與執行環境的機器</td>
+</tr>
+<tr>
+<td>VS Code Server</td>
+<td>安裝在遠端主機上的服務，負責處理檔案、終端機、擴充套件與偵錯等能力</td>
+</tr>
+<tr>
+<td>VS Code Client</td>
+<td>使用者操作的端點，可以是 VS Code Desktop 或 vscode.dev</td>
+</tr>
+</tbody></table>
+<p>建立 Tunnel 後，VS Code Client 會透過 Remote - Tunnels 連到遠端主機上的 VS Code Server。多數開發行為都會在遠端主機上執行，例如 npm install、dotnet build、Docker 操作、測試指令或本機終端機命令。Client 端主要負責提供編輯器介面與互動體驗。</p>
+<p>Remote Tunnel 需要使用 GitHub 或 Microsoft 帳號進行驗證。官方文件也提到，建立與連線 Tunnel 的兩端都需要使用同一個帳號驗證，藉此確認你有權限存取對應的遠端機器。</p>
+<hr>
+<h2 id="方式一：使用-code-CLI-建立-Tunnel"><a href="#方式一：使用-code-CLI-建立-Tunnel" class="headerlink" title="方式一：使用 code CLI 建立 Tunnel"></a>方式一：使用 code CLI 建立 Tunnel</h2><p>如果遠端主機已經安裝 VS Code Desktop，通常會內建 <code>code</code> CLI。如果遠端主機沒有桌面環境，也可以從 VS Code 官方下載獨立 CLI。這種方式很適合 Linux Server 或雲端 VM。</p>
+<p>在遠端主機上執行：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">code tunnel</span><br></pre></td></tr></table></figure>
+
+<p>第一次啟動時，CLI 會提示你接受 VS Code Server 授權條款，並引導你登入 GitHub 或 Microsoft 帳號。登入完成後，CLI 會在遠端機器上下載並啟動 VS Code Server，接著建立 Tunnel。</p>
+<p>成功後，終端機會顯示一組 vscode.dev 連結，格式類似：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://vscode.dev/tunnel/&lt;machine_name&gt;/&lt;folder_name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>你可以直接用瀏覽器開啟這個網址，也可以在另一台電腦上的 VS Code 中透過 Remote - Tunnels 擴充套件連線。</p>
+<p>如果想在第一次啟動時避免授權條款互動提示，可以加上：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">code tunnel <span class="literal">--accept-server-license-terms</span></span><br></pre></td></tr></table></figure>
+
+<p>若遠端主機可能進入睡眠狀態，也可以使用：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">code tunnel <span class="literal">--no-sleep</span></span><br></pre></td></tr></table></figure>
+
+<p>這個參數可以協助避免遠端機器休眠導致 Tunnel 中斷。不過實際效果仍會受到作業系統電源設定影響，如果要長時間穩定使用，仍建議同時檢查遠端機器的電源與睡眠設定。</p>
+<img src="/2026/08/07/vscode-remote-tunnel/vscode-remote-tunnel-demo1.webp" class="">
+
+<hr>
+<h2 id="方式二：透過-VS-Code-介面啟用-Tunnel"><a href="#方式二：透過-VS-Code-介面啟用-Tunnel" class="headerlink" title="方式二：透過 VS Code 介面啟用 Tunnel"></a>方式二：透過 VS Code 介面啟用 Tunnel</h2><p>如果你已經在遠端機器上開啟 VS Code Desktop，也可以直接透過圖形介面啟用 Remote Tunnel。</p>
+<p>操作方式如下：</p>
+<ol>
+<li>在遠端機器上開啟 VS Code。</li>
+<li>點擊左下角帳號選單。</li>
+<li>選擇 <strong>Turn on Remote Tunnel Access</strong>。</li>
+<li>依照提示登入 GitHub 或 Microsoft 帳號。</li>
+<li>等待 VS Code 顯示 Tunnel 已啟用的通知。</li>
+</ol>
+<p>也可以使用命令面板執行：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Remote Tunnels: Turn on Remote Tunnel Access...</span><br></pre></td></tr></table></figure>
+
+<p>這種方式適合你原本就正在遠端機器上用 VS Code 工作，只是想順手把這台機器開放成可遠端連線的開發主機。</p>
+<p>需要注意的是，透過 VS Code UI 啟用的 Tunnel，通常需要遠端機器上的 VS Code 持續執行。若關閉 VS Code，Tunnel 也會停止，之後必須重新開啟 VS Code 或改用 <code>code tunnel</code> CLI 啟動。</p>
+<img src="/2026/08/07/vscode-remote-tunnel/vscode-remote-tunnel-demo2.webp" class="">
+
+<hr>
+<h2 id="從另一台機器連線到-Tunnel"><a href="#從另一台機器連線到-Tunnel" class="headerlink" title="從另一台機器連線到 Tunnel"></a>從另一台機器連線到 Tunnel</h2><p>當遠端主機已經啟用 Tunnel 後，可以從另一台機器連線回去。常見做法有兩種。</p>
+<h3 id="使用-vscode-dev"><a href="#使用-vscode-dev" class="headerlink" title="使用 vscode.dev"></a>使用 vscode.dev</h3><p>如果 CLI 或 VS Code 通知中已經提供 vscode.dev 連結，可以直接用瀏覽器開啟。第一次在該瀏覽器連線時，系統會要求登入同一個 GitHub 或 Microsoft 帳號。登入完成後，就能在瀏覽器版 VS Code 中開啟遠端資料夾。</p>
+<p>這種方式不需要在目前裝置安裝 VS Code Desktop，很適合臨時借用電腦、平板，或在受限環境中快速處理遠端程式碼。</p>
+<p>不過，vscode.dev 畢竟是執行在瀏覽器中的 VS Code，體驗仍會受到瀏覽器沙盒與 Web 擴充套件支援度影響。透過 Remote Tunnel 連上遠端主機後，終端機、檔案操作與多數遠端開發能力會比單純開啟 GitHub Repository 更完整，但仍建議先確認自己需要的擴充套件與功能是否能在網頁端正常使用。</p>
+<p>常見限制包含：</p>
+<ul>
+<li><strong>部分擴充套件無法在網頁端執行</strong>：需要本機原生程式、Node.js runtime、系統 API 或特定桌面能力的擴充套件，可能無法安裝或只能提供部分功能。</li>
+<li><strong>Copilot Chat 或 Agent 類功能可能不可用</strong>：在瀏覽器版 VS Code 中，若目前帳號授權、組織政策、擴充套件支援狀態，或遠端工作區環境不符合需求，Copilot Chat、Agent mode、部分工具呼叫與互動式能力可能不會出現或無法正常使用。若文章或教學需要完整 Copilot Chat 體驗，建議改用 VS Code Desktop 連線到同一個 Tunnel。</li>
+<li><strong>瀏覽器快捷鍵可能被攔截</strong>：例如部分瀏覽器會保留某些快捷鍵，導致命令面板、開新檔案或關閉編輯器的操作和桌面版不同。</li>
+<li><strong>瀏覽器權限會影響體驗</strong>：剪貼簿、彈出視窗、檔案存取與登入流程可能需要額外授權；公司網路或瀏覽器安全政策也可能阻擋必要連線。</li>
+<li><strong>行動裝置畫面較受限</strong>：雖然可以在平板或手機上使用，但小螢幕、鍵盤操作與瀏覽器限制會讓長時間開發比較吃力。</li>
+</ul>
+<p>簡單來說，vscode.dev 很適合臨時修改、檢查程式碼或在沒有桌面版 VS Code 的裝置上救急；如果要長時間開發、重度使用 Copilot Chat、執行複雜擴充套件或進行完整偵錯流程，VS Code Desktop 通常會更穩定。</p>
+<h3 id="使用-VS-Code-Desktop"><a href="#使用-VS-Code-Desktop" class="headerlink" title="使用 VS Code Desktop"></a>使用 VS Code Desktop</h3><p>如果要從本機 VS Code Desktop 連線，可以安裝 <strong>Remote - Tunnels</strong> 擴充套件。安裝後開啟命令面板，執行：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Remote Tunnels: Connect to Tunnel</span><br></pre></td></tr></table></figure>
+
+<p>接著選擇要連線的遠端機器與資料夾即可。你也可以開啟 Remote Explorer，在 Tunnels 區塊中查看目前帳號可用的遠端機器。</p>
+<p>連線成功後，VS Code 左下角的遠端狀態列會顯示目前連線的 Tunnel 主機名稱。之後開啟終端機、安裝擴充套件、執行指令時，都會針對遠端環境進行操作。</p>
+<hr>
+<h2 id="常用指令整理"><a href="#常用指令整理" class="headerlink" title="常用指令整理"></a>常用指令整理</h2><p>Remote Tunnel 的 CLI 指令不多，但日常使用時很實用。</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>code tunnel</code></td>
+<td>在目前機器啟動 Tunnel</td>
+</tr>
+<tr>
+<td><code>code tunnel --accept-server-license-terms</code></td>
+<td>啟動 Tunnel 並接受 VS Code Server 授權條款</td>
+</tr>
+<tr>
+<td><code>code tunnel --no-sleep</code></td>
+<td>啟動 Tunnel 並嘗試避免機器進入睡眠</td>
+</tr>
+<tr>
+<td><code>code tunnel --help</code></td>
+<td>查看 Tunnel CLI 可用參數</td>
+</tr>
+<tr>
+<td><code>code tunnel unregister</code></td>
+<td>移除目前機器與 Tunnel 服務的註冊關聯</td>
+</tr>
+<tr>
+<td><code>code tunnel service install</code></td>
+<td>將 Tunnel 安裝成服務，適合需要長時間執行的主機</td>
+</tr>
+<tr>
+<td><code>code tunnel service uninstall</code></td>
+<td>移除 Tunnel 服務</td>
+</tr>
+</tbody></table>
+<p>如果只是短時間使用，直接執行 <code>code tunnel</code> 就很夠用。若這台機器會長期作為遠端開發主機，才需要考慮把 Tunnel 安裝成服務，讓它在背景持續執行。</p>
+<hr>
+<h2 id="安全性與限制"><a href="#安全性與限制" class="headerlink" title="安全性與限制"></a>安全性與限制</h2><p>Remote Tunnel 使用上很方便，但仍然要理解它的安全模型與限制。</p>
+<p>首先，Tunnel 需要帳號驗證。建立與連線時都需要使用 GitHub 或 Microsoft 帳號，避免任何人只靠網址就能連到你的機器。其次，官方文件提到 VS Code 會透過 Azure 上的服務建立對外連線，一般情況下不需要開啟本機網路監聽或調整防火牆規則。</p>
+<p>連線建立後，VS Code 會透過 Tunnel 建立加密連線來提供遠端開發體驗。對使用者來說，這比直接暴露 SSH Port 更容易管理，但仍然不能把它當成「完全不需要控管」的通道。實務上建議注意以下幾點：</p>
+<ul>
+<li>遠端主機只登入自己的 GitHub 或 Microsoft 帳號。</li>
+<li>不使用時關閉 Tunnel，或確認服務只在必要機器上執行。</li>
+<li>定期檢查 Remote Explorer 中註冊的機器，移除不再使用的項目。</li>
+<li>遠端主機本身仍要維持系統更新、磁碟權限與帳號安全。</li>
+<li>團隊環境應確認公司政策是否允許使用 dev tunnels 服務。</li>
+</ul>
+<p>另外，Tunnel 服務本身也有使用限制。官方文件提到，目前每個帳號可註冊的 Tunnel 數量有限制，若超過上限，CLI 可能會移除一個未使用的 Tunnel。這類限制可能隨時間調整，因此正式導入前仍建議查看官方文件。</p>
+<hr>
+<h2 id="Remote-Tunnel-與其他遠端開發方式的比較"><a href="#Remote-Tunnel-與其他遠端開發方式的比較" class="headerlink" title="Remote Tunnel 與其他遠端開發方式的比較"></a>Remote Tunnel 與其他遠端開發方式的比較</h2><p>VS Code 有多種遠端開發方式，Remote Tunnel 不是要取代所有選項，而是補上「不方便建立入站連線」的使用情境。</p>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>適合情境</th>
+<th>特點</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Remote - SSH</td>
+<td>已有 SSH Server、金鑰與網路設定</td>
+<td>成熟、可控，適合長期伺服器開發</td>
+</tr>
+<tr>
+<td>Dev Containers</td>
+<td>專案需要一致的容器化開發環境</td>
+<td>適合團隊統一工具鏈與相依套件</td>
+</tr>
+<tr>
+<td>WSL</td>
+<td>Windows 本機上的 Linux 開發環境</td>
+<td>適合在 Windows 上開發 Linux 專案</td>
+</tr>
+<tr>
+<td>Remote Tunnel</td>
+<td>遠端主機可連外，但不方便被外部連入</td>
+<td>設定簡單，可搭配 vscode.dev 使用</td>
+</tr>
+</tbody></table>
+<p>如果你只是想從筆電連回家中桌機，Remote Tunnel 的體驗會很直接。如果你管理的是正式伺服器，且團隊已經有 SSH、VPN、權限與稽核流程，Remote - SSH 可能更符合既有治理方式。</p>
+<hr>
+<h2 id="實務使用建議"><a href="#實務使用建議" class="headerlink" title="實務使用建議"></a>實務使用建議</h2><p>實際使用 Remote Tunnel 時，可以把它當成「快速接回既有開發環境」的工具。以下是幾個比較實用的建議。</p>
+<h3 id="1-先確認遠端主機的開發環境"><a href="#1-先確認遠端主機的開發環境" class="headerlink" title="1. 先確認遠端主機的開發環境"></a>1. 先確認遠端主機的開發環境</h3><p>Remote Tunnel 只是讓你連進遠端機器，不會自動幫你安裝 Node.js、Java、Docker、SDK 或資料庫。連線前建議先確認遠端主機已經具備專案需要的工具鏈。</p>
+<h3 id="2-將大型建置留在遠端執行"><a href="#2-將大型建置留在遠端執行" class="headerlink" title="2. 將大型建置留在遠端執行"></a>2. 將大型建置留在遠端執行</h3><p>如果遠端主機效能比本機好，可以把建置、測試、Docker build 或大型資料處理都放在遠端執行。本機只要保持穩定網路連線，就能取得接近本機 VS Code 的操作體驗。</p>
+<h3 id="3-注意擴充套件安裝位置"><a href="#3-注意擴充套件安裝位置" class="headerlink" title="3. 注意擴充套件安裝位置"></a>3. 注意擴充套件安裝位置</h3><p>在遠端視窗中安裝擴充套件時，有些會安裝在本機，有些會安裝在遠端。像語言伺服器、偵錯器、格式化工具這類需要讀取專案與執行環境的擴充套件，通常會安裝在遠端主機上。</p>
+<h3 id="4-不使用時關閉-Tunnel"><a href="#4-不使用時關閉-Tunnel" class="headerlink" title="4. 不使用時關閉 Tunnel"></a>4. 不使用時關閉 Tunnel</h3><p>如果只是臨時連線，可以在終端機中按下 <code>Ctrl + C</code> 停止 <code>code tunnel</code>。如果是透過 VS Code UI 啟用，可以執行：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Remote Tunnels: Turn off Remote Tunnel Access...</span><br></pre></td></tr></table></figure>
+
+<p>若要移除這台機器與帳號的註冊關聯，可以在該機器上執行：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">code tunnel unregister</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-長時間使用時改用服務模式"><a href="#5-長時間使用時改用服務模式" class="headerlink" title="5. 長時間使用時改用服務模式"></a>5. 長時間使用時改用服務模式</h3><p>如果這台機器會固定作為遠端開發主機，可以考慮：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">code tunnel service install</span><br></pre></td></tr></table></figure>
+
+<p>這樣就不需要每次手動開啟終端機維持 <code>code tunnel</code> 執行。若之後不再需要，則使用：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">code tunnel service uninstall</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>VS Code Remote Tunnel 提供了一種很輕量的遠端開發方式。它不要求遠端主機開放 SSH Port，也不一定需要 VPN 或複雜的網路設定，只要遠端主機能主動連外，就能透過 VS Code Server 建立可連線的開發環境。</p>
+<p>對個人開發者來說，Remote Tunnel 很適合用來連回自己的桌機或臨時 VM；對團隊來說，它則可以作為特定場景下的補充工具，例如臨時支援、測試環境操作，或搭配 Dev Containers 建立更完整的遠端工作流程。</p>
+<p>使用時仍要注意帳號安全、遠端主機管理與組織政策。只要理解它的運作方式與限制，Remote Tunnel 就能讓「在哪台機器上寫程式」這件事變得更有彈性，也讓 VS Code 的遠端開發體驗更容易落地。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <div class="post-recent-posts" style="display:none">
+      <div class="post-recent-posts-title">
+        <i class="fa fa-history fa-fw"></i> 近期文章
+      </div>
+      <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/08/07/vscode-remote-tunnel/" title="使用 VS Code Remote Tunnel 進行遠端開發">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">使用 VS Code Remote Tunnel 進行遠端開發</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-07</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/06/git-install/" title="在 Ubuntu 安裝 Git 並從 GitLab Clone Repository">
+            <div class="post-recent-card-banner post-recent-card-cat--gitlab">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">在 Ubuntu 安裝 Git 並從 GitLab Clone Repository</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-06</span><span class="post-recent-card-cat">gitlab</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/05/gitlab-container-registry-setting/" title="開啟 GitLab Container Registry 功能">
+            <div class="post-recent-card-banner post-recent-card-cat--gitlab">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">開啟 GitLab Container Registry 功能</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-05</span><span class="post-recent-card-cat">gitlab</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/04/gitlab-install-2026/" title="在 Ubuntu 上安裝 GitLab Community Edition">
+            <div class="post-recent-card-banner post-recent-card-cat--gitlab">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">在 Ubuntu 上安裝 GitLab Community Edition</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-04</span><span class="post-recent-card-cat">gitlab</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/03/windows-terminal-split/" title="Windows Terminal 畫面分割功能介紹">
+            <div class="post-recent-card-banner post-recent-card-cat--windows">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Windows Terminal 畫面分割功能介紹</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-03</span><span class="post-recent-card-cat">windows</span>
+            </div>
+          </a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function showRecentPosts() {
+          var block = document.querySelector('.post-recent-posts');
+          if (!block) return;
+
+          // 重置狀態
+          block.classList.remove('animated', 'fadeIn');
+          block.style.display = 'none';
+
+          var comments = document.querySelector('.comments');
+          if (comments) {
+            comments.parentNode.insertBefore(block, comments);
+          }
+
+          function reveal() {
+            block.style.display = '';
+            block.offsetHeight; // force reflow
+            block.classList.add('animated', 'fadeIn');
+          }
+
+          if (!comments) {
+            reveal();
+          } else {
+            // 觀察 .comments 被 NexT motion 加上 animated class 的時機
+            var observer = new MutationObserver(function () {
+              if (comments.classList.contains('animated')) {
+                observer.disconnect();
+                reveal();
+              }
+            });
+            observer.observe(comments, { attributes: true, attributeFilter: ['class'] });
+            // 若 motion 已跑完（comments 已有 animated），也直接顯示
+            if (comments.classList.contains('animated')) {
+              observer.disconnect();
+              reveal();
+            }
+          }
+        }
+
+        // 初次載入
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', showRecentPosts, { once: true });
+        } else {
+          showRecentPosts();
+        }
+
+        // PJAX：pjax:success 時 NexT motion 剛啟動（async），.comments 尚未有 animated
+        document.addEventListener('pjax:success', showRecentPosts);
+      })();
+    </script>
+
+          <div class="post-tags">
+              <a href="/tags/vscode/" rel="tag"># vscode</a>
+              <a href="/tags/remote-tunnel/" rel="tag"># remote-tunnel</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/08/06/git-install/" rel="prev" title="在 Ubuntu 安裝 Git 並從 GitLab Clone Repository">
+                  <i class="fa fa-angle-left"></i> 在 Ubuntu 安裝 Git 並從 GitLab Clone Repository
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"07c58f0e22e66ac4e6e15e7c02505824"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+<link rel="stylesheet" href="/css/tinyqqc/tinyqqc-widget.css">
+<script
+  id="tinyqqc-widget-script"
+  src="/js/tinyqqc/tinyqqc-widget.iife.js"
+  data-tinyqqc-widget
+  data-api-base-url="https://tinyqqs-846222163009.asia-east1.run.app/"
+  data-initial-open="false"
+  defer
+></script>
+
+</body>
+</html>
