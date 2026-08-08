@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="什麼是 Volume？Kubernetes Volume 是一個 API 物件，用於為 Pod 中的容器提供持久化或共享的儲存空間。Volume 解決了容器檔案系統的臨時性問題，讓資料能夠在容器重啟後保留，或在多個容器之間進行共享。 Volume 的主要功能： 資料持久化：確保重要資料在容器重啟或 Pod 重新調度後不會遺失 容器間共享：讓同一 Pod 內的多個容器能夠共享資料 外部儲存整合：連接">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes Volume 使用指南">
+<meta property="og:url" content="https://pcion123.github.io/2026/08/09/kubernetes-volume/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="什麼是 Volume？Kubernetes Volume 是一個 API 物件，用於為 Pod 中的容器提供持久化或共享的儲存空間。Volume 解決了容器檔案系統的臨時性問題，讓資料能夠在容器重啟後保留，或在多個容器之間進行共享。 Volume 的主要功能： 資料持久化：確保重要資料在容器重啟或 Pod 重新調度後不會遺失 容器間共享：讓同一 Pod 內的多個容器能夠共享資料 外部儲存整合：連接">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2026-08-08T17:41:38.000Z">
+<meta property="article:modified_time" content="2026-08-08T17:48:06.184Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="kubernetes">
+<meta property="article:tag" content="volume">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/08/09/kubernetes-volume/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/08/09/kubernetes-volume/","path":"2026/08/09/kubernetes-volume/","title":"Kubernetes Volume 使用指南"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Kubernetes Volume 使用指南 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-Volume%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什麼是 Volume？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Volume-%E7%9A%84%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">Volume 的主要功能：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E4%BD%BF%E7%94%A8-Volume%EF%BC%9F"><span class="nav-number">1.2.</span> <span class="nav-text">為什麼使用 Volume？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Volume-%E9%A1%9E%E5%9E%8B%E4%BB%8B%E7%B4%B9"><span class="nav-number">2.</span> <span class="nav-text">Volume 類型介紹</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#emptyDir"><span class="nav-number">2.1.</span> <span class="nav-text">emptyDir</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#emptyDir-%E5%AF%A6%E4%BD%9C%E7%AF%84%E4%BE%8B"><span class="nav-number">2.1.1.</span> <span class="nav-text">emptyDir 實作範例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%AA%AA%E6%98%8E"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">配置說明</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E8%88%87%E9%A9%97%E8%AD%89"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">部署與驗證</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E6%87%89%E7%94%A8"><span class="nav-number">2.1.1.2.1.</span> <span class="nav-text">部署應用</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%A9%97%E8%AD%89-Volume-%E6%8E%9B%E8%BC%89"><span class="nav-number">2.1.1.2.2.</span> <span class="nav-text">驗證 Volume 掛載</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%A9%97%E8%AD%89-emptyDir-%E7%94%9F%E5%91%BD%E9%80%B1%E6%9C%9F"><span class="nav-number">2.1.1.2.3.</span> <span class="nav-text">驗證 emptyDir 生命週期</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hostPath"><span class="nav-number">2.2.</span> <span class="nav-text">hostPath</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#hostPath-%E5%AF%A6%E4%BD%9C%E7%AF%84%E4%BE%8B"><span class="nav-number">2.2.1.</span> <span class="nav-text">hostPath 實作範例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%AA%AA%E6%98%8E-1"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">配置說明</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E8%88%87%E9%A9%97%E8%AD%89-1"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">部署與驗證</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E6%87%89%E7%94%A8-1"><span class="nav-number">2.2.1.2.1.</span> <span class="nav-text">部署應用</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%A9%97%E8%AD%89-Volume-%E6%8E%9B%E8%BC%89-1"><span class="nav-number">2.2.1.2.2.</span> <span class="nav-text">驗證 Volume 掛載</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%A9%97%E8%AD%89%E8%B3%87%E6%96%99%E6%8C%81%E4%B9%85%E6%80%A7"><span class="nav-number">2.2.1.2.3.</span> <span class="nav-text">驗證資料持久性</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E5%AF%A6%E5%8B%99%E5%BB%BA%E8%AD%B0"><span class="nav-number">2.2.1.3.</span> <span class="nav-text">最佳實務建議</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B8%85%E7%90%86%E8%B3%87%E6%BA%90"><span class="nav-number">2.2.1.4.</span> <span class="nav-text">清理資源</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Volume-%E9%A1%9E%E5%9E%8B%E7%B8%BD%E8%A6%BD"><span class="nav-number">3.</span> <span class="nav-text">Volume 類型總覽</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%B8%E6%93%87%E5%BB%BA%E8%AD%B0"><span class="nav-number">3.1.</span> <span class="nav-text">選擇建議</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">79</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/agent/" style="font-size: 13.8px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/chrome-extension/" style="font-size: 12px;" class="tag-cloud-0">chrome-extension</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/configmap/" style="font-size: 12px;" class="tag-cloud-0">configmap</a> <a href="/tags/container-registry/" style="font-size: 12px;" class="tag-cloud-0">container-registry</a> <a href="/tags/copilot-cli/" style="font-size: 17.4px;" class="tag-cloud-3">copilot cli</a> <a href="/tags/deployment/" style="font-size: 12px;" class="tag-cloud-0">deployment</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 26.4px;" class="tag-cloud-8">docker</a> <a href="/tags/elasticsearch/" style="font-size: 15.6px;" class="tag-cloud-2">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 22.8px;" class="tag-cloud-6">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 13.8px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 21px;" class="tag-cloud-5">gitlab</a> <a href="/tags/googlemap/" style="font-size: 15.6px;" class="tag-cloud-2">googlemap</a> <a href="/tags/grafana/" style="font-size: 15.6px;" class="tag-cloud-2">grafana</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/java/" style="font-size: 22.8px;" class="tag-cloud-6">java</a> <a href="/tags/jdk/" style="font-size: 13.8px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 17.4px;" class="tag-cloud-3">jenkins</a> <a href="/tags/kibana/" style="font-size: 15.6px;" class="tag-cloud-2">kibana</a> <a href="/tags/kubernetes/" style="font-size: 26.4px;" class="tag-cloud-8">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 28.2px;" class="tag-cloud-9">linux</a> <a href="/tags/logstash/" style="font-size: 13.8px;" class="tag-cloud-1">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 15.6px;" class="tag-cloud-2">maven</a> <a href="/tags/mcp/" style="font-size: 13.8px;" class="tag-cloud-1">mcp</a> <a href="/tags/minikube/" style="font-size: 13.8px;" class="tag-cloud-1">minikube</a> <a href="/tags/monitoring/" style="font-size: 17.4px;" class="tag-cloud-3">monitoring</a> <a href="/tags/namespace/" style="font-size: 12px;" class="tag-cloud-0">namespace</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.8px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/opentelemetry/" style="font-size: 13.8px;" class="tag-cloud-1">opentelemetry</a> <a href="/tags/pm2/" style="font-size: 13.8px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 15.6px;" class="tag-cloud-2">powershell</a> <a href="/tags/prometheus/" style="font-size: 15.6px;" class="tag-cloud-2">prometheus</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/remote-tunnel/" style="font-size: 13.8px;" class="tag-cloud-1">remote-tunnel</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/secret/" style="font-size: 12px;" class="tag-cloud-0">secret</a> <a href="/tags/skills/" style="font-size: 13.8px;" class="tag-cloud-1">skills</a> <a href="/tags/spring-boot/" style="font-size: 17.4px;" class="tag-cloud-3">spring-boot</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 15.6px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 13.8px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 24.6px;" class="tag-cloud-7">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/volume/" style="font-size: 15.6px;" class="tag-cloud-2">volume</a> <a href="/tags/vscode/" style="font-size: 30px;" class="tag-cloud-10">vscode</a> <a href="/tags/windows/" style="font-size: 19.2px;" class="tag-cloud-4">windows</a> <a href="/tags/windows-terminal/" style="font-size: 12px;" class="tag-cloud-0">windows-terminal</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 15.6px;" class="tag-cloud-2">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相關文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/10/10/kubernetes-namespace/" rel="bookmark">
+        <time class="popular-posts-time">2025-10-10</time>
+        <br>
+      Kubernetes Namespace 使用指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/11/02/kubernetes-secret-intro/" rel="bookmark">
+        <time class="popular-posts-time">2025-11-02</time>
+        <br>
+      Kubernetes Secret 使用指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/10/25/kubernetes-configmap-intro/" rel="bookmark">
+        <time class="popular-posts-time">2025-10-25</time>
+        <br>
+      Kubernetes ConfigMap 使用指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/10/11/kubernetes-deployment/" rel="bookmark">
+        <time class="popular-posts-time">2025-10-11</time>
+        <br>
+      Kubernetes Deployment 使用指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/09/28/kubernetes-core-intro/" rel="bookmark">
+        <time class="popular-posts-time">2025-09-28</time>
+        <br>
+      Kubernetes 核心元件介紹
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/08/09/kubernetes-volume/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Kubernetes Volume 使用指南 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Kubernetes Volume 使用指南
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-08-09 01:41:38 / 修改時間：01:48:06" itemprop="dateCreated datePublished" datetime="2026-08-09T01:41:38+08:00">2026-08-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kubernetes/" itemprop="url" rel="index"><span itemprop="name">kubernetes</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="什麼是-Volume？"><a href="#什麼是-Volume？" class="headerlink" title="什麼是 Volume？"></a>什麼是 Volume？</h2><p>Kubernetes Volume 是一個 API 物件，用於為 Pod 中的容器提供持久化或共享的儲存空間。Volume 解決了容器檔案系統的臨時性問題，讓資料能夠在容器重啟後保留，或在多個容器之間進行共享。</p>
+<h3 id="Volume-的主要功能："><a href="#Volume-的主要功能：" class="headerlink" title="Volume 的主要功能："></a>Volume 的主要功能：</h3><ul>
+<li><strong>資料持久化</strong>：確保重要資料在容器重啟或 Pod 重新調度後不會遺失</li>
+<li><strong>容器間共享</strong>：讓同一 Pod 內的多個容器能夠共享資料</li>
+<li><strong>外部儲存整合</strong>：連接到各種外部儲存系統，如雲端儲存、網路檔案系統等</li>
+<li><strong>臨時儲存管理</strong>：提供高效能的臨時工作空間</li>
+</ul>
+<h3 id="為什麼使用-Volume？"><a href="#為什麼使用-Volume？" class="headerlink" title="為什麼使用 Volume？"></a>為什麼使用 Volume？</h3><p>相較於依賴容器內建的檔案系統，Volume 提供了更可靠的資料管理方式：</p>
+<ol>
+<li><strong>資料安全性</strong>：避免因容器故障導致的資料遺失</li>
+<li><strong>靈活性</strong>：支援多種儲存後端，適應不同的應用需求</li>
+<li><strong>效能最佳化</strong>：可選擇適合的儲存介質來提升應用效能</li>
+<li><strong>統一管理</strong>：集中管理所有持久化資料的儲存策略</li>
+</ol>
+<span id="more"></span>
+
+<hr>
+<h2 id="Volume-類型介紹"><a href="#Volume-類型介紹" class="headerlink" title="Volume 類型介紹"></a>Volume 類型介紹</h2><p>Kubernetes 提供了多種不同的 Volume 類型，包括 emptyDir、hostPath、PersistentVolume、ConfigMap、Secret、NFS 等數十種選項。每種類型都有其特定的用途和適用場景。由於 Volume 類型眾多，本指南將重點介紹作者認為在日常開發和運維工作中最重要且最常用的幾種類型，幫助讀者快速掌握核心概念和實用技能。</p>
+<h3 id="emptyDir"><a href="#emptyDir" class="headerlink" title="emptyDir"></a>emptyDir</h3><p>emptyDir 類型的 Volume 會在 Pod 被分配到節點時建立，當 Pod 從節點刪除時，emptyDir 中的資料也會一併刪除。它的生命週期與 Pod 綁定，適合用來存放暫存檔、快取資料，或像應用程式日誌這類不需要跨 Pod 長期保留的檔案。</p>
+<p><strong>使用場景：</strong></p>
+<ul>
+<li>多容器 Pod 中容器間共享資料</li>
+<li>快取儲存，提升應用程式效能</li>
+<li>臨時工作目錄或暫存檔案</li>
+<li>應用程式產生的暫時性日誌檔案</li>
+</ul>
+<p><strong>特性：</strong></p>
+<ul>
+<li>資料儲存在節點的本地磁碟或記憶體中</li>
+<li>容器重啟時資料通常會保留，但 Pod 刪除後資料會消失</li>
+<li>可以設定儲存介質為磁碟或記憶體（Memory）</li>
+<li>支援容量限制設定</li>
+</ul>
+<p><strong>注意事項：</strong></p>
+<ul>
+<li>資料不具持久性，Pod 刪除後資料會消失</li>
+<li>如果使用記憶體作為儲存介質，需注意記憶體限制</li>
+<li>適合臨時資料儲存，不適合重要資料持久化</li>
+</ul>
+<h4 id="emptyDir-實作範例"><a href="#emptyDir-實作範例" class="headerlink" title="emptyDir 實作範例"></a>emptyDir 實作範例</h4><p>以下範例展示如何在 Spring Boot Deployment 中使用 emptyDir，將 Pod 暫存磁碟掛載到應用程式日誌目錄，供 logback 寫入檔案日誌：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 部署 Spring Boot 應用程式，並設定容器映像、環境變數與健康檢查。</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">dockertest-deployment</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">dockertest</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="comment"># metadata labels 可協助識別此 Deployment 的環境、應用與版本。</span></span><br><span class="line">    <span class="attr">environment:</span> <span class="string">dev</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line">    <span class="attr">version:</span> <span class="string">latest</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="comment"># 開發環境先維持單一副本；正式環境可依需求調整 replicas。</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="comment"># selector 必須與 template.metadata.labels 相符，Deployment 才能管理這些 Pod。</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="comment"># Pod labels 供 Deployment selector 與 Service selector 使用。</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line">        <span class="attr">version:</span> <span class="string">latest</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">dockertest</span></span><br><span class="line">        <span class="comment"># 應用程式映像來源，需搭配下方 imagePullSecrets 才能從私有 registry 拉取。</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">inner.gitlab.dev:5050/pcion123/docker-test:latest</span></span><br><span class="line">        <span class="comment"># Always 會在每次建立 Pod 時嘗試拉取最新映像，適合 latest tag 的開發部署。</span></span><br><span class="line">        <span class="attr">imagePullPolicy:</span> <span class="string">Always</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="comment"># Spring Boot 預設服務埠，Service 也會轉發到這個 containerPort。</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8080</span></span><br><span class="line">        <span class="attr">volumeMounts:</span></span><br><span class="line">        <span class="comment"># 將 Pod 暫存磁碟掛載到應用程式日誌目錄，供 logback 寫入檔案日誌。</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">app-logs</span></span><br><span class="line">          <span class="attr">mountPath:</span> <span class="string">/var/log/app/logs</span></span><br><span class="line">        <span class="attr">env:</span></span><br><span class="line">        <span class="comment"># JVM 記憶體與 Spring profile 設定。</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">JAVA_OPTS</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">&quot;-Xmx512m -Xms256m -Dspring.profiles.active=dev&quot;</span></span><br><span class="line">        <span class="comment"># 指定應用啟動模式；目前設定為 minikube-secret，供程式依本機叢集環境調整行為。</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">START_MODE</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">&quot;minikube-secret&quot;</span></span><br><span class="line">        <span class="comment"># 設定容器時區，避免日誌與應用時間和台灣時間不一致。</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">TZ</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">&quot;Asia/Taipei&quot;</span></span><br><span class="line">        <span class="comment"># livenessProbe 用來判斷容器是否仍健康；失敗過多時 Kubernetes 會重啟容器。</span></span><br><span class="line">        <span class="attr">livenessProbe:</span></span><br><span class="line">          <span class="attr">httpGet:</span></span><br><span class="line">            <span class="attr">path:</span> <span class="string">/hello</span></span><br><span class="line">            <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">          <span class="attr">initialDelaySeconds:</span> <span class="number">60</span></span><br><span class="line">          <span class="attr">periodSeconds:</span> <span class="number">30</span></span><br><span class="line">          <span class="attr">timeoutSeconds:</span> <span class="number">10</span></span><br><span class="line">          <span class="attr">failureThreshold:</span> <span class="number">3</span></span><br><span class="line">        <span class="comment"># readinessProbe 用來判斷 Pod 是否可接收流量；未就緒時 Service 不會導流到此 Pod。</span></span><br><span class="line">        <span class="attr">readinessProbe:</span></span><br><span class="line">          <span class="attr">httpGet:</span></span><br><span class="line">            <span class="attr">path:</span> <span class="string">/hello</span></span><br><span class="line">            <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">          <span class="attr">initialDelaySeconds:</span> <span class="number">30</span></span><br><span class="line">          <span class="attr">periodSeconds:</span> <span class="number">10</span></span><br><span class="line">          <span class="attr">timeoutSeconds:</span> <span class="number">5</span></span><br><span class="line">          <span class="attr">failureThreshold:</span> <span class="number">3</span></span><br><span class="line">      <span class="attr">imagePullSecrets:</span></span><br><span class="line">        <span class="comment"># 指定上方建立的 registry Secret，供 Kubernetes 拉取私有映像使用。</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">gitlab-registry-secret</span></span><br><span class="line">      <span class="attr">volumes:</span></span><br><span class="line">        <span class="comment"># emptyDir 會隨 Pod 建立而產生，Pod 刪除時內容也會一併移除，適合暫存應用日誌。</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">app-logs</span></span><br><span class="line">          <span class="attr">emptyDir:</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="配置說明"><a href="#配置說明" class="headerlink" title="配置說明"></a>配置說明</h5><ul>
+<li><p><strong>volumeMounts</strong>: 定義容器內的掛載點</p>
+<ul>
+<li><code>name</code>: 對應 <code>volumes</code> 中定義的 Volume 名稱</li>
+<li><code>mountPath</code>: 容器內的掛載路徑，範例中為 <code>/var/log/app/logs</code></li>
+</ul>
+</li>
+<li><p><strong>volumes</strong>: 定義 Pod 可使用的儲存卷</p>
+<ul>
+<li><code>name</code>: Volume 名稱，必須與 <code>volumeMounts.name</code> 相同</li>
+<li><code>emptyDir</code>: 使用 Pod 暫存儲存空間，Pod 刪除後內容會一併移除</li>
+</ul>
+</li>
+</ul>
+<h5 id="部署與驗證"><a href="#部署與驗證" class="headerlink" title="部署與驗證"></a>部署與驗證</h5><div class="video-container"><iframe src="https://www.youtube.com/embed/Iu5RbRRH0HA" frameborder="0" loading="lazy" allowfullscreen></iframe></div>
+
+<h6 id="部署應用"><a href="#部署應用" class="headerlink" title="部署應用"></a>部署應用</h6><p>本次驗證使用的部署檔會一併建立 namespace、registry Secret、Deployment 與 Service：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f apply_secret.yml</span><br></pre></td></tr></table></figure>
+
+<h6 id="驗證-Volume-掛載"><a href="#驗證-Volume-掛載" class="headerlink" title="驗證 Volume 掛載"></a>驗證 Volume 掛載</h6><p>可以開一個終端機持續觀察 <code>dockertest</code> namespace 中的資源狀態，確認 Deployment、ReplicaSet、Pod 與 Service 都已建立：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watch -n 2 kubectl get all -n dockertest</span><br></pre></td></tr></table></figure>
+
+<p>接著查看應用程式啟動日誌，確認 logback 使用的檔案日誌路徑為 <code>/var/log/app/logs/dockertest.log</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl logs -f -n dockertest &lt;pod-name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>應用程式啟動後，進入 Pod 檢查 emptyDir 掛載的日誌目錄，並直接讀取檔案日誌：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kubectl <span class="built_in">exec</span> -it -n dockertest &lt;pod-name&gt; -- sh</span><br><span class="line"><span class="built_in">cd</span> /var/log/app/logs</span><br><span class="line"><span class="built_in">tail</span> -f dockertest.log</span><br></pre></td></tr></table></figure>
+
+<h6 id="驗證-emptyDir-生命週期"><a href="#驗證-emptyDir-生命週期" class="headerlink" title="驗證 emptyDir 生命週期"></a>驗證 emptyDir 生命週期</h6><p>emptyDir 的生命週期與 Pod 綁定，而不是與容器行程綁定。因此可以先終止容器中的 Java 行程，讓 Kubernetes 重新啟動容器，再觀察同一個 Pod 的 <code>RESTARTS</code> 數量增加。此時 Pod 沒有被刪除，所以 emptyDir 中的 <code>dockertest.log</code> 仍會保留。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kubectl <span class="built_in">exec</span> -it -n dockertest &lt;pod-name&gt; -- sh -c <span class="string">&quot;kill -TERM 7&quot;</span></span><br><span class="line">kubectl get all -n dockertest</span><br><span class="line">kubectl <span class="built_in">exec</span> -it -n dockertest &lt;pod-name&gt; -- sh -c <span class="string">&quot;tail -n 20 /var/log/app/logs/dockertest.log&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果刪除整個 Pod，Deployment 會重新建立新的 Pod，而新的 Pod 會取得新的 emptyDir，原本 emptyDir 內的檔案就不會保留。這點與上面的「容器重啟」不同。</p>
+<h3 id="hostPath"><a href="#hostPath" class="headerlink" title="hostPath"></a>hostPath</h3><p>hostPath 類型的 Volume 會將 Kubernetes 節點檔案系統上的檔案或目錄掛載到 Pod 中。這種類型適合需要讀寫節點本機路徑的情境，例如在單節點開發環境中保留應用程式日誌。需要注意的是，hostPath 與特定節點綁定，Pod 重新調度到其他節點時，資料不會跟著移動。</p>
+<p><strong>使用場景：</strong></p>
+<ul>
+<li>需要訪問節點上的檔案或目錄</li>
+<li>單節點開發或測試環境</li>
+<li>應用程式日誌需要保留在節點目錄中</li>
+<li>日誌收集系統需要讀取主機日誌</li>
+</ul>
+<p><strong>注意事項：</strong></p>
+<ul>
+<li>資料與特定節點綁定，Pod 遷移時資料不會跟隨</li>
+<li>存在安全風險，應謹慎限制可掛載的路徑</li>
+<li>不建議作為多節點生產環境的一般持久化方案</li>
+</ul>
+<h4 id="hostPath-實作範例"><a href="#hostPath-實作範例" class="headerlink" title="hostPath 實作範例"></a>hostPath 實作範例</h4><p>以下範例展示如何在 Spring Boot Deployment 中使用 hostPath，將節點上的固定目錄掛載到應用程式日誌目錄，讓 Pod 重建後仍可在同一個節點保留日誌檔案：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 部署 Spring Boot 應用程式，並設定容器映像、環境變數與健康檢查。</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">dockertest-deployment</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">dockertest</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="comment"># metadata labels 可協助識別此 Deployment 的環境、應用與版本。</span></span><br><span class="line">    <span class="attr">environment:</span> <span class="string">dev</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line">    <span class="attr">version:</span> <span class="string">latest</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="comment"># 開發環境先維持單一副本；正式環境可依需求調整 replicas。</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="comment"># selector 必須與 template.metadata.labels 相符，Deployment 才能管理這些 Pod。</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="comment"># Pod labels 供 Deployment selector 與 Service selector 使用。</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line">        <span class="attr">version:</span> <span class="string">latest</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">dockertest</span></span><br><span class="line">        <span class="comment"># 應用程式映像來源，需搭配下方 imagePullSecrets 才能從私有 registry 拉取。</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">inner.gitlab.dev:5050/pcion123/docker-test:latest</span></span><br><span class="line">        <span class="comment"># Always 會在每次建立 Pod 時嘗試拉取最新映像，適合 latest tag 的開發部署。</span></span><br><span class="line">        <span class="attr">imagePullPolicy:</span> <span class="string">Always</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="comment"># Spring Boot 預設服務埠，Service 也會轉發到這個 containerPort。</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8080</span></span><br><span class="line">        <span class="attr">volumeMounts:</span></span><br><span class="line">        <span class="comment"># 將節點上的固定目錄掛載到應用程式日誌目錄，供 logback 寫入檔案日誌。</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">app-logs</span></span><br><span class="line">          <span class="attr">mountPath:</span> <span class="string">/var/log/app/logs</span></span><br><span class="line">        <span class="attr">env:</span></span><br><span class="line">        <span class="comment"># JVM 記憶體與 Spring profile 設定。</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">JAVA_OPTS</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">&quot;-Xmx512m -Xms256m -Dspring.profiles.active=dev&quot;</span></span><br><span class="line">        <span class="comment"># 指定應用啟動模式；目前設定為 minikube-secret，供程式依本機叢集環境調整行為。</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">START_MODE</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">&quot;minikube-secret&quot;</span></span><br><span class="line">        <span class="comment"># 明確指定 logback 的檔案日誌路徑，需與上方 volumeMounts.mountPath 一致。</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">LOG_PATH</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">&quot;/var/log/app/logs&quot;</span></span><br><span class="line">        <span class="comment"># 設定容器時區，避免日誌與應用時間和台灣時間不一致。</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">TZ</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">&quot;Asia/Taipei&quot;</span></span><br><span class="line">        <span class="comment"># livenessProbe 用來判斷容器是否仍健康；失敗過多時 Kubernetes 會重啟容器。</span></span><br><span class="line">        <span class="attr">livenessProbe:</span></span><br><span class="line">          <span class="attr">httpGet:</span></span><br><span class="line">            <span class="attr">path:</span> <span class="string">/hello</span></span><br><span class="line">            <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">          <span class="attr">initialDelaySeconds:</span> <span class="number">60</span></span><br><span class="line">          <span class="attr">periodSeconds:</span> <span class="number">30</span></span><br><span class="line">          <span class="attr">timeoutSeconds:</span> <span class="number">10</span></span><br><span class="line">          <span class="attr">failureThreshold:</span> <span class="number">3</span></span><br><span class="line">        <span class="comment"># readinessProbe 用來判斷 Pod 是否可接收流量；未就緒時 Service 不會導流到此 Pod。</span></span><br><span class="line">        <span class="attr">readinessProbe:</span></span><br><span class="line">          <span class="attr">httpGet:</span></span><br><span class="line">            <span class="attr">path:</span> <span class="string">/hello</span></span><br><span class="line">            <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">          <span class="attr">initialDelaySeconds:</span> <span class="number">30</span></span><br><span class="line">          <span class="attr">periodSeconds:</span> <span class="number">10</span></span><br><span class="line">          <span class="attr">timeoutSeconds:</span> <span class="number">5</span></span><br><span class="line">          <span class="attr">failureThreshold:</span> <span class="number">3</span></span><br><span class="line">      <span class="attr">imagePullSecrets:</span></span><br><span class="line">        <span class="comment"># 指定上方建立的 registry Secret，供 Kubernetes 拉取私有映像使用。</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">gitlab-registry-secret</span></span><br><span class="line">      <span class="attr">volumes:</span></span><br><span class="line">        <span class="comment"># hostPath 會使用 Kubernetes 節點上的實體目錄；Pod 重建後日誌仍保留在同一個節點。</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">app-logs</span></span><br><span class="line">          <span class="attr">hostPath:</span></span><br><span class="line">            <span class="attr">path:</span> <span class="string">/var/log/k8s-logs</span></span><br><span class="line">            <span class="attr">type:</span> <span class="string">DirectoryOrCreate</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="配置說明-1"><a href="#配置說明-1" class="headerlink" title="配置說明"></a>配置說明</h5><ul>
+<li><p><strong>volumeMounts</strong>: 定義容器內的掛載點</p>
+<ul>
+<li><code>name</code>: 對應 <code>volumes</code> 中定義的 Volume 名稱</li>
+<li><code>mountPath</code>: 容器內的掛載路徑，範例中為 <code>/var/log/app/logs</code></li>
+</ul>
+</li>
+<li><p><strong>env.LOG_PATH</strong>: 明確指定應用程式寫入檔案日誌的位置，需與 <code>volumeMounts.mountPath</code> 保持一致</p>
+</li>
+<li><p><strong>volumes</strong>: 定義 Pod 可使用的儲存卷</p>
+<ul>
+<li><code>name</code>: Volume 名稱，必須與 <code>volumeMounts.name</code> 相同</li>
+<li><code>hostPath.path</code>: 節點上的實體目錄，範例中為 <code>/var/log/k8s-logs</code></li>
+<li><code>hostPath.type</code>: 路徑類型，<code>DirectoryOrCreate</code> 表示如果目錄不存在，Kubernetes 會自動建立</li>
+</ul>
+</li>
+</ul>
+<h5 id="部署與驗證-1"><a href="#部署與驗證-1" class="headerlink" title="部署與驗證"></a>部署與驗證</h5><div class="video-container"><iframe src="https://www.youtube.com/embed/p9qpkp9nf30" frameborder="0" loading="lazy" allowfullscreen></iframe></div>
+
+<h6 id="部署應用-1"><a href="#部署應用-1" class="headerlink" title="部署應用"></a>部署應用</h6><p>本次 hostPath 驗證使用另一份部署檔，差異在於 <code>volumes</code> 改成掛載節點上的固定目錄：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f apply_secret_hostpath.yml</span><br></pre></td></tr></table></figure>
+
+<h6 id="驗證-Volume-掛載-1"><a href="#驗證-Volume-掛載-1" class="headerlink" title="驗證 Volume 掛載"></a>驗證 Volume 掛載</h6><p>可以開一個終端機持續觀察 <code>dockertest</code> namespace 中的資源狀態：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watch -n 2 kubectl get all -n dockertest</span><br></pre></td></tr></table></figure>
+
+<p>另開一個終端機查看 Pod 的應用程式啟動日誌，確認 logback 寫入的檔案路徑為 <code>/var/log/app/logs/dockertest.log</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl logs -f -n dockertest &lt;pod-name&gt;</span><br></pre></td></tr></table></figure>
+
+<h6 id="驗證資料持久性"><a href="#驗證資料持久性" class="headerlink" title="驗證資料持久性"></a>驗證資料持久性</h6><p>接著回到 Kubernetes 節點上，進入 hostPath 對應的主機目錄。本次實際驗證環境使用的是家目錄下的 <code>k8s-logs</code>，如果你的 YAML 設定為 <code>/var/log/k8s-logs</code>，就改到該路徑檢查。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/k8s-logs</span><br><span class="line"><span class="built_in">ls</span></span><br><span class="line"><span class="built_in">tail</span> -f dockertest.log</span><br></pre></td></tr></table></figure>
+
+<p>當應用程式收到請求或重新啟動時，可以同時在 <code>kubectl logs -f</code> 與節點上的 <code>tail -f dockertest.log</code> 看到日誌持續寫入。這代表容器內的 <code>/var/log/app/logs/dockertest.log</code> 實際上已經寫到節點的 hostPath 目錄。</p>
+<p>若刪除 Pod 後 Deployment 在同一個節點重新建立 Pod，hostPath 目錄中的 <code>dockertest.log</code> 仍會保留，新的 Pod 會繼續寫入同一個節點目錄：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete pod -n dockertest &lt;pod-name&gt;</span><br><span class="line">kubectl get pods -n dockertest -l app=dockertest</span><br></pre></td></tr></table></figure>
+
+<h5 id="最佳實務建議"><a href="#最佳實務建議" class="headerlink" title="最佳實務建議"></a>最佳實務建議</h5><ol>
+<li><strong>開發環境使用</strong>: hostPath 主要適用於開發和測試環境，或需要讀取節點特定檔案的系統元件</li>
+<li><strong>路徑管理</strong>: 確保節點路徑具有適當的權限設定，避免掛載過大的系統範圍</li>
+<li><strong>資料備份</strong>: 如果日誌或資料具有保留需求，仍需搭配備份或集中式日誌收集</li>
+<li><strong>生產環境替代</strong>: 在生產環境中，建議使用 PersistentVolume、StorageClass 或雲端儲存解決方案</li>
+</ol>
+<h5 id="清理資源"><a href="#清理資源" class="headerlink" title="清理資源"></a>清理資源</h5><p>如果是透過前面的部署檔建立資源，建議直接使用同一份 YAML 清理，避免只刪除 Deployment 卻留下 Service、Secret 或 namespace 等資源：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete -f apply_secret.yml</span><br></pre></td></tr></table></figure>
+
+<p>如果目前套用的是 hostPath 版本，則改刪除 hostPath 對應的部署檔：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete -f apply_secret_hostpath.yml</span><br></pre></td></tr></table></figure>
+
+<p>也可以手動刪除 <code>dockertest</code> namespace，連同 namespace 內的 Deployment、Pod、Service 與 Secret 一併清除：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete namespace dockertest</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，<code>hostPath</code> 寫入節點上的檔案不會因為刪除 Kubernetes 資源而自動移除。如果要清掉測試時產生的日誌，需要到節點上的 hostPath 目錄手動刪除，例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> -f ~/k8s-logs/dockertest.log</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Volume-類型總覽"><a href="#Volume-類型總覽" class="headerlink" title="Volume 類型總覽"></a>Volume 類型總覽</h2><p>以下表格整理了 Kubernetes 中常見的 Volume 類型及其主要用途：</p>
+<table>
+<thead>
+<tr>
+<th>Volume 類型</th>
+<th>持久性</th>
+<th>用途說明</th>
+<th>適用場景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>emptyDir</strong></td>
+<td>臨時</td>
+<td>Pod 內容器間共享資料，Pod 刪除後資料消失</td>
+<td>臨時檔案、快取、容器間通訊</td>
+</tr>
+<tr>
+<td><strong>hostPath</strong></td>
+<td>節點綁定</td>
+<td>掛載主機檔案系統到容器中</td>
+<td>開發測試、系統監控、日誌收集</td>
+</tr>
+<tr>
+<td><strong>PersistentVolume (PV)</strong></td>
+<td>持久</td>
+<td>獨立於 Pod 生命週期的持久化儲存</td>
+<td>資料庫、檔案儲存、狀態應用</td>
+</tr>
+<tr>
+<td><strong>ConfigMap</strong></td>
+<td>組態</td>
+<td>以檔案形式提供組態資料</td>
+<td>應用程式組態、環境變數</td>
+</tr>
+<tr>
+<td><strong>Secret</strong></td>
+<td>機密</td>
+<td>以檔案形式提供敏感資料</td>
+<td>密碼、憑證、API 金鑰</td>
+</tr>
+<tr>
+<td><strong>NFS</strong></td>
+<td>網路共享</td>
+<td>透過 NFS 協定共享網路儲存</td>
+<td>多 Pod 共享資料、檔案伺服器</td>
+</tr>
+<tr>
+<td><strong>AWS EBS</strong></td>
+<td>雲端持久</td>
+<td>使用 AWS Elastic Block Store</td>
+<td>AWS 環境的持久化儲存</td>
+</tr>
+<tr>
+<td><strong>Azure Disk</strong></td>
+<td>雲端持久</td>
+<td>使用 Azure 磁碟儲存</td>
+<td>Azure 環境的持久化儲存</td>
+</tr>
+<tr>
+<td><strong>GCE PD</strong></td>
+<td>雲端持久</td>
+<td>使用 Google Cloud 持久磁碟</td>
+<td>GCP 環境的持久化儲存</td>
+</tr>
+<tr>
+<td><strong>CSI</strong></td>
+<td>彈性</td>
+<td>Container Storage Interface 標準介面</td>
+<td>第三方儲存解決方案整合</td>
+</tr>
+</tbody></table>
+<h3 id="選擇建議"><a href="#選擇建議" class="headerlink" title="選擇建議"></a>選擇建議</h3><p><strong>開發階段：</strong></p>
+<ul>
+<li>使用 <code>emptyDir</code> 進行容器間資料共享</li>
+<li>使用 <code>hostPath</code> 進行本地開發和測試</li>
+<li>使用 <code>ConfigMap</code> 和 <code>Secret</code> 管理組態和敏感資料</li>
+</ul>
+<p><strong>生產環境：</strong></p>
+<ul>
+<li>使用 <code>PersistentVolume</code> 確保資料持久性</li>
+<li>根據雲端平台選擇對應的儲存類型（AWS EBS、Azure Disk、GCE PD）</li>
+<li>使用 <code>CSI</code> 整合企業級儲存解決方案</li>
+</ul>
+<p><strong>注意事項：</strong></p>
+<ul>
+<li>避免在生產環境使用 <code>hostPath</code>，除非有特殊需求</li>
+<li><code>emptyDir</code> 適合臨時資料，不應用於重要資料儲存</li>
+<li>選擇 Volume 類型時需考慮效能、成本和可用性需求</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <div class="post-recent-posts" style="display:none">
+      <div class="post-recent-posts-title">
+        <i class="fa fa-history fa-fw"></i> 近期文章
+      </div>
+      <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/08/09/kubernetes-volume/" title="Kubernetes Volume 使用指南">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Kubernetes Volume 使用指南</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-09</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/08/copilot-cli-reomte/" title="使用 Copilot CLI Remote Control 進行遠端開發">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">使用 Copilot CLI Remote Control 進行遠端開發</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-08</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/07/vscode-remote-tunnel/" title="使用 VS Code Remote Tunnel 進行遠端開發">
+            <div class="post-recent-card-banner post-recent-card-cat--vscodelife">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">使用 VS Code Remote Tunnel 進行遠端開發</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-07</span><span class="post-recent-card-cat">vscodelife</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/06/git-install/" title="在 Ubuntu 安裝 Git 並從 GitLab Clone Repository">
+            <div class="post-recent-card-banner post-recent-card-cat--gitlab">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">在 Ubuntu 安裝 Git 並從 GitLab Clone Repository</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-06</span><span class="post-recent-card-cat">gitlab</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/05/gitlab-container-registry-setting/" title="開啟 GitLab Container Registry 功能">
+            <div class="post-recent-card-banner post-recent-card-cat--gitlab">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">開啟 GitLab Container Registry 功能</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-05</span><span class="post-recent-card-cat">gitlab</span>
+            </div>
+          </a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function showRecentPosts() {
+          var block = document.querySelector('.post-recent-posts');
+          if (!block) return;
+
+          // 重置狀態
+          block.classList.remove('animated', 'fadeIn');
+          block.style.display = 'none';
+
+          var comments = document.querySelector('.comments');
+          if (comments) {
+            comments.parentNode.insertBefore(block, comments);
+          }
+
+          function reveal() {
+            block.style.display = '';
+            block.offsetHeight; // force reflow
+            block.classList.add('animated', 'fadeIn');
+          }
+
+          if (!comments) {
+            reveal();
+          } else {
+            // 觀察 .comments 被 NexT motion 加上 animated class 的時機
+            var observer = new MutationObserver(function () {
+              if (comments.classList.contains('animated')) {
+                observer.disconnect();
+                reveal();
+              }
+            });
+            observer.observe(comments, { attributes: true, attributeFilter: ['class'] });
+            // 若 motion 已跑完（comments 已有 animated），也直接顯示
+            if (comments.classList.contains('animated')) {
+              observer.disconnect();
+              reveal();
+            }
+          }
+        }
+
+        // 初次載入
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', showRecentPosts, { once: true });
+        } else {
+          showRecentPosts();
+        }
+
+        // PJAX：pjax:success 時 NexT motion 剛啟動（async），.comments 尚未有 animated
+        document.addEventListener('pjax:success', showRecentPosts);
+      })();
+    </script>
+
+          <div class="post-tags">
+              <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
+              <a href="/tags/volume/" rel="tag"># volume</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/08/08/copilot-cli-reomte/" rel="prev" title="使用 Copilot CLI Remote Control 進行遠端開發">
+                  <i class="fa fa-angle-left"></i> 使用 Copilot CLI Remote Control 進行遠端開發
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"75ee784b35f17a585dfe2bfbb25c5e79"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+<link rel="stylesheet" href="/css/tinyqqc/tinyqqc-widget.css">
+<script
+  id="tinyqqc-widget-script"
+  src="/js/tinyqqc/tinyqqc-widget.iife.js"
+  data-tinyqqc-widget
+  data-api-base-url="https://tinyqqs-846222163009.asia-east1.run.app/"
+  data-initial-open="false"
+  defer
+></script>
+
+</body>
+</html>
