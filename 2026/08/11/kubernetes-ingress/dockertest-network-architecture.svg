@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="800" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Kubernetes Spring Boot Ingress 網路架構</title>
+  <desc id="desc">dockertest.local/hello 經由 NGINX Ingress、dockertest-clusterip Service，轉送到 Spring Boot Pod 的請求流程。</desc>
+  <defs>
+    <!-- 漸層定義 -->
+    <linearGradient id="backgroundGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8fafc;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f1f5f9;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="clusterGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ecfdf5;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#f0fdf4;stop-opacity:0.9" />
+    </linearGradient>
+    
+    <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 網格圖案 -->
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#e2e8f0" stroke-width="0.5" opacity="0.4"/>
+    </pattern>
+    
+    <style>
+      .title { font-family: 'Segoe UI', Arial, sans-serif; font-size: 20px; font-weight: bold; fill: #1e293b; }
+      .subtitle { font-family: 'Segoe UI', Arial, sans-serif; font-size: 15px; font-weight: bold; fill: #334155; }
+      .text { font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; fill: #475569; font-weight: 500; }
+      .small-text { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; fill: #64748b; }
+      .flow-text { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; font-weight: bold; fill: #ffffff; }
+      
+      .user-box { fill: #dbeafe; stroke: #3b82f6; stroke-width: 3; rx: 12; filter: drop-shadow(3px 3px 8px rgba(0,0,0,0.12)); }
+      .cluster-box { fill: url(#clusterGradient); stroke: #16a34a; stroke-width: 3; rx: 15; stroke-dasharray: 12,6; filter: drop-shadow(2px 2px 10px rgba(0,0,0,0.08)); }
+      .host-box { fill: #f8fafc; stroke: #64748b; stroke-width: 2; rx: 10; filter: drop-shadow(2px 2px 6px rgba(0,0,0,0.1)); }
+      .ingress-box { fill: #fef2f2; stroke: #dc2626; stroke-width: 3; rx: 10; filter: drop-shadow(3px 3px 8px rgba(0,0,0,0.15)); }
+      .service-box { fill: #fff7ed; stroke: #ea580c; stroke-width: 3; rx: 10; filter: drop-shadow(3px 3px 8px rgba(0,0,0,0.15)); }
+      .pod-box { fill: #f0fdf4; stroke: #16a34a; stroke-width: 3; rx: 10; filter: drop-shadow(3px 3px 8px rgba(0,0,0,0.15)); }
+      .api-box { fill: #f1f5f9; stroke: #475569; stroke-width: 2; rx: 10; filter: drop-shadow(2px 2px 6px rgba(0,0,0,0.1)); }
+      .info-box { fill: #fffbeb; stroke: #d97706; stroke-width: 2; rx: 8; filter: drop-shadow(2px 2px 6px rgba(0,0,0,0.1)); }
+      
+      .main-arrow { stroke: #3b82f6; stroke-width: 3; fill: none; marker-end: url(#mainArrowhead); }
+      .secondary-arrow { stroke: #64748b; stroke-width: 2; fill: none; marker-end: url(#secondaryArrowhead); }
+      .flow-arrow { stroke: #3b82f6; stroke-width: 3; fill: none; marker-end: url(#flowArrowhead); }
+    </style>
+    
+    <marker id="mainArrowhead" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#3b82f6"/>
+    </marker>
+    
+    <marker id="flowArrowhead" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <polygon points="0 0, 7 2.5, 0 5" fill="#3b82f6"/>
+    </marker>
+    
+    <marker id="secondaryArrowhead" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+      <polygon points="0 0, 6 2, 0 4" fill="#64748b"/>
+    </marker>
+  </defs>
+  
+  <!-- 背景底圖 -->
+  <rect width="900" height="800" fill="url(#backgroundGradient)"/>
+  
+  <!-- 網格背景 -->
+  <rect width="900" height="800" fill="url(#grid)"/>
+  
+  <!-- 標題區域 -->
+  <rect x="50" y="20" width="800" height="60" fill="rgba(255,255,255,0.95)" stroke="#3b82f6" stroke-width="2" rx="30" filter="drop-shadow(2px 2px 8px rgba(0,0,0,0.1))"/>
+  <text x="450" y="45" text-anchor="middle" class="title">Kubernetes Spring Boot Ingress 網路架構</text>
+  <text x="450" y="65" text-anchor="middle" class="small-text">dockertest namespace - 從 dockertest.local/hello 到 Pod 的完整流程</text>
+  
+  <!-- 第一層：外部用戶 -->
+  <rect x="80" y="120" width="150" height="80" class="user-box"/>
+  <text x="155" y="140" text-anchor="middle" style="font-size: 32px;">🌍</text>
+  <text x="155" y="165" text-anchor="middle" class="subtitle">外部用戶</text>
+  <text x="155" y="185" text-anchor="middle" class="text">dockertest.local/hello</text>
+  
+  <!-- Minikube 叢集邊界 -->
+  <rect x="320" y="100" width="530" height="650" class="cluster-box"/>
+  <text x="585" y="125" text-anchor="middle" class="title">☸️ Minikube Cluster</text>
+  <text x="585" y="145" text-anchor="middle" class="text">Namespace: dockertest</text>
+  
+  <!-- 第二層：主機網路層 -->
+  <rect x="385" y="160" width="200" height="80" class="host-box"/>
+  <text x="400" y="180" style="font-size: 20px;">🖥️</text>
+  <text x="430" y="185" class="subtitle">Host Network</text>
+  <text x="485" y="205" text-anchor="middle" class="text">dockertest.local</text>
+  <text x="485" y="220" text-anchor="middle" class="small-text">hosts → Minikube IP</text>
+  
+  <!-- 第三層：Kubernetes API -->
+  <rect x="615" y="160" width="180" height="80" class="api-box"/>
+  <text x="630" y="185" style="font-size: 20px;">⚙️</text>
+  <text x="660" y="190" class="subtitle">K8s API Server</text>
+  <text x="705" y="210" text-anchor="middle" class="text">10.96.0.1:443</text>
+  <text x="705" y="225" text-anchor="middle" class="small-text">控制平面</text>
+  
+  <!-- 第四層：Ingress Controller -->
+  <rect x="400" y="280" width="220" height="90" class="ingress-box"/>
+  <text x="420" y="305" style="font-size: 22px;">🌐</text>
+  <text x="455" y="310" class="subtitle">Ingress</text>
+  <text x="510" y="330" text-anchor="middle" class="text">dockertest-ingress</text>
+  <text x="510" y="345" text-anchor="middle" class="small-text">ingressClassName: nginx</text>
+  <text x="510" y="360" text-anchor="middle" class="small-text">路由: / → dockertest-clusterip:8080</text>
+  
+  <!-- 第五層：Service -->
+  <rect x="400" y="475" width="220" height="70" class="service-box"/>
+  <text x="420" y="500" style="font-size: 22px;">🔗</text>
+  <text x="455" y="505" class="subtitle">Service</text>
+  <text x="510" y="525" text-anchor="middle" class="text">dockertest-clusterip:8080</text>
+  
+  <!-- 第六層：Pod -->
+  <rect x="400" y="645" width="220" height="70" class="pod-box"/>
+  <text x="420" y="670" style="font-size: 22px;">📦</text>
+  <text x="455" y="675" class="subtitle">Spring Boot Pod</text>
+  <text x="510" y="695" text-anchor="middle" class="text">containerPort: 8080</text>
+  
+  <!-- 主要數據流箭頭 -->
+  <!-- 用戶到 Ingress -->
+  <path d="M 230 160 Q 280 160 320 200 Q 360 240 400 325" class="main-arrow"/>
+  
+  <!-- Ingress 到 Service -->  
+  <path d="M 510 370 L 510 475" class="main-arrow"/>
+  
+  <!-- Service 到 Pod -->
+  <path d="M 510 545 L 510 645" class="main-arrow"/>
+  
+  <!-- 流程標註 -->
+  <rect x="300" y="230" width="90" height="20" fill="#3b82f6" rx="10"/>
+  <text x="345" y="242" text-anchor="middle" class="flow-text">❶ 外部請求</text>
+  
+  <rect x="435" y="407" width="90" height="20" fill="#3b82f6" rx="10"/>
+  <text x="480" y="419" text-anchor="middle" class="flow-text">❷ 路由轉發</text>
+  
+  <rect x="435" y="580" width="90" height="20" fill="#3b82f6" rx="10"/>
+  <text x="480" y="592" text-anchor="middle" class="flow-text">❸ 負載均衡</text>
+  
+  <!-- 左側資訊面板 -->
+  <rect x="50" y="280" width="220" height="320" class="info-box"/>
+  <text x="160" y="305" text-anchor="middle" class="subtitle">📊 部署狀態</text>
+  
+  <!-- 關鍵資訊 -->
+  <text x="70" y="330" class="text">🌐 網路端點：</text>
+  <text x="75" y="350" class="small-text">外部：dockertest.local:80</text>
+  <text x="75" y="365" class="small-text">服務：dockertest-clusterip:8080</text>
+  <text x="75" y="380" class="small-text">Pod：dockertest:8080</text>
+  
+  <!-- 運行狀態 -->
+  <text x="70" y="410" class="text">⚡ 運行狀態：</text>
+  <text x="75" y="430" class="small-text">Pod: Ready ✅</text>
+  <text x="75" y="445" class="small-text">replicas: 1</text>
+  <text x="75" y="460" class="small-text">readinessProbe: /hello</text>
+  
+  <!-- 技術配置 -->
+  <text x="70" y="490" class="text">🔧 配置：</text>
+  <text x="75" y="510" class="small-text">Ingress Controller: nginx</text>
+  <text x="75" y="525" class="small-text">Namespace: dockertest</text>
+  
+  <!-- 新增：請求路徑說明 -->
+  <text x="70" y="545" class="text">🔄 請求路徑：</text>
+  <text x="75" y="565" class="small-text">dockertest.local → Ingress</text>
+  <text x="75" y="580" class="small-text">→ Service → Pod</text>
+  
+  <!-- 右側流程說明 -->
+  <rect x="660" y="360" width="160" height="280" class="api-box"/>
+  <text x="740" y="385" text-anchor="middle" class="subtitle">🔄 請求流程</text>
+  
+  <text x="670" y="410" class="small-text">❶ 外部請求進入 Ingress</text>
+  <text x="675" y="430" class="small-text">• nginx controller</text>
+  <text x="675" y="445" class="small-text">• 路由規則匹配</text>
+  
+  <text x="670" y="470" class="small-text">❷ 路由到對應 Service</text>
+  <text x="675" y="490" class="small-text">• ClusterIP 服務發現</text>
+  <text x="675" y="505" class="small-text">• 端口映射處理</text>
+  
+  <text x="670" y="530" class="small-text">❸ 負載均衡到 Pod</text>
+  <text x="675" y="550" class="small-text">• 直接轉發到 Pod IP</text>
+  <text x="675" y="565" class="small-text">• 健康檢查確認</text>
+  
+  <text x="670" y="590" class="small-text">❹ Spring Boot 處理並回應</text>
+  <text x="675" y="610" class="small-text">• 應用程式處理請求</text>
+  <text x="675" y="625" class="small-text">• 返回 HTTP 回應</text>
+</svg>
