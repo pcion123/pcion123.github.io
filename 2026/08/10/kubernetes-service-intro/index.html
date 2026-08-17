@@ -26,28 +26,28 @@
     <meta name="description" content="什麼是 Kubernetes Service？Kubernetes Service 是一個穩定的網路抽象層，用來將流量導向一組符合條件的 Pod。由於 Pod 會隨著部署、擴展、重啟或節點異動而重新建立，Pod IP 並不適合作為固定存取入口；Service 則提供固定的服務名稱、虛擬 IP 與連線方式，讓應用程式可以穩定地彼此溝通。 Service 通常會透過 selector 找到帶有指定 l">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Kubernetes Service 使用指南">
-<meta property="og:url" content="https://pcion123.github.io/2026/08/10/kubernetes-service/index.html">
+<meta property="og:url" content="https://pcion123.github.io/2026/08/10/kubernetes-service-intro/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
 <meta property="og:description" content="什麼是 Kubernetes Service？Kubernetes Service 是一個穩定的網路抽象層，用來將流量導向一組符合條件的 Pod。由於 Pod 會隨著部署、擴展、重啟或節點異動而重新建立，Pod IP 並不適合作為固定存取入口；Service 則提供固定的服務名稱、虛擬 IP 與連線方式，讓應用程式可以穩定地彼此溝通。 Service 通常會透過 selector 找到帶有指定 l">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://pcion123.github.io/2026/08/10/kubernetes-service/kubernetes_service_1.jpg">
-<meta property="og:image" content="https://pcion123.github.io/2026/08/10/kubernetes-service/kubernetes_service_2.jpg">
-<meta property="og:image" content="https://pcion123.github.io/2026/08/10/kubernetes-service/kubernetes_service_3.jpg">
-<meta property="og:image" content="https://pcion123.github.io/2026/08/10/kubernetes-service/kubernetes_service_4.jpg">
-<meta property="og:image" content="https://pcion123.github.io/2026/08/10/kubernetes-service/kubernetes_service_5.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/10/kubernetes-service-intro/kubernetes_service_1.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/10/kubernetes-service-intro/kubernetes_service_2.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/10/kubernetes-service-intro/kubernetes_service_3.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/10/kubernetes-service-intro/kubernetes_service_4.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/10/kubernetes-service-intro/kubernetes_service_5.jpg">
 <meta property="article:published_time" content="2026-08-09T16:08:31.000Z">
 <meta property="article:modified_time" content="2026-08-09T16:12:31.358Z">
 <meta property="article:author" content="Jason Lai">
 <meta property="article:tag" content="kubernetes">
 <meta property="article:tag" content="service">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pcion123.github.io/2026/08/10/kubernetes-service/kubernetes_service_1.jpg">
+<meta name="twitter:image" content="https://pcion123.github.io/2026/08/10/kubernetes-service-intro/kubernetes_service_1.jpg">
 
 
-<link rel="canonical" href="https://pcion123.github.io/2026/08/10/kubernetes-service/">
+<link rel="canonical" href="https://pcion123.github.io/2026/08/10/kubernetes-service-intro/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/08/10/kubernetes-service/","path":"2026/08/10/kubernetes-service/","title":"Kubernetes Service 使用指南"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/08/10/kubernetes-service-intro/","path":"2026/08/10/kubernetes-service-intro/","title":"Kubernetes Service 使用指南"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>Kubernetes Service 使用指南 | Pcion's Blog</title>
@@ -294,7 +294,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/08/10/kubernetes-service/">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/08/10/kubernetes-service-intro/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -498,7 +498,7 @@
 <h3 id="部署與測試"><a href="#部署與測試" class="headerlink" title="部署與測試"></a>部署與測試</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 建立 ClusterIP Service</span></span><br><span class="line">kubectl apply -f dockertest-clusterip-service.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 Service</span></span><br><span class="line">kubectl get service dockertest-clusterip -n dockertest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 Service 對應的 Endpoints</span></span><br><span class="line">kubectl get endpoints dockertest-clusterip -n dockertest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 從叢集內部建立臨時 Pod 測試連線</span></span><br><span class="line">kubectl run curl-test -n dockertest --<span class="built_in">rm</span> -it --image=curlimages/curl --restart=Never -- curl http://dockertest-clusterip:8080/hello</span><br></pre></td></tr></table></figure>
 
 <p>如果連線成功，會看到 <code>Hello, World!</code> 回應內容。</p>
-<img src="/2026/08/10/kubernetes-service/kubernetes_service_1.jpg" class="" title="ClusterIP Service 測試結果">
+<img src="/2026/08/10/kubernetes-service-intro/kubernetes_service_1.jpg" class="" title="ClusterIP Service 測試結果">
 
 <h2 id="NodePort-測試案例"><a href="#NodePort-測試案例" class="headerlink" title="NodePort 測試案例"></a>NodePort 測試案例</h2><p>NodePort 可以讓叢集外部透過節點 IP 和指定連接埠存取應用程式。這個方式很適合在 Minikube、Kind 或測試環境中快速驗證服務。</p>
 <h3 id="NodePort-Service"><a href="#NodePort-Service" class="headerlink" title="NodePort Service"></a>NodePort Service</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">dockertest-nodeport</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">dockertest</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">NodePort</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">http</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">nodePort:</span> <span class="number">30080</span></span><br><span class="line">    <span class="attr">protocol:</span> <span class="string">TCP</span></span><br></pre></td></tr></table></figure>
@@ -514,7 +514,7 @@
 <p>接著使用輸出的 URL 測試 <code>/hello</code> API：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl &lt;MINIKUBE_SERVICE_URL&gt;/hello</span><br></pre></td></tr></table></figure>
 
-<img src="/2026/08/10/kubernetes-service/kubernetes_service_2.jpg" class="" title="NodePort Service 測試結果">
+<img src="/2026/08/10/kubernetes-service-intro/kubernetes_service_2.jpg" class="" title="NodePort Service 測試結果">
 
 <h2 id="LoadBalancer-測試案例"><a href="#LoadBalancer-測試案例" class="headerlink" title="LoadBalancer 測試案例"></a>LoadBalancer 測試案例</h2><p>LoadBalancer 適合將服務暴露給叢集外部。若使用雲端 Kubernetes，建立 Service 後通常會自動分配外部 IP；若使用 Minikube 或裸機環境，可能需要先啟用 <code>minikube tunnel</code> 或安裝 MetalLB。</p>
 <h3 id="LoadBalancer-Service"><a href="#LoadBalancer-Service" class="headerlink" title="LoadBalancer Service"></a>LoadBalancer Service</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">dockertest-loadbalancer</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">dockertest</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">LoadBalancer</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">http</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">protocol:</span> <span class="string">TCP</span></span><br></pre></td></tr></table></figure>
@@ -527,7 +527,7 @@
 <p>在 Minikube 環境中，可以使用下列方式測試：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方法一：直接開啟 Service URL</span></span><br><span class="line">minikube service dockertest-loadbalancer -n dockertest --url</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法二：啟用 tunnel，讓 LoadBalancer 取得外部 IP</span></span><br><span class="line">minikube tunnel</span><br></pre></td></tr></table></figure>
 
-<img src="/2026/08/10/kubernetes-service/kubernetes_service_3.jpg" class="" title="LoadBalancer Service 測試結果">
+<img src="/2026/08/10/kubernetes-service-intro/kubernetes_service_3.jpg" class="" title="LoadBalancer Service 測試結果">
 
 <blockquote>
 <p><strong>注意事項</strong></p>
@@ -539,7 +539,7 @@
 <h3 id="部署與測試-3"><a href="#部署與測試-3" class="headerlink" title="部署與測試"></a>部署與測試</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 確認 ClusterIP Service 已存在</span></span><br><span class="line">kubectl get service dockertest-clusterip -n dockertest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立 ExternalName Service</span></span><br><span class="line">kubectl apply -f dockertest-externalname-service.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 ExternalName Service</span></span><br><span class="line">kubectl get service dockertest-externalname -n dockertest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 從叢集內部使用 ExternalName 測試連線</span></span><br><span class="line">kubectl run curl-test -n dockertest --<span class="built_in">rm</span> -it --image=curlimages/curl --restart=Never -- curl http://dockertest-externalname:8080/hello</span><br></pre></td></tr></table></figure>
 
 <p>這個測試會透過 DNS CNAME 將 <code>dockertest-externalname</code> 對應到 <code>dockertest-clusterip.dockertest.svc.cluster.local</code>，再由原本的 ClusterIP Service 導向應用程式 Pod。</p>
-<img src="/2026/08/10/kubernetes-service/kubernetes_service_4.jpg" class="" title="ExternalName Service 測試結果">
+<img src="/2026/08/10/kubernetes-service-intro/kubernetes_service_4.jpg" class="" title="ExternalName Service 測試結果">
 
 <h2 id="Headless-Service-測試案例"><a href="#Headless-Service-測試案例" class="headerlink" title="Headless Service 測試案例"></a>Headless Service 測試案例</h2><p>Headless Service 不會建立 ClusterIP，而是直接透過 DNS 回傳後端 Pod IP。雖然這個範例只有一個應用程式 Pod，但仍可以用來觀察 Headless Service 的 DNS 與 Endpoints 行為。</p>
 <h3 id="Headless-Service-1"><a href="#Headless-Service-1" class="headerlink" title="Headless Service"></a>Headless Service</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">dockertest-headless</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">dockertest</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">clusterIP:</span> <span class="string">None</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">http</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">protocol:</span> <span class="string">TCP</span></span><br></pre></td></tr></table></figure>
@@ -549,7 +549,7 @@
 <p>若要更明確觀察 DNS 解析結果，可以使用 <code>nslookup</code>：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl run dns-test -n dockertest --<span class="built_in">rm</span> -it --image=busybox:1.36 --restart=Never -- nslookup dockertest-headless</span><br></pre></td></tr></table></figure>
 
-<img src="/2026/08/10/kubernetes-service/kubernetes_service_5.jpg" class="" title="Headless Service 測試結果">
+<img src="/2026/08/10/kubernetes-service-intro/kubernetes_service_5.jpg" class="" title="Headless Service 測試結果">
 
 <h2 id="常用檢查指令"><a href="#常用檢查指令" class="headerlink" title="常用檢查指令"></a>常用檢查指令</h2><p>建立 Service 後，可以使用下列指令確認 Service 是否正確連到應用程式 Pod。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看所有 Service</span></span><br><span class="line">kubectl get services -n dockertest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看指定 Service 詳細資訊</span></span><br><span class="line">kubectl describe service dockertest-clusterip -n dockertest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 Service 後端端點</span></span><br><span class="line">kubectl get endpoints -n dockertest</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看符合 selector 的 Pod</span></span><br><span class="line">kubectl get pods -l app=dockertest -n dockertest -o wide</span><br></pre></td></tr></table></figure>
@@ -746,7 +746,7 @@
 </noscript>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
 
-<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"09dc99c1015453c15a99030fb50dee47"}</script>
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"60f39023026dbd3198359136659b9d43"}</script>
 <script src="/js/third-party/comments/gitalk.js" defer></script>
 
 <link rel="stylesheet" href="/css/tinyqqc/tinyqqc-widget.css">
