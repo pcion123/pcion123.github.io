@@ -31,7 +31,7 @@
 <meta property="og:description" content="在 Kubernetes 裡部署服務時，資源配置通常不是一次設定好就永遠不需要調整。流量、任務量、背景批次作業與使用者行為都可能隨時間變化。如果 Pod 數量太少，服務可能在高峰時處理不過來；如果資源預留太多，又會讓叢集長時間保留用不到的 CPU 與記憶體。 Autoscaling 的目的，就是讓 Kubernetes 可以根據實際負載與資源使用情況，自動調整工作負載或叢集資源。它不只是「流量變大">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2026-08-17T16:01:18.000Z">
-<meta property="article:modified_time" content="2026-08-17T16:06:53.649Z">
+<meta property="article:modified_time" content="2026-08-18T16:32:12.784Z">
 <meta property="article:author" content="Jason Lai">
 <meta property="article:tag" content="kubernetes">
 <meta property="article:tag" content="resources">
@@ -316,9 +316,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
-      
 
-      <time title="創建時間：2026-08-18 00:01:18 / 修改時間：00:06:53" itemprop="dateCreated datePublished" datetime="2026-08-18T00:01:18+08:00">2026-08-18</time>
+      <time title="創建時間：2026-08-18 00:01:18" itemprop="dateCreated datePublished" datetime="2026-08-18T00:01:18+08:00">2026-08-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-08-19 00:32:12" itemprop="dateModified" datetime="2026-08-19T00:32:12+08:00">2026-08-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -382,7 +388,7 @@
 <p>舉例來說，如果一個 Deployment 原本只有 1 個 Pod，當 CPU 使用率持續高於 HPA 設定的目標值時，HPA 會提高 Deployment 的 replicas，讓 Kubernetes 建立更多 Pod 來分攤負載。當負載下降後，HPA 也可以逐步減少 Pod 數量，避免資源長時間閒置。</p>
 <p>HPA 適合處理「負載變大，需要更多服務副本」的場景，例如 Web API 流量增加、背景任務量上升，或服務需要依照請求數、佇列長度等指標增加處理能力。</p>
 <p>不過，如果 HPA 使用 CPU utilization 作為依據，工作負載的容器需要設定 <code>resources.requests.cpu</code>。因為 HPA 計算 CPU 使用率時，會以實際 CPU 使用量相對於 CPU request 的比例作為判斷基準。</p>
-<p>後續可以接著閱讀 <a href="">Kubernetes HPA 水平自動擴縮容實作紀錄(待發佈)</a>，了解 HPA 的設定參數、部署範例與觀察方式。</p>
+<p>後續可以接著閱讀 <a href="/2026/08/19/kubernetes-hpa/" title="Kubernetes HPA 水平自動擴縮容實作紀錄">Kubernetes HPA 水平自動擴縮容實作紀錄</a>，了解 HPA 的設定參數、部署範例與觀察方式。</p>
 <hr>
 <h2 id="VPA：調整-Pod-資源請求"><a href="#VPA：調整-Pod-資源請求" class="headerlink" title="VPA：調整 Pod 資源請求"></a>VPA：調整 Pod 資源請求</h2><p>VPA（Vertical Pod Autoscaler）關注的不是 Pod 數量，而是每個 Pod 應該配置多少 CPU 與記憶體 requests。</p>
 <p>在 Kubernetes 中，<code>resources.requests</code> 會影響 Pod 排程，也會成為 HPA 使用資源 utilization 指標時的重要基準。如果 requests 設得太低，Pod 可能看起來很容易超過目標使用率，也可能在高負載時資源不足；如果 requests 設得太高，叢集會為 Pod 預留過多資源，造成排程效率下降。</p>
