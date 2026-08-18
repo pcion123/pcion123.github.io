@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="在 Kubernetes 部署服務時，Pod 的數量通常不會一直維持固定不變。當流量或 CPU 使用率提高時，我們希望服務可以自動增加 Pod 來分攤負載；當負載下降後，也希望 Pod 數量可以自動縮回來，避免浪費叢集資源。 這篇文章會先整理 Kubernetes HPA（Horizontal Pod Autoscaler）的常用設定參數，再透過一份 Spring Boot 測試服務配置，展示如何">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes HPA 水平自動擴縮容實作紀錄">
+<meta property="og:url" content="https://pcion123.github.io/2026/08/19/kubernetes-hpa/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="在 Kubernetes 部署服務時，Pod 的數量通常不會一直維持固定不變。當流量或 CPU 使用率提高時，我們希望服務可以自動增加 Pod 來分攤負載；當負載下降後，也希望 Pod 數量可以自動縮回來，避免浪費叢集資源。 這篇文章會先整理 Kubernetes HPA（Horizontal Pod Autoscaler）的常用設定參數，再透過一份 Spring Boot 測試服務配置，展示如何">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/19/kubernetes-hpa/kubernetes_hpa_2.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/19/kubernetes-hpa/kubernetes_hpa_1.jpg">
+<meta property="article:published_time" content="2026-08-18T16:21:03.000Z">
+<meta property="article:modified_time" content="2026-08-18T16:27:13.989Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="kubernetes">
+<meta property="article:tag" content="resources">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2026/08/19/kubernetes-hpa/kubernetes_hpa_2.png">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/08/19/kubernetes-hpa/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/08/19/kubernetes-hpa/","path":"2026/08/19/kubernetes-hpa/","title":"Kubernetes HPA 水平自動擴縮容實作紀錄"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Kubernetes HPA 水平自動擴縮容實作紀錄 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-HPA%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什麼是 HPA？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E6%A2%9D%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">前置條件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HPA-%E8%A8%AD%E5%AE%9A%E5%8F%83%E6%95%B8%E7%B8%BD%E8%A6%BD"><span class="nav-number">3.</span> <span class="nav-text">HPA 設定參數總覽</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scaleTargetRef"><span class="nav-number">4.</span> <span class="nav-text">scaleTargetRef</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#minReplicas-%E8%88%87-maxReplicas"><span class="nav-number">5.</span> <span class="nav-text">minReplicas 與 maxReplicas</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#metrics-%E6%8C%87%E6%A8%99%E8%A8%AD%E5%AE%9A"><span class="nav-number">6.</span> <span class="nav-text">metrics 指標設定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Resource-%E6%8C%87%E6%A8%99"><span class="nav-number">6.1.</span> <span class="nav-text">Resource 指標</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pods-%E6%8C%87%E6%A8%99"><span class="nav-number">6.2.</span> <span class="nav-text">Pods 指標</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object-%E6%8C%87%E6%A8%99"><span class="nav-number">6.3.</span> <span class="nav-text">Object 指標</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#External-%E6%8C%87%E6%A8%99"><span class="nav-number">6.4.</span> <span class="nav-text">External 指標</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#target-%E8%A8%AD%E5%AE%9A"><span class="nav-number">7.</span> <span class="nav-text">target 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#behavior-%E6%93%B4%E7%B8%AE%E5%AE%B9%E8%A1%8C%E7%82%BA%E6%8E%A7%E5%88%B6"><span class="nav-number">8.</span> <span class="nav-text">behavior 擴縮容行為控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo-%E7%AF%84%E4%BE%8B%E6%9E%B6%E6%A7%8B"><span class="nav-number">9.</span> <span class="nav-text">Demo 範例架構</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Deployment-%E8%B3%87%E6%BA%90%E8%A8%AD%E5%AE%9A"><span class="nav-number">10.</span> <span class="nav-text">Deployment 資源設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Service-%E8%A8%AD%E5%AE%9A"><span class="nav-number">11.</span> <span class="nav-text">Service 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HPA-%E8%A8%AD%E5%AE%9A"><span class="nav-number">12.</span> <span class="nav-text">HPA 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A5%97%E7%94%A8%E9%85%8D%E7%BD%AE%E6%AA%94"><span class="nav-number">13.</span> <span class="nav-text">套用配置檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%80%E5%AF%9F-HPA-%E6%93%B4%E5%AE%B9"><span class="nav-number">14.</span> <span class="nav-text">觀察 HPA 擴容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%80%E5%AF%9F-HPA-%E7%B8%AE%E5%AE%B9"><span class="nav-number">15.</span> <span class="nav-text">觀察 HPA 縮容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C"><span class="nav-number">16.</span> <span class="nav-text">常見問題</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HPA-%E9%A1%AF%E7%A4%BA-unknown"><span class="nav-number">16.1.</span> <span class="nav-text">HPA 顯示 unknown</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HPA-%E6%B2%92%E6%9C%89%E6%93%B4%E5%AE%B9"><span class="nav-number">16.2.</span> <span class="nav-text">HPA 沒有擴容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pod-%E6%95%B8%E9%87%8F%E6%B2%92%E6%9C%89%E8%B6%85%E9%81%8E-5-%E5%80%8B"><span class="nav-number">16.3.</span> <span class="nav-text">Pod 數量沒有超過 5 個</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%85%E7%90%86%E6%B8%AC%E8%A9%A6%E8%B3%87%E6%BA%90"><span class="nav-number">17.</span> <span class="nav-text">清理測試資源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%B5%90"><span class="nav-number">18.</span> <span class="nav-text">小結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">89</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">69</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/agent/" style="font-size: 13.64px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/chrome-extension/" style="font-size: 12px;" class="tag-cloud-0">chrome-extension</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/configmap/" style="font-size: 12px;" class="tag-cloud-0">configmap</a> <a href="/tags/container-registry/" style="font-size: 12px;" class="tag-cloud-0">container-registry</a> <a href="/tags/copilot-cli/" style="font-size: 16.91px;" class="tag-cloud-3">copilot cli</a> <a href="/tags/deployment/" style="font-size: 12px;" class="tag-cloud-0">deployment</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 25.09px;" class="tag-cloud-7">docker</a> <a href="/tags/elasticsearch/" style="font-size: 15.27px;" class="tag-cloud-2">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 21.82px;" class="tag-cloud-5">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 13.64px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 20.18px;" class="tag-cloud-5">gitlab</a> <a href="/tags/googlemap/" style="font-size: 15.27px;" class="tag-cloud-2">googlemap</a> <a href="/tags/grafana/" style="font-size: 15.27px;" class="tag-cloud-2">grafana</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/ingress/" style="font-size: 12px;" class="tag-cloud-0">ingress</a> <a href="/tags/java/" style="font-size: 21.82px;" class="tag-cloud-5">java</a> <a href="/tags/jdk/" style="font-size: 13.64px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 16.91px;" class="tag-cloud-3">jenkins</a> <a href="/tags/kibana/" style="font-size: 15.27px;" class="tag-cloud-2">kibana</a> <a href="/tags/kubernetes/" style="font-size: 30px;" class="tag-cloud-10">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 26.73px;" class="tag-cloud-8">linux</a> <a href="/tags/loadbalancer/" style="font-size: 13.64px;" class="tag-cloud-1">loadbalancer</a> <a href="/tags/logstash/" style="font-size: 13.64px;" class="tag-cloud-1">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 15.27px;" class="tag-cloud-2">maven</a> <a href="/tags/mcp/" style="font-size: 13.64px;" class="tag-cloud-1">mcp</a> <a href="/tags/metrics/" style="font-size: 12px;" class="tag-cloud-0">metrics</a> <a href="/tags/minikube/" style="font-size: 13.64px;" class="tag-cloud-1">minikube</a> <a href="/tags/monitoring/" style="font-size: 16.91px;" class="tag-cloud-3">monitoring</a> <a href="/tags/namespace/" style="font-size: 12px;" class="tag-cloud-0">namespace</a> <a href="/tags/net/" style="font-size: 12px;" class="tag-cloud-0">net</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.64px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/opentelemetry/" style="font-size: 13.64px;" class="tag-cloud-1">opentelemetry</a> <a href="/tags/pm2/" style="font-size: 13.64px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 15.27px;" class="tag-cloud-2">powershell</a> <a href="/tags/prometheus/" style="font-size: 15.27px;" class="tag-cloud-2">prometheus</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/remote-tunnel/" style="font-size: 13.64px;" class="tag-cloud-1">remote-tunnel</a> <a href="/tags/resources/" style="font-size: 15.27px;" class="tag-cloud-2">resources</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/secret/" style="font-size: 12px;" class="tag-cloud-0">secret</a> <a href="/tags/service/" style="font-size: 16.91px;" class="tag-cloud-3">service</a> <a href="/tags/skills/" style="font-size: 13.64px;" class="tag-cloud-1">skills</a> <a href="/tags/spring-boot/" style="font-size: 16.91px;" class="tag-cloud-3">spring-boot</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 15.27px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 13.64px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 23.45px;" class="tag-cloud-6">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/volume/" style="font-size: 16.91px;" class="tag-cloud-3">volume</a> <a href="/tags/vscode/" style="font-size: 28.36px;" class="tag-cloud-9">vscode</a> <a href="/tags/windows/" style="font-size: 18.55px;" class="tag-cloud-4">windows</a> <a href="/tags/windows-terminal/" style="font-size: 12px;" class="tag-cloud-0">windows-terminal</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 15.27px;" class="tag-cloud-2">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相關文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/16/kubernetes-metrics-server-install/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-16</time>
+        <br>
+      在 Minikube 安裝 metrics-server
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/18/kubernetes-autoscaling/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-18</time>
+        <br>
+      Kubernetes Autoscaling 自動擴縮容概念介紹
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/17/kubernetes-limit-request/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-17</time>
+        <br>
+      Kubernetes Limit / Request 使用指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/07/30/grafana-prometheus-spring-boot-monitor/" rel="bookmark">
+        <time class="popular-posts-time">2026-07-30</time>
+        <br>
+      使用 Prometheus 監控 Spring Boot 應用程式
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/10/11/kubernetes-deployment/" rel="bookmark">
+        <time class="popular-posts-time">2025-10-11</time>
+        <br>
+      Kubernetes Deployment 使用指南
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/08/19/kubernetes-hpa/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Kubernetes HPA 水平自動擴縮容實作紀錄 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Kubernetes HPA 水平自動擴縮容實作紀錄
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-08-19 00:21:03 / 修改時間：00:27:13" itemprop="dateCreated datePublished" datetime="2026-08-19T00:21:03+08:00">2026-08-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kubernetes/" itemprop="url" rel="index"><span itemprop="name">kubernetes</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>在 Kubernetes 部署服務時，Pod 的數量通常不會一直維持固定不變。當流量或 CPU 使用率提高時，我們希望服務可以自動增加 Pod 來分攤負載；當負載下降後，也希望 Pod 數量可以自動縮回來，避免浪費叢集資源。</p>
+<p>這篇文章會先整理 Kubernetes HPA（Horizontal Pod Autoscaler）的常用設定參數，再透過一份 Spring Boot 測試服務配置，展示如何依照 CPU 使用率自動調整 Deployment 的副本數。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="什麼是-HPA？"><a href="#什麼是-HPA？" class="headerlink" title="什麼是 HPA？"></a>什麼是 HPA？</h2><p>HPA 是 Kubernetes 用來自動調整 Pod 數量的資源。它會根據指定的指標，例如 CPU 使用率、記憶體使用率或自訂指標，計算目前 Deployment 是否需要擴容或縮容。</p>
+<p>以 CPU 使用率為例，HPA 會觀察 Deployment 底下所有 Pod 的平均 CPU 使用情況，並與設定的目標值比較。如果目前平均使用率高於目標值，HPA 就會增加 replicas；如果使用率長時間低於目標值，HPA 則會逐步減少 replicas。</p>
+<p>HPA 常見的運作流程如下：</p>
+<ol>
+<li>Deployment 建立 Pod，並在容器中設定 <code>resources.requests.cpu</code></li>
+<li>metrics-server 收集 Pod 的 CPU 與記憶體使用量</li>
+<li>HPA 讀取 metrics-server 提供的指標</li>
+<li>HPA 計算 Deployment 需要的 replicas 數量</li>
+<li>Deployment 依照新的 replicas 建立或移除 Pod</li>
+</ol>
+<p>也就是說，HPA 並不是直接建立 Pod，而是透過調整目標 Deployment 的 replicas 來完成擴縮容。</p>
+<img src="/2026/08/19/kubernetes-hpa/kubernetes_hpa_2.png" class="" title="HPA 運作流程">
+
+<hr>
+<h2 id="前置條件"><a href="#前置條件" class="headerlink" title="前置條件"></a>前置條件</h2><p>使用 HPA 前，需要先確認叢集內已經安裝 metrics-server。HPA 依賴 metrics-server 提供 Pod 的資源使用量，如果 metrics-server 沒有正常運作，就會在 HPA 狀態中看到指標無法取得的訊息。</p>
+<p>可以先確認 Node 與 Pod 指標是否能正常查詢：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl top nodes</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl top pods -A</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/08/19/kubernetes-hpa/kubernetes_hpa_1.jpg" class="" title="檢查 metrics-server 是否正常">
+
+<p>如果這兩個指令可以看到 CPU 與記憶體使用量，就代表 metrics-server 已經可以提供基本資源指標。</p>
+<p>另外，若 HPA 要使用 CPU utilization 作為擴縮容依據，Deployment 的容器必須設定 <code>resources.requests.cpu</code>。HPA 的 CPU 使用率不是直接用容器實際用掉多少 CPU 來判斷，而是用實際 CPU 使用量相對於 <code>requests.cpu</code> 的比例來計算。</p>
+<hr>
+<h2 id="HPA-設定參數總覽"><a href="#HPA-設定參數總覽" class="headerlink" title="HPA 設定參數總覽"></a>HPA 設定參數總覽</h2><p>HPA 的設定可以大致分成三個部分：第一是指定要控制哪個工作負載，第二是設定要依照哪些指標擴縮容，第三是控制擴容與縮容的速度。</p>
+<p>以下是一份較完整的 HPA 設定示意，裡面同時列出多種 <code>metrics</code> 類型與 <code>behavior</code> 控制方式：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">scaleTargetRef:</span></span><br><span class="line">    <span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line">    <span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">app-deployment</span></span><br><span class="line">  <span class="attr">minReplicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">maxReplicas:</span> <span class="number">10</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">metrics:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">Resource</span></span><br><span class="line">      <span class="attr">resource:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">cpu</span></span><br><span class="line">        <span class="attr">target:</span></span><br><span class="line">          <span class="attr">type:</span> <span class="string">Utilization</span></span><br><span class="line">          <span class="attr">averageUtilization:</span> <span class="number">50</span></span><br><span class="line"></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">Resource</span></span><br><span class="line">      <span class="attr">resource:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">memory</span></span><br><span class="line">        <span class="attr">target:</span></span><br><span class="line">          <span class="attr">type:</span> <span class="string">Utilization</span></span><br><span class="line">          <span class="attr">averageUtilization:</span> <span class="number">80</span></span><br><span class="line"></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">Pods</span></span><br><span class="line">      <span class="attr">pods:</span></span><br><span class="line">        <span class="attr">metric:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">packets-per-second</span></span><br><span class="line">        <span class="attr">target:</span></span><br><span class="line">          <span class="attr">type:</span> <span class="string">AverageValue</span></span><br><span class="line">          <span class="attr">averageValue:</span> <span class="string">1k</span></span><br><span class="line"></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">Object</span></span><br><span class="line">      <span class="attr">object:</span></span><br><span class="line">        <span class="attr">metric:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">requests-per-second</span></span><br><span class="line">        <span class="attr">describedObject:</span></span><br><span class="line">          <span class="attr">apiVersion:</span> <span class="string">networking.k8s.io/v1</span></span><br><span class="line">          <span class="attr">kind:</span> <span class="string">Ingress</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">main-route</span></span><br><span class="line">        <span class="attr">target:</span></span><br><span class="line">          <span class="attr">type:</span> <span class="string">Value</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">10k</span></span><br><span class="line"></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">External</span></span><br><span class="line">      <span class="attr">external:</span></span><br><span class="line">        <span class="attr">metric:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">queue_messages_ready</span></span><br><span class="line">          <span class="attr">selector:</span></span><br><span class="line">            <span class="attr">matchLabels:</span></span><br><span class="line">              <span class="attr">queue:</span> <span class="string">&quot;worker_tasks&quot;</span></span><br><span class="line">        <span class="attr">target:</span></span><br><span class="line">          <span class="attr">type:</span> <span class="string">AverageValue</span></span><br><span class="line">          <span class="attr">averageValue:</span> <span class="number">30</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">behavior:</span></span><br><span class="line">    <span class="attr">scaleDown:</span></span><br><span class="line">      <span class="attr">stabilizationWindowSeconds:</span> <span class="number">300</span></span><br><span class="line">      <span class="attr">policies:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">Percent</span></span><br><span class="line">          <span class="attr">value:</span> <span class="number">100</span></span><br><span class="line">          <span class="attr">periodSeconds:</span> <span class="number">15</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">scaleUp:</span></span><br><span class="line">      <span class="attr">stabilizationWindowSeconds:</span> <span class="number">0</span></span><br><span class="line">      <span class="attr">policies:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">Percent</span></span><br><span class="line">          <span class="attr">value:</span> <span class="number">100</span></span><br><span class="line">          <span class="attr">periodSeconds:</span> <span class="number">15</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">Pods</span></span><br><span class="line">          <span class="attr">value:</span> <span class="number">4</span></span><br><span class="line">          <span class="attr">periodSeconds:</span> <span class="number">15</span></span><br><span class="line">      <span class="attr">selectPolicy:</span> <span class="string">Max</span></span><br></pre></td></tr></table></figure>
+
+<p>這份 YAML 不一定要全部照抄到實際環境。實務上通常會先從 CPU 或記憶體這類資源指標開始，等到服務有更明確的業務指標後，再導入 Pods、Object 或 External 指標。</p>
+<hr>
+<h2 id="scaleTargetRef"><a href="#scaleTargetRef" class="headerlink" title="scaleTargetRef"></a>scaleTargetRef</h2><p><code>scaleTargetRef</code> 用來指定 HPA 要控制的目標資源。HPA 本身不會直接建立 Pod，而是調整目標資源的 replicas。最常見的目標是 <code>Deployment</code>，也可以是其他支援 scale subresource 的工作負載。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">scaleTargetRef:</span></span><br><span class="line">  <span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line">  <span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">app-deployment</span></span><br></pre></td></tr></table></figure>
+
+<p>這段設定代表 HPA 會去調整 <code>app-deployment</code> 這個 Deployment 的 replicas。當 HPA 判斷需要擴容時，Deployment 會建立更多 Pod；當 HPA 判斷可以縮容時，Deployment 會減少 Pod 數量。</p>
+<hr>
+<h2 id="minReplicas-與-maxReplicas"><a href="#minReplicas-與-maxReplicas" class="headerlink" title="minReplicas 與 maxReplicas"></a>minReplicas 與 maxReplicas</h2><p><code>minReplicas</code> 與 <code>maxReplicas</code> 是 HPA 的副本數邊界：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">minReplicas:</span> <span class="number">1</span></span><br><span class="line"><span class="attr">maxReplicas:</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<p><code>minReplicas</code> 代表最少保留幾個 Pod。一般服務通常會至少保留 1 個 Pod，避免被縮到 0 後無法處理請求。</p>
+<p><code>maxReplicas</code> 代表最多可以擴展到幾個 Pod。這個值不是越大越好，因為 Pod 最終仍然需要被排程到 Node 上。如果叢集資源不足，HPA 即使把 replicas 調高，新 Pod 也可能因為 CPU 或記憶體不足而停在 <code>Pending</code>。</p>
+<hr>
+<h2 id="metrics-指標設定"><a href="#metrics-指標設定" class="headerlink" title="metrics 指標設定"></a>metrics 指標設定</h2><p><code>metrics</code> 是 HPA 判斷是否擴縮容的依據。HPA 可以同時設定多個指標，Kubernetes 會分別計算每個指標需要的副本數，最後採用其中最高的建議值，避免某個指標已經過載卻被其他較低的指標蓋掉。</p>
+<h3 id="Resource-指標"><a href="#Resource-指標" class="headerlink" title="Resource 指標"></a>Resource 指標</h3><p><code>Resource</code> 是最常見的指標類型，用來依照 Pod 的 CPU 或記憶體使用率擴縮容。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">metrics:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">Resource</span></span><br><span class="line">    <span class="attr">resource:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">cpu</span></span><br><span class="line">      <span class="attr">target:</span></span><br><span class="line">        <span class="attr">type:</span> <span class="string">Utilization</span></span><br><span class="line">        <span class="attr">averageUtilization:</span> <span class="number">50</span></span><br></pre></td></tr></table></figure>
+
+<p><code>name: cpu</code> 代表使用 CPU 作為指標，<code>averageUtilization: 50</code> 代表希望所有 Pod 的平均 CPU 使用率維持在 request 的 50%。如果容器設定 <code>resources.requests.cpu: &quot;200m&quot;</code>，那麼 50% 約等於平均使用 <code>100m</code> CPU。</p>
+<p>記憶體也可以使用相同方式設定：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">metrics:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">Resource</span></span><br><span class="line">    <span class="attr">resource:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">memory</span></span><br><span class="line">      <span class="attr">target:</span></span><br><span class="line">        <span class="attr">type:</span> <span class="string">Utilization</span></span><br><span class="line">        <span class="attr">averageUtilization:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure>
+
+<p>使用 CPU 或記憶體的 <code>Utilization</code> 時，容器必須設定對應的 <code>resources.requests</code>。例如 CPU utilization 需要 <code>resources.requests.cpu</code>，Memory utilization 需要 <code>resources.requests.memory</code>。</p>
+<h3 id="Pods-指標"><a href="#Pods-指標" class="headerlink" title="Pods 指標"></a>Pods 指標</h3><p><code>Pods</code> 指標會針對每個 Pod 收集某個自訂指標，並以所有 Pod 的平均值作為擴縮容依據。例如每個 Pod 每秒處理的封包數：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">metrics:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">Pods</span></span><br><span class="line">    <span class="attr">pods:</span></span><br><span class="line">      <span class="attr">metric:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">packets-per-second</span></span><br><span class="line">      <span class="attr">target:</span></span><br><span class="line">        <span class="attr">type:</span> <span class="string">AverageValue</span></span><br><span class="line">        <span class="attr">averageValue:</span> <span class="string">1k</span></span><br></pre></td></tr></table></figure>
+
+<p><code>AverageValue</code> 代表 HPA 會觀察每個 Pod 的平均指標值。如果平均值高於 <code>1k</code>，HPA 就會評估是否需要增加 Pod 數量。這類指標通常需要搭配 Prometheus Adapter 或其他 custom metrics adapter，讓 Kubernetes 可以透過 Custom Metrics API 取得資料。</p>
+<h3 id="Object-指標"><a href="#Object-指標" class="headerlink" title="Object 指標"></a>Object 指標</h3><p><code>Object</code> 指標會針對某個 Kubernetes 物件收集指標，例如 Ingress 每秒總請求數：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">metrics:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">Object</span></span><br><span class="line">    <span class="attr">object:</span></span><br><span class="line">      <span class="attr">metric:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">requests-per-second</span></span><br><span class="line">      <span class="attr">describedObject:</span></span><br><span class="line">        <span class="attr">apiVersion:</span> <span class="string">networking.k8s.io/v1</span></span><br><span class="line">        <span class="attr">kind:</span> <span class="string">Ingress</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">main-route</span></span><br><span class="line">      <span class="attr">target:</span></span><br><span class="line">        <span class="attr">type:</span> <span class="string">Value</span></span><br><span class="line">        <span class="attr">value:</span> <span class="string">10k</span></span><br></pre></td></tr></table></figure>
+
+<p><code>describedObject</code> 用來指定這個指標描述的是哪個物件。<code>target.type: Value</code> 代表 HPA 會用該物件的總指標值進行判斷。以上面例子來說，當 <code>main-route</code> 這個 Ingress 的每秒請求數高於 <code>10k</code> 時，HPA 就會評估是否要擴容。</p>
+<h3 id="External-指標"><a href="#External-指標" class="headerlink" title="External 指標"></a>External 指標</h3><p><code>External</code> 指標用來讀取 Kubernetes 叢集外部系統的數值，例如訊息佇列中等待處理的任務數：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">metrics:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">External</span></span><br><span class="line">    <span class="attr">external:</span></span><br><span class="line">      <span class="attr">metric:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">queue_messages_ready</span></span><br><span class="line">        <span class="attr">selector:</span></span><br><span class="line">          <span class="attr">matchLabels:</span></span><br><span class="line">            <span class="attr">queue:</span> <span class="string">&quot;worker_tasks&quot;</span></span><br><span class="line">      <span class="attr">target:</span></span><br><span class="line">        <span class="attr">type:</span> <span class="string">AverageValue</span></span><br><span class="line">        <span class="attr">averageValue:</span> <span class="number">30</span></span><br></pre></td></tr></table></figure>
+
+<p>這類指標很適合用在背景任務 worker。例如佇列中待處理訊息越多，就增加更多 worker Pod；待處理訊息下降後，再逐步縮容。</p>
+<p>External 指標通常需要透過 External Metrics API 提供資料來源。常見做法是由 Prometheus Adapter、KEDA 或雲端服務提供對應的外部指標。</p>
+<hr>
+<h2 id="target-設定"><a href="#target-設定" class="headerlink" title="target 設定"></a>target 設定</h2><p>每個 metric 都會有 <code>target</code>，用來描述 HPA 希望指標維持在什麼水準。常見的 <code>target.type</code> 有三種：</p>
+<table>
+<thead>
+<tr>
+<th>類型</th>
+<th>說明</th>
+<th>常見搭配</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Utilization</code></td>
+<td>以 request 為基準計算百分比</td>
+<td>CPU、Memory 的 <code>Resource</code> 指標</td>
+</tr>
+<tr>
+<td><code>AverageValue</code></td>
+<td>每個 Pod 平均分攤後的目標值</td>
+<td><code>Pods</code>、<code>External</code> 指標</td>
+</tr>
+<tr>
+<td><code>Value</code></td>
+<td>物件或指標本身的總量目標值</td>
+<td><code>Object</code> 指標</td>
+</tr>
+</tbody></table>
+<p><code>Utilization</code> 最容易入門，但它依賴 container 的 <code>resources.requests</code>。<code>AverageValue</code> 與 <code>Value</code> 則常用於自訂指標或外部指標，適合描述更貼近業務的負載，例如每秒請求數、佇列長度、待處理任務數等。</p>
+<hr>
+<h2 id="behavior-擴縮容行為控制"><a href="#behavior-擴縮容行為控制" class="headerlink" title="behavior 擴縮容行為控制"></a>behavior 擴縮容行為控制</h2><p><code>behavior</code> 用來控制 HPA 擴容與縮容的速度。這個區塊不決定「要不要擴縮容」，而是控制「一旦需要擴縮容時，可以多快調整」。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">behavior:</span></span><br><span class="line">  <span class="attr">scaleDown:</span></span><br><span class="line">    <span class="attr">stabilizationWindowSeconds:</span> <span class="number">300</span></span><br><span class="line">    <span class="attr">policies:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">Percent</span></span><br><span class="line">        <span class="attr">value:</span> <span class="number">100</span></span><br><span class="line">        <span class="attr">periodSeconds:</span> <span class="number">15</span></span><br><span class="line">  <span class="attr">scaleUp:</span></span><br><span class="line">    <span class="attr">stabilizationWindowSeconds:</span> <span class="number">0</span></span><br><span class="line">    <span class="attr">policies:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">Percent</span></span><br><span class="line">        <span class="attr">value:</span> <span class="number">100</span></span><br><span class="line">        <span class="attr">periodSeconds:</span> <span class="number">15</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">Pods</span></span><br><span class="line">        <span class="attr">value:</span> <span class="number">4</span></span><br><span class="line">        <span class="attr">periodSeconds:</span> <span class="number">15</span></span><br><span class="line">    <span class="attr">selectPolicy:</span> <span class="string">Max</span></span><br></pre></td></tr></table></figure>
+
+<p><code>scaleUp</code> 是擴容策略，通常會設定得比較積極，讓服務在流量上升時可以快速補上 Pod。<code>scaleDown</code> 是縮容策略，通常會設定得保守一點，避免流量短暫下降就立刻刪掉 Pod。</p>
+<p><code>stabilizationWindowSeconds</code> 是穩定視窗。用在縮容時，常見目的是參考過去一段時間的建議副本數，避免 Pod 數量來回震盪。例如 <code>scaleDown.stabilizationWindowSeconds: 300</code> 代表縮容會觀察過去 300 秒內的建議值，讓縮容比較不容易因短暫低流量而太快發生。</p>
+<p><code>policies</code> 用來限制每段時間最多可以調整多少 Pod。<code>type: Percent</code> 代表依照目前副本數的百分比調整，<code>type: Pods</code> 則代表直接指定 Pod 數量。</p>
+<p>以上面的 <code>scaleUp</code> 為例，HPA 每 15 秒最多可以擴容目前副本數的 100%，或最多新增 4 個 Pod。因為 <code>selectPolicy: Max</code>，HPA 會選擇兩個 policy 計算後較大的結果，讓擴容速度更快。</p>
+<p>如果想讓擴容更保守，可以把 <code>selectPolicy</code> 改成 <code>Min</code>，或降低 <code>Percent</code>、<code>Pods</code> 的數值。如果想停用某個方向的調整，也可以使用 <code>selectPolicy: Disabled</code>。</p>
+<hr>
+<h2 id="Demo-範例架構"><a href="#Demo-範例架構" class="headerlink" title="Demo 範例架構"></a>Demo 範例架構</h2><p>前面介紹完 HPA 的主要設定參數後，接著用 <code>dockertest_hpa_v1.yml</code> 展示一個基於 CPU 使用率的 HPA demo。</p>
+<div class="video-container"><iframe src="https://www.youtube.com/embed/RluC5_G51M4" frameborder="0" loading="lazy" allowfullscreen></iframe></div>
+
+<p>這次的配置檔 <code>dockertest_hpa_v1.yml</code> 會建立以下 Kubernetes 資源：</p>
+<table>
+<thead>
+<tr>
+<th>資源</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Namespace</code></td>
+<td>建立 <code>dockertest</code> 命名空間，集中管理測試資源</td>
+</tr>
+<tr>
+<td><code>Secret</code></td>
+<td>儲存拉取私有 Container Registry 映像所需的認證資訊</td>
+</tr>
+<tr>
+<td><code>Deployment</code></td>
+<td>部署 Spring Boot 測試服務</td>
+</tr>
+<tr>
+<td><code>Service</code></td>
+<td>建立 ClusterIP，讓叢集內部可以存取服務</td>
+</tr>
+<tr>
+<td><code>HorizontalPodAutoscaler</code></td>
+<td>依照 CPU 使用率自動調整 Deployment replicas</td>
+</tr>
+</tbody></table>
+<p>其中 Secret 會依環境存放私有 registry 認證，實務上不建議直接把可用憑證寫入文章或公開版控。本文只說明用途，不展開 Secret 內容。</p>
+<hr>
+<h2 id="Deployment-資源設定"><a href="#Deployment-資源設定" class="headerlink" title="Deployment 資源設定"></a>Deployment 資源設定</h2><p>HPA 要依照 CPU utilization 計算擴縮容，Deployment 內的容器需要設定 <code>resources.requests.cpu</code>。在這份範例中，容器的 CPU request 與 limit 都設定為 <code>150m</code>：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">resources:</span></span><br><span class="line">  <span class="attr">requests:</span></span><br><span class="line">    <span class="attr">memory:</span> <span class="string">&quot;512Mi&quot;</span></span><br><span class="line">    <span class="attr">cpu:</span> <span class="string">&quot;150m&quot;</span></span><br><span class="line">  <span class="attr">limits:</span></span><br><span class="line">    <span class="attr">memory:</span> <span class="string">&quot;800Mi&quot;</span></span><br><span class="line">    <span class="attr">cpu:</span> <span class="string">&quot;150m&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>150m</code> 代表 0.15 顆 CPU。後面 HPA 的 <code>averageUtilization</code> 設定為 <code>50</code>，意思是希望所有 Pod 的平均 CPU 使用率維持在 CPU request 的 50%。以目前 <code>requests.cpu: &quot;150m&quot;</code> 來看，目標平均使用量約為 <code>75m</code>。</p>
+<p>Deployment 同時設定了 readinessProbe，讓 Kubernetes 透過 <code>/hello</code> 判斷 Pod 是否已經可以接收流量：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">readinessProbe:</span></span><br><span class="line">  <span class="attr">httpGet:</span></span><br><span class="line">    <span class="attr">path:</span> <span class="string">/hello</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">  <span class="attr">initialDelaySeconds:</span> <span class="number">30</span></span><br><span class="line">  <span class="attr">periodSeconds:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">timeoutSeconds:</span> <span class="number">5</span></span><br><span class="line">  <span class="attr">failureThreshold:</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<p>readinessProbe 與 HPA 沒有直接關係，但它可以避免尚未就緒的 Pod 被 Service 導流。當 HPA 擴容建立新 Pod 時，這個設定可以讓流量在 Pod 準備好之後才進入服務。</p>
+<hr>
+<h2 id="Service-設定"><a href="#Service-設定" class="headerlink" title="Service 設定"></a>Service 設定</h2><p>配置檔中建立了一個 <code>ClusterIP</code> Service，將叢集內部流量轉發到 Spring Boot 容器的 <code>8080</code> port：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">dockertest-clusterip</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">dockertest</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">ClusterIP</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">http</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">protocol:</span> <span class="string">TCP</span></span><br></pre></td></tr></table></figure>
+
+<p>這個 Service 的 selector 會選到 labels 為 <code>app: dockertest</code> 的 Pod。當 HPA 增加 Deployment replicas 後，新建立的 Pod 也會帶有相同 label，因此 Service 會自動把這些 Pod 納入流量轉發目標。</p>
+<hr>
+<h2 id="HPA-設定"><a href="#HPA-設定" class="headerlink" title="HPA 設定"></a>HPA 設定</h2><p>HPA 的核心設定如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">autoscaling/v2</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">HorizontalPodAutoscaler</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">dockertest-hpa</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">dockertest</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">scaleTargetRef:</span></span><br><span class="line">    <span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line">    <span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">dockertest-deployment</span></span><br><span class="line">  <span class="attr">minReplicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">maxReplicas:</span> <span class="number">5</span></span><br><span class="line">  <span class="attr">metrics:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">Resource</span></span><br><span class="line">    <span class="attr">resource:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">cpu</span></span><br><span class="line">      <span class="attr">target:</span></span><br><span class="line">        <span class="attr">type:</span> <span class="string">Utilization</span></span><br><span class="line">        <span class="attr">averageUtilization:</span> <span class="number">50</span></span><br></pre></td></tr></table></figure>
+
+<p><code>scaleTargetRef</code> 指定 HPA 要控制的目標資源。這裡指向 <code>dockertest-deployment</code>，因此 HPA 會調整這個 Deployment 的 replicas。</p>
+<p><code>minReplicas: 1</code> 代表至少保留 1 個 Pod，避免服務被縮到 0；<code>maxReplicas: 5</code> 代表最多擴展到 5 個 Pod。這個上限需要搭配叢集節點資源一起評估，否則 HPA 雖然想擴容，但新的 Pod 可能會因為資源不足而停在 <code>Pending</code>。</p>
+<p><code>averageUtilization: 50</code> 代表 HPA 希望 Pod 平均 CPU 使用率維持在 request 的 50%。當目前使用率高於目標值時，HPA 會提高 replicas；當使用率下降後，HPA 會再依照縮容策略逐步降低 replicas。</p>
+<p>這份配置也額外設定了 HPA 的擴縮容行為：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">behavior:</span></span><br><span class="line">  <span class="attr">scaleUp:</span></span><br><span class="line">    <span class="attr">stabilizationWindowSeconds:</span> <span class="number">0</span></span><br><span class="line">    <span class="attr">policies:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">Pods</span></span><br><span class="line">      <span class="attr">value:</span> <span class="number">2</span></span><br><span class="line">      <span class="attr">periodSeconds:</span> <span class="number">15</span></span><br><span class="line">  <span class="attr">scaleDown:</span></span><br><span class="line">    <span class="attr">stabilizationWindowSeconds:</span> <span class="number">60</span></span><br><span class="line">    <span class="attr">policies:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">Pods</span></span><br><span class="line">      <span class="attr">value:</span> <span class="number">1</span></span><br><span class="line">      <span class="attr">periodSeconds:</span> <span class="number">15</span></span><br></pre></td></tr></table></figure>
+
+<p><code>scaleUp</code> 設定代表需要擴容時，每 15 秒最多增加 2 個 Pod。<code>scaleDown</code> 則代表縮容時，每 15 秒最多減少 1 個 Pod，並加上 60 秒的穩定視窗，避免負載剛下降就太快縮容。</p>
+<hr>
+<h2 id="套用配置檔"><a href="#套用配置檔" class="headerlink" title="套用配置檔"></a>套用配置檔</h2><p>確認配置檔準備好後，可以使用 <code>kubectl apply</code> 建立資源：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f ./assets/dockertest_hpa_v1.yml</span><br></pre></td></tr></table></figure>
+
+<p>建立完成後，檢查 Deployment、Pod、Service 與 HPA 狀態：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get deployment,pod,service,hpa -n dockertest</span><br></pre></td></tr></table></figure>
+
+<p>也可以單獨觀察 HPA：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get hpa -n dockertest</span><br></pre></td></tr></table></figure>
+
+<p>如果 metrics-server 可以正常提供資料，<code>TARGETS</code> 欄位會出現類似 <code>10%/50%</code> 的數值。前面的數字是目前平均 CPU 使用率，後面的數字是 HPA 設定的目標值。</p>
+<p>若要查看更完整的 HPA 判斷過程，可以使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl describe hpa dockertest-hpa -n dockertest</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>Events</code> 區塊中可以看到 HPA 是否成功取得指標，以及是否曾經觸發擴容或縮容。</p>
+<hr>
+<h2 id="觀察-HPA-擴容"><a href="#觀察-HPA-擴容" class="headerlink" title="觀察 HPA 擴容"></a>觀察 HPA 擴容</h2><p>要讓 HPA 觸發擴容，需要讓目標 Pod 的 CPU 使用率超過設定值。若測試服務的 <code>/hello</code> endpoint 會產生足夠 CPU 負載，可以在叢集內建立一個臨時 Pod 持續打流量：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl run hpa-load -n dockertest --<span class="built_in">rm</span> -it --image=busybox:1.36 --restart=Never -- /bin/sh</span><br></pre></td></tr></table></figure>
+
+<p>進入 Pod 後執行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> <span class="literal">true</span>; <span class="keyword">do</span> wget -q -O- http://dockertest-clusterip:8080/hello &gt; /dev/null; <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>接著開另一個終端機觀察 HPA 與 Pod 數量：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get hpa,pod -n dockertest -w</span><br></pre></td></tr></table></figure>
+
+<p>當 CPU 使用率持續高於目標值時，HPA 會逐步提高 Deployment replicas，Pod 數量會從 1 增加到 2、3，最多不會超過 <code>maxReplicas: 5</code>。</p>
+<p>如果 <code>/hello</code> 只是很輕量的回應，CPU 使用率可能不足以觸發 HPA。這時候可以改用應用程式中較耗 CPU 的測試端點，或在服務內準備專門用來壓測的 endpoint，讓 demo 更容易觀察到擴容效果。</p>
+<hr>
+<h2 id="觀察-HPA-縮容"><a href="#觀察-HPA-縮容" class="headerlink" title="觀察 HPA 縮容"></a>觀察 HPA 縮容</h2><p>停止壓力測試後，CPU 使用率會逐漸下降。HPA 不會立刻把 Pod 全部縮回去，而是會依照 <code>scaleDown</code> 的設定逐步縮容。</p>
+<p>在目前配置中，<code>scaleDown.stabilizationWindowSeconds</code> 設定為 <code>60</code>，代表 HPA 會等待一段穩定時間後再進行縮容判斷。縮容政策則設定為每 15 秒最多減少 1 個 Pod：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">scaleDown:</span></span><br><span class="line">  <span class="attr">stabilizationWindowSeconds:</span> <span class="number">60</span></span><br><span class="line">  <span class="attr">policies:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">Pods</span></span><br><span class="line">    <span class="attr">value:</span> <span class="number">1</span></span><br><span class="line">    <span class="attr">periodSeconds:</span> <span class="number">15</span></span><br></pre></td></tr></table></figure>
+
+<p>這樣的設定可以避免服務在流量短暫下降時過快縮容，導致下一波流量進來又需要重新擴容。</p>
+<hr>
+<h2 id="常見問題"><a href="#常見問題" class="headerlink" title="常見問題"></a>常見問題</h2><h3 id="HPA-顯示-unknown"><a href="#HPA-顯示-unknown" class="headerlink" title="HPA 顯示 unknown"></a>HPA 顯示 unknown</h3><p>如果 <code>kubectl get hpa</code> 看到 <code>TARGETS</code> 顯示 <code>&lt;unknown&gt;/50%</code>，通常代表 HPA 無法取得 CPU 指標。可以依序檢查：</p>
+<ul>
+<li>metrics-server 是否已安裝並正常運作</li>
+<li><code>kubectl top pods -n dockertest</code> 是否能取得 Pod 指標</li>
+<li>Deployment 是否有設定 <code>resources.requests.cpu</code></li>
+<li>Pod 是否已經進入 <code>Running</code> 並通過 readinessProbe</li>
+</ul>
+<h3 id="HPA-沒有擴容"><a href="#HPA-沒有擴容" class="headerlink" title="HPA 沒有擴容"></a>HPA 沒有擴容</h3><p>HPA 沒有擴容不一定代表設定錯誤。可以先確認目前 CPU 使用率是否真的高於目標值：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get hpa dockertest-hpa -n dockertest</span><br></pre></td></tr></table></figure>
+
+<p>如果目前使用率低於 <code>50%</code>，HPA 就不會增加 replicas。若測試流量很輕，可能需要提高負載，或改用會消耗 CPU 的測試行為。</p>
+<h3 id="Pod-數量沒有超過-5-個"><a href="#Pod-數量沒有超過-5-個" class="headerlink" title="Pod 數量沒有超過 5 個"></a>Pod 數量沒有超過 5 個</h3><p>這是因為 HPA 設定了 <code>maxReplicas: 5</code>。即使 CPU 使用率持續偏高，HPA 也不會把 Deployment 擴展到超過 5 個 Pod。</p>
+<p>如果要提高上限，可以調整 HPA 的 <code>maxReplicas</code>，但同時也要確認叢集節點資源是否足夠承載更多 Pod。</p>
+<hr>
+<h2 id="清理測試資源"><a href="#清理測試資源" class="headerlink" title="清理測試資源"></a>清理測試資源</h2><p>測試完成後，可以用同一份配置檔刪除資源：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete -f ./assets/dockertest_hpa_v1.yml</span><br></pre></td></tr></table></figure>
+
+<p>如果只想確認命名空間內剩餘資源，可以使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get all -n dockertest</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>HPA 是 Kubernetes 中非常實用的自動擴縮容機制。它可以依照實際負載調整 Pod 數量，讓服務在高流量時具備更好的承載能力，也能在低流量時釋放不必要的資源。</p>
+<p>在本次範例中，HPA 透過 metrics-server 取得 CPU 使用率，並依照 <code>averageUtilization: 50</code> 判斷是否要調整 <code>dockertest-deployment</code> 的 replicas。實作時要特別注意兩件事：第一，叢集必須能正常提供 metrics；第二，Deployment 必須設定 <code>resources.requests.cpu</code>，HPA 才能正確計算 CPU utilization。</p>
+<p>只要掌握這兩個重點，再搭配適當的 <code>minReplicas</code>、<code>maxReplicas</code> 與 <code>behavior</code> 設定，就可以讓服務具備基本且可控的自動擴縮容能力。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <div class="post-recent-posts" style="display:none">
+      <div class="post-recent-posts-title">
+        <i class="fa fa-history fa-fw"></i> 近期文章
+      </div>
+      <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/08/19/kubernetes-hpa/" title="Kubernetes HPA 水平自動擴縮容實作紀錄">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Kubernetes HPA 水平自動擴縮容實作紀錄</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-19</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/18/kubernetes-autoscaling/" title="Kubernetes Autoscaling 自動擴縮容概念介紹">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Kubernetes Autoscaling 自動擴縮容概念介紹</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-18</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/17/kubernetes-limit-request/" title="Kubernetes Limit / Request 使用指南">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Kubernetes Limit / Request 使用指南</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-17</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/16/kubernetes-metrics-server-install/" title="在 Minikube 安裝 metrics-server">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">在 Minikube 安裝 metrics-server</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-16</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/15/kubernetes-mount/" title="Minikube Mount 使用指南">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Minikube Mount 使用指南</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-15</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function showRecentPosts() {
+          var block = document.querySelector('.post-recent-posts');
+          if (!block) return;
+
+          // 重置狀態
+          block.classList.remove('animated', 'fadeIn');
+          block.style.display = 'none';
+
+          var comments = document.querySelector('.comments');
+          if (comments) {
+            comments.parentNode.insertBefore(block, comments);
+          }
+
+          function reveal() {
+            block.style.display = '';
+            block.offsetHeight; // force reflow
+            block.classList.add('animated', 'fadeIn');
+          }
+
+          if (!comments) {
+            reveal();
+          } else {
+            // 觀察 .comments 被 NexT motion 加上 animated class 的時機
+            var observer = new MutationObserver(function () {
+              if (comments.classList.contains('animated')) {
+                observer.disconnect();
+                reveal();
+              }
+            });
+            observer.observe(comments, { attributes: true, attributeFilter: ['class'] });
+            // 若 motion 已跑完（comments 已有 animated），也直接顯示
+            if (comments.classList.contains('animated')) {
+              observer.disconnect();
+              reveal();
+            }
+          }
+        }
+
+        // 初次載入
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', showRecentPosts, { once: true });
+        } else {
+          showRecentPosts();
+        }
+
+        // PJAX：pjax:success 時 NexT motion 剛啟動（async），.comments 尚未有 animated
+        document.addEventListener('pjax:success', showRecentPosts);
+      })();
+    </script>
+
+          <div class="post-tags">
+              <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
+              <a href="/tags/resources/" rel="tag"># resources</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/08/18/kubernetes-autoscaling/" rel="prev" title="Kubernetes Autoscaling 自動擴縮容概念介紹">
+                  <i class="fa fa-angle-left"></i> Kubernetes Autoscaling 自動擴縮容概念介紹
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"c9997398e61badf10b40258a2e0aec91"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+<link rel="stylesheet" href="/css/tinyqqc/tinyqqc-widget.css">
+<script
+  id="tinyqqc-widget-script"
+  src="/js/tinyqqc/tinyqqc-widget.iife.js"
+  data-tinyqqc-widget
+  data-api-base-url="https://tinyqqs-846222163009.asia-east1.run.app/"
+  data-initial-open="false"
+  defer
+></script>
+
+</body>
+</html>
