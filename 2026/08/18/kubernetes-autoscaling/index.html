@@ -23,34 +23,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="相關介紹githubmanual-deployment 安裝nodejs12345678# 安裝版本庫$ curl -sL https:&#x2F;&#x2F;deb.nodesource.com&#x2F;setup_10.x | sudo -E bash -# 安裝nodejs$ apt install -y nodejs# 查看nodejs版本$ node -v# 查看npm版本$ npm -v  安裝相關依賴1234$">
+    <meta name="description" content="在 Kubernetes 裡部署服務時，資源配置通常不是一次設定好就永遠不需要調整。流量、任務量、背景批次作業與使用者行為都可能隨時間變化。如果 Pod 數量太少，服務可能在高峰時處理不過來；如果資源預留太多，又會讓叢集長時間保留用不到的 CPU 與記憶體。 Autoscaling 的目的，就是讓 Kubernetes 可以根據實際負載與資源使用情況，自動調整工作負載或叢集資源。它不只是「流量變大">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ubuntu安裝Codimd">
-<meta property="og:url" content="https://pcion123.github.io/2020/07/05/codimd-install/index.html">
+<meta property="og:title" content="Kubernetes Autoscaling 自動擴縮容概念介紹">
+<meta property="og:url" content="https://pcion123.github.io/2026/08/18/kubernetes-autoscaling/index.html">
 <meta property="og:site_name" content="Pcion&#39;s Blog">
-<meta property="og:description" content="相關介紹githubmanual-deployment 安裝nodejs12345678# 安裝版本庫$ curl -sL https:&#x2F;&#x2F;deb.nodesource.com&#x2F;setup_10.x | sudo -E bash -# 安裝nodejs$ apt install -y nodejs# 查看nodejs版本$ node -v# 查看npm版本$ npm -v  安裝相關依賴1234$">
+<meta property="og:description" content="在 Kubernetes 裡部署服務時，資源配置通常不是一次設定好就永遠不需要調整。流量、任務量、背景批次作業與使用者行為都可能隨時間變化。如果 Pod 數量太少，服務可能在高峰時處理不過來；如果資源預留太多，又會讓叢集長時間保留用不到的 CPU 與記憶體。 Autoscaling 的目的，就是讓 Kubernetes 可以根據實際負載與資源使用情況，自動調整工作負載或叢集資源。它不只是「流量變大">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://pcion123.github.io/2020/07/05/codimd-install/codimd1.png">
-<meta property="og:image" content="https://pcion123.github.io/2020/07/05/codimd-install/codimd2.png">
-<meta property="og:image" content="https://pcion123.github.io/2020/07/05/codimd-install/codimd3.png">
-<meta property="article:published_time" content="2020-07-05T08:21:25.000Z">
-<meta property="article:modified_time" content="2026-03-10T16:08:34.848Z">
+<meta property="article:published_time" content="2026-08-17T16:01:18.000Z">
+<meta property="article:modified_time" content="2026-08-17T16:06:53.649Z">
 <meta property="article:author" content="Jason Lai">
-<meta property="article:tag" content="linux">
-<meta property="article:tag" content="ubuntu">
-<meta property="article:tag" content="codimd">
-<meta property="article:tag" content="hackmd">
+<meta property="article:tag" content="kubernetes">
+<meta property="article:tag" content="resources">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pcion123.github.io/2020/07/05/codimd-install/codimd1.png">
 
 
-<link rel="canonical" href="https://pcion123.github.io/2020/07/05/codimd-install/">
+<link rel="canonical" href="https://pcion123.github.io/2026/08/18/kubernetes-autoscaling/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2020/07/05/codimd-install/","path":"2020/07/05/codimd-install/","title":"Ubuntu安裝Codimd"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/08/18/kubernetes-autoscaling/","path":"2026/08/18/kubernetes-autoscaling/","title":"Kubernetes Autoscaling 自動擴縮容概念介紹"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Ubuntu安裝Codimd | Pcion's Blog</title>
+<title>Kubernetes Autoscaling 自動擴縮容概念介紹 | Pcion's Blog</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
@@ -175,7 +169,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E9%97%9C%E4%BB%8B%E7%B4%B9"><span class="nav-number">1.</span> <span class="nav-text">相關介紹</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9Dnodejs"><span class="nav-number">2.</span> <span class="nav-text">安裝nodejs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E7%9B%B8%E9%97%9C%E4%BE%9D%E8%B3%B4"><span class="nav-number">3.</span> <span class="nav-text">安裝相關依賴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9Dcodimd"><span class="nav-number">4.</span> <span class="nav-text">安裝codimd</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E7%BD%AE%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8"><span class="nav-number">4.1.</span> <span class="nav-text">設置環境變數</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%93%E5%8F%96%E9%A0%85%E7%9B%AE-opt"><span class="nav-number">4.2.</span> <span class="nav-text">抓取項目(&#x2F;opt)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE"><span class="nav-number">4.3.</span> <span class="nav-text">初始化配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%88%E4%BF%AE%E6%94%B9%E5%AE%89%E8%A3%9D%E9%85%8D%E7%BD%AEbin-setup"><span class="nav-number">4.3.1.</span> <span class="nav-text">先修改安裝配置bin&#x2F;setup</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%B7%E8%A1%8C%E5%AE%89%E8%A3%9D%E9%85%8D%E7%BD%AE"><span class="nav-number">4.3.2.</span> <span class="nav-text">執行安裝配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E7%92%B0%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="nav-number">4.4.</span> <span class="nav-text">修改環境配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%95%9F%E5%8B%95"><span class="nav-number">5.</span> <span class="nav-text">啟動</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E9%9C%80%E8%A6%81-Autoscaling%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">為什麼需要 Autoscaling？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Autoscaling-%E8%AA%BF%E6%95%B4%E7%9A%84%E6%98%AF%E4%BB%80%E9%BA%BC%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">Autoscaling 調整的是什麼？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HPA%EF%BC%9A%E8%AA%BF%E6%95%B4-Pod-%E6%95%B8%E9%87%8F"><span class="nav-number">3.</span> <span class="nav-text">HPA：調整 Pod 數量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VPA%EF%BC%9A%E8%AA%BF%E6%95%B4-Pod-%E8%B3%87%E6%BA%90%E8%AB%8B%E6%B1%82"><span class="nav-number">4.</span> <span class="nav-text">VPA：調整 Pod 資源請求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HPA-%E8%88%87-VPA-%E7%9A%84%E4%BD%BF%E7%94%A8%E5%B7%AE%E7%95%B0"><span class="nav-number">5.</span> <span class="nav-text">HPA 與 VPA 的使用差異</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Autoscaling-%E9%9C%80%E8%A6%81%E5%93%AA%E4%BA%9B%E5%9F%BA%E7%A4%8E%E6%A2%9D%E4%BB%B6%EF%BC%9F"><span class="nav-number">6.</span> <span class="nav-text">Autoscaling 需要哪些基礎條件？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%B5%90"><span class="nav-number">7.</span> <span class="nav-text">小結</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -240,38 +234,31 @@
   </div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <a class="popular-posts-link" href="/2019/03/16/maven-install/" rel="bookmark">
-        <time class="popular-posts-time">2019-03-16</time>
+      <a class="popular-posts-link" href="/2026/08/17/kubernetes-limit-request/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-17</time>
         <br>
-      安裝Maven
+      Kubernetes Limit / Request 使用指南
       </a>
     </li>
     <li class="popular-posts-item">
-      <a class="popular-posts-link" href="/2019/03/16/tomcat-install/" rel="bookmark">
-        <time class="popular-posts-time">2019-03-16</time>
+      <a class="popular-posts-link" href="/2025/10/11/kubernetes-deployment/" rel="bookmark">
+        <time class="popular-posts-time">2025-10-11</time>
         <br>
-      安裝Tomcat
+      Kubernetes Deployment 使用指南
       </a>
     </li>
     <li class="popular-posts-item">
-      <a class="popular-posts-link" href="/2019/03/10/java-installopenjdk/" rel="bookmark">
-        <time class="popular-posts-time">2019-03-10</time>
+      <a class="popular-posts-link" href="/2025/10/04/kubernetes-controller-intro/" rel="bookmark">
+        <time class="popular-posts-time">2025-10-04</time>
         <br>
-      安裝OpenJDK
+      Kubernetes 控制元件介紹
       </a>
     </li>
     <li class="popular-posts-item">
-      <a class="popular-posts-link" href="/2019/03/24/pm2-install/" rel="bookmark">
-        <time class="popular-posts-time">2019-03-24</time>
+      <a class="popular-posts-link" href="/2026/08/16/kubernetes-metrics-server-install/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-16</time>
         <br>
-      Ubuntu安裝PM2
-      </a>
-    </li>
-    <li class="popular-posts-item">
-      <a class="popular-posts-link" href="/2020/05/10/rabbitmq-install/" rel="bookmark">
-        <time class="popular-posts-time">2020-05-10</time>
-        <br>
-      Ubuntu安裝RabbitMQ
+      在 Minikube 安裝 metrics-server
       </a>
     </li>
   </ul>
@@ -294,7 +281,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2020/07/05/codimd-install/">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/08/18/kubernetes-autoscaling/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -307,12 +294,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Ubuntu安裝Codimd | Pcion's Blog">
+      <meta itemprop="name" content="Kubernetes Autoscaling 自動擴縮容概念介紹 | Pcion's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Ubuntu安裝Codimd
+          Kubernetes Autoscaling 自動擴縮容概念介紹
         </h1>
 
         <div class="post-meta-container">
@@ -322,15 +309,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
+      
 
-      <time title="創建時間：2020-07-05 16:21:25" itemprop="dateCreated datePublished" datetime="2020-07-05T16:21:25+08:00">2020-07-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-03-11 00:08:34" itemprop="dateModified" datetime="2026-03-11T00:08:34+08:00">2026-03-11</time>
+      <time title="創建時間：2026-08-18 00:01:18 / 修改時間：00:06:53" itemprop="dateCreated datePublished" datetime="2026-08-18T00:01:18+08:00">2026-08-18</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -338,7 +319,7 @@
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+          <a href="/categories/kubernetes/" itemprop="url" rel="index"><span itemprop="name">kubernetes</span></a>
         </span>
     </span>
 
@@ -351,35 +332,106 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="相關介紹"><a href="#相關介紹" class="headerlink" title="相關介紹"></a>相關介紹</h2><p><a target="_blank" rel="noopener" href="https://github.com/hackmdio/codimd">github</a><br><a target="_blank" rel="noopener" href="https://hackmd.io/c/codimd-documentation/%2Fs%2Fcodimd-manual-deployment">manual-deployment</a></p>
-<h2 id="安裝nodejs"><a href="#安裝nodejs" class="headerlink" title="安裝nodejs"></a>安裝nodejs</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安裝版本庫</span></span><br><span class="line">$ curl -sL https://deb.nodesource.com/setup_10.x | <span class="built_in">sudo</span> -E bash -</span><br><span class="line"><span class="comment"># 安裝nodejs</span></span><br><span class="line">$ apt install -y nodejs</span><br><span class="line"><span class="comment"># 查看nodejs版本</span></span><br><span class="line">$ node -v</span><br><span class="line"><span class="comment"># 查看npm版本</span></span><br><span class="line">$ npm -v</span><br></pre></td></tr></table></figure>
-
-<h2 id="安裝相關依賴"><a href="#安裝相關依賴" class="headerlink" title="安裝相關依賴"></a>安裝相關依賴</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g yarn</span><br><span class="line">$ npm install -g node-gyp</span><br><span class="line">$ npm install -g sqlite3</span><br><span class="line">$ npm install -g webpack</span><br></pre></td></tr></table></figure>
-
-<h2 id="安裝codimd"><a href="#安裝codimd" class="headerlink" title="安裝codimd"></a>安裝codimd</h2><h3 id="設置環境變數"><a href="#設置環境變數" class="headerlink" title="設置環境變數"></a>設置環境變數</h3><p>打開&#x2F;etc&#x2F;profile這個檔案並且在末尾加入：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:NODE_ENV=production</span><br></pre></td></tr></table></figure>
-
-<h3 id="抓取項目-opt"><a href="#抓取項目-opt" class="headerlink" title="抓取項目(&#x2F;opt)"></a>抓取項目(&#x2F;opt)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/hackmdio/codimd.git</span><br></pre></td></tr></table></figure>
-
+    <div class="post-body" itemprop="articleBody"><p>在 Kubernetes 裡部署服務時，資源配置通常不是一次設定好就永遠不需要調整。流量、任務量、背景批次作業與使用者行為都可能隨時間變化。如果 Pod 數量太少，服務可能在高峰時處理不過來；如果資源預留太多，又會讓叢集長時間保留用不到的 CPU 與記憶體。</p>
+<p>Autoscaling 的目的，就是讓 Kubernetes 可以根據實際負載與資源使用情況，自動調整工作負載或叢集資源。它不只是「流量變大就加 Pod」這麼單一，而是依照不同層級的需求，調整 Pod 數量、單一 Pod 的資源請求，甚至是 Node 數量。</p>
+<p>這篇文章會先整理 Kubernetes Autoscaling 的整體概念，說明常見的擴縮容方向，以及 HPA 與 VPA 分別解決什麼問題。後續文章會再分別深入介紹 HPA 與 VPA 的實作方式。</p>
 <span id="more"></span>
 
-<h3 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h3><h4 id="先修改安裝配置bin-setup"><a href="#先修改安裝配置bin-setup" class="headerlink" title="先修改安裝配置bin&#x2F;setup"></a>先修改安裝配置bin&#x2F;setup</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">	.</span><br><span class="line">	.</span><br><span class="line">	.</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;install packages&quot;</span></span><br><span class="line">npm install --production --unsafe-perm=<span class="literal">true</span> --allow-root</span><br><span class="line"></span><br><span class="line">	.</span><br><span class="line">	.</span><br><span class="line">	.</span><br></pre></td></tr></table></figure>
-<h4 id="執行安裝配置"><a href="#執行安裝配置" class="headerlink" title="執行安裝配置"></a>執行安裝配置</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> bash bin/setup</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="為什麼需要-Autoscaling？"><a href="#為什麼需要-Autoscaling？" class="headerlink" title="為什麼需要 Autoscaling？"></a>為什麼需要 Autoscaling？</h2><p>在沒有自動擴縮容之前，服務通常會先依照預估流量設定固定的 Pod 數量與資源大小。這種方式簡單直接，但也容易遇到兩種問題。</p>
+<p>第一種是資源不足。當實際流量超過預期，現有 Pod 無法承受請求量時，服務可能開始延遲、逾時，甚至出現錯誤。如果每次都要等人手動調整 replicas，反應速度通常跟不上流量變化。</p>
+<p>第二種是資源浪費。為了避免高峰流量造成服務不穩，團隊可能會把 Pod 數量或 <code>resources.requests</code> 設得比較高。但當流量回落後，這些資源仍然被保留在叢集中，導致其他工作負載可用的資源變少，也增加整體成本。</p>
+<p>Autoscaling 的價值就在於讓系統可以根據觀察到的指標自動調整，讓服務在高負載時有足夠承載能力，也能在低負載時釋放不必要的資源。</p>
+<hr>
+<h2 id="Autoscaling-調整的是什麼？"><a href="#Autoscaling-調整的是什麼？" class="headerlink" title="Autoscaling 調整的是什麼？"></a>Autoscaling 調整的是什麼？</h2><p>Kubernetes 的 Autoscaling 可以從不同層級理解。最常見的三種方向是水平擴縮容、垂直擴縮容與叢集節點擴縮容。</p>
+<table>
+<thead>
+<tr>
+<th>類型</th>
+<th>調整目標</th>
+<th>解決問題</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>水平擴縮容</td>
+<td>Pod 數量</td>
+<td>當服務流量增加時，透過更多 Pod 分攤負載</td>
+</tr>
+<tr>
+<td>垂直擴縮容</td>
+<td>單一 Pod 的 CPU 與記憶體 requests</td>
+<td>當 Pod 資源設定不準時，提供更合理的資源配置</td>
+</tr>
+<tr>
+<td>叢集節點擴縮容</td>
+<td>Node 數量</td>
+<td>當叢集資源不足或過剩時，調整可排程容量</td>
+</tr>
+</tbody></table>
+<p>水平擴縮容比較像是增加服務副本，讓更多 Pod 一起處理請求。垂直擴縮容則是調整每個 Pod 本身的資源大小，讓單一 Pod 有更合適的 CPU 與記憶體請求值。叢集節點擴縮容則是在更底層處理 Node 容量，確保 Pod 有足夠的地方可以被排程。</p>
+<p>這三種方式並不是互相取代，而是作用在不同層級。實務上，服務本身可能透過 HPA 調整 Pod 數量，透過 VPA 檢查 resources 設定是否合理，同時由 Cluster Autoscaler 或雲端平台的節點擴縮容機制補足叢集容量。</p>
+<hr>
+<h2 id="HPA：調整-Pod-數量"><a href="#HPA：調整-Pod-數量" class="headerlink" title="HPA：調整 Pod 數量"></a>HPA：調整 Pod 數量</h2><p>HPA（Horizontal Pod Autoscaler）是 Kubernetes 裡最常見的自動擴縮容方式。它會觀察指定指標，例如 CPU 使用率、記憶體使用率或自訂指標，然後調整目標工作負載的 replicas。</p>
+<p>舉例來說，如果一個 Deployment 原本只有 1 個 Pod，當 CPU 使用率持續高於 HPA 設定的目標值時，HPA 會提高 Deployment 的 replicas，讓 Kubernetes 建立更多 Pod 來分攤負載。當負載下降後，HPA 也可以逐步減少 Pod 數量，避免資源長時間閒置。</p>
+<p>HPA 適合處理「負載變大，需要更多服務副本」的場景，例如 Web API 流量增加、背景任務量上升，或服務需要依照請求數、佇列長度等指標增加處理能力。</p>
+<p>不過，如果 HPA 使用 CPU utilization 作為依據，工作負載的容器需要設定 <code>resources.requests.cpu</code>。因為 HPA 計算 CPU 使用率時，會以實際 CPU 使用量相對於 CPU request 的比例作為判斷基準。</p>
+<p>後續可以接著閱讀 <a href="">Kubernetes HPA 水平自動擴縮容實作紀錄(待發佈)</a>，了解 HPA 的設定參數、部署範例與觀察方式。</p>
+<hr>
+<h2 id="VPA：調整-Pod-資源請求"><a href="#VPA：調整-Pod-資源請求" class="headerlink" title="VPA：調整 Pod 資源請求"></a>VPA：調整 Pod 資源請求</h2><p>VPA（Vertical Pod Autoscaler）關注的不是 Pod 數量，而是每個 Pod 應該配置多少 CPU 與記憶體 requests。</p>
+<p>在 Kubernetes 中，<code>resources.requests</code> 會影響 Pod 排程，也會成為 HPA 使用資源 utilization 指標時的重要基準。如果 requests 設得太低，Pod 可能看起來很容易超過目標使用率，也可能在高負載時資源不足；如果 requests 設得太高，叢集會為 Pod 預留過多資源，造成排程效率下降。</p>
+<p>VPA 會觀察 Pod 的實際資源使用情況，計算出較合理的 CPU 與記憶體建議值。依照設定不同，VPA 可以只提供建議，也可以在 Pod 建立或重建時套用新的 requests。</p>
+<p>VPA 適合處理「不知道 Pod resources 該設多少」的問題。對剛上線的服務、負載型態尚未穩定的應用，或需要定期檢查 requests 是否過高或過低的環境來說，VPA 可以提供很有參考價值的資源建議。</p>
+<p>後續可以接著閱讀 <a href="">Kubernetes VPA 垂直自動擴縮容實作紀錄(待發佈)</a>，了解 VPA 的安裝、設定與建議值觀察方式。</p>
+<hr>
+<h2 id="HPA-與-VPA-的使用差異"><a href="#HPA-與-VPA-的使用差異" class="headerlink" title="HPA 與 VPA 的使用差異"></a>HPA 與 VPA 的使用差異</h2><p>HPA 與 VPA 都屬於 Autoscaling，但它們解決的是不同層面的問題。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>HPA</th>
+<th>VPA</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>調整方向</td>
+<td>水平調整</td>
+<td>垂直調整</td>
+</tr>
+<tr>
+<td>調整內容</td>
+<td>Deployment replicas</td>
+<td>Container resources requests</td>
+</tr>
+<tr>
+<td>主要目的</td>
+<td>透過更多 Pod 分攤負載</td>
+<td>讓單一 Pod 的資源請求更合理</td>
+</tr>
+<tr>
+<td>常見依據</td>
+<td>CPU、記憶體、自訂指標、外部指標</td>
+<td>Pod 歷史 CPU 與記憶體使用量</td>
+</tr>
+<tr>
+<td>可能影響</td>
+<td>建立或移除 Pod</td>
+<td>可能重新建立 Pod 或只提供建議</td>
+</tr>
+</tbody></table>
+<p>簡單來說，HPA 回答的是「現在需要幾個 Pod 才夠？」；VPA 回答的是「每個 Pod 應該要多少資源才合理？」。</p>
+<p>實務上要特別注意，VPA 不建議與 HPA 同時針對 CPU 或記憶體 utilization 調整同一個工作負載。原因是 HPA 會根據 requests 計算使用率，而 VPA 會調整 requests。兩者如果同時作用在相同資源指標上，可能讓擴縮容判斷互相影響。</p>
+<p>比較常見的做法是讓 HPA 負責處理流量變化，VPA 則先使用建議模式觀察 resources 是否合理。等資源設定穩定後，再評估是否要讓 VPA 自動套用建議，或改用不會和 HPA 指標互相干擾的配置方式。</p>
+<hr>
+<h2 id="Autoscaling-需要哪些基礎條件？"><a href="#Autoscaling-需要哪些基礎條件？" class="headerlink" title="Autoscaling 需要哪些基礎條件？"></a>Autoscaling 需要哪些基礎條件？</h2><p>Autoscaling 能否正常運作，關鍵在於 Kubernetes 是否能取得可靠的指標資料。以 HPA 和 VPA 來說，常見的基礎條件包含以下幾項。</p>
+<p>第一，叢集需要能提供 Pod 的 CPU 與記憶體使用量。常見做法是安裝 metrics-server，讓 Kubernetes 可以查詢基本資源指標。</p>
+<p>第二，工作負載需要設定合理的 <code>resources.requests</code>。這不只會影響排程，也會影響 HPA 使用 CPU 或記憶體 utilization 時的計算結果。</p>
+<p>第三，應用程式本身要能承受擴縮容帶來的變化。HPA 擴容時會建立新 Pod，縮容時會移除 Pod；VPA 在某些模式下可能會重新建立 Pod。若服務啟動時間長、無法優雅關閉，或狀態沒有妥善外部化，擴縮容過程就可能影響可用性。</p>
+<p>第四，擴縮容邊界需要先設計好。無論是 HPA 的 <code>minReplicas</code>、<code>maxReplicas</code>，或 VPA 的 <code>minAllowed</code>、<code>maxAllowed</code>，都應該依照服務需求與叢集容量設定，避免過度擴張或縮得太小。</p>
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>Kubernetes Autoscaling 的核心目的，是讓服務可以根據實際負載與資源使用情況自動調整。它可以提升高峰時的承載能力，也能在低負載時減少不必要的資源浪費。</p>
+<p>HPA 主要負責調整 Pod 數量，適合處理流量或任務量變化；VPA 則負責評估單一 Pod 的 CPU 與記憶體 requests，適合用來修正或檢查資源配置是否合理。兩者都很實用，但使用時要理解它們作用的層級與可能互相影響的地方。</p>
+<p>接下來的系列文章會分別透過實作範例介紹 HPA 與 VPA，從設定參數、部署方式到觀察擴縮容結果，逐步建立 Kubernetes 自動擴縮容的實作基礎。</p>
 
-<h3 id="修改環境配置"><a href="#修改環境配置" class="headerlink" title="修改環境配置"></a>修改環境配置</h3><p>編輯config.json</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	.</span><br><span class="line">	.</span><br><span class="line">	.</span><br><span class="line"></span><br><span class="line">    &quot;production&quot;: &#123;</span><br><span class="line">        &quot;host&quot;: &quot;0.0.0.0&quot;, // 設置來源</span><br><span class="line">        &quot;port&quot;: 3000, // 設置port</span><br><span class="line">        &quot;loglevel&quot;: &quot;info&quot;,</span><br><span class="line">        &quot;hsts&quot;: &#123;</span><br><span class="line">            &quot;enable&quot;: true,</span><br><span class="line">            &quot;maxAgeSeconds&quot;: 31536000,</span><br><span class="line">            &quot;includeSubdomains&quot;: true,</span><br><span class="line">            &quot;preload&quot;: true</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;csp&quot;: &#123;</span><br><span class="line">            &quot;enable&quot;: true,</span><br><span class="line">            &quot;directives&quot;: &#123;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;upgradeInsecureRequests&quot;: &quot;auto&quot;,</span><br><span class="line">            &quot;addDefaults&quot;: true,</span><br><span class="line">            &quot;addDisqus&quot;: true,</span><br><span class="line">            &quot;addGoogleAnalytics&quot;: true</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;db&quot;: &#123;</span><br><span class="line">            &quot;username&quot;: &quot;帳號&quot;, // 設置db帳號</span><br><span class="line">            &quot;password&quot;: &quot;密碼&quot;, // 設置db密碼</span><br><span class="line">            &quot;database&quot;: &quot;資料庫&quot;, // 設置資料庫名稱</span><br><span class="line">            &quot;host&quot;: &quot;localhost&quot;,</span><br><span class="line">            &quot;port&quot;: &quot;3306&quot;,</span><br><span class="line">            &quot;dialect&quot;: &quot;mysql&quot;</span><br><span class="line">        &#125;</span><br><span class="line">        &quot;linkifyHeaderStyle&quot;: &quot;gfm&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>編輯.sequelizerc</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var path = require(&#x27;path&#x27;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    &#x27;config&#x27;:          path.resolve(&#x27;config.json&#x27;),</span><br><span class="line">    &#x27;migrations-path&#x27;: path.resolve(&#x27;lib&#x27;, &#x27;migrations&#x27;),</span><br><span class="line">    &#x27;models-path&#x27;:     path.resolve(&#x27;lib&#x27;, &#x27;models&#x27;),</span><br><span class="line">    &#x27;url&#x27;:             &#x27;mysql://&#123;db帳號&#125;:&#123;db密碼&#125;@localhost:3306/codimd&#x27;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>編輯lib&#x2F;config&#x2F;default.js</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line"></span><br><span class="line"> allowAnonymous: false, // 關閉匿名登入</span><br><span class="line"> allowAnonymousEdits: false, // 關閉匿名編輯</span><br><span class="line"></span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line"></span><br><span class="line"> email: true, // 開啟email使用</span><br><span class="line"> allowEmailRegister: true, // 允許email註冊</span><br><span class="line"></span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br></pre></td></tr></table></figure>
-
-<h2 id="啟動"><a href="#啟動" class="headerlink" title="啟動"></a>啟動</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm run build // 重新編輯前端頁面</span><br><span class="line">$ node app.js // 啟動服務</span><br></pre></td></tr></table></figure>
-
-<img src="/2020/07/05/codimd-install/codimd1.png" class="">
-<img src="/2020/07/05/codimd-install/codimd2.png" class="">
-<img src="/2020/07/05/codimd-install/codimd3.png" class="">
     </div>
 
     
@@ -497,24 +549,19 @@
     </script>
 
           <div class="post-tags">
-              <a href="/tags/linux/" rel="tag"># linux</a>
-              <a href="/tags/ubuntu/" rel="tag"># ubuntu</a>
-              <a href="/tags/codimd/" rel="tag"># codimd</a>
-              <a href="/tags/hackmd/" rel="tag"># hackmd</a>
+              <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
+              <a href="/tags/resources/" rel="tag"># resources</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2020/05/10/rabbitmq-install/" rel="prev" title="Ubuntu安裝RabbitMQ">
-                  <i class="fa fa-angle-left"></i> Ubuntu安裝RabbitMQ
+                <a href="/2026/08/17/kubernetes-limit-request/" rel="prev" title="Kubernetes Limit &#x2F; Request 使用指南">
+                  <i class="fa fa-angle-left"></i> Kubernetes Limit / Request 使用指南
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2020/11/14/nginx-install/" rel="next" title="安裝Nginx">
-                  安裝Nginx <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
@@ -565,7 +612,7 @@
 </noscript>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
 
-<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"c8f3f45c4379f9b69bc108193864fa41"}</script>
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"e428a54e9743d7ae646c870e5653719a"}</script>
 <script src="/js/third-party/comments/gitalk.js" defer></script>
 
 <link rel="stylesheet" href="/css/tinyqqc/tinyqqc-widget.css">
