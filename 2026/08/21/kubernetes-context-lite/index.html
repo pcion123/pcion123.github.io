@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="在操作 Kubernetes 時，kubectl 會透過 kubeconfig 取得叢集連線資訊、使用者憑證與目前要操作的 context。當只有一個本機測試叢集時，直接使用預設的 ~&#x2F;.kube&#x2F;config 通常就足夠；但如果同一個叢集需要切換不同 namespace，或是同一台機器要管理多個環境，就很容易在指令中反覆加上 -n &lt;namespace&gt;，甚至因為操作錯 namesp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 kubectl context 管理 Kubernetes 操作環境">
+<meta property="og:url" content="https://pcion123.github.io/2026/08/21/kubernetes-context-lite/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="在操作 Kubernetes 時，kubectl 會透過 kubeconfig 取得叢集連線資訊、使用者憑證與目前要操作的 context。當只有一個本機測試叢集時，直接使用預設的 ~&#x2F;.kube&#x2F;config 通常就足夠；但如果同一個叢集需要切換不同 namespace，或是同一台機器要管理多個環境，就很容易在指令中反覆加上 -n &lt;namespace&gt;，甚至因為操作錯 namesp">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/21/kubernetes-context-lite/kubernetes_context_lite_1.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/21/kubernetes-context-lite/kubernetes_context_lite_2.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/21/kubernetes-context-lite/kubernetes_context_lite_3.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/21/kubernetes-context-lite/kubernetes_context_lite_4.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/21/kubernetes-context-lite/kubernetes_context_lite_5.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/21/kubernetes-context-lite/kubernetes_context_lite_6.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/21/kubernetes-context-lite/kubernetes_context_lite_7.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/21/kubernetes-context-lite/kubernetes_context_lite_8.jpg">
+<meta property="article:published_time" content="2026-08-20T16:07:11.000Z">
+<meta property="article:modified_time" content="2026-08-20T16:12:04.014Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="kubernetes">
+<meta property="article:tag" content="security">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2026/08/21/kubernetes-context-lite/kubernetes_context_lite_1.jpg">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/08/21/kubernetes-context-lite/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/08/21/kubernetes-context-lite/","path":"2026/08/21/kubernetes-context-lite/","title":"使用 kubectl context 管理 Kubernetes 操作環境"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用 kubectl context 管理 Kubernetes 操作環境 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-kubectl-context%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什麼是 kubectl context？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%96%E5%82%99-kubeconfig-%E6%AA%94%E6%A1%88"><span class="nav-number">2.</span> <span class="nav-text">準備 kubeconfig 檔案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%88%E4%BD%B5%E5%A4%9A%E5%80%8B-kubeconfig"><span class="nav-number">3.</span> <span class="nav-text">合併多個 kubeconfig</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AA%A2%E6%9F%A5%E7%9B%AE%E5%89%8D%E5%8F%AF%E7%94%A8%E7%9A%84-context"><span class="nav-number">4.</span> <span class="nav-text">檢查目前可用的 context</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%87%E6%8F%9B%E7%9B%AE%E5%89%8D%E4%BD%BF%E7%94%A8%E7%9A%84-context"><span class="nav-number">5.</span> <span class="nav-text">切換目前使用的 context</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E7%9B%AE%E5%89%8D-context-%E7%9A%84%E5%AE%8C%E6%95%B4%E8%A8%AD%E5%AE%9A"><span class="nav-number">6.</span> <span class="nav-text">查看目前 context 的完整設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A9%97%E8%AD%89%E9%A0%90%E8%A8%AD-namespace-%E6%98%AF%E5%90%A6%E7%94%9F%E6%95%88"><span class="nav-number">7.</span> <span class="nav-text">驗證預設 namespace 是否生效</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8-context-%E7%AE%A1%E7%90%86%E6%8C%87%E4%BB%A4%E6%95%B4%E7%90%86"><span class="nav-number">8.</span> <span class="nav-text">常用 context 管理指令整理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E3%80%81%E9%87%8D%E6%96%B0%E5%91%BD%E5%90%8D%E8%88%87%E5%88%AA%E9%99%A4-context"><span class="nav-number">8.1.</span> <span class="nav-text">建立、重新命名與刪除 context</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%B5%90"><span class="nav-number">9.</span> <span class="nav-text">小結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">91</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/agent/" style="font-size: 13.64px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/chrome-extension/" style="font-size: 12px;" class="tag-cloud-0">chrome-extension</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/configmap/" style="font-size: 12px;" class="tag-cloud-0">configmap</a> <a href="/tags/container-registry/" style="font-size: 12px;" class="tag-cloud-0">container-registry</a> <a href="/tags/copilot-cli/" style="font-size: 16.91px;" class="tag-cloud-3">copilot cli</a> <a href="/tags/deployment/" style="font-size: 12px;" class="tag-cloud-0">deployment</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 25.09px;" class="tag-cloud-7">docker</a> <a href="/tags/elasticsearch/" style="font-size: 15.27px;" class="tag-cloud-2">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 21.82px;" class="tag-cloud-5">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 13.64px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 20.18px;" class="tag-cloud-5">gitlab</a> <a href="/tags/googlemap/" style="font-size: 15.27px;" class="tag-cloud-2">googlemap</a> <a href="/tags/grafana/" style="font-size: 15.27px;" class="tag-cloud-2">grafana</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/ingress/" style="font-size: 12px;" class="tag-cloud-0">ingress</a> <a href="/tags/java/" style="font-size: 21.82px;" class="tag-cloud-5">java</a> <a href="/tags/jdk/" style="font-size: 13.64px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 16.91px;" class="tag-cloud-3">jenkins</a> <a href="/tags/kibana/" style="font-size: 15.27px;" class="tag-cloud-2">kibana</a> <a href="/tags/kubernetes/" style="font-size: 30px;" class="tag-cloud-10">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 26.73px;" class="tag-cloud-8">linux</a> <a href="/tags/loadbalancer/" style="font-size: 13.64px;" class="tag-cloud-1">loadbalancer</a> <a href="/tags/logstash/" style="font-size: 13.64px;" class="tag-cloud-1">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 15.27px;" class="tag-cloud-2">maven</a> <a href="/tags/mcp/" style="font-size: 13.64px;" class="tag-cloud-1">mcp</a> <a href="/tags/metrics/" style="font-size: 12px;" class="tag-cloud-0">metrics</a> <a href="/tags/minikube/" style="font-size: 13.64px;" class="tag-cloud-1">minikube</a> <a href="/tags/monitoring/" style="font-size: 16.91px;" class="tag-cloud-3">monitoring</a> <a href="/tags/namespace/" style="font-size: 12px;" class="tag-cloud-0">namespace</a> <a href="/tags/net/" style="font-size: 12px;" class="tag-cloud-0">net</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.64px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/opentelemetry/" style="font-size: 13.64px;" class="tag-cloud-1">opentelemetry</a> <a href="/tags/pm2/" style="font-size: 13.64px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 15.27px;" class="tag-cloud-2">powershell</a> <a href="/tags/prometheus/" style="font-size: 15.27px;" class="tag-cloud-2">prometheus</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/remote-tunnel/" style="font-size: 13.64px;" class="tag-cloud-1">remote-tunnel</a> <a href="/tags/resources/" style="font-size: 16.91px;" class="tag-cloud-3">resources</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/secret/" style="font-size: 12px;" class="tag-cloud-0">secret</a> <a href="/tags/security/" style="font-size: 12px;" class="tag-cloud-0">security</a> <a href="/tags/service/" style="font-size: 16.91px;" class="tag-cloud-3">service</a> <a href="/tags/skills/" style="font-size: 13.64px;" class="tag-cloud-1">skills</a> <a href="/tags/spring-boot/" style="font-size: 16.91px;" class="tag-cloud-3">spring-boot</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 15.27px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 13.64px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 23.45px;" class="tag-cloud-6">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/volume/" style="font-size: 16.91px;" class="tag-cloud-3">volume</a> <a href="/tags/vscode/" style="font-size: 28.36px;" class="tag-cloud-9">vscode</a> <a href="/tags/windows/" style="font-size: 18.55px;" class="tag-cloud-4">windows</a> <a href="/tags/windows-terminal/" style="font-size: 12px;" class="tag-cloud-0">windows-terminal</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 15.27px;" class="tag-cloud-2">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相關文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/10/10/kubernetes-namespace/" rel="bookmark">
+        <time class="popular-posts-time">2025-10-10</time>
+        <br>
+      Kubernetes Namespace 使用指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/16/kubernetes-metrics-server-install/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-16</time>
+        <br>
+      在 Minikube 安裝 metrics-server
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/14/kubernetes-net/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-14</time>
+        <br>
+      使用 kubectl proxy 與 kubectl port-forward 打通 Kubernetes 服務
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/17/kubernetes-limit-request/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-17</time>
+        <br>
+      Kubernetes Limit / Request 使用指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/15/kubernetes-mount/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-15</time>
+        <br>
+      Minikube Mount 使用指南
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/08/21/kubernetes-context-lite/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用 kubectl context 管理 Kubernetes 操作環境 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 kubectl context 管理 Kubernetes 操作環境
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-08-21 00:07:11 / 修改時間：00:12:04" itemprop="dateCreated datePublished" datetime="2026-08-21T00:07:11+08:00">2026-08-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kubernetes/" itemprop="url" rel="index"><span itemprop="name">kubernetes</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>在操作 Kubernetes 時，<code>kubectl</code> 會透過 kubeconfig 取得叢集連線資訊、使用者憑證與目前要操作的 context。當只有一個本機測試叢集時，直接使用預設的 <code>~/.kube/config</code> 通常就足夠；但如果同一個叢集需要切換不同 namespace，或是同一台機器要管理多個環境，就很容易在指令中反覆加上 <code>-n &lt;namespace&gt;</code>，甚至因為操作錯 namespace 而造成誤用。</p>
+<p>這篇文章會示範如何替本機 Minikube 額外建立一個 context，讓 <code>kubectl</code> 預設操作 <code>dockertest</code> namespace。範例會保留既有 Minikube 的 cluster 與 user 設定，只新增一份輕量的 kubeconfig，用來管理不同操作情境。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="什麼是-kubectl-context？"><a href="#什麼是-kubectl-context？" class="headerlink" title="什麼是 kubectl context？"></a>什麼是 kubectl context？</h2><p>在 kubeconfig 中，context 可以理解成一組「要用哪個叢集、哪個使用者、哪個 namespace」的操作設定。它通常由三個欄位組成：</p>
+<table>
+<thead>
+<tr>
+<th>欄位</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cluster</code></td>
+<td>指向要連線的 Kubernetes 叢集</td>
+</tr>
+<tr>
+<td><code>user</code></td>
+<td>指向連線時使用的憑證或身分</td>
+</tr>
+<tr>
+<td><code>namespace</code></td>
+<td>指定預設操作的 namespace</td>
+</tr>
+</tbody></table>
+<p>當目前 context 已經帶有 namespace 時，執行 <code>kubectl get pod</code>、<code>kubectl apply -f ...</code> 這類指令時，就會自動套用該 namespace，不需要每次都手動補上 <code>-n dockertest</code>。</p>
+<h2 id="準備-kubeconfig-檔案"><a href="#準備-kubeconfig-檔案" class="headerlink" title="準備 kubeconfig 檔案"></a>準備 kubeconfig 檔案</h2><p>在這個範例中，<code>~/.kube/config</code> 是 Minikube 產生的主要 kubeconfig，裡面已經包含 <code>minikube</code> cluster、<code>minikube</code> user 與相關憑證。接著我們會新增一個 <code>dockertest-config</code>，只負責定義額外的 context。</p>
+<p>先進入 <code>~/.kube</code> 目錄，可以看到原本的 <code>config</code>，以及後續要加入的 <code>dockertest-config</code>。</p>
+<img src="/2026/08/21/kubernetes-context-lite/kubernetes_context_lite_1.jpg" class="" title="檢查 .kube 目錄內的 kubeconfig 檔案">
+
+<p><code>dockertest-config</code> 的內容如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Config</span></span><br><span class="line"><span class="comment"># 這個檔案只替本機 minikube 額外定義一個 context。</span></span><br><span class="line"><span class="comment"># 使用時需搭配既有的 kubeconfig，讓 minikube 的 cluster、user</span></span><br><span class="line"><span class="comment"># 與憑證設定繼續由 $HOME/.kube/config 提供。</span></span><br><span class="line"><span class="attr">contexts:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">dockertest-context</span></span><br><span class="line">  <span class="attr">context:</span></span><br><span class="line">    <span class="attr">cluster:</span> <span class="string">minikube</span></span><br><span class="line">    <span class="comment"># 這個 user 必須已經存在於主要 kubeconfig 中。</span></span><br><span class="line">    <span class="attr">user:</span> <span class="string">minikube</span></span><br><span class="line">    <span class="attr">namespace:</span> <span class="string">dockertest</span></span><br></pre></td></tr></table></figure>
+
+<p>這份設定檔沒有重新定義 cluster 與 user，而是引用主要 kubeconfig 中既有的 <code>minikube</code> 設定。也就是說，它只補上一個新的 context：<code>dockertest-context</code>，並且把預設 namespace 指向 <code>dockertest</code>。</p>
+<img src="/2026/08/21/kubernetes-context-lite/kubernetes_context_lite_2.jpg" class="" title="編輯 dockertest-config 內容">
+
+<h2 id="合併多個-kubeconfig"><a href="#合併多個-kubeconfig" class="headerlink" title="合併多個 kubeconfig"></a>合併多個 kubeconfig</h2><p><code>kubectl</code> 預設會讀取 <code>~/.kube/config</code>。如果要同時讀取多個 kubeconfig，可以透過 <code>KUBECONFIG</code> 環境變數指定檔案清單。</p>
+<p>在 Linux 或 macOS 環境中，多個 kubeconfig 路徑使用冒號 <code>:</code> 分隔：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> KUBECONFIG=~/.kube/config:~/.kube/dockertest-config</span><br></pre></td></tr></table></figure>
+
+<p>如果希望每次登入 shell 後都自動套用這個設定，可以將它加入 <code>~/.bashrc</code>。</p>
+<img src="/2026/08/21/kubernetes-context-lite/kubernetes_context_lite_3.jpg" class="" title="在 bashrc 設定 KUBECONFIG">
+
+<p>設定完成後重新登入 shell，或執行下列指令讓目前 shell 重新載入設定：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<h2 id="檢查目前可用的-context"><a href="#檢查目前可用的-context" class="headerlink" title="檢查目前可用的 context"></a>檢查目前可用的 context</h2><p>完成 <code>KUBECONFIG</code> 設定後，可以使用 <code>kubectl config get-contexts</code> 檢查目前合併後的 context 清單。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl config get-contexts</span><br></pre></td></tr></table></figure>
+
+<p>畫面中可以看到兩個 context：</p>
+<ul>
+<li><code>minikube</code>：原本的預設 context，namespace 是 <code>default</code></li>
+<li><code>dockertest-context</code>：新加入的 context，namespace 是 <code>dockertest</code></li>
+</ul>
+<img src="/2026/08/21/kubernetes-context-lite/kubernetes_context_lite_4.jpg" class="" title="查看目前可用的 context 清單">
+
+<h2 id="切換目前使用的-context"><a href="#切換目前使用的-context" class="headerlink" title="切換目前使用的 context"></a>切換目前使用的 context</h2><p>確認 <code>dockertest-context</code> 已經出現在清單後，就可以使用 <code>kubectl config use-context</code> 切換目前 context。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl config use-context dockertest-context</span><br></pre></td></tr></table></figure>
+
+<p>切換完成後，再次執行 <code>kubectl config get-contexts</code>，可以看到 <code>CURRENT</code> 欄位的星號已經移到 <code>dockertest-context</code>。</p>
+<img src="/2026/08/21/kubernetes-context-lite/kubernetes_context_lite_5.jpg" class="" title="切換到 dockertest-context">
+
+<p>如果只想確認目前使用中的 context 名稱，可以執行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl config current-context</span><br></pre></td></tr></table></figure>
+
+<p>輸出結果會是目前作用中的 context：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dockertest-context</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/08/21/kubernetes-context-lite/kubernetes_context_lite_6.jpg" class="" title="確認目前使用中的 context">
+
+<h2 id="查看目前-context-的完整設定"><a href="#查看目前-context-的完整設定" class="headerlink" title="查看目前 context 的完整設定"></a>查看目前 context 的完整設定</h2><p><code>kubectl config view --minify</code> 可以只顯示目前 context 相關的設定。這在確認 namespace、cluster 與 user 是否正確套用時很實用。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl config view --minify</span><br></pre></td></tr></table></figure>
+
+<p>從輸出可以看到，目前 context 的 namespace 已經是 <code>dockertest</code>，cluster 與 user 則仍然使用 Minikube 原本的設定。</p>
+<img src="/2026/08/21/kubernetes-context-lite/kubernetes_context_lite_7.jpg" class="" title="使用 minify 查看目前 context 設定">
+
+<h2 id="驗證預設-namespace-是否生效"><a href="#驗證預設-namespace-是否生效" class="headerlink" title="驗證預設 namespace 是否生效"></a>驗證預設 namespace 是否生效</h2><p>最後可以透過一般的 <code>kubectl</code> 查詢指令確認 namespace 是否正確生效。因為目前 context 已經指定 <code>dockertest</code> namespace，所以執行 <code>kubectl get all</code> 時，不需要額外加上 <code>-n dockertest</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get all</span><br></pre></td></tr></table></figure>
+
+<p>如果 <code>dockertest</code> namespace 內已經有部署資源，就會直接看到該 namespace 下的 Pod、Service、Deployment 與 ReplicaSet。</p>
+<img src="/2026/08/21/kubernetes-context-lite/kubernetes_context_lite_8.jpg" class="" title="使用目前 context 查詢 dockertest namespace 資源">
+
+<h2 id="常用-context-管理指令整理"><a href="#常用-context-管理指令整理" class="headerlink" title="常用 context 管理指令整理"></a>常用 context 管理指令整理</h2><p>以下整理幾個管理 context 時常用的 <code>kubectl config</code> 指令：</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>kubectl config get-contexts</code></td>
+<td>查看目前 kubeconfig 中所有 context</td>
+</tr>
+<tr>
+<td><code>kubectl config current-context</code></td>
+<td>顯示目前正在使用的 context</td>
+</tr>
+<tr>
+<td><code>kubectl config use-context &lt;context-name&gt;</code></td>
+<td>切換目前使用的 context</td>
+</tr>
+<tr>
+<td><code>kubectl config view --minify</code></td>
+<td>只顯示目前 context 相關設定</td>
+</tr>
+<tr>
+<td><code>kubectl config set-context &lt;context-name&gt; --cluster=&lt;cluster-name&gt; --user=&lt;user-name&gt; --namespace=&lt;namespace-name&gt;</code></td>
+<td>建立或更新 context 設定</td>
+</tr>
+<tr>
+<td><code>kubectl config set-context &lt;context-name&gt; --namespace=&lt;namespace&gt;</code></td>
+<td>修改指定 context 的預設 namespace</td>
+</tr>
+<tr>
+<td><code>kubectl config rename-context &lt;old-name&gt; &lt;new-name&gt;</code></td>
+<td>重新命名 context</td>
+</tr>
+<tr>
+<td><code>kubectl config delete-context &lt;context-name&gt;</code></td>
+<td>刪除指定 context</td>
+</tr>
+</tbody></table>
+<p>如果只是想替既有 context 修改預設 namespace，也可以直接執行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl config set-context minikube --namespace=dockertest</span><br></pre></td></tr></table></figure>
+
+<h3 id="建立、重新命名與刪除-context"><a href="#建立、重新命名與刪除-context" class="headerlink" title="建立、重新命名與刪除 context"></a>建立、重新命名與刪除 context</h3><p>除了切換 context 之外，<code>kubectl config</code> 也可以直接建立、重新命名或刪除 context。建立 context 時，需要指定要引用的 cluster、user 與預設 namespace：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl config set-context &lt;新context-名稱&gt; --cluster=&lt;cluster-名稱&gt; --user=&lt;user-名稱&gt; --namespace=&lt;namespace-名稱&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果 context 名稱需要調整，可以使用 <code>rename-context</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl config rename-context &lt;舊名稱&gt; &lt;新名稱&gt;</span><br></pre></td></tr></table></figure>
+
+<p>不再需要的 context 則可以用 <code>delete-context</code> 移除：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl config delete-context &lt;context-名稱&gt;</span><br></pre></td></tr></table></figure>
+
+<p>不過在需要保留原本 <code>minikube</code> context，又想額外建立不同 namespace 操作入口時，使用獨立 kubeconfig 定義新的 context 會更清楚，也比較容易管理。</p>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p><code>kubectl context</code> 可以讓我們把「叢集、使用者、namespace」整理成可切換的操作環境。透過額外 kubeconfig 定義 <code>dockertest-context</code>，再用 <code>KUBECONFIG</code> 將它與原本的 <code>~/.kube/config</code> 合併，就能在不複製憑證設定的情況下，建立一個預設操作 <code>dockertest</code> namespace 的工作情境。</p>
+<p>這種方式很適合用在本機開發、測試 namespace 切換，或是需要同時管理多組 Kubernetes 操作環境的情境。只要先確認目前 context，再執行部署或查詢指令，就能降低操作錯 namespace 或錯叢集的風險。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <div class="post-recent-posts" style="display:none">
+      <div class="post-recent-posts-title">
+        <i class="fa fa-history fa-fw"></i> 近期文章
+      </div>
+      <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/08/21/kubernetes-context-lite/" title="使用 kubectl context 管理 Kubernetes 操作環境">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">使用 kubectl context 管理 Kubernetes 操作環境</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-21</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/20/kubernetes-vpa/" title="Kubernetes VPA 垂直自動擴縮容實作紀錄">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Kubernetes VPA 垂直自動擴縮容實作紀錄</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-20</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/19/kubernetes-hpa/" title="Kubernetes HPA 水平自動擴縮容實作紀錄">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Kubernetes HPA 水平自動擴縮容實作紀錄</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-19</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/18/kubernetes-autoscaling/" title="Kubernetes Autoscaling 自動擴縮容概念介紹">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Kubernetes Autoscaling 自動擴縮容概念介紹</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-18</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/17/kubernetes-limit-request/" title="Kubernetes Limit / Request 使用指南">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Kubernetes Limit / Request 使用指南</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-17</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function showRecentPosts() {
+          var block = document.querySelector('.post-recent-posts');
+          if (!block) return;
+
+          // 重置狀態
+          block.classList.remove('animated', 'fadeIn');
+          block.style.display = 'none';
+
+          var comments = document.querySelector('.comments');
+          if (comments) {
+            comments.parentNode.insertBefore(block, comments);
+          }
+
+          function reveal() {
+            block.style.display = '';
+            block.offsetHeight; // force reflow
+            block.classList.add('animated', 'fadeIn');
+          }
+
+          if (!comments) {
+            reveal();
+          } else {
+            // 觀察 .comments 被 NexT motion 加上 animated class 的時機
+            var observer = new MutationObserver(function () {
+              if (comments.classList.contains('animated')) {
+                observer.disconnect();
+                reveal();
+              }
+            });
+            observer.observe(comments, { attributes: true, attributeFilter: ['class'] });
+            // 若 motion 已跑完（comments 已有 animated），也直接顯示
+            if (comments.classList.contains('animated')) {
+              observer.disconnect();
+              reveal();
+            }
+          }
+        }
+
+        // 初次載入
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', showRecentPosts, { once: true });
+        } else {
+          showRecentPosts();
+        }
+
+        // PJAX：pjax:success 時 NexT motion 剛啟動（async），.comments 尚未有 animated
+        document.addEventListener('pjax:success', showRecentPosts);
+      })();
+    </script>
+
+          <div class="post-tags">
+              <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
+              <a href="/tags/security/" rel="tag"># security</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/08/20/kubernetes-vpa/" rel="prev" title="Kubernetes VPA 垂直自動擴縮容實作紀錄">
+                  <i class="fa fa-angle-left"></i> Kubernetes VPA 垂直自動擴縮容實作紀錄
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"ec56866f2f3e9c95da0746fef09be8d7"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+<link rel="stylesheet" href="/css/tinyqqc/tinyqqc-widget.css">
+<script
+  id="tinyqqc-widget-script"
+  src="/js/tinyqqc/tinyqqc-widget.iife.js"
+  data-tinyqqc-widget
+  data-api-base-url="https://tinyqqs-846222163009.asia-east1.run.app/"
+  data-initial-open="false"
+  defer
+></script>
+
+</body>
+</html>
