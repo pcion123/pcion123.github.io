@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="在 Kubernetes 裡部署服務時，除了要思考 Pod 數量是否足夠，也要思考每個 Pod 本身配置的 CPU 與記憶體是否合理。若 resources.requests 設得太低，服務可能容易被資源限制影響；若設定得太高，又會讓叢集排程時預留過多資源，造成浪費。 這篇文章會整理 Kubernetes VPA（Vertical Pod Autoscaler）的基本概念，並透過一份測試用 Dep">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes VPA 垂直自動擴縮容實作紀錄">
+<meta property="og:url" content="https://pcion123.github.io/2026/08/20/kubernetes-vpa/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="在 Kubernetes 裡部署服務時，除了要思考 Pod 數量是否足夠，也要思考每個 Pod 本身配置的 CPU 與記憶體是否合理。若 resources.requests 設得太低，服務可能容易被資源限制影響；若設定得太高，又會讓叢集排程時預留過多資源，造成浪費。 這篇文章會整理 Kubernetes VPA（Vertical Pod Autoscaler）的基本概念，並透過一份測試用 Dep">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/20/kubernetes-vpa/kubernetes_vpa_0.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/20/kubernetes-vpa/kubernetes_vpa_0.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/20/kubernetes-vpa/kubernetes_vpa_1.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/20/kubernetes-vpa/kubernetes_vpa_2.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/20/kubernetes-vpa/kubernetes_vpa_3.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/20/kubernetes-vpa/kubernetes_vpa_4.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/20/kubernetes-vpa/kubernetes_vpa_7.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/20/kubernetes-vpa/kubernetes_vpa_5.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/20/kubernetes-vpa/kubernetes_vpa_6.jpg">
+<meta property="article:published_time" content="2026-08-20T03:48:12.000Z">
+<meta property="article:modified_time" content="2026-08-20T03:52:57.751Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="kubernetes">
+<meta property="article:tag" content="resources">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2026/08/20/kubernetes-vpa/kubernetes_vpa_0.png">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/08/20/kubernetes-vpa/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/08/20/kubernetes-vpa/","path":"2026/08/20/kubernetes-vpa/","title":"Kubernetes VPA 垂直自動擴縮容實作紀錄"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Kubernetes VPA 垂直自動擴縮容實作紀錄 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF-VPA%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">什麼是 VPA？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VPA-%E8%88%87-HPA-%E7%9A%84%E5%B7%AE%E7%95%B0"><span class="nav-number">2.</span> <span class="nav-text">VPA 與 HPA 的差異</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E6%A2%9D%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">前置條件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-VPA"><span class="nav-number">4.</span> <span class="nav-text">安裝 VPA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VPA-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">VPA 基本使用方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VPA-%E8%A8%AD%E5%AE%9A%E9%87%8D%E9%BB%9E"><span class="nav-number">6.</span> <span class="nav-text">VPA 設定重點</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#targetRef"><span class="nav-number">6.1.</span> <span class="nav-text">targetRef</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#updatePolicy"><span class="nav-number">6.2.</span> <span class="nav-text">updatePolicy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#resourcePolicy"><span class="nav-number">6.3.</span> <span class="nav-text">resourcePolicy</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo-%E7%AF%84%E4%BE%8B%EF%BC%9A%E6%B8%AC%E8%A9%A6%E7%94%A8%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">7.</span> <span class="nav-text">Demo 範例：測試用配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo-%E7%AF%84%E4%BE%8B%EF%BC%9A%E8%AA%BF%E6%95%B4-VPA-Recommender-%E5%8D%8A%E8%A1%B0%E6%9C%9F"><span class="nav-number">8.</span> <span class="nav-text">Demo 範例：調整 VPA Recommender 半衰期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo-%E7%AF%84%E4%BE%8B%EF%BC%9A%E9%83%A8%E7%BD%B2%E8%88%87%E5%A3%93%E5%8A%9B%E6%B8%AC%E8%A9%A6"><span class="nav-number">9.</span> <span class="nav-text">Demo 範例：部署與壓力測試</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo-%E7%AF%84%E4%BE%8B%EF%BC%9A%E8%A7%80%E5%AF%9F%E9%87%8D%E9%BB%9E"><span class="nav-number">10.</span> <span class="nav-text">Demo 範例：觀察重點</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo-%E7%AF%84%E4%BE%8B%EF%BC%9A%E5%AE%8C%E6%95%B4%E9%87%8D%E7%BD%AE-VPA-%E6%AD%B7%E5%8F%B2%E7%B4%80%E9%8C%84"><span class="nav-number">11.</span> <span class="nav-text">Demo 範例：完整重置 VPA 歷史紀錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo-%E7%AF%84%E4%BE%8B%EF%BC%9A%E6%B8%85%E9%99%A4%E6%B8%AC%E8%A9%A6%E8%B3%87%E6%BA%90"><span class="nav-number">12.</span> <span class="nav-text">Demo 範例：清除測試資源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%B5%90"><span class="nav-number">13.</span> <span class="nav-text">小結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">69</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/agent/" style="font-size: 13.64px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/chrome-extension/" style="font-size: 12px;" class="tag-cloud-0">chrome-extension</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/configmap/" style="font-size: 12px;" class="tag-cloud-0">configmap</a> <a href="/tags/container-registry/" style="font-size: 12px;" class="tag-cloud-0">container-registry</a> <a href="/tags/copilot-cli/" style="font-size: 16.91px;" class="tag-cloud-3">copilot cli</a> <a href="/tags/deployment/" style="font-size: 12px;" class="tag-cloud-0">deployment</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 25.09px;" class="tag-cloud-7">docker</a> <a href="/tags/elasticsearch/" style="font-size: 15.27px;" class="tag-cloud-2">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 21.82px;" class="tag-cloud-5">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 13.64px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 20.18px;" class="tag-cloud-5">gitlab</a> <a href="/tags/googlemap/" style="font-size: 15.27px;" class="tag-cloud-2">googlemap</a> <a href="/tags/grafana/" style="font-size: 15.27px;" class="tag-cloud-2">grafana</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/ingress/" style="font-size: 12px;" class="tag-cloud-0">ingress</a> <a href="/tags/java/" style="font-size: 21.82px;" class="tag-cloud-5">java</a> <a href="/tags/jdk/" style="font-size: 13.64px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 16.91px;" class="tag-cloud-3">jenkins</a> <a href="/tags/kibana/" style="font-size: 15.27px;" class="tag-cloud-2">kibana</a> <a href="/tags/kubernetes/" style="font-size: 30px;" class="tag-cloud-10">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 26.73px;" class="tag-cloud-8">linux</a> <a href="/tags/loadbalancer/" style="font-size: 13.64px;" class="tag-cloud-1">loadbalancer</a> <a href="/tags/logstash/" style="font-size: 13.64px;" class="tag-cloud-1">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 15.27px;" class="tag-cloud-2">maven</a> <a href="/tags/mcp/" style="font-size: 13.64px;" class="tag-cloud-1">mcp</a> <a href="/tags/metrics/" style="font-size: 12px;" class="tag-cloud-0">metrics</a> <a href="/tags/minikube/" style="font-size: 13.64px;" class="tag-cloud-1">minikube</a> <a href="/tags/monitoring/" style="font-size: 16.91px;" class="tag-cloud-3">monitoring</a> <a href="/tags/namespace/" style="font-size: 12px;" class="tag-cloud-0">namespace</a> <a href="/tags/net/" style="font-size: 12px;" class="tag-cloud-0">net</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.64px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/opentelemetry/" style="font-size: 13.64px;" class="tag-cloud-1">opentelemetry</a> <a href="/tags/pm2/" style="font-size: 13.64px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 15.27px;" class="tag-cloud-2">powershell</a> <a href="/tags/prometheus/" style="font-size: 15.27px;" class="tag-cloud-2">prometheus</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/remote-tunnel/" style="font-size: 13.64px;" class="tag-cloud-1">remote-tunnel</a> <a href="/tags/resources/" style="font-size: 16.91px;" class="tag-cloud-3">resources</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/secret/" style="font-size: 12px;" class="tag-cloud-0">secret</a> <a href="/tags/service/" style="font-size: 16.91px;" class="tag-cloud-3">service</a> <a href="/tags/skills/" style="font-size: 13.64px;" class="tag-cloud-1">skills</a> <a href="/tags/spring-boot/" style="font-size: 16.91px;" class="tag-cloud-3">spring-boot</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 15.27px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 13.64px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 23.45px;" class="tag-cloud-6">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/volume/" style="font-size: 16.91px;" class="tag-cloud-3">volume</a> <a href="/tags/vscode/" style="font-size: 28.36px;" class="tag-cloud-9">vscode</a> <a href="/tags/windows/" style="font-size: 18.55px;" class="tag-cloud-4">windows</a> <a href="/tags/windows-terminal/" style="font-size: 12px;" class="tag-cloud-0">windows-terminal</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 15.27px;" class="tag-cloud-2">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相關文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/17/kubernetes-limit-request/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-17</time>
+        <br>
+      Kubernetes Limit / Request 使用指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/18/kubernetes-autoscaling/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-18</time>
+        <br>
+      Kubernetes Autoscaling 自動擴縮容概念介紹
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/19/kubernetes-hpa/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-19</time>
+        <br>
+      Kubernetes HPA 水平自動擴縮容實作紀錄
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/10/10/kubernetes-namespace/" rel="bookmark">
+        <time class="popular-posts-time">2025-10-10</time>
+        <br>
+      Kubernetes Namespace 使用指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/10/11/kubernetes-deployment/" rel="bookmark">
+        <time class="popular-posts-time">2025-10-11</time>
+        <br>
+      Kubernetes Deployment 使用指南
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/08/20/kubernetes-vpa/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Kubernetes VPA 垂直自動擴縮容實作紀錄 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Kubernetes VPA 垂直自動擴縮容實作紀錄
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-08-20 11:48:12 / 修改時間：11:52:57" itemprop="dateCreated datePublished" datetime="2026-08-20T11:48:12+08:00">2026-08-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kubernetes/" itemprop="url" rel="index"><span itemprop="name">kubernetes</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>在 Kubernetes 裡部署服務時，除了要思考 Pod 數量是否足夠，也要思考每個 Pod 本身配置的 CPU 與記憶體是否合理。若 <code>resources.requests</code> 設得太低，服務可能容易被資源限制影響；若設定得太高，又會讓叢集排程時預留過多資源，造成浪費。</p>
+<p>這篇文章會整理 Kubernetes VPA（Vertical Pod Autoscaler）的基本概念，並透過一份測試用 Deployment 與 VPA 配置，觀察 VPA 如何根據 Pod 的使用情況提供資源建議。文末也附上 Demo 影片，方便對照完整操作流程。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="什麼是-VPA？"><a href="#什麼是-VPA？" class="headerlink" title="什麼是 VPA？"></a>什麼是 VPA？</h2><p>VPA 是 Kubernetes 用來調整 Pod CPU 與記憶體資源配置的元件。和 HPA（Horizontal Pod Autoscaler）透過增加或減少 Pod 數量來處理負載不同，VPA 關注的是單一 Pod 需要多少 <code>resources.requests</code>，也就是每個 Pod 應該預留多少 CPU 與記憶體。</p>
+<p>VPA 會觀察目標工作負載的資源使用情況，並計算出建議值。依照 <code>updatePolicy.updateMode</code> 的設定不同，VPA 可以只提供建議，也可以在需要時重新建立 Pod，讓新的 Pod 使用更新後的資源配置。</p>
+<p>常見的 VPA 運作角色如下：</p>
+<ol>
+<li><code>vpa-recommender</code> 觀察 Pod 的資源使用量，計算 CPU 與記憶體建議值</li>
+<li><code>vpa-updater</code> 判斷現有 Pod 是否需要更新資源配置，必要時驅逐 Pod</li>
+<li><code>vpa-admission-controller</code> 在 Pod 建立時注入 VPA 建議的 requests 設定</li>
+</ol>
+<p>也就是說，VPA 的重點不是增加 Pod 數量，而是讓 Pod 的資源請求值更接近實際需求。</p>
+<img src="/2026/08/20/kubernetes-vpa/kubernetes_vpa_0.png" class="" title="VPA 架構示意圖">
+
+<hr>
+<h2 id="VPA-與-HPA-的差異"><a href="#VPA-與-HPA-的差異" class="headerlink" title="VPA 與 HPA 的差異"></a>VPA 與 HPA 的差異</h2><p>HPA 與 VPA 都是自動擴縮容機制，但兩者調整的方向不同。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>HPA</th>
+<th>VPA</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>調整目標</td>
+<td>Pod 數量</td>
+<td>Pod 的 CPU 與記憶體 requests</td>
+</tr>
+<tr>
+<td>常見用途</td>
+<td>流量變大時增加副本數</td>
+<td>服務資源設定不準時提供建議或自動修正</td>
+</tr>
+<tr>
+<td>對應資源</td>
+<td>Deployment 的 replicas</td>
+<td>Container resources requests</td>
+</tr>
+<tr>
+<td>可能影響</td>
+<td>建立或移除 Pod</td>
+<td>可能重新建立 Pod</td>
+</tr>
+</tbody></table>
+<p>實務上要特別注意，VPA 不建議與 HPA 同時針對 CPU 或記憶體使用率調整同一個工作負載。原因是 HPA 會依據資源使用率計算副本數，而 VPA 會改變 requests，兩者若同時作用在相同指標上，可能讓擴縮容判斷互相影響。</p>
+<hr>
+<h2 id="前置條件"><a href="#前置條件" class="headerlink" title="前置條件"></a>前置條件</h2><p>使用 VPA 前，需要先準備一個可正常操作的 Kubernetes 叢集，並確認 <code>kubectl</code> 已經連到目標叢集。VPA 需要觀察 Pod 的資源使用量，因此叢集內也應該先安裝 metrics-server，讓資源指標可以被正常取得。</p>
+<p>可以先用以下指令確認 metrics-server 是否能提供資料：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl top nodes</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl top pods -A</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/08/20/kubernetes-vpa/kubernetes_vpa_0.jpg" class="" title="檢查 metrics-server 是否正常">
+
+<p>如果可以看到 Node 與 Pod 的 CPU、記憶體使用量，就代表後續觀察 VPA 建議值時比較不容易遇到指標缺失問題。</p>
+<hr>
+<h2 id="安裝-VPA"><a href="#安裝-VPA" class="headerlink" title="安裝 VPA"></a>安裝 VPA</h2><p>本次實作使用 Kubernetes 官方 autoscaler 專案內提供的安裝腳本。先將專案 clone 到本機：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/kubernetes/autoscaler.git</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/08/20/kubernetes-vpa/kubernetes_vpa_1.jpg" class="" title="Clone Kubernetes autoscaler 專案">
+
+<p>接著進入 VPA 目錄，執行安裝腳本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> autoscaler/vertical-pod-autoscaler/</span><br><span class="line">./hack/vpa-up.sh</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/08/20/kubernetes-vpa/kubernetes_vpa_2.jpg" class="" title="執行 VPA 安裝腳本">
+
+<p>安裝過程會建立 VPA 需要的 CRD、RBAC、ServiceAccount、Deployment 與 Admission Controller 憑證。完成後可以看到 <code>vpa-recommender</code>、<code>vpa-updater</code>、<code>vpa-admission-controller</code> 等元件被建立起來。</p>
+<img src="/2026/08/20/kubernetes-vpa/kubernetes_vpa_3.jpg" class="" title="VPA 安裝完成">
+
+<p>確認 VPA 元件是否正常執行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pods -n kube-system | grep vpa</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/08/20/kubernetes-vpa/kubernetes_vpa_4.jpg" class="" title="確認 VPA Pod 狀態">
+
+<p>如果三個 VPA Pod 都是 <code>Running</code>，就代表 VPA 基本元件已經啟動完成。</p>
+<hr>
+<h2 id="VPA-基本使用方式"><a href="#VPA-基本使用方式" class="headerlink" title="VPA 基本使用方式"></a>VPA 基本使用方式</h2><p>安裝 VPA 元件後，實際使用時通常會先準備好要被觀察的工作負載，例如 Deployment，接著建立一個 <code>VerticalPodAutoscaler</code> 資源指向該 Deployment。VPA 會根據目標 Pod 的資源使用情況計算建議值，並依照 <code>updatePolicy</code> 決定是否只提供建議，或在 Pod 建立、重建時套用新的 requests。</p>
+<p>以下是一份基本的 VPA 設定範例：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">autoscaling.k8s.io/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">VerticalPodAutoscaler</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">dockertest-vpa</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">dockertest</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">targetRef:</span></span><br><span class="line">    <span class="attr">apiVersion:</span> <span class="string">&quot;apps/v1&quot;</span></span><br><span class="line">    <span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">dockertest-deployment</span></span><br><span class="line">  <span class="attr">updatePolicy:</span></span><br><span class="line">    <span class="attr">updateMode:</span> <span class="string">&quot;Recreate&quot;</span></span><br><span class="line">  <span class="attr">resourcePolicy:</span></span><br><span class="line">    <span class="attr">containerPolicies:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">containerName:</span> <span class="string">&#x27;*&#x27;</span></span><br><span class="line">        <span class="attr">minAllowed:</span></span><br><span class="line">          <span class="attr">cpu:</span> <span class="string">50m</span></span><br><span class="line">          <span class="attr">memory:</span> <span class="string">50Mi</span></span><br><span class="line">        <span class="attr">maxAllowed:</span></span><br><span class="line">          <span class="attr">cpu:</span> <span class="string">1000m</span></span><br><span class="line">          <span class="attr">memory:</span> <span class="string">1000Mi</span></span><br></pre></td></tr></table></figure>
+
+<p>這份 YAML 的意思是：VPA 會觀察 <code>dockertest</code> namespace 裡的 <code>dockertest-deployment</code>，根據 Pod 的資源使用情況計算 CPU 與記憶體建議值，並把建議值限制在 <code>minAllowed</code> 與 <code>maxAllowed</code> 範圍內。</p>
+<p>建立 VPA 時可以使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f vpa.yml</span><br></pre></td></tr></table></figure>
+
+<p>建立完成後，可以透過以下指令查看 VPA 狀態與建議值：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl describe vpa dockertest-vpa -n dockertest</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>Recommendation</code> 區塊中，通常會看到 <code>Lower Bound</code>、<code>Target</code>、<code>Uncapped Target</code> 與 <code>Upper Bound</code>。其中 <code>Target</code> 是 VPA 建議套用的 requests，<code>Lower Bound</code> 與 <code>Upper Bound</code> 則是建議值的上下界。</p>
+<hr>
+<h2 id="VPA-設定重點"><a href="#VPA-設定重點" class="headerlink" title="VPA 設定重點"></a>VPA 設定重點</h2><p>VPA 的核心設定在 <code>VerticalPodAutoscaler</code> 這個資源中。以下整理幾個實作時最常調整的欄位。</p>
+<p>官方文件可參考 <a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/workloads/autoscaling/vertical-pod-autoscale/">Kubernetes Vertical Pod Autoscaling</a>。</p>
+<h3 id="targetRef"><a href="#targetRef" class="headerlink" title="targetRef"></a>targetRef</h3><p><code>targetRef</code> 用來指定 VPA 要觀察與調整的工作負載：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">targetRef:</span></span><br><span class="line">  <span class="attr">apiVersion:</span> <span class="string">&quot;apps/v1&quot;</span></span><br><span class="line">  <span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">dockertest-deployment</span></span><br></pre></td></tr></table></figure>
+
+<p>這段設定代表 VPA 會針對 <code>dockertest-deployment</code> 這個 Deployment 底下的 Pod 計算資源建議值。</p>
+<h3 id="updatePolicy"><a href="#updatePolicy" class="headerlink" title="updatePolicy"></a>updatePolicy</h3><p><code>updatePolicy.updateMode</code> 決定 VPA 要如何套用建議值：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">updatePolicy:</span></span><br><span class="line">  <span class="attr">updateMode:</span> <span class="string">&quot;Recreate&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>常見模式如下：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Off</code></td>
+<td>只產生建議值，不會修改或重新建立 Pod</td>
+</tr>
+<tr>
+<td><code>Initial</code></td>
+<td>只在 Pod 建立時套用建議值，既有 Pod 不會被更新</td>
+</tr>
+<tr>
+<td><code>Recreate</code></td>
+<td>當 VPA 判斷需要更新時，會驅逐 Pod，讓工作負載重新建立 Pod</td>
+</tr>
+<tr>
+<td><code>InPlaceOrRecreate</code></td>
+<td>優先嘗試在不重啟 Pod 的情況下原地更新資源，若無法原地更新則退回 <code>Recreate</code> 行為</td>
+</tr>
+<tr>
+<td><code>InPlace</code></td>
+<td>嘗試只用原地更新套用資源建議，不會退回驅逐重建；需要叢集與 VPA 啟用對應 feature gate</td>
+</tr>
+<tr>
+<td><code>Auto</code></td>
+<td>自 VPA 1.4.0 起已棄用，不建議新配置使用；目前等同 <code>Recreate</code>，需要驅逐重建時建議明確使用 <code>Recreate</code></td>
+</tr>
+</tbody></table>
+<p>新配置建議使用語意明確的 <code>Off</code>、<code>Initial</code> 或 <code>Recreate</code>，避免沿用舊範例中的 <code>Auto</code>。如果叢集與 VPA 版本支援原地調整 Pod 資源，也可以再評估 <code>InPlaceOrRecreate</code> 或 <code>InPlace</code>。使用 <code>Recreate</code> 時，當 VPA 判斷資源設定需要更新，可能會重新建立 Pod。測試環境可以用這個模式觀察效果，但正式環境要先評估服務是否能承受 Pod 被重建的影響。</p>
+<h3 id="resourcePolicy"><a href="#resourcePolicy" class="headerlink" title="resourcePolicy"></a>resourcePolicy</h3><p><code>resourcePolicy</code> 可以限制 VPA 建議值的範圍，避免建議值過低或過高：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">resourcePolicy:</span></span><br><span class="line">  <span class="attr">containerPolicies:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">containerName:</span> <span class="string">&#x27;*&#x27;</span></span><br><span class="line">      <span class="attr">minAllowed:</span></span><br><span class="line">        <span class="attr">cpu:</span> <span class="string">50m</span></span><br><span class="line">        <span class="attr">memory:</span> <span class="string">50Mi</span></span><br><span class="line">      <span class="attr">maxAllowed:</span></span><br><span class="line">        <span class="attr">cpu:</span> <span class="string">1000m</span></span><br><span class="line">        <span class="attr">memory:</span> <span class="string">1000Mi</span></span><br></pre></td></tr></table></figure>
+
+<p>以上設定代表所有容器的 CPU 建議值不得低於 <code>50m</code>，也不得高於 <code>1000m</code>；記憶體則限制在 <code>50Mi</code> 到 <code>1000Mi</code> 之間。這種上下限在正式環境很重要，因為它可以避免 VPA 根據短期負載產生過度極端的資源建議。</p>
+<hr>
+<h2 id="Demo-範例：測試用配置文件"><a href="#Demo-範例：測試用配置文件" class="headerlink" title="Demo 範例：測試用配置文件"></a>Demo 範例：測試用配置文件</h2><p>前面整理完 VPA 的基本使用方式後，接著用 <code>dockertest_vpa_v1.yml</code> 示範一次完整流程。</p>
+<p>這次範例使用 <code>dockertest_vpa_v1.yml</code> 作為測試配置，內容包含三個部分：</p>
+<ol>
+<li>建立 <code>dockertest</code> Namespace</li>
+<li>建立一個使用 <code>polinux/stress</code> image 的 Deployment</li>
+<li>建立對應 Deployment 的 <code>VerticalPodAutoscaler</code></li>
+</ol>
+<p>配置內容如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 建立專案使用的命名空間，讓相關資源集中在 dockertest 底下管理。</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Namespace</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">dockertest</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="comment"># 標記此命名空間屬於開發環境，方便查詢或套用環境相關策略。</span></span><br><span class="line">    <span class="attr">environment:</span> <span class="string">dev</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="comment"># dockertest-deployment-vpa.yaml</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">dockertest-deployment</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">dockertest</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span> <span class="comment"># VPA 驗證，通常保持 1 個副本即可</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">dockertest</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="comment"># 我們改用一個包含 stress 工具的 image 來方便測試</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">dockertest</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">polinux/stress</span></span><br><span class="line">        <span class="attr">command:</span> [<span class="string">&quot;sleep&quot;</span>, <span class="string">&quot;infinity&quot;</span>] <span class="comment"># 讓容器保持運行，我們稍後進去手動觸發壓力</span></span><br><span class="line">        <span class="attr">resources:</span></span><br><span class="line">          <span class="attr">requests:</span></span><br><span class="line">            <span class="attr">cpu:</span> <span class="string">&quot;100m&quot;</span></span><br><span class="line">            <span class="attr">memory:</span> <span class="string">&quot;100Mi&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">autoscaling.k8s.io/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">VerticalPodAutoscaler</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">dockertest-vpa</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">dockertest</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">targetRef:</span></span><br><span class="line">    <span class="attr">apiVersion:</span> <span class="string">&quot;apps/v1&quot;</span></span><br><span class="line">    <span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">dockertest-deployment</span></span><br><span class="line">  <span class="attr">updatePolicy:</span></span><br><span class="line">    <span class="attr">updateMode:</span> <span class="string">&quot;Recreate&quot;</span></span><br><span class="line">  <span class="attr">resourcePolicy:</span></span><br><span class="line">    <span class="attr">containerPolicies:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">containerName:</span> <span class="string">&#x27;*&#x27;</span></span><br><span class="line">        <span class="attr">minAllowed:</span></span><br><span class="line">          <span class="attr">cpu:</span> <span class="string">50m</span></span><br><span class="line">          <span class="attr">memory:</span> <span class="string">50Mi</span></span><br><span class="line">        <span class="attr">maxAllowed:</span></span><br><span class="line">          <span class="attr">cpu:</span> <span class="string">1000m</span></span><br><span class="line">          <span class="attr">memory:</span> <span class="string">1000Mi</span></span><br></pre></td></tr></table></figure>
+
+<p>這份配置裡，Deployment 一開始只設定 <code>cpu: &quot;100m&quot;</code> 與 <code>memory: &quot;100Mi&quot;</code>。VPA 會觀察這個 Pod 的實際使用量，再依照 <code>resourcePolicy</code> 設定的上下限提供建議。</p>
+<hr>
+<h2 id="Demo-範例：調整-VPA-Recommender-半衰期"><a href="#Demo-範例：調整-VPA-Recommender-半衰期" class="headerlink" title="Demo 範例：調整 VPA Recommender 半衰期"></a>Demo 範例：調整 VPA Recommender 半衰期</h2><p>VPA 的建議值是由 <code>vpa-recommender</code> 根據歷史資源使用量計算出來的。預設情況下，VPA 會保留較長時間的歷史資料，因此在 Demo 或測試環境中，即使已經製造新的 CPU 或記憶體負載，也可能需要等待一段時間，建議值才會明顯變化。</p>
+<p>如果希望 VPA 更快忘記舊資料，可以調整 <code>vpa-recommender</code> 的 histogram decay half-life。半衰期越短，舊資料的權重下降越快，VPA 對近期負載變化的反應也會更快。不過這也代表建議值可能更容易受到短時間尖峰影響，所以正式環境不建議設定得太短。</p>
+<p>安裝完成後，可以編輯 <code>kube-system</code> namespace 裡的 <code>vpa-recommender</code> Deployment：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl edit deployment vpa-recommender -n kube-system</span><br></pre></td></tr></table></figure>
+
+<p>找到 <code>recommender</code> container 的 <code>command</code> 區塊，加入以下兩個參數：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">command:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/recommender</span></span><br><span class="line">      <span class="comment"># 加入下面這兩行來加速遺忘進程</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">--cpu-histogram-decay-half-life=10m</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">--memory-histogram-decay-half-life=10m</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">registry.k8s.io/autoscaling/vpa-recommender:0.14.0</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">recommender</span></span><br></pre></td></tr></table></figure>
+
+<p>這裡的 <code>--cpu-histogram-decay-half-life=10m</code> 與 <code>--memory-histogram-decay-half-life=10m</code> 代表 CPU 與記憶體歷史資料的半衰期都調整為 10 分鐘。對 demo 來說，這可以讓 VPA 在壓力測試後更快反映新的資源建議；但在正式環境中，建議先保守評估，避免建議值因短期波動而頻繁改變。</p>
+<p>修改完成後，Kubernetes 會重新建立 <code>vpa-recommender</code> Pod。可以用以下指令確認 Pod 是否回到 <code>Running</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pods -n kube-system | grep vpa-recommender</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Demo-範例：部署與壓力測試"><a href="#Demo-範例：部署與壓力測試" class="headerlink" title="Demo 範例：部署與壓力測試"></a>Demo 範例：部署與壓力測試</h2><p>套用測試配置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f ./assets/dockertest_vpa_v1.yml</span><br></pre></td></tr></table></figure>
+
+<p>確認 Deployment、Pod 與 VPA 是否建立成功：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get deploy,pod,vpa -n dockertest</span><br></pre></td></tr></table></figure>
+
+<p>接著可以進入測試 Pod，透過 <code>stress</code> 產生 CPU 或記憶體壓力，讓 VPA 有資料可以觀察：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl <span class="built_in">exec</span> -it -n dockertest deploy/dockertest-deployment -- stress --cpu 1 --<span class="built_in">timeout</span> 300s</span><br></pre></td></tr></table></figure>
+
+<p>影片中則是直接指定 Pod 名稱與 container 執行壓力測試。由於 Pod 名稱每次建立時都可能不同，請先用 <code>kubectl get pod -n dockertest</code> 查詢實際名稱，再替換以下指令中的 <code>&lt;pod-name&gt;</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl <span class="built_in">exec</span> -it &lt;pod-name&gt; -n dockertest -c dockertest -- stress --cpu 2 --<span class="built_in">timeout</span> 300</span><br></pre></td></tr></table></figure>
+
+<p>等待一段時間後，查看 VPA 狀態：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl describe vpa dockertest-vpa -n dockertest</span><br></pre></td></tr></table></figure>
+
+<p>在輸出內容中，可以觀察 <code>Recommendation</code> 區塊。這裡通常會出現 <code>Lower Bound</code>、<code>Target</code>、<code>Uncapped Target</code>、<code>Upper Bound</code> 等欄位，代表 VPA 根據目前觀察到的資源使用情況所計算出的建議值。</p>
+<img src="/2026/08/20/kubernetes-vpa/kubernetes_vpa_7.jpg" class="" title="觀察 VPA Recommendation 與 Pod requests 更新結果">
+
+<hr>
+<h2 id="Demo-範例：觀察重點"><a href="#Demo-範例：觀察重點" class="headerlink" title="Demo 範例：觀察重點"></a>Demo 範例：觀察重點</h2><p>測試 VPA 時，可以特別觀察以下幾件事：</p>
+<ol>
+<li><code>Recommendation</code> 是否出現 CPU 與 Memory 建議值</li>
+<li>建議值是否落在 <code>minAllowed</code> 與 <code>maxAllowed</code> 範圍內</li>
+<li>使用 <code>Recreate</code> 模式時，Pod 是否曾被重新建立</li>
+<li>新 Pod 的 <code>resources.requests</code> 是否被更新成 VPA 建議值</li>
+</ol>
+<p>可以使用以下指令查看 Pod 目前的資源設定：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pod -n dockertest -o yaml</span><br></pre></td></tr></table></figure>
+
+<p>若只想快速觀察 VPA 建議值，也可以使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl describe vpa dockertest-vpa -n dockertest</span><br></pre></td></tr></table></figure>
+
+<p>這次 Demo 影片示範了從部署測試資源、製造負載到觀察 VPA 建議值的完整流程。</p>
+<div class="video-container"><iframe src="https://www.youtube.com/embed/4jXE2h4B_3E" frameborder="0" loading="lazy" allowfullscreen></iframe></div>
+
+<hr>
+<h2 id="Demo-範例：完整重置-VPA-歷史紀錄"><a href="#Demo-範例：完整重置-VPA-歷史紀錄" class="headerlink" title="Demo 範例：完整重置 VPA 歷史紀錄"></a>Demo 範例：完整重置 VPA 歷史紀錄</h2><p>在反覆測試 VPA 時，有時候會發現即使重新建立 Pod，VPA 的建議值仍然受到前一次測試結果影響。這是因為 VPA 會透過 <code>VerticalPodAutoscalerCheckpoint</code> 保留歷史統計資料，讓 <code>vpa-recommender</code> 可以延續先前的資源使用紀錄來計算建議值。</p>
+<p>如果想重新跑一次乾淨的 demo，可以刪除測試 Deployment、VPA 物件與 namespace 內的 checkpoint，再重新套用配置檔：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete deployment dockertest-deployment -n dockertest</span><br><span class="line">kubectl delete vpa dockertest-vpa -n dockertest</span><br><span class="line">kubectl delete verticalpodautoscalercheckpoints.autoscaling.k8s.io -n dockertest --all</span><br><span class="line">kubectl apply -f ./assets/dockertest_vpa_v1.yml</span><br></pre></td></tr></table></figure>
+
+<p>這組指令會先移除目前的測試 Pod 與 VPA，再清掉 <code>dockertest</code> namespace 裡所有 VPA checkpoint。重新 <code>apply</code> 後，VPA 會從新的觀察資料重新累積歷史紀錄，適合用在 demo 前重置狀態，或是在調整半衰期參數後重新驗證建議值變化。</p>
+<p>可以用以下指令確認 checkpoint 是否已經被清除：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get verticalpodautoscalercheckpoints.autoscaling.k8s.io -n dockertest</span><br></pre></td></tr></table></figure>
+
+<p>若輸出顯示沒有資源，代表目前 namespace 內沒有殘留的 VPA 歷史紀錄。</p>
+<hr>
+<h2 id="Demo-範例：清除測試資源"><a href="#Demo-範例：清除測試資源" class="headerlink" title="Demo 範例：清除測試資源"></a>Demo 範例：清除測試資源</h2><p>測試完成後，可以先刪除本次建立的 Namespace，連同 Deployment 與 VPA 一起清掉：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete namespace dockertest</span><br></pre></td></tr></table></figure>
+
+<p>如果也要移除 VPA 元件，可以回到 <code>autoscaler/vertical-pod-autoscaler/</code> 目錄，執行官方提供的清除腳本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./hack/vpa-down.sh</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/08/20/kubernetes-vpa/kubernetes_vpa_5.jpg" class="" title="執行 VPA 清除腳本">
+
+<p>清除過程會刪除 VPA 相關的 CRD、RBAC、ServiceAccount、Deployment、Service 與 Admission Controller 設定。若看到部分 CRD 顯示找不到資源，通常代表前面的刪除步驟已經先移除完成。</p>
+<img src="/2026/08/20/kubernetes-vpa/kubernetes_vpa_6.jpg" class="" title="VPA 清除完成">
+
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>VPA 適合用來處理「Pod 資源設定不準」的問題。當服務剛上線、負載型態還不明確，或是希望定期檢查 requests 是否過高或過低時，VPA 可以提供很有參考價值的建議。</p>
+<p>不過，若要讓 VPA 自動更新正式環境的 Pod，仍然需要評估服務可用性、Pod 重建影響，以及是否會和 HPA 使用相同資源指標互相干擾。比較穩健的做法是先使用 <code>Off</code> 模式觀察建議值，確認 VPA 的推薦結果符合預期後，再逐步評估是否改用 <code>Initial</code>、<code>Recreate</code>，或在環境支援時評估 <code>InPlaceOrRecreate</code>、<code>InPlace</code> 模式。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <div class="post-recent-posts" style="display:none">
+      <div class="post-recent-posts-title">
+        <i class="fa fa-history fa-fw"></i> 近期文章
+      </div>
+      <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/08/20/kubernetes-vpa/" title="Kubernetes VPA 垂直自動擴縮容實作紀錄">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Kubernetes VPA 垂直自動擴縮容實作紀錄</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-20</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/19/kubernetes-hpa/" title="Kubernetes HPA 水平自動擴縮容實作紀錄">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Kubernetes HPA 水平自動擴縮容實作紀錄</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-19</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/18/kubernetes-autoscaling/" title="Kubernetes Autoscaling 自動擴縮容概念介紹">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Kubernetes Autoscaling 自動擴縮容概念介紹</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-18</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/17/kubernetes-limit-request/" title="Kubernetes Limit / Request 使用指南">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Kubernetes Limit / Request 使用指南</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-17</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/16/kubernetes-metrics-server-install/" title="在 Minikube 安裝 metrics-server">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">在 Minikube 安裝 metrics-server</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-16</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function showRecentPosts() {
+          var block = document.querySelector('.post-recent-posts');
+          if (!block) return;
+
+          // 重置狀態
+          block.classList.remove('animated', 'fadeIn');
+          block.style.display = 'none';
+
+          var comments = document.querySelector('.comments');
+          if (comments) {
+            comments.parentNode.insertBefore(block, comments);
+          }
+
+          function reveal() {
+            block.style.display = '';
+            block.offsetHeight; // force reflow
+            block.classList.add('animated', 'fadeIn');
+          }
+
+          if (!comments) {
+            reveal();
+          } else {
+            // 觀察 .comments 被 NexT motion 加上 animated class 的時機
+            var observer = new MutationObserver(function () {
+              if (comments.classList.contains('animated')) {
+                observer.disconnect();
+                reveal();
+              }
+            });
+            observer.observe(comments, { attributes: true, attributeFilter: ['class'] });
+            // 若 motion 已跑完（comments 已有 animated），也直接顯示
+            if (comments.classList.contains('animated')) {
+              observer.disconnect();
+              reveal();
+            }
+          }
+        }
+
+        // 初次載入
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', showRecentPosts, { once: true });
+        } else {
+          showRecentPosts();
+        }
+
+        // PJAX：pjax:success 時 NexT motion 剛啟動（async），.comments 尚未有 animated
+        document.addEventListener('pjax:success', showRecentPosts);
+      })();
+    </script>
+
+          <div class="post-tags">
+              <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
+              <a href="/tags/resources/" rel="tag"># resources</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/08/19/kubernetes-hpa/" rel="prev" title="Kubernetes HPA 水平自動擴縮容實作紀錄">
+                  <i class="fa fa-angle-left"></i> Kubernetes HPA 水平自動擴縮容實作紀錄
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"e69637d4504761e081e17d879c757c56"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+<link rel="stylesheet" href="/css/tinyqqc/tinyqqc-widget.css">
+<script
+  id="tinyqqc-widget-script"
+  src="/js/tinyqqc/tinyqqc-widget.iife.js"
+  data-tinyqqc-widget
+  data-api-base-url="https://tinyqqs-846222163009.asia-east1.run.app/"
+  data-initial-open="false"
+  defer
+></script>
+
+</body>
+</html>
