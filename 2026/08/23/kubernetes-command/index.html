@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="本文整理了 Kubernetes 日常管理中最常用的指令，幫助您快速掌握 kubectl 的基本操作。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes 常用指令">
+<meta property="og:url" content="https://pcion123.github.io/2026/08/23/kubernetes-command/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="本文整理了 Kubernetes 日常管理中最常用的指令，幫助您快速掌握 kubectl 的基本操作。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/23/kubernetes-command/kubernetes_get_nodes.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/23/kubernetes-command/kubernetes_get_services.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/23/kubernetes-command/kubernetes_get_deployments.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/23/kubernetes-command/kubernetes_o_wide.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/23/kubernetes-command/kubernetes_edit_deployments_01.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/23/kubernetes-command/kubernetes_edit_deployments_02.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/23/kubernetes-command/kubernetes_delete_deployment.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/23/kubernetes-command/kubernetes_get_replicasets.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/23/kubernetes-command/kubernetes_get_pod_logs.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/23/kubernetes-command/kubernetes_describe_pod.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/23/kubernetes-command/kubernetes_exec_pod.png">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/23/kubernetes-command/kubernetes_curl_test_1.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/23/kubernetes-command/kubernetes_curl_test_2.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/23/kubernetes-command/kubernetes_dns_test_1.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/23/kubernetes-command/kubernetes_dns_test_2.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/23/kubernetes-command/kubernetes_apply_config.png">
+<meta property="article:published_time" content="2026-08-22T16:00:32.000Z">
+<meta property="article:modified_time" content="2026-08-22T16:06:54.020Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="kubernetes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2026/08/23/kubernetes-command/kubernetes_get_nodes.png">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/08/23/kubernetes-command/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/08/23/kubernetes-command/","path":"2026/08/23/kubernetes-command/","title":"Kubernetes 常用指令"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Kubernetes 常用指令 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A4%8E%E8%B3%87%E6%BA%90%E6%9F%A5%E8%A9%A2"><span class="nav-number">1.</span> <span class="nav-text">基礎資源查詢</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E7%AF%80%E9%BB%9E%E6%B8%85%E5%96%AE"><span class="nav-number">1.1.</span> <span class="nav-text">查看節點清單</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%9C%8D%E5%8B%99%E6%B8%85%E5%96%AE"><span class="nav-number">1.2.</span> <span class="nav-text">查看服務清單</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E9%83%A8%E7%BD%B2%E6%B8%85%E5%96%AE"><span class="nav-number">1.3.</span> <span class="nav-text">查看部署清單</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%9B%B4%E5%AE%8C%E6%95%B4%E7%9A%84-Pod-%E8%B3%87%E8%A8%8A"><span class="nav-number">1.4.</span> <span class="nav-text">查看更完整的 Pod 資訊</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E7%AE%A1%E7%90%86%E6%93%8D%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">部署管理操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B7%A8%E8%BC%AF%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.</span> <span class="nav-text">編輯部署配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%AA%E9%99%A4%E9%83%A8%E7%BD%B2"><span class="nav-number">2.2.</span> <span class="nav-text">刪除部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%89%AF%E6%9C%AC%E9%9B%86%E6%B8%85%E5%96%AE"><span class="nav-number">2.3.</span> <span class="nav-text">查看副本集清單</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pod-%E8%A8%BA%E6%96%B7%E8%88%87%E6%93%8D%E4%BD%9C"><span class="nav-number">3.</span> <span class="nav-text">Pod 診斷與操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B-Pod-%E5%9F%B7%E8%A1%8C%E8%A8%98%E9%8C%84"><span class="nav-number">3.1.</span> <span class="nav-text">查看 Pod 執行記錄</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B-Pod-%E8%A9%B3%E7%B4%B0%E7%8B%80%E6%85%8B"><span class="nav-number">3.2.</span> <span class="nav-text">查看 Pod 詳細狀態</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%B2%E5%85%A5-Pod-%E5%AE%B9%E5%99%A8%E7%B5%82%E7%AB%AF"><span class="nav-number">3.3.</span> <span class="nav-text">進入 Pod 容器終端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-curl-%E6%B8%AC%E8%A9%A6%E6%9C%8D%E5%8B%99%E9%80%A3%E7%B7%9A"><span class="nav-number">3.4.</span> <span class="nav-text">使用 curl 測試服務連線</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-nslookup-%E6%B8%AC%E8%A9%A6-DNS-%E8%A7%A3%E6%9E%90"><span class="nav-number">3.5.</span> <span class="nav-text">使用 nslookup 測試 DNS 解析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%AA%94%E6%A1%88%E7%AE%A1%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text">配置檔案管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A5%97%E7%94%A8%E9%85%8D%E7%BD%AE%E6%AA%94%E6%A1%88"><span class="nav-number">4.1.</span> <span class="nav-text">套用配置檔案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B8%BD%E7%B5%90"><span class="nav-number">5.</span> <span class="nav-text">總結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">93</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/agent/" style="font-size: 13.64px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/chrome-extension/" style="font-size: 12px;" class="tag-cloud-0">chrome-extension</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/configmap/" style="font-size: 12px;" class="tag-cloud-0">configmap</a> <a href="/tags/container-registry/" style="font-size: 12px;" class="tag-cloud-0">container-registry</a> <a href="/tags/copilot-cli/" style="font-size: 16.91px;" class="tag-cloud-3">copilot cli</a> <a href="/tags/deployment/" style="font-size: 12px;" class="tag-cloud-0">deployment</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 25.09px;" class="tag-cloud-7">docker</a> <a href="/tags/elasticsearch/" style="font-size: 15.27px;" class="tag-cloud-2">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 21.82px;" class="tag-cloud-5">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 13.64px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 20.18px;" class="tag-cloud-5">gitlab</a> <a href="/tags/googlemap/" style="font-size: 15.27px;" class="tag-cloud-2">googlemap</a> <a href="/tags/grafana/" style="font-size: 15.27px;" class="tag-cloud-2">grafana</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/ingress/" style="font-size: 12px;" class="tag-cloud-0">ingress</a> <a href="/tags/java/" style="font-size: 21.82px;" class="tag-cloud-5">java</a> <a href="/tags/jdk/" style="font-size: 13.64px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 16.91px;" class="tag-cloud-3">jenkins</a> <a href="/tags/kibana/" style="font-size: 15.27px;" class="tag-cloud-2">kibana</a> <a href="/tags/kubernetes/" style="font-size: 30px;" class="tag-cloud-10">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 26.73px;" class="tag-cloud-8">linux</a> <a href="/tags/loadbalancer/" style="font-size: 13.64px;" class="tag-cloud-1">loadbalancer</a> <a href="/tags/logstash/" style="font-size: 13.64px;" class="tag-cloud-1">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 15.27px;" class="tag-cloud-2">maven</a> <a href="/tags/mcp/" style="font-size: 13.64px;" class="tag-cloud-1">mcp</a> <a href="/tags/metrics/" style="font-size: 12px;" class="tag-cloud-0">metrics</a> <a href="/tags/minikube/" style="font-size: 13.64px;" class="tag-cloud-1">minikube</a> <a href="/tags/monitoring/" style="font-size: 16.91px;" class="tag-cloud-3">monitoring</a> <a href="/tags/namespace/" style="font-size: 12px;" class="tag-cloud-0">namespace</a> <a href="/tags/net/" style="font-size: 12px;" class="tag-cloud-0">net</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.64px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/opentelemetry/" style="font-size: 13.64px;" class="tag-cloud-1">opentelemetry</a> <a href="/tags/pm2/" style="font-size: 13.64px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 15.27px;" class="tag-cloud-2">powershell</a> <a href="/tags/prometheus/" style="font-size: 15.27px;" class="tag-cloud-2">prometheus</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/remote-tunnel/" style="font-size: 13.64px;" class="tag-cloud-1">remote-tunnel</a> <a href="/tags/resources/" style="font-size: 16.91px;" class="tag-cloud-3">resources</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/secret/" style="font-size: 12px;" class="tag-cloud-0">secret</a> <a href="/tags/security/" style="font-size: 13.64px;" class="tag-cloud-1">security</a> <a href="/tags/service/" style="font-size: 16.91px;" class="tag-cloud-3">service</a> <a href="/tags/skills/" style="font-size: 13.64px;" class="tag-cloud-1">skills</a> <a href="/tags/spring-boot/" style="font-size: 16.91px;" class="tag-cloud-3">spring-boot</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 15.27px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 13.64px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 23.45px;" class="tag-cloud-6">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/volume/" style="font-size: 16.91px;" class="tag-cloud-3">volume</a> <a href="/tags/vscode/" style="font-size: 28.36px;" class="tag-cloud-9">vscode</a> <a href="/tags/windows/" style="font-size: 18.55px;" class="tag-cloud-4">windows</a> <a href="/tags/windows-terminal/" style="font-size: 12px;" class="tag-cloud-0">windows-terminal</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 15.27px;" class="tag-cloud-2">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相關文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/14/kubernetes-net/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-14</time>
+        <br>
+      使用 kubectl proxy 與 kubectl port-forward 打通 Kubernetes 服務
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/10/kubernetes-service-intro/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-10</time>
+        <br>
+      Kubernetes Service 使用指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/12/kubernetes-loadbalancer/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-12</time>
+        <br>
+      Kubernetes LoadBalancer 使用指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/09/23/minikube-install-2025/" rel="bookmark">
+        <time class="popular-posts-time">2025-09-23</time>
+        <br>
+      Ubuntu安裝Minikube (2025)
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/11/kubernetes-ingress/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-11</time>
+        <br>
+      Kubernetes Ingress 使用指南
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/08/23/kubernetes-command/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Kubernetes 常用指令 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Kubernetes 常用指令
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-08-23 00:00:32 / 修改時間：00:06:54" itemprop="dateCreated datePublished" datetime="2026-08-23T00:00:32+08:00">2026-08-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kubernetes/" itemprop="url" rel="index"><span itemprop="name">kubernetes</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>本文整理了 Kubernetes 日常管理中最常用的指令，幫助您快速掌握 kubectl 的基本操作。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="基礎資源查詢"><a href="#基礎資源查詢" class="headerlink" title="基礎資源查詢"></a>基礎資源查詢</h2><h3 id="查看節點清單"><a href="#查看節點清單" class="headerlink" title="查看節點清單"></a>查看節點清單</h3><p>使用以下指令查看叢集中的所有節點狀態：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/08/23/kubernetes-command/kubernetes_get_nodes.png" class="">
+
+<h3 id="查看服務清單"><a href="#查看服務清單" class="headerlink" title="查看服務清單"></a>查看服務清單</h3><p>查看當前命名空間中的所有服務：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get services</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/08/23/kubernetes-command/kubernetes_get_services.png" class="">
+
+<h3 id="查看部署清單"><a href="#查看部署清單" class="headerlink" title="查看部署清單"></a>查看部署清單</h3><p>顯示所有部署(Deployment)的狀態資訊：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get deployments</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/08/23/kubernetes-command/kubernetes_get_deployments.png" class="">
+
+<h3 id="查看更完整的-Pod-資訊"><a href="#查看更完整的-Pod-資訊" class="headerlink" title="查看更完整的 Pod 資訊"></a>查看更完整的 Pod 資訊</h3><p>當需要確認 Pod 所在節點、內部 IP 或其他更詳細欄位時，可以在查詢指令後加上 <code>-o wide</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pods -A -o wide</span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>-A</code> 代表查詢所有命名空間，<code>-o wide</code> 則會顯示更多欄位，例如 Pod IP、所在節點與 Readiness Gates 等資訊。</p>
+<img src="/2026/08/23/kubernetes-command/kubernetes_o_wide.jpg" class="">
+
+<h2 id="部署管理操作"><a href="#部署管理操作" class="headerlink" title="部署管理操作"></a>部署管理操作</h2><h3 id="編輯部署配置"><a href="#編輯部署配置" class="headerlink" title="編輯部署配置"></a>編輯部署配置</h3><p>當需要修改部署配置時，可以使用以下指令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl edit deployment <span class="variable">$DEPLOYMENT_NAME</span></span><br></pre></td></tr></table></figure>
+
+<p>系統預設會使用 <code>vim</code> 編輯器開啟部署的配置檔案，您可以直接在終端中進行修改：</p>
+<img src="/2026/08/23/kubernetes-command/kubernetes_edit_deployments_01.png" class="">
+<img src="/2026/08/23/kubernetes-command/kubernetes_edit_deployments_02.png" class="">
+
+<h3 id="刪除部署"><a href="#刪除部署" class="headerlink" title="刪除部署"></a>刪除部署</h3><p>若要移除特定的部署，請使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete deployment <span class="variable">$DEPLOYMENT_NAME</span></span><br></pre></td></tr></table></figure>
+
+<img src="/2026/08/23/kubernetes-command/kubernetes_delete_deployment.png" class="">
+
+<h3 id="查看副本集清單"><a href="#查看副本集清單" class="headerlink" title="查看副本集清單"></a>查看副本集清單</h3><p>查看 ReplicaSet 的狀態，了解 Pod 副本的管理情況：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get replicasets</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/08/23/kubernetes-command/kubernetes_get_replicasets.png" class="">
+
+<h2 id="Pod-診斷與操作"><a href="#Pod-診斷與操作" class="headerlink" title="Pod 診斷與操作"></a>Pod 診斷與操作</h2><h3 id="查看-Pod-執行記錄"><a href="#查看-Pod-執行記錄" class="headerlink" title="查看 Pod 執行記錄"></a>查看 Pod 執行記錄</h3><p>當需要檢查 Pod 的運行狀況時，可以查看其日誌輸出：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl logs <span class="variable">$POD_NAME</span></span><br></pre></td></tr></table></figure>
+
+<img src="/2026/08/23/kubernetes-command/kubernetes_get_pod_logs.png" class="">
+
+<h3 id="查看-Pod-詳細狀態"><a href="#查看-Pod-詳細狀態" class="headerlink" title="查看 Pod 詳細狀態"></a>查看 Pod 詳細狀態</h3><p>獲取 Pod 的詳細資訊，包括事件記錄和狀態描述：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl describe pod <span class="variable">$POD_NAME</span></span><br></pre></td></tr></table></figure>
+
+<img src="/2026/08/23/kubernetes-command/kubernetes_describe_pod.png" class="">
+
+<h3 id="進入-Pod-容器終端"><a href="#進入-Pod-容器終端" class="headerlink" title="進入 Pod 容器終端"></a>進入 Pod 容器終端</h3><p>需要直接操作容器內部時，可以開啟互動式終端：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl <span class="built_in">exec</span> -it <span class="variable">$POD_NAME</span> -- /bin/bash</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>[!NOTE]<br><code>--</code> 是分隔符號，用來區分 kubectl 指令參數與要在容器內執行的命令。這告訴 kubectl 後面的內容是要傳遞給容器執行的指令，而不是 kubectl 本身的參數。</p>
+</blockquote>
+<img src="/2026/08/23/kubernetes-command/kubernetes_exec_pod.png" class="">
+
+<h3 id="使用-curl-測試服務連線"><a href="#使用-curl-測試服務連線" class="headerlink" title="使用 curl 測試服務連線"></a>使用 curl 測試服務連線</h3><p>如果想快速確認 Service 是否能在叢集內被存取，可以建立一個臨時的 curl 測試 Pod：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl run curl-test --<span class="built_in">rm</span> -it --image=curlimages/curl --restart=Never -- curl http://tomcat-service:8080</span><br></pre></td></tr></table></figure>
+
+<p>這個指令會使用 <code>curlimages/curl</code> 映像檔啟動名為 <code>curl-test</code> 的 Pod，執行 <code>curl</code> 後會透過 <code>--rm</code> 自動刪除測試 Pod，適合用來確認 Service 名稱、連線埠與應用程式回應是否正常。</p>
+<img src="/2026/08/23/kubernetes-command/kubernetes_curl_test_1.jpg" class="">
+<img src="/2026/08/23/kubernetes-command/kubernetes_curl_test_2.jpg" class="">
+
+<h3 id="使用-nslookup-測試-DNS-解析"><a href="#使用-nslookup-測試-DNS-解析" class="headerlink" title="使用 nslookup 測試 DNS 解析"></a>使用 nslookup 測試 DNS 解析</h3><p>若要確認 Service 名稱是否能被叢集 DNS 正確解析，可以使用 BusyBox 建立臨時測試 Pod：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl run dns-test --<span class="built_in">rm</span> -it --image=busybox:1.36 --restart=Never -- nslookup tomcat-service</span><br></pre></td></tr></table></figure>
+
+<p>這個指令會啟動名為 <code>dns-test</code> 的 Pod，並在容器中執行 <code>nslookup tomcat-service</code>。如果 DNS 解析正常，會看到 Service 對應的完整網域名稱與 ClusterIP。</p>
+<img src="/2026/08/23/kubernetes-command/kubernetes_dns_test_1.jpg" class="">
+<img src="/2026/08/23/kubernetes-command/kubernetes_dns_test_2.jpg" class="">
+
+<h2 id="配置檔案管理"><a href="#配置檔案管理" class="headerlink" title="配置檔案管理"></a>配置檔案管理</h2><h3 id="套用配置檔案"><a href="#套用配置檔案" class="headerlink" title="套用配置檔案"></a>套用配置檔案</h3><p>使用 YAML 或 JSON 配置檔案來建立或更新 Kubernetes 資源：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f <span class="variable">$CONFIG_FILE_NAME</span></span><br></pre></td></tr></table></figure>
+
+<p>此指令會根據配置檔案的內容，自動建立新資源或更新現有資源的設定。</p>
+<img src="/2026/08/23/kubernetes-command/kubernetes_apply_config.png" class="">
+
+<hr>
+<h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>以上指令涵蓋了 Kubernetes 日常管理的核心操作，從基礎的資源查詢到進階的 Pod 診斷，都是維運 Kubernetes 叢集時不可或缺的工具。熟練掌握這些指令，將大幅提升您的 Kubernetes 管理效率。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <div class="post-recent-posts" style="display:none">
+      <div class="post-recent-posts-title">
+        <i class="fa fa-history fa-fw"></i> 近期文章
+      </div>
+      <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/08/23/kubernetes-command/" title="Kubernetes 常用指令">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Kubernetes 常用指令</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-23</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/22/kubernetes-role/" title="使用 Role 管理 Kubernetes Namespace 權限">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">使用 Role 管理 Kubernetes Namespace 權限</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-22</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/21/kubernetes-context-lite/" title="使用 kubectl context 管理 Kubernetes 操作環境">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">使用 kubectl context 管理 Kubernetes 操作環境</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-21</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/20/kubernetes-vpa/" title="Kubernetes VPA 垂直自動擴縮容實作紀錄">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Kubernetes VPA 垂直自動擴縮容實作紀錄</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-20</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/19/kubernetes-hpa/" title="Kubernetes HPA 水平自動擴縮容實作紀錄">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Kubernetes HPA 水平自動擴縮容實作紀錄</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-19</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function showRecentPosts() {
+          var block = document.querySelector('.post-recent-posts');
+          if (!block) return;
+
+          // 重置狀態
+          block.classList.remove('animated', 'fadeIn');
+          block.style.display = 'none';
+
+          var comments = document.querySelector('.comments');
+          if (comments) {
+            comments.parentNode.insertBefore(block, comments);
+          }
+
+          function reveal() {
+            block.style.display = '';
+            block.offsetHeight; // force reflow
+            block.classList.add('animated', 'fadeIn');
+          }
+
+          if (!comments) {
+            reveal();
+          } else {
+            // 觀察 .comments 被 NexT motion 加上 animated class 的時機
+            var observer = new MutationObserver(function () {
+              if (comments.classList.contains('animated')) {
+                observer.disconnect();
+                reveal();
+              }
+            });
+            observer.observe(comments, { attributes: true, attributeFilter: ['class'] });
+            // 若 motion 已跑完（comments 已有 animated），也直接顯示
+            if (comments.classList.contains('animated')) {
+              observer.disconnect();
+              reveal();
+            }
+          }
+        }
+
+        // 初次載入
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', showRecentPosts, { once: true });
+        } else {
+          showRecentPosts();
+        }
+
+        // PJAX：pjax:success 時 NexT motion 剛啟動（async），.comments 尚未有 animated
+        document.addEventListener('pjax:success', showRecentPosts);
+      })();
+    </script>
+
+          <div class="post-tags">
+              <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/08/22/kubernetes-role/" rel="prev" title="使用 Role 管理 Kubernetes Namespace 權限">
+                  <i class="fa fa-angle-left"></i> 使用 Role 管理 Kubernetes Namespace 權限
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"4192fad6e986820e628e78a3837e2070"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+<link rel="stylesheet" href="/css/tinyqqc/tinyqqc-widget.css">
+<script
+  id="tinyqqc-widget-script"
+  src="/js/tinyqqc/tinyqqc-widget.iife.js"
+  data-tinyqqc-widget
+  data-api-base-url="https://tinyqqs-846222163009.asia-east1.run.app/"
+  data-initial-open="false"
+  defer
+></script>
+
+</body>
+</html>
