@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="平常使用 Kubernetes 時，最常接觸的工具通常是 kubectl。它很完整，也很適合寫成腳本，但如果只是想快速查看 Pod 狀態、切換 namespace、看 logs、describe 資源或進入 container，每次都輸入完整指令會稍微打斷操作節奏。 k9s 是一套以終端機為基礎的 Kubernetes TUI 工具，可以用互動式畫面查看與管理 Kubernetes 叢集。它會持續">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安裝 k9s 並用終端機管理 Kubernetes 叢集">
+<meta property="og:url" content="https://pcion123.github.io/2026/08/26/kubernetes-k9s-install/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="平常使用 Kubernetes 時，最常接觸的工具通常是 kubectl。它很完整，也很適合寫成腳本，但如果只是想快速查看 Pod 狀態、切換 namespace、看 logs、describe 資源或進入 container，每次都輸入完整指令會稍微打斷操作節奏。 k9s 是一套以終端機為基礎的 Kubernetes TUI 工具，可以用互動式畫面查看與管理 Kubernetes 叢集。它會持續">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/26/kubernetes-k9s-install/kubernetes_k9s_install_1.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/26/kubernetes-k9s-install/kubernetes_k9s_install_2.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/26/kubernetes-k9s-install/kubernetes_k9s_install_3.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/26/kubernetes-k9s-install/kubernetes_k9s_install_4.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/26/kubernetes-k9s-install/kubernetes_k9s_install_5.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/26/kubernetes-k9s-install/kubernetes_k9s_install_6.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/26/kubernetes-k9s-install/kubernetes_k9s_install_7.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/26/kubernetes-k9s-install/kubernetes_k9s_install_8.jpg">
+<meta property="article:published_time" content="2026-08-25T16:01:03.000Z">
+<meta property="article:modified_time" content="2026-08-25T16:06:19.411Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="kubernetes">
+<meta property="article:tag" content="k9s">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2026/08/26/kubernetes-k9s-install/kubernetes_k9s_install_1.jpg">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/08/26/kubernetes-k9s-install/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/08/26/kubernetes-k9s-install/","path":"2026/08/26/kubernetes-k9s-install/","title":"安裝 k9s 並用終端機管理 Kubernetes 叢集"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>安裝 k9s 並用終端機管理 Kubernetes 叢集 | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#k9s-%E6%98%AF%E4%BB%80%E9%BA%BC%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">k9s 是什麼？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E5%89%8D%E6%BA%96%E5%82%99"><span class="nav-number">2.</span> <span class="nav-text">安裝前準備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BC%89-k9s-deb-%E5%A5%97%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">下載 k9s deb 套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-k9s"><span class="nav-number">4.</span> <span class="nav-text">安裝 k9s</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A2%BA%E8%AA%8D-k9s-%E7%89%88%E6%9C%AC"><span class="nav-number">5.</span> <span class="nav-text">確認 k9s 版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%95%9F%E5%8B%95-k9s"><span class="nav-number">6.</span> <span class="nav-text">啟動 k9s</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%87%E6%8F%9B-namespace-%E6%9F%A5%E7%9C%8B-Pod"><span class="nav-number">7.</span> <span class="nav-text">切換 namespace 查看 Pod</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B-Container-%E8%B3%87%E8%A8%8A"><span class="nav-number">8.</span> <span class="nav-text">查看 Container 資訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B-Pod-Logs"><span class="nav-number">9.</span> <span class="nav-text">查看 Pod Logs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%8D%B5%E6%95%B4%E7%90%86"><span class="nav-number">10.</span> <span class="nav-text">常用快捷鍵整理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%AE%89%E8%A3%9D%E6%96%B9%E5%BC%8F"><span class="nav-number">11.</span> <span class="nav-text">其他安裝方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%B5%90"><span class="nav-number">12.</span> <span class="nav-text">小結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">96</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">72</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/agent/" style="font-size: 13.64px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/chrome-extension/" style="font-size: 12px;" class="tag-cloud-0">chrome-extension</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/configmap/" style="font-size: 12px;" class="tag-cloud-0">configmap</a> <a href="/tags/container-registry/" style="font-size: 12px;" class="tag-cloud-0">container-registry</a> <a href="/tags/copilot-cli/" style="font-size: 16.91px;" class="tag-cloud-3">copilot cli</a> <a href="/tags/debug/" style="font-size: 12px;" class="tag-cloud-0">debug</a> <a href="/tags/deployment/" style="font-size: 12px;" class="tag-cloud-0">deployment</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 25.09px;" class="tag-cloud-7">docker</a> <a href="/tags/elasticsearch/" style="font-size: 15.27px;" class="tag-cloud-2">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 21.82px;" class="tag-cloud-5">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 13.64px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 20.18px;" class="tag-cloud-5">gitlab</a> <a href="/tags/googlemap/" style="font-size: 15.27px;" class="tag-cloud-2">googlemap</a> <a href="/tags/grafana/" style="font-size: 15.27px;" class="tag-cloud-2">grafana</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/ingress/" style="font-size: 12px;" class="tag-cloud-0">ingress</a> <a href="/tags/java/" style="font-size: 21.82px;" class="tag-cloud-5">java</a> <a href="/tags/jdk/" style="font-size: 13.64px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 16.91px;" class="tag-cloud-3">jenkins</a> <a href="/tags/k9s/" style="font-size: 12px;" class="tag-cloud-0">k9s</a> <a href="/tags/kibana/" style="font-size: 15.27px;" class="tag-cloud-2">kibana</a> <a href="/tags/kubernetes/" style="font-size: 30px;" class="tag-cloud-10">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 26.73px;" class="tag-cloud-8">linux</a> <a href="/tags/loadbalancer/" style="font-size: 13.64px;" class="tag-cloud-1">loadbalancer</a> <a href="/tags/logstash/" style="font-size: 13.64px;" class="tag-cloud-1">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 15.27px;" class="tag-cloud-2">maven</a> <a href="/tags/mcp/" style="font-size: 13.64px;" class="tag-cloud-1">mcp</a> <a href="/tags/metrics/" style="font-size: 12px;" class="tag-cloud-0">metrics</a> <a href="/tags/minikube/" style="font-size: 13.64px;" class="tag-cloud-1">minikube</a> <a href="/tags/monitoring/" style="font-size: 16.91px;" class="tag-cloud-3">monitoring</a> <a href="/tags/namespace/" style="font-size: 12px;" class="tag-cloud-0">namespace</a> <a href="/tags/net/" style="font-size: 12px;" class="tag-cloud-0">net</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.64px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/opentelemetry/" style="font-size: 13.64px;" class="tag-cloud-1">opentelemetry</a> <a href="/tags/pm2/" style="font-size: 13.64px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 15.27px;" class="tag-cloud-2">powershell</a> <a href="/tags/prometheus/" style="font-size: 15.27px;" class="tag-cloud-2">prometheus</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/remote-tunnel/" style="font-size: 13.64px;" class="tag-cloud-1">remote-tunnel</a> <a href="/tags/resources/" style="font-size: 18.55px;" class="tag-cloud-4">resources</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/secret/" style="font-size: 12px;" class="tag-cloud-0">secret</a> <a href="/tags/security/" style="font-size: 15.27px;" class="tag-cloud-2">security</a> <a href="/tags/service/" style="font-size: 16.91px;" class="tag-cloud-3">service</a> <a href="/tags/skills/" style="font-size: 13.64px;" class="tag-cloud-1">skills</a> <a href="/tags/spring-boot/" style="font-size: 16.91px;" class="tag-cloud-3">spring-boot</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 15.27px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 13.64px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 23.45px;" class="tag-cloud-6">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/volume/" style="font-size: 16.91px;" class="tag-cloud-3">volume</a> <a href="/tags/vscode/" style="font-size: 28.36px;" class="tag-cloud-9">vscode</a> <a href="/tags/windows/" style="font-size: 18.55px;" class="tag-cloud-4">windows</a> <a href="/tags/windows-terminal/" style="font-size: 12px;" class="tag-cloud-0">windows-terminal</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 15.27px;" class="tag-cloud-2">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相關文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/21/kubernetes-context-lite/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-21</time>
+        <br>
+      使用 kubectl context 管理 Kubernetes 操作環境
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/25/kubernetes-kubectx-install/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-25</time>
+        <br>
+      安裝 kubectx 並快速切換 Kubernetes context 與 namespace
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/10/10/kubernetes-namespace/" rel="bookmark">
+        <time class="popular-posts-time">2025-10-10</time>
+        <br>
+      Kubernetes Namespace 使用指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/22/kubernetes-role/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-22</time>
+        <br>
+      使用 Role 管理 Kubernetes Namespace 權限
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/16/kubernetes-metrics-server-install/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-16</time>
+        <br>
+      在 Minikube 安裝 metrics-server
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/08/26/kubernetes-k9s-install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="安裝 k9s 並用終端機管理 Kubernetes 叢集 | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          安裝 k9s 並用終端機管理 Kubernetes 叢集
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-08-26 00:01:03 / 修改時間：00:06:19" itemprop="dateCreated datePublished" datetime="2026-08-26T00:01:03+08:00">2026-08-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kubernetes/" itemprop="url" rel="index"><span itemprop="name">kubernetes</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>平常使用 Kubernetes 時，最常接觸的工具通常是 <code>kubectl</code>。它很完整，也很適合寫成腳本，但如果只是想快速查看 Pod 狀態、切換 namespace、看 logs、describe 資源或進入 container，每次都輸入完整指令會稍微打斷操作節奏。</p>
+<p><code>k9s</code> 是一套以終端機為基礎的 Kubernetes TUI 工具，可以用互動式畫面查看與管理 Kubernetes 叢集。它會持續監看叢集中的資源變化，並提供快捷鍵來執行常見操作，例如查看 Pod、切換 namespace、檢視 logs、port-forward、刪除資源與進入 shell。這篇文章會示範如何在 Ubuntu 環境安裝 <code>k9s</code>，並搭配 Minikube 叢集簡單確認操作畫面。</p>
+<p>官方網站：<a target="_blank" rel="noopener" href="https://k9scli.io/">K9s</a><br>官方專案連結：<a target="_blank" rel="noopener" href="https://github.com/derailed/k9s">derailed&#x2F;k9s</a></p>
+<span id="more"></span>
+
+<hr>
+<h2 id="k9s-是什麼？"><a href="#k9s-是什麼？" class="headerlink" title="k9s 是什麼？"></a>k9s 是什麼？</h2><p><code>k9s</code> 可以把許多常見的 <code>kubectl</code> 操作整合到同一個終端機畫面中。進入 <code>k9s</code> 後，可以透過鍵盤在不同 Kubernetes 資源之間移動，並直接對目前選取的資源執行操作。</p>
+<p>常見用途包含：</p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>即時查看資源</td>
+<td>查看 Pod、Deployment、Service、ConfigMap、Secret 等 Kubernetes 資源</td>
+</tr>
+<tr>
+<td>檢視 logs</td>
+<td>直接從 Pod 或 Container 進入 logs 畫面</td>
+</tr>
+<tr>
+<td>切換 namespace</td>
+<td>在 <code>k9s</code> 內快速切換不同 namespace 的資源視圖</td>
+</tr>
+<tr>
+<td>查看資源細節</td>
+<td>對資源執行 describe 或查看 YAML</td>
+</tr>
+<tr>
+<td>管理工作負載</td>
+<td>支援 restart、delete、edit、port-forward 等常用操作</td>
+</tr>
+<tr>
+<td>自訂操作</td>
+<td>支援 aliases、hotkeys、plugins、skins 與 custom views</td>
+</tr>
+</tbody></table>
+<p>如果只是偶爾查詢 Kubernetes 狀態，<code>kubectl</code> 已經足夠；但如果需要長時間觀察叢集、追 logs 或在多個資源之間切換，<code>k9s</code> 會讓操作更集中，也比較不需要一直記住完整指令。</p>
+<h2 id="安裝前準備"><a href="#安裝前準備" class="headerlink" title="安裝前準備"></a>安裝前準備</h2><p>在安裝 <code>k9s</code> 前，建議先確認目前環境已經可以透過 <code>kubectl</code> 連線到 Kubernetes 叢集。可以先執行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
+
+<p>如果可以正常列出節點，就代表目前的 kubeconfig 與 Kubernetes context 已經可用。<code>k9s</code> 會沿用既有的 kubeconfig，所以不需要另外設定叢集連線資訊。</p>
+<p>這篇文章使用的環境如下：</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>版本或環境</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>作業系統</td>
+<td>Ubuntu &#x2F; Debian 類 Linux 環境</td>
+</tr>
+<tr>
+<td>Kubernetes 環境</td>
+<td>Minikube</td>
+</tr>
+<tr>
+<td>k9s 安裝方式</td>
+<td>官方 GitHub Releases 提供的 <code>.deb</code> 套件</td>
+</tr>
+</tbody></table>
+<h2 id="下載-k9s-deb-套件"><a href="#下載-k9s-deb-套件" class="headerlink" title="下載 k9s deb 套件"></a>下載 k9s deb 套件</h2><p>在 Ubuntu 或 Debian 環境中，可以直接下載官方 Releases 提供的 <code>.deb</code> 套件。以下指令會下載最新版本的 <code>k9s_linux_amd64.deb</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/derailed/k9s/releases/latest/download/k9s_linux_amd64.deb</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/08/26/kubernetes-k9s-install/kubernetes_k9s_install_1.jpg" class="" title="下載 k9s deb 套件">
+
+<p>下載時 GitHub 會先導向最新版本的 release asset，因此畫面中可以看到 <code>302 Found</code> 與重新導向到實際下載網址的過程。只要最後回應為 <code>200 OK</code>，就代表已經開始下載檔案。</p>
+<img src="/2026/08/26/kubernetes-k9s-install/kubernetes_k9s_install_2.jpg" class="" title="k9s deb 套件下載完成">
+
+<p>下載完成後，目錄中會出現 <code>k9s_linux_amd64.deb</code>。接著就可以用 <code>apt</code> 安裝這個本機套件。</p>
+<h2 id="安裝-k9s"><a href="#安裝-k9s" class="headerlink" title="安裝 k9s"></a>安裝 k9s</h2><p>執行下列指令安裝剛剛下載的 <code>.deb</code> 檔案：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install ./k9s_linux_amd64.deb</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/08/26/kubernetes-k9s-install/kubernetes_k9s_install_3.jpg" class="" title="使用 apt 安裝 k9s">
+
+<p><code>apt</code> 會讀取本機的 <code>.deb</code> 套件，並將 <code>k9s</code> 安裝到系統中。安裝過程中可以看到 <code>Selecting previously unselected package k9s</code>、<code>Unpacking k9s</code> 與 <code>Setting up k9s</code> 等訊息。</p>
+<img src="/2026/08/26/kubernetes-k9s-install/kubernetes_k9s_install_4.jpg" class="" title="k9s 安裝完成">
+
+<p>安裝完成後，如果畫面出現 <code>Download is performed unsandboxed as root</code> 之類的 notice，通常是因為 <code>_apt</code> 使用者無法直接讀取使用者家目錄中的本機 <code>.deb</code> 檔案。只要套件已經順利安裝完成，這個訊息不影響 <code>k9s</code> 使用。</p>
+<p>安裝完成後，可以視需要刪除下載的安裝檔：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> k9s_linux_amd64.deb</span><br></pre></td></tr></table></figure>
+
+<h2 id="確認-k9s-版本"><a href="#確認-k9s-版本" class="headerlink" title="確認 k9s 版本"></a>確認 k9s 版本</h2><p>安裝完成後，可以先確認 <code>k9s</code> 指令是否可用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k9s version</span><br></pre></td></tr></table></figure>
+
+<p>也可以使用下列指令查看 <code>k9s</code> 的設定檔、log、screen dump 等路徑：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k9s info</span><br></pre></td></tr></table></figure>
+
+<p>如果這兩個指令都能正常執行，就代表 <code>k9s</code> 已經成功安裝到系統中。</p>
+<h2 id="啟動-k9s"><a href="#啟動-k9s" class="headerlink" title="啟動 k9s"></a>啟動 k9s</h2><p>直接執行 <code>k9s</code> 就會使用目前 kubeconfig 的 active context 連線到 Kubernetes 叢集：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k9s</span><br></pre></td></tr></table></figure>
+
+<img src="/2026/08/26/kubernetes-k9s-install/kubernetes_k9s_install_5.jpg" class="" title="啟動 k9s 查看 Pod 清單">
+
+<p>進入畫面後，左上角會顯示目前 context、cluster、user、K9s 版本、Kubernetes 版本，以及 CPU、MEM 等資訊。主要區域會顯示目前資源清單，畫面中可以看到 <code>pods(all)</code>，代表正在查看所有 namespace 的 Pod。</p>
+<p>如果想直接指定 namespace 啟動，可以使用 <code>-n</code> 參數：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k9s -n dockertest</span><br></pre></td></tr></table></figure>
+
+<p>也可以指定 Kubernetes context：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k9s --context minikube</span><br></pre></td></tr></table></figure>
+
+<p>如果只是想檢視資源，不希望誤觸修改或刪除操作，也可以用唯讀模式啟動：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k9s --<span class="built_in">readonly</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="切換-namespace-查看-Pod"><a href="#切換-namespace-查看-Pod" class="headerlink" title="切換 namespace 查看 Pod"></a>切換 namespace 查看 Pod</h2><p>在 <code>k9s</code> 中，可以使用數字快捷鍵切換常用 namespace，也可以透過指令模式進入不同資源或 namespace。畫面上方會顯示 namespace 快捷選項，例如 <code>all</code>、<code>dockertest</code>、<code>default</code>。</p>
+<img src="/2026/08/26/kubernetes-k9s-install/kubernetes_k9s_install_6.jpg" class="" title="切換到 dockertest namespace 查看 Pod">
+
+<p>切換到 <code>dockertest</code> 後，Pod 清單只會顯示該 namespace 底下的資源。這比每次輸入 <code>kubectl get pods -n dockertest</code> 更適合用來持續觀察特定 namespace 的狀態。</p>
+<p>在 Pod 清單中，常用欄位包含：</p>
+<table>
+<thead>
+<tr>
+<th>欄位</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>NAME</code></td>
+<td>Pod 名稱</td>
+</tr>
+<tr>
+<td><code>READY</code></td>
+<td>Container 就緒數量</td>
+</tr>
+<tr>
+<td><code>STATUS</code></td>
+<td>Pod 狀態</td>
+</tr>
+<tr>
+<td><code>RESTARTS</code></td>
+<td>重新啟動次數</td>
+</tr>
+<tr>
+<td><code>CPU</code>、<code>MEM</code></td>
+<td>資源使用量</td>
+</tr>
+<tr>
+<td><code>IP</code></td>
+<td>Pod IP</td>
+</tr>
+</tbody></table>
+<p>如果叢集中有安裝 Metrics Server，<code>k9s</code> 也可以顯示 Pod、Container 或 Node 的 CPU、Memory 使用量。</p>
+<h2 id="查看-Container-資訊"><a href="#查看-Container-資訊" class="headerlink" title="查看 Container 資訊"></a>查看 Container 資訊</h2><p>選取 Pod 後，可以按下 <code>Enter</code> 進入該 Pod 的下一層資訊。在範例中，進入 Pod 後可以看到 container 清單，包含 container 名稱、image、ready 狀態與 restart 次數。</p>
+<img src="/2026/08/26/kubernetes-k9s-install/kubernetes_k9s_install_7.jpg" class="" title="查看 Pod 內的 Container">
+
+<p>這個畫面很適合用來確認 Pod 實際使用的 image，例如 image tag 是否正確、container 是否已經 ready，以及 probe 狀態是否符合預期。</p>
+<h2 id="查看-Pod-Logs"><a href="#查看-Pod-Logs" class="headerlink" title="查看 Pod Logs"></a>查看 Pod Logs</h2><p>在 Pod 或 Container 畫面中，可以按下 <code>l</code> 查看 logs。這相當於使用 <code>kubectl logs</code>，但可以直接在互動式畫面中切換與追蹤。</p>
+<img src="/2026/08/26/kubernetes-k9s-install/kubernetes_k9s_install_8.jpg" class="" title="在 k9s 中查看 Container Logs">
+
+<p>Logs 畫面上方會顯示常用操作，例如：</p>
+<table>
+<thead>
+<tr>
+<th>快捷鍵</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>0</code></td>
+<td>tail logs</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>head logs</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>顯示最近 1 分鐘</td>
+</tr>
+<tr>
+<td><code>3</code></td>
+<td>顯示最近 5 分鐘</td>
+</tr>
+<tr>
+<td><code>4</code></td>
+<td>顯示最近 15 分鐘</td>
+</tr>
+<tr>
+<td><code>5</code></td>
+<td>顯示最近 30 分鐘</td>
+</tr>
+<tr>
+<td><code>6</code></td>
+<td>顯示最近 1 小時</td>
+</tr>
+<tr>
+<td><code>c</code></td>
+<td>複製內容</td>
+</tr>
+<tr>
+<td><code>s</code></td>
+<td>切換自動捲動</td>
+</tr>
+<tr>
+<td><code>shift-c</code></td>
+<td>清空畫面</td>
+</tr>
+<tr>
+<td><code>shift-l</code></td>
+<td>切換欄位顯示</td>
+</tr>
+</tbody></table>
+<p>如果正在排查服務是否收到請求、應用程式是否拋出錯誤，這個 logs 畫面會比反覆執行 <code>kubectl logs -f</code> 更方便。</p>
+<h2 id="常用快捷鍵整理"><a href="#常用快捷鍵整理" class="headerlink" title="常用快捷鍵整理"></a>常用快捷鍵整理</h2><p>以下整理幾個剛開始使用 <code>k9s</code> 時很常用的快捷鍵：</p>
+<table>
+<thead>
+<tr>
+<th>快捷鍵或指令</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>?</code></td>
+<td>顯示說明與可用快捷鍵</td>
+</tr>
+<tr>
+<td><code>:</code></td>
+<td>進入指令模式</td>
+</tr>
+<tr>
+<td><code>:pod</code></td>
+<td>查看 Pod 資源</td>
+</tr>
+<tr>
+<td><code>:deploy</code></td>
+<td>查看 Deployment 資源</td>
+</tr>
+<tr>
+<td><code>:svc</code></td>
+<td>查看 Service 資源</td>
+</tr>
+<tr>
+<td><code>:ns</code></td>
+<td>查看與切換 namespace</td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td>在目前清單中搜尋或過濾</td>
+</tr>
+<tr>
+<td><code>Enter</code></td>
+<td>進入選取資源的下一層資訊或詳細畫面</td>
+</tr>
+<tr>
+<td><code>Esc</code></td>
+<td>回到上一層畫面</td>
+</tr>
+<tr>
+<td><code>d</code></td>
+<td>Describe 選取的資源</td>
+</tr>
+<tr>
+<td><code>y</code></td>
+<td>查看選取資源的 YAML</td>
+</tr>
+<tr>
+<td><code>l</code></td>
+<td>查看 logs</td>
+</tr>
+<tr>
+<td><code>s</code></td>
+<td>進入 Pod shell，依資源畫面而定</td>
+</tr>
+<tr>
+<td><code>ctrl-d</code></td>
+<td>刪除資源</td>
+</tr>
+<tr>
+<td><code>:q</code></td>
+<td>離開 k9s</td>
+</tr>
+</tbody></table>
+<p><code>k9s</code> 的快捷鍵會依目前所在資源畫面而有所不同，因此實際操作時可以隨時按 <code>?</code> 查看當前畫面支援的指令。</p>
+<h2 id="其他安裝方式"><a href="#其他安裝方式" class="headerlink" title="其他安裝方式"></a>其他安裝方式</h2><p>除了 <code>.deb</code> 安裝之外，官方也提供多種平台與套件管理工具的安裝方式。常見方式如下：</p>
+<table>
+<thead>
+<tr>
+<th>平台或工具</th>
+<th>安裝指令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Homebrew</td>
+<td><code>brew install derailed/k9s/k9s</code></td>
+</tr>
+<tr>
+<td>Ubuntu &#x2F; Debian</td>
+<td><code>wget https://github.com/derailed/k9s/releases/latest/download/k9s_linux_amd64.deb &amp;&amp; sudo apt install ./k9s_linux_amd64.deb &amp;&amp; rm k9s_linux_amd64.deb</code></td>
+</tr>
+<tr>
+<td>Fedora 42+</td>
+<td><code>dnf install k9s</code></td>
+</tr>
+<tr>
+<td>Snap</td>
+<td><code>snap install k9s --devmode</code></td>
+</tr>
+<tr>
+<td>Arch Linux</td>
+<td><code>pacman -S k9s</code></td>
+</tr>
+<tr>
+<td>OpenSUSE</td>
+<td><code>zypper install k9s</code></td>
+</tr>
+<tr>
+<td>FreeBSD</td>
+<td><code>pkg install k9s</code></td>
+</tr>
+<tr>
+<td>Windows winget</td>
+<td><code>winget install k9s</code></td>
+</tr>
+<tr>
+<td>Windows Scoop</td>
+<td><code>scoop install k9s</code></td>
+</tr>
+<tr>
+<td>Windows Chocolatey</td>
+<td><code>choco install k9s</code></td>
+</tr>
+<tr>
+<td>Go install</td>
+<td><code>go install github.com/derailed/k9s@latest</code></td>
+</tr>
+</tbody></table>
+<p>如果使用的系統不在上表中，也可以到 GitHub Releases 頁面下載對應平台的 binary，再將執行檔放到 <code>PATH</code> 中。</p>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p><code>k9s</code> 是一套很適合日常 Kubernetes 操作的終端機工具。安裝完成後，它會直接沿用目前 kubeconfig，讓你用互動式畫面查看 Pod、Container、Logs 與其他 Kubernetes 資源。對於需要經常觀察 namespace、追 logs 或檢查資源狀態的情境，<code>k9s</code> 可以減少許多重複輸入 <code>kubectl</code> 指令的時間。</p>
+<p>這篇文章示範了在 Ubuntu 環境透過官方 <code>.deb</code> 套件安裝 <code>k9s</code>，並使用 Minikube 叢集確認啟動、切換 namespace、查看 container 與 logs。後續如果想進一步客製化操作體驗，可以再研究官方文件中的 aliases、hotkeys、plugins、skins 與 custom views。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <div class="post-recent-posts" style="display:none">
+      <div class="post-recent-posts-title">
+        <i class="fa fa-history fa-fw"></i> 近期文章
+      </div>
+      <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/08/26/kubernetes-k9s-install/" title="安裝 k9s 並用終端機管理 Kubernetes 叢集">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">安裝 k9s 並用終端機管理 Kubernetes 叢集</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-26</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/25/kubernetes-kubectx-install/" title="安裝 kubectx 並快速切換 Kubernetes context 與 namespace">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">安裝 kubectx 並快速切換 Kubernetes context 與 namespace</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-25</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/24/kubernetes-debug/" title="使用 kubectl debug 排查 Kubernetes Pod 與 Node 問題">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">使用 kubectl debug 排查 Kubernetes Pod 與 Node 問題</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-24</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/23/kubernetes-command/" title="Kubernetes 常用指令">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Kubernetes 常用指令</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-23</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/22/kubernetes-role/" title="使用 Role 管理 Kubernetes Namespace 權限">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">使用 Role 管理 Kubernetes Namespace 權限</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-22</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function showRecentPosts() {
+          var block = document.querySelector('.post-recent-posts');
+          if (!block) return;
+
+          // 重置狀態
+          block.classList.remove('animated', 'fadeIn');
+          block.style.display = 'none';
+
+          var comments = document.querySelector('.comments');
+          if (comments) {
+            comments.parentNode.insertBefore(block, comments);
+          }
+
+          function reveal() {
+            block.style.display = '';
+            block.offsetHeight; // force reflow
+            block.classList.add('animated', 'fadeIn');
+          }
+
+          if (!comments) {
+            reveal();
+          } else {
+            // 觀察 .comments 被 NexT motion 加上 animated class 的時機
+            var observer = new MutationObserver(function () {
+              if (comments.classList.contains('animated')) {
+                observer.disconnect();
+                reveal();
+              }
+            });
+            observer.observe(comments, { attributes: true, attributeFilter: ['class'] });
+            // 若 motion 已跑完（comments 已有 animated），也直接顯示
+            if (comments.classList.contains('animated')) {
+              observer.disconnect();
+              reveal();
+            }
+          }
+        }
+
+        // 初次載入
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', showRecentPosts, { once: true });
+        } else {
+          showRecentPosts();
+        }
+
+        // PJAX：pjax:success 時 NexT motion 剛啟動（async），.comments 尚未有 animated
+        document.addEventListener('pjax:success', showRecentPosts);
+      })();
+    </script>
+
+          <div class="post-tags">
+              <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
+              <a href="/tags/k9s/" rel="tag"># k9s</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/08/25/kubernetes-kubectx-install/" rel="prev" title="安裝 kubectx 並快速切換 Kubernetes context 與 namespace">
+                  <i class="fa fa-angle-left"></i> 安裝 kubectx 並快速切換 Kubernetes context 與 namespace
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"9f69852b27ace2ee33ac186f924a9e89"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+<link rel="stylesheet" href="/css/tinyqqc/tinyqqc-widget.css">
+<script
+  id="tinyqqc-widget-script"
+  src="/js/tinyqqc/tinyqqc-widget.iife.js"
+  data-tinyqqc-widget
+  data-api-base-url="https://tinyqqs-846222163009.asia-east1.run.app/"
+  data-initial-open="false"
+  defer
+></script>
+
+</body>
+</html>
