@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0" />
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/pcion-logo.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/pcion-logo.svg">
+  <link rel="mask-icon" href="/images/pcion-logo.svg" color="#222">
+  <meta name="google-site-verification" content="RRsCwInpCEHyn0KqafoXVcu0zYd2y1kq9rOLTOQd7Z0">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.css" integrity="sha256-uTcjoMD6rPt4OyV3Rs02Slxl0BJGMNVKAm/1eYPt2go=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"pcion123.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.23.2","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"always","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"paraiso-dark","dark":"paraiso-light"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"flat"},"fold":{"enable":true,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.json","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="這篇文章記錄一次完整的 Webchat Kubernetes 部署體驗：從本機 Minikube 建立基礎服務、部署 Spring Boot API 與 WebSocket&#x2F;STOMP 服務，到最後開啟前端頁面，實際用兩個使用者測試公開聊天室的即時訊息。 Webchat 是一個即時公開聊天室範例專案，包含純 HTML&#x2F;CSS&#x2F;JavaScript 前端、REST AP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Webchat Kubernetes 完整部署 Demo">
+<meta property="og:url" content="https://pcion123.github.io/2026/08/27/webchat-demo/index.html">
+<meta property="og:site_name" content="Pcion&#39;s Blog">
+<meta property="og:description" content="這篇文章記錄一次完整的 Webchat Kubernetes 部署體驗：從本機 Minikube 建立基礎服務、部署 Spring Boot API 與 WebSocket&#x2F;STOMP 服務，到最後開啟前端頁面，實際用兩個使用者測試公開聊天室的即時訊息。 Webchat 是一個即時公開聊天室範例專案，包含純 HTML&#x2F;CSS&#x2F;JavaScript 前端、REST AP">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/27/webchat-demo/webchat_demo_3.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/27/webchat-demo/webchat_demo_1.jpg">
+<meta property="og:image" content="https://pcion123.github.io/2026/08/27/webchat-demo/webchat_demo_2.jpg">
+<meta property="article:published_time" content="2026-08-26T16:01:08.000Z">
+<meta property="article:modified_time" content="2026-08-26T16:09:02.601Z">
+<meta property="article:author" content="Jason Lai">
+<meta property="article:tag" content="kubernetes">
+<meta property="article:tag" content="demo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pcion123.github.io/2026/08/27/webchat-demo/webchat_demo_3.jpg">
+
+
+<link rel="canonical" href="https://pcion123.github.io/2026/08/27/webchat-demo/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://pcion123.github.io/2026/08/27/webchat-demo/","path":"2026/08/27/webchat-demo/","title":"Webchat Kubernetes 完整部署 Demo"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Webchat Kubernetes 完整部署 Demo | Pcion's Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J1EK3WTQ06"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-J1EK3WTQ06","only_pageview":false,"measure_protocol_api_secret":null}</script>
+  <script src="/js/third-party/analytics/google-analytics.js" defer></script>
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.0.5/fancybox/fancybox.umd.js" integrity="sha256-UiSieVaV/DXce2LW7QH+o77w+AIoAvSCPBkezriZ2DQ=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js" defer></script>
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Pcion's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Pcion's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <img class="custom-logo-image" src="/images/pcion-logo.svg" alt="Pcion's Blog">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%88%E6%A1%88%E6%9E%B6%E6%A7%8B"><span class="nav-number">1.</span> <span class="nav-text">專案架構</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E5%89%8D%E6%BA%96%E5%82%99"><span class="nav-number">2.</span> <span class="nav-text">部署前準備</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-1%EF%BC%9A%E9%83%A8%E7%BD%B2%E5%9F%BA%E7%A4%8E%E8%A8%AD%E6%96%BD"><span class="nav-number">3.</span> <span class="nav-text">步驟 1：部署基礎設施</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-2%EF%BC%9A%E9%83%A8%E7%BD%B2-Webchat-%E6%87%89%E7%94%A8%E7%A8%8B%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">步驟 2：部署 Webchat 應用程式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-3%EF%BC%9A%E7%A2%BA%E8%AA%8D-Service-%E8%88%87%E5%B0%8D%E5%A4%96%E9%80%A3%E7%B7%9A%E6%96%B9%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">步驟 3：確認 Service 與對外連線方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-4%EF%BC%9A%E9%96%8B%E5%95%9F%E5%89%8D%E7%AB%AF%E9%A0%81%E9%9D%A2"><span class="nav-number">6.</span> <span class="nav-text">步驟 4：開啟前端頁面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%A9%9F-5%EF%BC%9A%E7%99%BB%E5%85%A5%E3%80%81%E9%80%A3%E7%B7%9A%E4%B8%A6%E6%B8%AC%E8%A9%A6%E8%81%8A%E5%A4%A9%E5%AE%A4"><span class="nav-number">7.</span> <span class="nav-text">步驟 5：登入、連線並測試聊天室</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%99%E6%AC%A1%E9%83%A8%E7%BD%B2%E5%AF%A6%E9%9A%9B%E9%A9%97%E8%AD%89%E4%BA%86%E4%BB%80%E9%BA%BC%EF%BC%9F"><span class="nav-number">8.</span> <span class="nav-text">這次部署實際驗證了什麼？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%AA%A2%E6%9F%A5%E6%8C%87%E4%BB%A4"><span class="nav-number">9.</span> <span class="nav-text">常用檢查指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%B5%90"><span class="nav-number">10.</span> <span class="nav-text">小結</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jason Lai"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jason Lai</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">97</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">73</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pcion123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/pcion123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;pcion123" rel="noopener me" target="_blank"><i class="fab fa-facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml" rel="noopener me"><i class="fa fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcloud.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/js/tagcanvas.js"></script>
+  <div class="widget-wrap animated">
+    <h3 class="widget-title">雜七雜八</h3>
+    <div id="myCanvasContainer" class="widget tagcloud">
+      <canvas width="400" height="400" id="resCanvas" style="width:100%">
+        <a href="/tags/agent/" style="font-size: 13.64px;" class="tag-cloud-1">agent</a> <a href="/tags/bot/" style="font-size: 12px;" class="tag-cloud-0">bot</a> <a href="/tags/chrome-extension/" style="font-size: 12px;" class="tag-cloud-0">chrome-extension</a> <a href="/tags/codimd/" style="font-size: 12px;" class="tag-cloud-0">codimd</a> <a href="/tags/configmap/" style="font-size: 12px;" class="tag-cloud-0">configmap</a> <a href="/tags/container-registry/" style="font-size: 12px;" class="tag-cloud-0">container-registry</a> <a href="/tags/copilot-cli/" style="font-size: 16.91px;" class="tag-cloud-3">copilot cli</a> <a href="/tags/debug/" style="font-size: 12px;" class="tag-cloud-0">debug</a> <a href="/tags/demo/" style="font-size: 12px;" class="tag-cloud-0">demo</a> <a href="/tags/deployment/" style="font-size: 12px;" class="tag-cloud-0">deployment</a> <a href="/tags/devtools/" style="font-size: 12px;" class="tag-cloud-0">devtools</a> <a href="/tags/docker/" style="font-size: 25.09px;" class="tag-cloud-7">docker</a> <a href="/tags/elasticsearch/" style="font-size: 15.27px;" class="tag-cloud-2">elasticsearch</a> <a href="/tags/error/" style="font-size: 12px;" class="tag-cloud-0">error</a> <a href="/tags/gamedev/" style="font-size: 21.82px;" class="tag-cloud-5">gamedev</a> <a href="/tags/github-copilot/" style="font-size: 13.64px;" class="tag-cloud-1">github-copilot</a> <a href="/tags/gitlab/" style="font-size: 20.18px;" class="tag-cloud-5">gitlab</a> <a href="/tags/googlemap/" style="font-size: 15.27px;" class="tag-cloud-2">googlemap</a> <a href="/tags/grafana/" style="font-size: 15.27px;" class="tag-cloud-2">grafana</a> <a href="/tags/hackmd/" style="font-size: 12px;" class="tag-cloud-0">hackmd</a> <a href="/tags/ingress/" style="font-size: 12px;" class="tag-cloud-0">ingress</a> <a href="/tags/java/" style="font-size: 21.82px;" class="tag-cloud-5">java</a> <a href="/tags/jdk/" style="font-size: 13.64px;" class="tag-cloud-1">jdk</a> <a href="/tags/jenkins/" style="font-size: 16.91px;" class="tag-cloud-3">jenkins</a> <a href="/tags/k9s/" style="font-size: 12px;" class="tag-cloud-0">k9s</a> <a href="/tags/kibana/" style="font-size: 15.27px;" class="tag-cloud-2">kibana</a> <a href="/tags/kubernetes/" style="font-size: 30px;" class="tag-cloud-10">kubernetes</a> <a href="/tags/langchain4j/" style="font-size: 12px;" class="tag-cloud-0">langchain4j</a> <a href="/tags/linux/" style="font-size: 26.73px;" class="tag-cloud-8">linux</a> <a href="/tags/loadbalancer/" style="font-size: 13.64px;" class="tag-cloud-1">loadbalancer</a> <a href="/tags/logstash/" style="font-size: 13.64px;" class="tag-cloud-1">logstash</a> <a href="/tags/mariadb/" style="font-size: 12px;" class="tag-cloud-0">mariadb</a> <a href="/tags/maven/" style="font-size: 15.27px;" class="tag-cloud-2">maven</a> <a href="/tags/mcp/" style="font-size: 13.64px;" class="tag-cloud-1">mcp</a> <a href="/tags/metrics/" style="font-size: 12px;" class="tag-cloud-0">metrics</a> <a href="/tags/minikube/" style="font-size: 13.64px;" class="tag-cloud-1">minikube</a> <a href="/tags/monitoring/" style="font-size: 16.91px;" class="tag-cloud-3">monitoring</a> <a href="/tags/namespace/" style="font-size: 12px;" class="tag-cloud-0">namespace</a> <a href="/tags/net/" style="font-size: 12px;" class="tag-cloud-0">net</a> <a href="/tags/nexus/" style="font-size: 12px;" class="tag-cloud-0">nexus</a> <a href="/tags/nginx/" style="font-size: 12px;" class="tag-cloud-0">nginx</a> <a href="/tags/nodejs/" style="font-size: 13.64px;" class="tag-cloud-1">nodejs</a> <a href="/tags/nvm/" style="font-size: 12px;" class="tag-cloud-0">nvm</a> <a href="/tags/opentelemetry/" style="font-size: 13.64px;" class="tag-cloud-1">opentelemetry</a> <a href="/tags/pm2/" style="font-size: 13.64px;" class="tag-cloud-1">pm2</a> <a href="/tags/powershell/" style="font-size: 15.27px;" class="tag-cloud-2">powershell</a> <a href="/tags/prometheus/" style="font-size: 15.27px;" class="tag-cloud-2">prometheus</a> <a href="/tags/python/" style="font-size: 12px;" class="tag-cloud-0">python</a> <a href="/tags/rabbitmq/" style="font-size: 12px;" class="tag-cloud-0">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;" class="tag-cloud-0">redis</a> <a href="/tags/remote-tunnel/" style="font-size: 13.64px;" class="tag-cloud-1">remote-tunnel</a> <a href="/tags/resources/" style="font-size: 18.55px;" class="tag-cloud-4">resources</a> <a href="/tags/sandbox/" style="font-size: 12px;" class="tag-cloud-0">sandbox</a> <a href="/tags/secret/" style="font-size: 12px;" class="tag-cloud-0">secret</a> <a href="/tags/security/" style="font-size: 15.27px;" class="tag-cloud-2">security</a> <a href="/tags/service/" style="font-size: 16.91px;" class="tag-cloud-3">service</a> <a href="/tags/skills/" style="font-size: 13.64px;" class="tag-cloud-1">skills</a> <a href="/tags/spring-boot/" style="font-size: 16.91px;" class="tag-cloud-3">spring-boot</a> <a href="/tags/telegram/" style="font-size: 12px;" class="tag-cloud-0">telegram</a> <a href="/tags/terminal/" style="font-size: 15.27px;" class="tag-cloud-2">terminal</a> <a href="/tags/tomcat/" style="font-size: 13.64px;" class="tag-cloud-1">tomcat</a> <a href="/tags/ubuntu/" style="font-size: 23.45px;" class="tag-cloud-6">ubuntu</a> <a href="/tags/unity/" style="font-size: 12px;" class="tag-cloud-0">unity</a> <a href="/tags/uv/" style="font-size: 12px;" class="tag-cloud-0">uv</a> <a href="/tags/volume/" style="font-size: 16.91px;" class="tag-cloud-3">volume</a> <a href="/tags/vscode/" style="font-size: 28.36px;" class="tag-cloud-9">vscode</a> <a href="/tags/windows/" style="font-size: 18.55px;" class="tag-cloud-4">windows</a> <a href="/tags/windows-terminal/" style="font-size: 12px;" class="tag-cloud-0">windows-terminal</a> <a href="/tags/wsl/" style="font-size: 12px;" class="tag-cloud-0">wsl</a> <a href="/tags/yarn/" style="font-size: 12px;" class="tag-cloud-0">yarn</a> <a href="/tags/%E4%B8%AD%E6%96%87%E5%8C%96/" style="font-size: 12px;" class="tag-cloud-0">中文化</a> <a href="/tags/%E4%BD%88%E7%BD%B2/" style="font-size: 15.27px;" class="tag-cloud-2">佈署</a> <a href="/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/" style="font-size: 12px;" class="tag-cloud-0">環境變數</a>
+      </canvas>
+    </div>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    相關文章
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2020/05/10/rabbitmq-install/" rel="bookmark">
+        <time class="popular-posts-time">2020-05-10</time>
+        <br>
+      Ubuntu安裝RabbitMQ
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/13/kubernetes-metallb/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-13</time>
+        <br>
+      Kubernetes MetalLB 使用指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2025/11/02/kubernetes-secret-intro/" rel="bookmark">
+        <time class="popular-posts-time">2025-11-02</time>
+        <br>
+      Kubernetes Secret 使用指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/12/kubernetes-loadbalancer/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-12</time>
+        <br>
+      Kubernetes LoadBalancer 使用指南
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/2026/08/10/kubernetes-service-intro/" rel="bookmark">
+        <time class="popular-posts-time">2026-08-10</time>
+        <br>
+      Kubernetes Service 使用指南
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/08/27/webchat-demo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Webchat Kubernetes 完整部署 Demo | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Webchat Kubernetes 完整部署 Demo
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-08-27 00:01:08 / 修改時間：00:09:02" itemprop="dateCreated datePublished" datetime="2026-08-27T00:01:08+08:00">2026-08-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kubernetes/" itemprop="url" rel="index"><span itemprop="name">kubernetes</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>這篇文章記錄一次完整的 Webchat Kubernetes 部署體驗：從本機 Minikube 建立基礎服務、部署 Spring Boot API 與 WebSocket&#x2F;STOMP 服務，到最後開啟前端頁面，實際用兩個使用者測試公開聊天室的即時訊息。</p>
+<p>Webchat 是一個即時公開聊天室範例專案，包含純 HTML&#x2F;CSS&#x2F;JavaScript 前端、REST API 服務、WebSocket&#x2F;STOMP 服務，以及 MySQL、Redis、RabbitMQ 這三個後端基礎設施。使用者登入後會取得 JWT，前端透過 REST API 送出訊息，再由 RabbitMQ 將事件分送到 WebSocket 節點，最後推播給已連線的聊天室使用者。</p>
+<p>本文會以 <code>webchatk8s/</code> 內的 Kubernetes manifest 為主，將整套服務部署到 Minikube 上，並用瀏覽器確認聊天室功能是否正常。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="專案架構"><a href="#專案架構" class="headerlink" title="專案架構"></a>專案架構</h2><p>這次沒有附上完整原始碼，所以這裡只簡單說明系統組成與部署方向。Webchat 大致可以分成三個應用端：前端頁面、REST API 服務，以及 WebSocket&#x2F;STOMP 服務；後端則搭配 MySQL、Redis 與 RabbitMQ，分別處理資料保存、即時狀態與訊息事件轉送。</p>
+<p>整體流程可以簡單理解為：使用者登入後由前端取得 token，接著連線到 WebSocket 服務；當使用者送出聊天訊息時，API 會處理訊息並透過 RabbitMQ 發布事件，再由 Socket 服務推播給聊天室中的其他使用者。本文後續會著重在 Kubernetes 部署與實際驗證過程，不會深入介紹各服務的程式碼實作。</p>
+<hr>
+<h2 id="部署前準備"><a href="#部署前準備" class="headerlink" title="部署前準備"></a>部署前準備</h2><p>這次 Demo 使用的環境如下：</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Kubernetes 環境</td>
+<td>Minikube</td>
+</tr>
+<tr>
+<td>操作工具</td>
+<td><code>kubectl</code>、<code>k9s</code></td>
+</tr>
+<tr>
+<td>後端服務</td>
+<td><code>webchatapi</code>、<code>webchatsocket</code></td>
+</tr>
+<tr>
+<td>基礎服務</td>
+<td>MySQL 8.0、Redis 7、RabbitMQ 4</td>
+</tr>
+<tr>
+<td>對外測試方式</td>
+<td><code>kubectl port-forward</code></td>
+</tr>
+</tbody></table>
+<p>在開始前，先確認 <code>kubectl</code> 目前連線到 Minikube：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl config current-context</span><br></pre></td></tr></table></figure>
+
+<p>正常情況下會看到：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minikube</span><br></pre></td></tr></table></figure>
+
+<p>接著確認節點狀態：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
+
+<p>如果 Minikube 還沒啟動，可以先執行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minikube start --driver=docker</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="步驟-1：部署基礎設施"><a href="#步驟-1：部署基礎設施" class="headerlink" title="步驟 1：部署基礎設施"></a>步驟 1：部署基礎設施</h2><p>Webchat 需要 MySQL、Redis 與 RabbitMQ 才能完整運作。這些資源集中定義在 <code>webchatk8s/infra-kit.yml</code>，內容包含：</p>
+<ul>
+<li><code>webchat</code> namespace</li>
+<li><code>webchat-infra-secret</code> Secret</li>
+<li><code>mysql-init-sql</code> ConfigMap</li>
+<li>MySQL ClusterIP Service 與 StatefulSet</li>
+<li>Redis ClusterIP Service 與 StatefulSet</li>
+<li>RabbitMQ ClusterIP Service 與 StatefulSet</li>
+</ul>
+<p>進入 Kubernetes manifest 目錄後，先套用基礎設施設定：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> webchatk8s</span><br><span class="line">kubectl apply -f infra-kit.yml</span><br></pre></td></tr></table></figure>
+
+<p>套用完成後，可以觀察 <code>webchat</code> namespace 內的 Pod 是否陸續啟動：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pods -n webchat -w</span><br></pre></td></tr></table></figure>
+
+<p>等待 MySQL、Redis、RabbitMQ 都變成 <code>Running</code>，並且 READY 顯示為 <code>1/1</code> 後，再進入下一步。</p>
+<hr>
+<h2 id="步驟-2：部署-Webchat-應用程式"><a href="#步驟-2：部署-Webchat-應用程式" class="headerlink" title="步驟 2：部署 Webchat 應用程式"></a>步驟 2：部署 Webchat 應用程式</h2><p>基礎服務啟動後，接著部署 Webchat 的 API 與 Socket 服務。應用程式相關設定集中在 <code>webchatk8s/webchat-deploy.yml</code>，主要包含：</p>
+<ul>
+<li><code>webchat-app-config</code> ConfigMap：保存 Spring profile、MySQL、Redis、RabbitMQ 等非敏感設定</li>
+<li><code>webchat-runtime-secret</code> Secret：保存 MySQL 密碼、RabbitMQ 密碼與 JWT secret</li>
+<li><code>gitlab-registry-secret</code> Secret：用於拉取私有 GitLab Container Registry 映像</li>
+<li><code>webchatapi-deployment</code> Deployment</li>
+<li><code>webchatapi-clusterip</code> Service</li>
+<li><code>webchatsocket-deployment</code> Deployment</li>
+<li><code>webchatsocket-loadbalancer</code> Service</li>
+</ul>
+<blockquote>
+<p>如果映像放在自己的私有 Registry，請先確認 <code>gitlab-registry-secret</code> 已改成自己的 Registry 認證。正式環境建議用 <code>kubectl create secret docker-registry</code> 或外部 Secret 管理工具產生，不要把可用憑證直接提交到版本庫。</p>
+</blockquote>
+<p>套用 Webchat 應用程式設定：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f webchat-deploy.yml</span><br></pre></td></tr></table></figure>
+
+<p>確認所有資源是否正常建立：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get all -n webchat</span><br></pre></td></tr></table></figure>
+
+<p>畫面中可以看到 MySQL、RabbitMQ、Redis 三個 StatefulSet，以及 <code>webchatapi-deployment</code>、<code>webchatsocket-deployment</code> 兩個 Deployment 都已經進入 <code>Running</code>。右側則可以看到 <code>webchatapi-clusterip</code> 與 <code>webchatsocket-loadbalancer</code> 服務已建立。</p>
+<img src="/2026/08/27/webchat-demo/webchat_demo_3.jpg" class="">
+
+<p>這裡也可以搭配 <code>k9s</code> 觀察 Pod 與容器 log。從截圖可以看到 API 服務正在處理登入查詢與 RabbitMQ 連線，Socket 服務也持續收到 health check 訊息，代表後端服務、訊息 broker 與 WebSocket 節點之間已經能正常互動。</p>
+<hr>
+<h2 id="步驟-3：確認-Service-與對外連線方式"><a href="#步驟-3：確認-Service-與對外連線方式" class="headerlink" title="步驟 3：確認 Service 與對外連線方式"></a>步驟 3：確認 Service 與對外連線方式</h2><p>在這個 Demo 中，API 使用 <code>ClusterIP</code>，Socket 使用 <code>LoadBalancer</code>：</p>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>類型</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>webchatapi-clusterip</code></td>
+<td><code>ClusterIP</code></td>
+<td>提供叢集內部 API 存取入口。</td>
+</tr>
+<tr>
+<td><code>webchatsocket-loadbalancer</code></td>
+<td><code>LoadBalancer</code></td>
+<td>提供 WebSocket 對外入口。</td>
+</tr>
+</tbody></table>
+<p>由於是在本機 Minikube Demo，最直接的測試方式是使用 <code>kubectl port-forward</code>，將 Kubernetes Service 轉到本機連接埠：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl port-forward --address 0.0.0.0 svc/webchatapi-clusterip -n webchat 9091:9091</span><br></pre></td></tr></table></figure>
+
+<p>另開一個終端機，轉發 WebSocket 服務：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl port-forward --address 0.0.0.0 svc/webchatsocket-loadbalancer -n webchat 9092:9092</span><br></pre></td></tr></table></figure>
+
+<p>如果想更完整體驗 MetalLB 的 LoadBalancer 對外分流方式，也可以不直接 port-forward 到 Socket Service，而是讓 <code>socat</code> 監聽主機的 <code>9092</code>，再轉送到 MetalLB 分配給 <code>webchatsocket-loadbalancer</code> 的 external IP。以前面的截圖為例，Socket Service 取得的 external IP 是 <code>192.168.49.100</code>，因此可以執行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> socat TCP-LISTEN:9092,fork,reuseaddr,<span class="built_in">bind</span>=0.0.0.0 TCP:192.168.49.100:9092</span><br></pre></td></tr></table></figure>
+
+<p>這樣前端連到主機的 <code>9092</code> 時，流量會先進入 <code>socat</code>，再轉送到 MetalLB 提供的 LoadBalancer IP，最後由 Kubernetes Service 分流到後方的 <code>webchatsocket</code> Pod。這種方式比單純 <code>kubectl port-forward</code> 更接近實際測試 LoadBalancer 對外入口的情境。</p>
+<p>完成後，前端就可以透過以下位址連線：</p>
+<ul>
+<li>REST API base URL：<code>http://localhost:9091</code></li>
+<li>WebSocket URL：<code>ws://localhost:9092/ws</code></li>
+</ul>
+<hr>
+<h2 id="步驟-4：開啟前端頁面"><a href="#步驟-4：開啟前端頁面" class="headerlink" title="步驟 4：開啟前端頁面"></a>步驟 4：開啟前端頁面</h2><p>Webchat 前端是純 HTML&#x2F;CSS&#x2F;JavaScript，可以直接開啟 <code>webchatclient/index.html</code>。這次 Demo 使用 VS Code Live Preview 開啟，因此網址會類似：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1:3001/webchatclient/index.html</span><br></pre></td></tr></table></figure>
+
+<p>一開始尚未登入時，Socket 狀態會顯示 <code>Idle</code>。左側可以切換 Login 與 Register，畫面中央的 Public room 也會提示需要登入並連線後才能開始聊天。</p>
+<img src="/2026/08/27/webchat-demo/webchat_demo_1.jpg" class="">
+
+<p>這張截圖同時開了兩個瀏覽器視窗，分別準備登入或註冊不同使用者。這樣做的好處是可以直接驗證公開聊天室是否真的能把訊息推播到不同 session。</p>
+<hr>
+<h2 id="步驟-5：登入、連線並測試聊天室"><a href="#步驟-5：登入、連線並測試聊天室" class="headerlink" title="步驟 5：登入、連線並測試聊天室"></a>步驟 5：登入、連線並測試聊天室</h2><p>登入成功後，前端會保存 session token，並顯示 REST API base URL 與 WebSocket URL。按下 Connect 後，前端會連到 <code>webchatsocket</code>，Socket 狀態會從 <code>Idle</code> 變成 <code>Connected</code>。</p>
+<p>成功連線後，畫面上方可以看到幾個診斷資訊：</p>
+<table>
+<thead>
+<tr>
+<th>欄位</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Online</td>
+<td>目前線上 session 數量。</td>
+</tr>
+<tr>
+<td>Health</td>
+<td>WebSocket health check 回應時間。</td>
+</tr>
+<tr>
+<td>Node</td>
+<td>目前連線到的 Socket Pod 節點識別。</td>
+</tr>
+<tr>
+<td>Session</td>
+<td>目前瀏覽器連線的 session id。</td>
+</tr>
+</tbody></table>
+<p>左側 Members 區塊會列出目前在線上的使用者與 session 數量；Public room 則會顯示使用者進出聊天室的事件，以及實際傳送的聊天訊息。</p>
+<img src="/2026/08/27/webchat-demo/webchat_demo_2.jpg" class="">
+
+<p>從畫面中可以看到 <code>pcion123</code> 與 <code>dust789</code> 兩個使用者已經連線，聊天室事件也記錄了 join、left 等狀態變化。接著兩個視窗互相送出 <code>hi</code>、<code>hello</code>、<code>how are you</code>、<code>fine</code> 等訊息，左右兩邊都能即時看到對方的訊息，表示 API、RabbitMQ 與 Socket 推播流程已串接成功。</p>
+<hr>
+<h2 id="這次部署實際驗證了什麼？"><a href="#這次部署實際驗證了什麼？" class="headerlink" title="這次部署實際驗證了什麼？"></a>這次部署實際驗證了什麼？</h2><p>這個 Demo 不只是把 Pod 跑起來而已，而是完整走過一次聊天室系統在 Kubernetes 裡的端到端流程：</p>
+<ol>
+<li>MySQL 成功初始化資料庫與帳號資料表。</li>
+<li>Redis 可供服務保存即時狀態。</li>
+<li>RabbitMQ 可在 API 與 Socket 服務之間傳遞聊天事件。</li>
+<li><code>webchatapi</code> 可以處理註冊、登入與訊息送出。</li>
+<li><code>webchatsocket</code> 可以驗證連線、維護線上狀態並推播訊息。</li>
+<li>前端可以透過 port-forward 連到 Kubernetes 內的服務。</li>
+<li>兩個使用者可以在公開聊天室中即時互相收到訊息。</li>
+</ol>
+<p>對於練習 Kubernetes 部署來說，這個範例涵蓋了幾個很常見的主題：Namespace、Secret、ConfigMap、StatefulSet、Deployment、ClusterIP、LoadBalancer、readiness probe、liveness probe，以及本機開發常用的 port-forward。</p>
+<hr>
+<h2 id="常用檢查指令"><a href="#常用檢查指令" class="headerlink" title="常用檢查指令"></a>常用檢查指令</h2><p>部署過程中，可以用以下指令快速檢查狀態：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get all -n webchat</span><br></pre></td></tr></table></figure>
+
+<p>查看 Pod 詳細資訊：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl describe pod -n webchat &lt;pod-name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>查看 API log：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl logs -n webchat deployment/webchatapi-deployment -f</span><br></pre></td></tr></table></figure>
+
+<p>查看 Socket log：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl logs -n webchat deployment/webchatsocket-deployment -f</span><br></pre></td></tr></table></figure>
+
+<p>重新套用基礎設施：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f infra-kit.yml</span><br></pre></td></tr></table></figure>
+
+<p>重新套用應用程式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f webchat-deploy.yml</span><br></pre></td></tr></table></figure>
+
+<p>如果要清除整個 Demo 環境，可以刪除 <code>webchat</code> namespace：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete namespace webchat</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h2><p>這次 Webchat Demo 透過 Kubernetes 將前端、REST API、WebSocket、MySQL、Redis 與 RabbitMQ 串成一個完整的即時聊天室環境。從部署結果來看，所有 Pod 都正常啟動，Service 也能透過 port-forward 對外提供測試入口；最後再透過兩個瀏覽器 session 實際送出訊息，確認聊天事件能從 API 進入 RabbitMQ，再由 Socket 服務推播回前端。</p>
+<p>這類範例很適合用來練習從單機開發環境走向 Kubernetes 部署，因為它同時包含狀態服務、無狀態服務、內部服務發現、外部連線入口與即時訊息推播。只要把映像版本、Secret 與 Service 暴露方式整理好，後續也可以延伸成更接近正式環境的部署流程。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+    <div class="post-recent-posts" style="display:none">
+      <div class="post-recent-posts-title">
+        <i class="fa fa-history fa-fw"></i> 近期文章
+      </div>
+      <div class="post-recent-posts-grid">
+          <a class="post-recent-card" href="/2026/08/27/webchat-demo/" title="Webchat Kubernetes 完整部署 Demo">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Webchat Kubernetes 完整部署 Demo</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-27</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/26/kubernetes-k9s-install/" title="安裝 k9s 並用終端機管理 Kubernetes 叢集">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">安裝 k9s 並用終端機管理 Kubernetes 叢集</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-26</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/25/kubernetes-kubectx-install/" title="安裝 kubectx 並快速切換 Kubernetes context 與 namespace">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">安裝 kubectx 並快速切換 Kubernetes context 與 namespace</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-25</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/24/kubernetes-debug/" title="使用 kubectl debug 排查 Kubernetes Pod 與 Node 問題">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">使用 kubectl debug 排查 Kubernetes Pod 與 Node 問題</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-24</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+          <a class="post-recent-card" href="/2026/08/23/kubernetes-command/" title="Kubernetes 常用指令">
+            <div class="post-recent-card-banner post-recent-card-cat--kubernetes">
+              <div class="post-recent-card-overlay">
+                <span class="post-recent-card-title">Kubernetes 常用指令</span>
+              </div>
+            </div>
+            <div class="post-recent-card-meta">
+              <span class="post-recent-card-date">2026-08-23</span><span class="post-recent-card-cat">kubernetes</span>
+            </div>
+          </a>
+      </div>
+    </div>
+    <script>
+      (function () {
+        function showRecentPosts() {
+          var block = document.querySelector('.post-recent-posts');
+          if (!block) return;
+
+          // 重置狀態
+          block.classList.remove('animated', 'fadeIn');
+          block.style.display = 'none';
+
+          var comments = document.querySelector('.comments');
+          if (comments) {
+            comments.parentNode.insertBefore(block, comments);
+          }
+
+          function reveal() {
+            block.style.display = '';
+            block.offsetHeight; // force reflow
+            block.classList.add('animated', 'fadeIn');
+          }
+
+          if (!comments) {
+            reveal();
+          } else {
+            // 觀察 .comments 被 NexT motion 加上 animated class 的時機
+            var observer = new MutationObserver(function () {
+              if (comments.classList.contains('animated')) {
+                observer.disconnect();
+                reveal();
+              }
+            });
+            observer.observe(comments, { attributes: true, attributeFilter: ['class'] });
+            // 若 motion 已跑完（comments 已有 animated），也直接顯示
+            if (comments.classList.contains('animated')) {
+              observer.disconnect();
+              reveal();
+            }
+          }
+        }
+
+        // 初次載入
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', showRecentPosts, { once: true });
+        } else {
+          showRecentPosts();
+        }
+
+        // PJAX：pjax:success 時 NexT motion 剛啟動（async），.comments 尚未有 animated
+        document.addEventListener('pjax:success', showRecentPosts);
+      })();
+    </script>
+
+          <div class="post-tags">
+              <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
+              <a href="/tags/demo/" rel="tag"># demo</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/08/26/kubernetes-k9s-install/" rel="prev" title="安裝 k9s 並用終端機管理 Kubernetes 叢集">
+                  <i class="fa fa-angle-left"></i> 安裝 k9s 並用終端機管理 Kubernetes 叢集
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Jason Lai</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"pcion123","repo":"pcion123.github.io","client_id":"Ov23liwDpgr9otDiY2bs","client_secret":"494c7d9f730be855a5564ecced84bc6dfd257b03","admin_user":"pcion123","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-TW","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"d7762d9ffc1ca28e59940c5612a117f5"}</script>
+<script src="/js/third-party/comments/gitalk.js" defer></script>
+
+<link rel="stylesheet" href="/css/tinyqqc/tinyqqc-widget.css">
+<script
+  id="tinyqqc-widget-script"
+  src="/js/tinyqqc/tinyqqc-widget.iife.js"
+  data-tinyqqc-widget
+  data-api-base-url="https://tinyqqs-846222163009.asia-east1.run.app/"
+  data-initial-open="false"
+  defer
+></script>
+
+</body>
+</html>
