@@ -177,13 +177,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">97</span>
+          <span class="site-state-item-count">98</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">分類</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -226,6 +226,99 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/07/25/logstash-spring-boot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jason Lai">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | Pcion's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/07/25/logstash-spring-boot/" class="post-title-link" itemprop="url">將 Spring Boot Log 透過 Logstash 導入 Elasticsearch</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2026-07-25 19:15:43" itemprop="dateCreated datePublished" datetime="2026-07-25T19:15:43+08:00">2026-07-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-08-02 01:01:55" itemprop="dateModified" datetime="2026-08-02T01:01:55+08:00">2026-08-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/elasticsearch/" itemprop="url" rel="index"><span itemprop="name">elasticsearch</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>在 Spring Boot 應用程式中，Log 通常會先輸出到 Console 或檔案，方便開發與單機排查問題。不過當服務數量變多、部署環境變複雜後，單靠各主機上的 Log 檔案會讓查詢與追蹤變得不方便。這時可以透過 Logstash 接收 Spring Boot 輸出的結構化 Log，再寫入 Elasticsearch，讓後續查詢、分析與視覺化更加集中。</p>
+<p>本文會記錄如何在 Linux 環境安裝 Logstash，設定 Logstash 將 TCP 收到的 JSON Log 寫入 Elasticsearch，最後再於 Spring Boot 的 logback 設定中加入 Logstash Appender，讓應用程式 Log 可以送進 Elasticsearch。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/07/25/logstash-spring-boot/#more" rel="contents">
+                閱讀全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1044,98 +1137,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2026/05/31/pixel-battle-record-03/#more" rel="contents">
-                閱讀全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://pcion123.github.io/2026/05/27/pixel-battle-record-02/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Jason Lai">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pcion's Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | Pcion's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/05/27/pixel-battle-record-02/" class="post-title-link" itemprop="url">Pixel Battle 開發紀錄 02：重新收斂遊戲方向</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">發表於</span>
-
-      <time title="創建時間：2026-05-27 22:34:21" itemprop="dateCreated datePublished" datetime="2026-05-27T22:34:21+08:00">2026-05-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-07-04 23:40:01" itemprop="dateModified" datetime="2026-07-04T23:40:01+08:00">2026-07-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分類於</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/gamelife/" itemprop="url" rel="index"><span itemprop="name">gamelife</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>最近和朋友聊了一下，也趁這個機會重新檢視了原本的設計方向。最早我想做的是結合世界地理位置的遊戲概念，讓玩家可以依照不同地區、座標或現實地圖上的位置展開探索與戰鬥；這個想法聽起來很有想像空間，但真的開始往下拆解之後，才發現範圍比一開始預期的還要龐大許多。光是要建立世界規模的地理資料集、整理不同區域的內容規則，甚至後續還要考慮資料維護、遊戲平衡與實際遊玩節奏，就已經不是目前這個原型階段能夠輕易承擔的規模。因此，接下來我打算先把內容收斂到限定區域，先從比較小、比較明確的範圍開始設計，讓核心玩法、戰鬥流程與角色成長可以更聚焦。這樣雖然暫時放棄了一些宏大的想像，但也讓整個專案更有機會真正做出可玩的版本，而不是停留在一個很大的概念上。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/05/27/pixel-battle-record-02/#more" rel="contents">
                 閱讀全文 &raquo;
               </a>
             </div>

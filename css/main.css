@@ -1335,7 +1335,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #91adcb;
+    background: #59bd17;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -3308,6 +3308,9 @@ header.header {
 .category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/maven/"]) {
   --category-accent-rgb: 201, 32, 55;
 }
+.category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/mindset/"]) {
+  --category-accent-rgb: 126, 169, 255;
+}
 .category-all-page > .category-all > .category-list > .category-list-item:has(> .category-list-link[href$="/categories/nginx/"]) {
   --category-accent-rgb: 0, 150, 57;
 }
@@ -3386,6 +3389,9 @@ header.header {
 }
 .category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/maven/"]::before {
   background-image: url("/brands/maven.svg");
+}
+.category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/mindset/"]::before {
+  background-image: url("/brands/mindset.svg");
 }
 .category-all-page > .category-all > .category-list > .category-list-item > .category-list-link[href$="/categories/tomcat/"]::before {
   background-image: url("/brands/tomcat.svg");
