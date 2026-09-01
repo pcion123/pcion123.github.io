@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://pcion123.github.io/2026/08/27/webchat-demo/webchat_demo_1.jpg">
 <meta property="og:image" content="https://pcion123.github.io/2026/08/27/webchat-demo/webchat_demo_2.jpg">
 <meta property="article:published_time" content="2026-08-26T16:01:08.000Z">
-<meta property="article:modified_time" content="2026-08-26T16:09:02.601Z">
+<meta property="article:modified_time" content="2026-09-01T16:47:35.791Z">
 <meta property="article:author" content="Jason Lai">
 <meta property="article:tag" content="kubernetes">
 <meta property="article:tag" content="demo">
@@ -320,9 +320,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
-      
 
-      <time title="創建時間：2026-08-27 00:01:08 / 修改時間：00:09:02" itemprop="dateCreated datePublished" datetime="2026-08-27T00:01:08+08:00">2026-08-27</time>
+      <time title="創建時間：2026-08-27 00:01:08" itemprop="dateCreated datePublished" datetime="2026-08-27T00:01:08+08:00">2026-08-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-09-02 00:47:35" itemprop="dateModified" datetime="2026-09-02T00:47:35+08:00">2026-09-02</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -345,11 +351,12 @@
     
     <div class="post-body" itemprop="articleBody"><p>這篇文章記錄一次完整的 Webchat Kubernetes 部署體驗：從本機 Minikube 建立基礎服務、部署 Spring Boot API 與 WebSocket&#x2F;STOMP 服務，到最後開啟前端頁面，實際用兩個使用者測試公開聊天室的即時訊息。</p>
 <p>Webchat 是一個即時公開聊天室範例專案，包含純 HTML&#x2F;CSS&#x2F;JavaScript 前端、REST API 服務、WebSocket&#x2F;STOMP 服務，以及 MySQL、Redis、RabbitMQ 這三個後端基礎設施。使用者登入後會取得 JWT，前端透過 REST API 送出訊息，再由 RabbitMQ 將事件分送到 WebSocket 節點，最後推播給已連線的聊天室使用者。</p>
+<p>專案原始碼可以參考：<a target="_blank" rel="noopener" href="https://github.com/pcion123/webchat">pcion123&#x2F;webchat</a>。</p>
 <p>本文會以 <code>webchatk8s/</code> 內的 Kubernetes manifest 為主，將整套服務部署到 Minikube 上，並用瀏覽器確認聊天室功能是否正常。</p>
 <span id="more"></span>
 
 <hr>
-<h2 id="專案架構"><a href="#專案架構" class="headerlink" title="專案架構"></a>專案架構</h2><p>這次沒有附上完整原始碼，所以這裡只簡單說明系統組成與部署方向。Webchat 大致可以分成三個應用端：前端頁面、REST API 服務，以及 WebSocket&#x2F;STOMP 服務；後端則搭配 MySQL、Redis 與 RabbitMQ，分別處理資料保存、即時狀態與訊息事件轉送。</p>
+<h2 id="專案架構"><a href="#專案架構" class="headerlink" title="專案架構"></a>專案架構</h2><p>完整原始碼已整理在 GitHub 專案中，這裡先簡單說明系統組成與部署方向。Webchat 大致可以分成三個應用端：前端頁面、REST API 服務，以及 WebSocket&#x2F;STOMP 服務；後端則搭配 MySQL、Redis 與 RabbitMQ，分別處理資料保存、即時狀態與訊息事件轉送。</p>
 <p>整體流程可以簡單理解為：使用者登入後由前端取得 token，接著連線到 WebSocket 服務；當使用者送出聊天訊息時，API 會處理訊息並透過 RabbitMQ 發布事件，再由 Socket 服務推播給聊天室中的其他使用者。本文後續會著重在 Kubernetes 部署與實際驗證過程，不會深入介紹各服務的程式碼實作。</p>
 <hr>
 <h2 id="部署前準備"><a href="#部署前準備" class="headerlink" title="部署前準備"></a>部署前準備</h2><p>這次 Demo 使用的環境如下：</p>
